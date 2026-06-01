@@ -330,8 +330,8 @@
           <div class="form-row">
             <div class="form-label">職員配置体系<small>6:1で報酬が高いが人件費も増加</small></div>
             <select class="form-input" id="staffRatio" onchange="calc()">
-              <option value="I">サービス費Ⅰ（6:1配置）</option>
-              <option value="II" selected>サービス費Ⅱ（7.5:1配置）標準</option>
+              <option value="I" selected>サービス費Ⅰ（6:1配置）★</option>
+              <option value="II">サービス費Ⅱ（7.5:1配置）</option>
             </select>
           </div>
           <div class="form-row">
@@ -425,7 +425,13 @@
         </div>
         <div class="section-body">
           <div class="staff-hint" id="staffHint">配置基準: 計算中...</div>
-          <div style="height:8px;"></div>
+          <button type="button" id="autoFillBtn"
+            onclick="autoFillStaff()"
+            style="margin-top:8px; padding:5px 14px; font-size:0.78rem; font-weight:700;
+                   background:#2563eb; color:#fff; border:none; border-radius:6px; cursor:pointer;">
+            ↺ 最低必要人数を自動入力
+          </button>
+          <div style="height:4px;"></div>
 
           <div class="form-row">
             <div class="form-label">管理者<small>兼務可・常勤1名必須</small></div>
@@ -691,6 +697,17 @@ function onServiceTypeChange() {
   calc();
 }
 
+function autoFillStaff() {
+  const capacity  = parseFloat(document.getElementById('capacity').value) || 0;
+  const utilRate  = parseFloat(document.getElementById('utilRate').value) || 85;
+  const staffRatio = document.getElementById('staffRatio').value;
+  const userCount = Math.floor(capacity * utilRate / 100);
+  const ratio     = staffRatio === 'I' ? 6 : 7.5;
+  const minSupport = Math.ceil(userCount / ratio);
+  document.getElementById('support_count').value = minSupport;
+  calc();
+}
+
 function calc() {
   const type       = document.getElementById('serviceType').value;
   const capacity   = parseFloat(document.getElementById('capacity').value) || 0;
@@ -776,9 +793,14 @@ function calc() {
   const breakevenRate  = capacity > 0 ? Math.round(breakevenUsers / capacity * 100) : 0;
 
   // ── 最低職員数ヒント ──
-  const minSupport = Math.ceil(userCount / 7.5);
-  document.getElementById('staffHint').textContent =
-    `配置基準（B型）: 支援員合計 ${minSupport}名以上（実利用${userCount}人÷7.5）/ サビ管1名 / 管理者1名`;
+  const ratio = staffRatio === 'I' ? 6 : 7.5;
+  const minSupport = Math.ceil(userCount / ratio);
+  const totalMinStaff = minSupport + 1 + 1; // 支援員 + サビ管 + 管理者
+  document.getElementById('staffHint').innerHTML =
+    `<strong>配置基準（${staffRatio === 'I' ? '6:1' : '7.5:1'}）</strong><br>` +
+    `生活支援員・職業指導員: <strong>${minSupport}名以上</strong>（${userCount}人 ÷ ${ratio} = ${(userCount/ratio).toFixed(1)}→切り上げ）<br>` +
+    `サービス管理責任者: 1名　管理者: 1名（兼務可）<br>` +
+    `<span style="color:#92400e;">合計最低 <strong>${totalMinStaff}名</strong> 必要</span>`;
 
   // ── 画面更新 ──
   document.getElementById('mUserCount').textContent = userCount + '人';
