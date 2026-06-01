@@ -52,6 +52,15 @@ def init_db():
         CREATE INDEX IF NOT EXISTS idx_service_type ON offices(service_type);
         CREATE INDEX IF NOT EXISTS idx_city ON offices(city_name);
         """)
+        # 既存DBへのカラム追加（マイグレーション）
+        for col, definition in [
+            ("memo", "TEXT DEFAULT ''"),
+            ("is_favorite", "INTEGER DEFAULT 0"),
+        ]:
+            try:
+                conn.execute(f"ALTER TABLE offices ADD COLUMN {col} {definition}")
+            except Exception:
+                pass  # 既に存在する場合はスキップ
 
 
 @contextmanager
@@ -70,10 +79,15 @@ def get_conn():
 
 
 def upsert_offices(df, fetched_ym: str):
-    """DataFrameをDBに保存（全件置き換え）"""
-    import pandas as pd
+    """DataFrameをDBに保存（全件置き換え・メモ/お気に入りは保持）"""
 
     with get_conn() as conn:
+        # メモ・お気に入りを退避（office_no + service_type をキーに）
+        saved = conn.execute(
+            "SELECT office_no, service_type, memo, is_favorite FROM offices WHERE (memo != '' AND memo IS NOT NULL) OR is_favorite = 1"
+        ).fetchall()
+        user_data = {(r["office_no"], r["service_type"]): (r["memo"], r["is_favorite"]) for r in saved}
+
         # 全件削除してから挿入（二重挿入防止）
         conn.execute("DELETE FROM offices")
 
@@ -110,6 +124,13 @@ def upsert_offices(df, fetched_ym: str):
             VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
         """, rows_to_insert)
 
+        # メモ・お気に入りを復元
+        for (office_no, service_type), (memo, is_fav) in user_data.items():
+            conn.execute(
+                "UPDATE offices SET memo=?, is_favorite=? WHERE office_no=? AND service_type=?",
+                (memo, is_fav, office_no, service_type)
+            )
+
     return len(rows_to_insert)
 
 
@@ -121,17 +142,32 @@ def log_update(fetched_ym: str, a_count: int, b_count: int, status: str, message
         """, (fetched_ym, a_count, b_count, status, message))
 
 
-def get_offices(service_type: Optional[str] = None):
+def get_offices(service_type: Optional[str] = None, favorite_only: bool = False):
     with get_conn() as conn:
+        conditions = []
+        params = []
         if service_type:
-            rows = conn.execute(
-                "SELECT * FROM offices WHERE service_type=? ORDER BY office_name", (service_type,)
-            ).fetchall()
-        else:
-            rows = conn.execute(
-                "SELECT * FROM offices ORDER BY service_type, office_name"
-            ).fetchall()
+            conditions.append("service_type=?")
+            params.append(service_type)
+        if favorite_only:
+            conditions.append("is_favorite=1")
+        where = ("WHERE " + " AND ".join(conditions)) if conditions else ""
+        # お気に入り→名前順
+        rows = conn.execute(
+            f"SELECT * FROM offices {where} ORDER BY is_favorite DESC, office_name",
+            params
+        ).fetchall()
     return [dict(r) for r in rows]
+
+
+def update_memo(office_id: int, memo: str):
+    with get_conn() as conn:
+        conn.execute("UPDATE offices SET memo=? WHERE id=?", (memo, office_id))
+
+
+def update_favorite(office_id: int, is_favorite: bool):
+    with get_conn() as conn:
+        conn.execute("UPDATE offices SET is_favorite=? WHERE id=?", (1 if is_favorite else 0, office_id))
 
 
 def get_stats():

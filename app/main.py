@@ -10,6 +10,7 @@ from typing import Optional
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel
 
 from app.database import (
     get_offices,
@@ -17,6 +18,8 @@ from app.database import (
     get_update_log,
     get_work_type_stats,
     init_db,
+    update_memo,
+    update_favorite,
 )
 from app.scheduler import run_update, start_scheduler, stop_scheduler
 
@@ -62,9 +65,28 @@ def api_stats():
     return get_stats()
 
 
+class MemoRequest(BaseModel):
+    memo: str
+
+class FavoriteRequest(BaseModel):
+    is_favorite: bool
+
+
 @app.get("/api/offices")
-def api_offices(service_type: Optional[str] = None):
-    return get_offices(service_type)
+def api_offices(service_type: Optional[str] = None, favorite_only: bool = False):
+    return get_offices(service_type, favorite_only)
+
+
+@app.patch("/api/offices/{office_id}/memo")
+def api_update_memo(office_id: int, body: MemoRequest):
+    update_memo(office_id, body.memo)
+    return {"ok": True}
+
+
+@app.patch("/api/offices/{office_id}/favorite")
+def api_update_favorite(office_id: int, body: FavoriteRequest):
+    update_favorite(office_id, body.is_favorite)
+    return {"ok": True}
 
 
 @app.get("/api/work-types")
