@@ -2,6 +2,13 @@
 事業所名・説明から業種を自動分類するモジュール
 """
 
+import unicodedata
+
+
+def _normalize(text: str) -> str:
+    """全角→半角正規化（WAM NETは全角英数字を使うことがある）"""
+    return unicodedata.normalize("NFKC", text)
+
 RULES = [
     # 調査結果(2026年6月)を反映した優先順位付きルール
     ("農業・農産物",   ["きのこ", "農園", "農業", "ファーム", "farm", "野菜", "収穫", "植物", "とまり木ふぁ",
@@ -22,15 +29,15 @@ RULES = [
     ("国際・語学", ["international", "インターナショナル", "Blue"]),
     ("複合・総合支援", ["総活躍", "チャレンジ", "ぽらりす", "スタジオ", "メロディー", "タオ",
                        "レンコン", "ビー", "オリーブ", "Nine", "TUBU", "りとーぷす",
-                       "スクラム", "ピアてらす", "メサウェル",
+                       "スクラム", "ピアてらす", "メサウェル", "ドンと来い",
                        "福祉支援", "フォルテ", "障がい福祉サポート"]),
 ]
 
 def classify(office_name: str) -> str:
-    name = office_name or ""
+    name = _normalize(office_name or "")
     for category, keywords in RULES:
         for kw in keywords:
-            if kw.lower() in name.lower():
+            if _normalize(kw).lower() in name.lower():
                 return category
     return "その他・不明"
 

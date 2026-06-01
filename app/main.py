@@ -131,3 +131,9 @@ async def api_neighboring_cities_refresh():
 async def index():
     with open("app/static/index.html", encoding="utf-8") as f:
         return f.read()
+
+
+@app.get("/simulator", response_class=HTMLResponse)
+async def simulator():
+    with open("app/static/simulator.html", encoding="utf-8") as f:
+        return f.read()

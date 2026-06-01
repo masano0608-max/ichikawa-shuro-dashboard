@@ -185,6 +185,17 @@
     .empty-state .icon { font-size: 3rem; margin-bottom: 12px; }
     .spinner { display: inline-block; width: 20px; height: 20px; border: 3px solid #e2e8f0; border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
+    nav {
+      background: #1e3a8a;
+      display: flex; gap: 0;
+    }
+    nav a {
+      color: rgba(255,255,255,0.75); text-decoration: none;
+      padding: 10px 24px; font-size: 0.88rem; font-weight: 600;
+      border-bottom: 3px solid transparent; transition: all 0.2s;
+    }
+    nav a:hover { color: white; background: rgba(255,255,255,0.08); }
+    nav a.active { color: white; border-bottom-color: #60a5fa; }
 
     /* 隣接市比較 */
     .comparison-section {
@@ -220,6 +231,10 @@
   </div>
   <button class="update-btn" id="updateBtn" onclick="manualUpdate()">データを今すぐ更新</button>
 </header>
+<nav>
+  <a href="/" class="active">ダッシュボード</a>
+  <a href="/simulator">収支シミュレーター</a>
+</nav>
 
 <main>
   <!-- ステータスバー -->

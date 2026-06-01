@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>収支シミュレーター | 就労継続支援</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --a-color: #0ea5e9;
+      --b-color: #10b981;
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 12px;
+      --profit: #10b981;
+      --loss: #ef4444;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Hiragino Sans", "Yu Gothic", sans-serif; background: var(--bg); color: var(--text); }
+
+    /* ─ ナビゲーション ─ */
+    nav {
+      background: #1e3a8a;
+      display: flex;
+      gap: 0;
+    }
+    nav a {
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      padding: 10px 24px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s;
+    }
+    nav a:hover { color: white; background: rgba(255,255,255,0.08); }
+    nav a.active { color: white; border-bottom-color: #60a5fa; }
+
+    header {
+      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+      color: white;
+      padding: 20px 32px 12px;
+    }
+    header h1 { font-size: 1.4rem; font-weight: 700; }
+    header .subtitle { font-size: 0.82rem; opacity: 0.75; margin-top: 4px; }
+
+    main { max-width: 1400px; margin: 0 auto; padding: 24px 20px; }
+
+    /* ─ 2カラム ─ */
+    .sim-layout {
+      display: grid;
+      grid-template-columns: 480px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+    @media (max-width: 1000px) { .sim-layout { grid-template-columns: 1fr; } }
+
+    /* ─ 入力パネル ─ */
+    .input-panel { display: flex; flex-direction: column; gap: 16px; }
+    .section-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .section-header {
+      background: var(--bg);
+      padding: 12px 20px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-num {
+      width: 22px; height: 22px;
+      background: var(--primary);
+      color: white;
+      border-radius: 50%;
+      font-size: 0.72rem;
+      font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .section-body { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; }
+
+    .form-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .form-label {
+      font-size: 0.85rem;
+      color: var(--text);
+      flex: 1;
+      line-height: 1.4;
+    }
+    .form-label small { display: block; color: var(--muted); font-size: 0.75rem; margin-top: 1px; }
+    .form-input {
+      width: 130px;
+      padding: 7px 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      text-align: right;
+      background: #f8fafc;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-input:focus { border-color: var(--primary); background: white; }
+    select.form-input { text-align: left; }
+    .form-unit { font-size: 0.8rem; color: var(--muted); white-space: nowrap; min-width: 28px; }
+
+    .hint-box {
+      background: #eff6ff;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 0.78rem;
+      color: #1d4ed8;
+      line-height: 1.6;
+    }
+
+    /* 加算チェックリスト */
+    .check-list { display: flex; flex-direction: column; gap: 8px; }
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .check-item:hover { background: var(--bg); }
+    .check-item input[type="checkbox"] { margin-top: 2px; cursor: pointer; }
+    .check-item label { font-size: 0.82rem; cursor: pointer; flex: 1; }
+    .check-item label span { color: var(--muted); font-size: 0.76rem; display: block; margin-top: 2px; }
+    .check-item .check-val { font-size: 0.78rem; color: var(--primary); font-weight: 700; white-space: nowrap; }
+
+    /* ─ 結果パネル ─ */
+    .result-panel {
+      position: sticky;
+      top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .result-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .result-header {
+      padding: 14px 20px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      border-bottom: 1px solid var(--border);
+    }
+    .result-body { padding: 16px 20px; }
+
+    /* 収支サマリー */
+    .pnl-box {
+      text-align: center;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 16px;
+    }
+    .pnl-box.profit { background: #f0fdf4; border: 2px solid #10b981; }
+    .pnl-box.loss   { background: #fef2f2; border: 2px solid #ef4444; }
+    .pnl-label { font-size: 0.8rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    .pnl-value { font-size: 2.4rem; font-weight: 900; margin: 6px 0; }
+    .pnl-box.profit .pnl-value { color: #10b981; }
+    .pnl-box.loss   .pnl-value { color: #ef4444; }
+    .pnl-sub { font-size: 0.8rem; color: var(--muted); }
+
+    /* 収支明細 */
+    .detail-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    .detail-table tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
+    .detail-table td { padding: 7px 4px; }
+    .detail-table .label { color: var(--text); }
+    .detail-table .sublabel { color: var(--muted); padding-left: 14px; font-size: 0.8rem; }
+    .detail-table .amount { text-align: right; font-weight: 600; white-space: nowrap; }
+    .detail-table .income { color: #0369a1; }
+    .detail-table .expense { color: #991b1b; }
+    .detail-table .total-row td { font-weight: 800; font-size: 0.92rem; padding-top: 10px; border-top: 2px solid var(--border) !important; }
+    .detail-table .section-title td { background: var(--bg); font-weight: 700; padding: 6px 4px; font-size: 0.78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+
+    /* 年間試算 */
+    .annual-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .annual-item {
+      background: var(--bg);
+      border-radius: 8px;
+      padding: 10px 14px;
+    }
+    .annual-item .al { font-size: 0.75rem; color: var(--muted); font-weight: 700; }
+    .annual-item .av { font-size: 1.15rem; font-weight: 800; color: var(--text); margin-top: 3px; }
+
+    /* 重要指標 */
+    .metrics-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .metric-item {
+      background: var(--bg);
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+    }
+    .metric-item .ml { font-size: 0.72rem; color: var(--muted); font-weight: 700; }
+    .metric-item .mv { font-size: 1.1rem; font-weight: 800; color: var(--text); margin-top: 3px; }
+
+    .divider { border: none; border-top: 1px solid var(--border); margin: 12px 0; }
+    .note { font-size: 0.75rem; color: var(--muted); line-height: 1.6; margin-top: 10px; }
+
+    .tag { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: 0.72rem; font-weight: 700; }
+    .tag-b { background: #d1fae5; color: #065f46; }
+    .tag-a { background: #e0f2fe; color: #0369a1; }
+
+    /* staffing hint */
+    .staff-hint {
+      background: #fef9c3;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 0.78rem;
+      color: #854d0e;
+      line-height: 1.6;
+    }
+    .spinner-inline { display: inline-block; width: 14px; height: 14px; border: 2px solid #e2e8f0; border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; vertical-align: middle; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>就労継続支援 収支シミュレーター</h1>
+  <div class="subtitle">給付費・人件費・管理費を入力するだけで月間収支を自動計算</div>
+</header>
+<nav>
+  <a href="/">ダッシュボード</a>
+  <a href="/simulator" class="active">収支シミュレーター</a>
+</nav>
+
+<main>
+  <div class="sim-layout">
+
+    <!-- ═══════ 入力パネル ═══════ -->
+    <div class="input-panel">
+
+      <!-- 1. 事業所基本設定 -->
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-num">1</div>
+          事業所基本設定
+        </div>
+        <div class="section-body">
+          <div class="form-row">
+            <div class="form-label">サービス種別</div>
+            <select class="form-input" id="serviceType" onchange="onServiceTypeChange()">
+              <option value="B">就労継続支援 B型</option>
+              <option value="A">就労継続支援 A型</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <div class="form-label">定員<small>利用者の上限人数</small></div>
+            <input class="form-input" type="number" id="capacity" value="20" min="1" max="200" oninput="calc()">
+            <span class="form-unit">人</span>
+          </div>
+          <div class="form-row">
+            <div class="form-label">月間開所日数<small>休日・お盆・年末除く</small></div>
+            <input class="form-input" type="number" id="openDays" value="23" min="1" max="31" oninput="calc()">
+            <span class="form-unit">日</span>
+          </div>
+          <div class="form-row">
+            <div class="form-label">地域区分<small>1単位の単価が変わります</small></div>
+            <select class="form-input" id="region" onchange="calc()">
+              <option value="11.40">1級地（20%）東京23区等</option>
+              <option value="11.12">2級地（16%）浦安市等</option>
+              <option value="10.84">3級地（12%）千葉市等</option>
+              <option value="10.56">4級地（8%）船橋市・習志野市等</option>
+              <option value="10.42" selected>5級地（6%）市川市・松戸市等 ★</option>
+              <option value="10.21">6級地（3%）</option>
+              <option value="10.07">7級地（1%）</option>
+              <option value="10.00">その他（0%）</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. 利用状況・給付費 -->
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-num">2</div>
+          利用状況・給付費計算
+        </div>
+        <div class="section-body">
+          <div class="form-row">
+            <div class="form-label">利用率<small>定員に対する実利用者の割合</small></div>
+            <input class="form-input" type="number" id="utilRate" value="85" min="1" max="100" oninput="calc()">
+            <span class="form-unit">%</span>
+          </div>
+          <div class="hint-box" id="userCountHint">実利用者数: — 人</div>
+
+          <div class="form-row" id="kochinRow">
+            <div class="form-label">平均工賃月額<small>利用者に支払う工賃（B型）</small></div>
+            <input class="form-input" type="number" id="avgWage" value="15000" min="0" oninput="calc()">
+            <span class="form-unit">円</span>
+          </div>
+          <div class="hint-box" id="tierHint">報酬区分: 計算中...</div>
+
+          <div class="form-row" id="minWageRow" style="display:none;">
+            <div class="form-label">最低賃金ベース月収<small>A型: 最低賃金×所定労働時間</small></div>
+            <input class="form-input" type="number" id="minWageBase" value="120000" min="0" oninput="calc()">
+            <span class="form-unit">円</span>
+          </div>
+
+          <div class="form-row">
+            <div class="form-label">職員配置体系<small>6:1で報酬が高いが人件費も増加</small></div>
+            <select class="form-input" id="staffRatio" onchange="calc()">
+              <option value="I">サービス費Ⅰ（6:1配置）</option>
+              <option value="II" selected>サービス費Ⅱ（7.5:1配置）標準</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <div class="form-label">1日平均利用時間<small>3時間以上が給付の前提</small></div>
+            <select class="form-input" id="useHours" onchange="calc()">
+              <option value="1.0">3時間以上（通常）</option>
+              <option value="0.5">3時間未満（減算あり）</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. 加算設定 -->
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-num">3</div>
+          加算設定（選択式）
+        </div>
+        <div class="section-body">
+          <div class="check-list">
+            <label class="check-item">
+              <input type="checkbox" id="add_fukushi1" value="15" onchange="calc()">
+              <label for="add_fukushi1">
+                福祉専門職員配置等加算（Ⅰ）
+                <span>社福士・精神保健福祉士等が直接処遇職員の35%以上</span>
+              </label>
+              <span class="check-val">+15単位/日</span>
+            </label>
+            <label class="check-item">
+              <input type="checkbox" id="add_fukushi2" value="10" onchange="calc()">
+              <label for="add_fukushi2">
+                福祉専門職員配置等加算（Ⅱ）
+                <span>社福士等が直接処遇職員の25%以上</span>
+              </label>
+              <span class="check-val">+10単位/日</span>
+            </label>
+            <label class="check-item">
+              <input type="checkbox" id="add_kenshu" value="6" onchange="calc()">
+              <label for="add_kenshu">
+                就労支援関係研修修了加算
+                <span>指定研修を修了した職員が就労支援を実施</span>
+              </label>
+              <span class="check-val">+6単位/日</span>
+            </label>
+            <label class="check-item">
+              <input type="checkbox" id="add_target" value="10" onchange="calc()">
+              <label for="add_target">
+                目標工賃達成加算
+                <span>計画工賃目標を達成した場合（B型）</span>
+              </label>
+              <span class="check-val">+10単位/月</span>
+            </label>
+            <label class="check-item">
+              <input type="checkbox" id="add_shokuba" value="6" onchange="calc()">
+              <label for="add_shokuba">
+                職場適応援助者養成研修修了者配置加算
+                <span>ジョブコーチ配置</span>
+              </label>
+              <span class="check-val">+6単位/日</span>
+            </label>
+          </div>
+          <hr class="divider">
+          <div class="form-row">
+            <div class="form-label">処遇改善加算<small>令和6年6月〜一本化 / 全額職員処遇に充当義務</small></div>
+            <select class="form-input" id="shoguu" onchange="calc()">
+              <option value="0.093">加算Ⅰ（9.3%）キャリアパス要件Ⅰ〜Ⅳ全満足</option>
+              <option value="0.066" selected>加算Ⅱ（6.6%）キャリアパス要件Ⅰ〜Ⅲ</option>
+              <option value="0.033">加算Ⅲ（3.3%）キャリアパス要件Ⅰ〜Ⅱ</option>
+              <option value="0.011">加算Ⅳ（1.1%）キャリアパス要件Ⅰのみ</option>
+              <option value="0.0">なし</option>
+            </select>
+          </div>
+          <p class="note">※処遇改善加算は収入として計上しますが、全額を職員の処遇改善に充てる義務があります（支出にも同額計上）。</p>
+        </div>
+      </div>
+
+      <!-- 4. 人件費 -->
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-num">4</div>
+          人件費設定
+        </div>
+        <div class="section-body">
+          <div class="staff-hint" id="staffHint">配置基準: 計算中...</div>
+          <div style="height:8px;"></div>
+
+          <div class="form-row">
+            <div class="form-label">管理者<small>兼務可・常勤1名必須</small></div>
+            <input class="form-input" type="number" id="mgr_salary" value="350000" min="0" step="10000" oninput="calc()">
+            <span class="form-unit">円/月</span>
+          </div>
+          <div class="form-row">
+            <div class="form-label">サービス管理責任者<small>常勤・専従（定員60名以下1名）</small></div>
+            <input class="form-input" type="number" id="sabikan_salary" value="320000" min="0" step="10000" oninput="calc()">
+            <span class="form-unit">円/月</span>
+          </div>
+          <div class="form-row">
+            <div class="form-label">生活支援員・職業指導員<small>定員に応じ人数が変わります</small></div>
+            <input class="form-input" type="number" id="support_count" value="3" min="0" max="20" oninput="calc()">
+            <span class="form-unit">名</span>
+          </div>
+          <div class="form-row">
+            <div class="form-label">　うち1人あたり月給</div>
+            <input class="form-input" type="number" id="support_salary" value="250000" min="0" step="10000" oninput="calc()">
+            <span class="form-unit">円/月</span>
+          </div>
+          <div class="form-row">
+            <div class="form-label">社会保険料（事業主負担）<small>概算: 給与合計×15%</small></div>
+            <select class="form-input" id="shakai_rate" onchange="calc()">
+              <option value="0.15">15%（標準）</option>
+              <option value="0.14">14%</option>
+              <option value="0.16">16%</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. その他経費 -->
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-num">5</div>
+          その他経費（月間）
+        </div>
+        <div class="section-body">
+          <div class="form-row">
+            <div class="form-label">家賃・共益費</div>
+            <input class="form-input" type="number" id="rent" value="150000" min="0" step="10000" oninput="calc()">
+            <span class="form-unit">円/月</span>
+          </div>
+          <div class="form-row">
+            <div class="form-label">光熱費・通信費</div>
+            <input class="form-input" type="number" id="utilities" value="30000" min="0" step="5000" oninput="calc()">
+            <span class="form-unit">円/月</span>
+          </div>
+          <div class="form-row">
+            <div class="form-label">材料費・仕入れ</div>
+            <input class="form-input" type="number" id="materials" value="20000" min="0" step="5000" oninput="calc()">
+            <span class="form-unit">円/月</span>
+          </div>
+          <div class="form-row">
+            <div class="form-label">その他管理費<small>事務費・消耗品・保険等</small></div>
+            <input class="form-input" type="number" id="misc" value="50000" min="0" step="5000" oninput="calc()">
+            <span class="form-unit">円/月</span>
+          </div>
+          <div class="form-row">
+            <div class="form-label">受注作業・販売収入<small>利用者の作業で得られる売上</small></div>
+            <input class="form-input" type="number" id="sales" value="100000" min="0" step="10000" oninput="calc()">
+            <span class="form-unit">円/月</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /input-panel -->
+
+    <!-- ═══════ 結果パネル ═══════ -->
+    <div class="result-panel">
+
+      <!-- 月間収支サマリー -->
+      <div class="result-card">
+        <div class="result-header">月間 収支サマリー</div>
+        <div class="result-body">
+          <div class="pnl-box profit" id="pnlBox">
+            <div class="pnl-label" id="pnlLabel">月間 営業利益（損失）</div>
+            <div class="pnl-value" id="pnlValue">—</div>
+            <div class="pnl-sub" id="pnlSub">計算中...</div>
+          </div>
+
+          <div class="metrics-row">
+            <div class="metric-item">
+              <div class="ml">実利用者数</div>
+              <div class="mv" id="mUserCount">—</div>
+            </div>
+            <div class="metric-item">
+              <div class="ml">給付費単価</div>
+              <div class="mv" id="mUnitPrice">—</div>
+            </div>
+            <div class="metric-item">
+              <div class="ml">損益分岐利用率</div>
+              <div class="mv" id="mBreakeven">—</div>
+            </div>
+          </div>
+
+          <hr class="divider">
+
+          <!-- 収支明細 -->
+          <table class="detail-table">
+            <tr class="section-title"><td colspan="2">【 収入 】</td></tr>
+            <tr>
+              <td class="label">給付費（基本報酬）</td>
+              <td class="amount income" id="r_basic">—</td>
+            </tr>
+            <tr>
+              <td class="sublabel">　うち加算計</td>
+              <td class="amount income" id="r_add">—</td>
+            </tr>
+            <tr>
+              <td class="label">処遇改善加算収入</td>
+              <td class="amount income" id="r_shoguu">—</td>
+            </tr>
+            <tr>
+              <td class="label">受注作業・販売収入</td>
+              <td class="amount income" id="r_sales">—</td>
+            </tr>
+            <tr class="total-row">
+              <td class="label">収入合計</td>
+              <td class="amount income" id="r_total">—</td>
+            </tr>
+
+            <tr class="section-title"><td colspan="2">【 支出 】</td></tr>
+            <tr>
+              <td class="label">人件費（給与）</td>
+              <td class="amount expense" id="e_salary">—</td>
+            </tr>
+            <tr>
+              <td class="sublabel">　うち社会保険料</td>
+              <td class="amount expense" id="e_shakai">—</td>
+            </tr>
+            <tr>
+              <td class="label">工賃支払額</td>
+              <td class="amount expense" id="e_wage">—</td>
+            </tr>
+            <tr>
+              <td class="label">家賃・共益費</td>
+              <td class="amount expense" id="e_rent">—</td>
+            </tr>
+            <tr>
+              <td class="label">光熱費・通信費</td>
+              <td class="amount expense" id="e_util">—</td>
+            </tr>
+            <tr>
+              <td class="label">材料費・仕入れ</td>
+              <td class="amount expense" id="e_mat">—</td>
+            </tr>
+            <tr>
+              <td class="label">その他管理費</td>
+              <td class="amount expense" id="e_misc">—</td>
+            </tr>
+            <tr class="total-row">
+              <td class="label">支出合計</td>
+              <td class="amount expense" id="e_total">—</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- 年間試算 -->
+      <div class="result-card">
+        <div class="result-header">年間 試算（×12ヶ月）</div>
+        <div class="result-body">
+          <div class="annual-grid">
+            <div class="annual-item">
+              <div class="al">年間 給付費収入</div>
+              <div class="av" id="y_kyufu">—</div>
+            </div>
+            <div class="annual-item">
+              <div class="al">年間 総収入</div>
+              <div class="av" id="y_income">—</div>
+            </div>
+            <div class="annual-item">
+              <div class="al">年間 人件費</div>
+              <div class="av" id="y_salary">—</div>
+            </div>
+            <div class="annual-item">
+              <div class="al">年間 工賃支払</div>
+              <div class="av" id="y_wage">—</div>
+            </div>
+            <div class="annual-item" style="grid-column: span 2; border-left: 4px solid var(--primary);">
+              <div class="al">年間 営業利益</div>
+              <div class="av" id="y_profit" style="font-size:1.4rem;">—</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 注記 -->
+      <div class="result-card">
+        <div class="result-header">計算根拠・注意事項</div>
+        <div class="result-body">
+          <p class="note">
+            <strong>基本報酬（令和6年度改定）:</strong><br>
+            令和6年4月から報酬体系が再編。職員配置6:1（サービス費Ⅰ）と7.5:1（サービス費Ⅱ）で単位数が異なる。平均工賃月額が高いほど報酬単価が高い（8区分）。<br><br>
+            <strong>地域区分:</strong><br>
+            市川市 = <strong>5級地（+6%・人件費割合70%）</strong> → 1単位 = <strong>10.42円</strong><br>
+            計算式: 10円 × (1 + 0.06 × 0.70) = 10.42円<br>
+            ※千葉県公式資料で確認済み。<br><br>
+            <strong>処遇改善加算（令和6年6月〜一本化）:</strong><br>
+            旧3加算が統合されⅠ〜Ⅳの4段階に。加算収入は全額を職員の処遇改善に充てる義務があります。<br><br>
+            <strong>免責事項:</strong><br>
+            本シミュレーターは参考値です。実際の報酬は算定要件・体制届の内容により異なります。事業計画には専門家（社労士・コンサルタント）へのご相談を推奨します。
+          </p>
+        </div>
+      </div>
+
+    </div><!-- /result-panel -->
+  </div><!-- /sim-layout -->
+</main>
+
+<script>
+// ── 報酬テーブル（令和6年度改定・就労継続支援B型）────────────────
+// サービス費 I（職員6:1配置）/ II（7.5:1）で単位数が異なる
+// 定員20人以下の場合（最も単価が高い区分）
+const B_TIERS_I = [ // サービス費I（6:1配置）
+  { label: '45,000円以上',          minWage: 45000, units: 837 },
+  { label: '35,000〜45,000円',      minWage: 35000, units: 805 },
+  { label: '30,000〜35,000円',      minWage: 30000, units: 758 },
+  { label: '25,000〜30,000円',      minWage: 25000, units: 738 },
+  { label: '20,000〜25,000円',      minWage: 20000, units: 726 },
+  { label: '15,000〜20,000円',      minWage: 15000, units: 703 },
+  { label: '10,000〜15,000円',      minWage: 10000, units: 673 },
+  { label: '10,000円未満',          minWage: 0,     units: 590 },
+];
+const B_TIERS_II = [ // サービス費II（7.5:1配置）標準
+  { label: '45,000円以上',          minWage: 45000, units: 748 },
+  { label: '35,000〜45,000円',      minWage: 35000, units: 716 },
+  { label: '30,000〜35,000円',      minWage: 30000, units: 669 },
+  { label: '25,000〜30,000円',      minWage: 25000, units: 649 },
+  { label: '20,000〜25,000円',      minWage: 20000, units: 637 },
+  { label: '15,000〜20,000円',      minWage: 15000, units: 614 },
+  { label: '10,000〜15,000円',      minWage: 10000, units: 584 },
+  { label: '10,000円未満',          minWage: 0,     units: 537 },
+];
+
+// 就労継続支援A型 基本報酬（令和6年度・参考値）
+const A_BASE_UNITS = 717; // 参考値
+
+function fmt(n) {
+  if (isNaN(n)) return '—';
+  const sign = n < 0 ? '-' : '';
+  return sign + '¥' + Math.abs(Math.round(n)).toLocaleString();
+}
+function fmtU(n) { return isNaN(n) ? '—' : n.toLocaleString() + '単位'; }
+
+function onServiceTypeChange() {
+  const type = document.getElementById('serviceType').value;
+  document.getElementById('kochinRow').style.display   = type === 'B' ? '' : 'none';
+  document.getElementById('minWageRow').style.display  = type === 'A' ? '' : 'none';
+  calc();
+}
+
+function calc() {
+  const type       = document.getElementById('serviceType').value;
+  const capacity   = parseFloat(document.getElementById('capacity').value) || 0;
+  const openDays   = parseFloat(document.getElementById('openDays').value) || 23;
+  const unitPrice  = parseFloat(document.getElementById('region').value) || 11.12;
+  const utilRate   = parseFloat(document.getElementById('utilRate').value) || 85;
+  const useHours   = parseFloat(document.getElementById('useHours').value) || 1.0;
+  const avgWage    = parseFloat(document.getElementById('avgWage').value) || 0;
+  const staffRatio = document.getElementById('staffRatio').value;
+
+  const userCount  = Math.floor(capacity * utilRate / 100);
+  document.getElementById('userCountHint').textContent = `実利用者数: ${userCount}人（定員${capacity}人 × ${utilRate}%）`;
+
+  // ── 報酬区分 ──
+  let baseUnits = A_BASE_UNITS;
+  let tierLabel = 'A型（参考値）';
+  if (type === 'B') {
+    const tiers = staffRatio === 'I' ? B_TIERS_I : B_TIERS_II;
+    const tier = tiers.find(t => avgWage >= t.minWage) || tiers[tiers.length - 1];
+    baseUnits = tier.units;
+    tierLabel = `サービス費${staffRatio}（${tier.label}）`;
+  }
+  baseUnits = baseUnits * useHours; // 3時間未満は0.5
+
+  document.getElementById('tierHint').textContent = `報酬区分: ${tierLabel} → ${baseUnits}単位/日/人`;
+
+  // ── 加算（日単位）──
+  const addPerDay = ['add_fukushi1','add_fukushi2','add_kenshu','add_shokuba']
+    .filter(id => document.getElementById(id).checked)
+    .reduce((s, id) => s + parseFloat(document.getElementById(id).value), 0);
+  // 月単位加算
+  const addPerMonth = document.getElementById('add_target').checked ? 10 : 0;
+
+  // ── 基本給付費（加算前）──
+  const basicUnits    = baseUnits * userCount * openDays;
+  const addUnitsDay   = addPerDay * userCount * openDays;
+  const addUnitsMonth = addPerMonth * userCount;
+  const totalUnits    = (basicUnits + addUnitsDay + addUnitsMonth);
+  const basicIncome   = totalUnits * unitPrice;
+
+  // ── 処遇改善加算 ──
+  const shoguuRate = parseFloat(document.getElementById('shoguu').value) || 0;
+  const shoguuIncome = basicIncome * shoguuRate;
+
+  // ── 販売収入 ──
+  const sales = parseFloat(document.getElementById('sales').value) || 0;
+
+  const totalIncome = basicIncome + shoguuIncome + sales;
+
+  // ── 人件費 ──
+  const mgrSalary     = parseFloat(document.getElementById('mgr_salary').value) || 0;
+  const sabikanSalary = parseFloat(document.getElementById('sabikan_salary').value) || 0;
+  const suppCount     = parseFloat(document.getElementById('support_count').value) || 0;
+  const suppSalary    = parseFloat(document.getElementById('support_salary').value) || 0;
+  const shakaiRate    = parseFloat(document.getElementById('shakai_rate').value) || 0.15;
+
+  const baseSalary = mgrSalary + sabikanSalary + (suppCount * suppSalary);
+  const shakaiCost = baseSalary * shakaiRate;
+  const totalSalary = baseSalary + shakaiCost;
+
+  // ── 工賃支払 ──
+  const wagePayment = type === 'B' ? avgWage * userCount : 0;
+
+  // ── その他経費 ──
+  const rent      = parseFloat(document.getElementById('rent').value) || 0;
+  const utilities = parseFloat(document.getElementById('utilities').value) || 0;
+  const materials = parseFloat(document.getElementById('materials').value) || 0;
+  const misc      = parseFloat(document.getElementById('misc').value) || 0;
+
+  const totalExpense = totalSalary + wagePayment + rent + utilities + materials + misc;
+  const profit = totalIncome - totalExpense;
+  const marginRate = totalIncome > 0 ? (profit / totalIncome * 100) : 0;
+
+  // ── 損益分岐利用率 ──
+  // 固定費: totalSalary + rent + utilities + misc
+  // 変動費/人: (avgWage + materials/userCount)
+  // 収入/人/月: (baseUnits + addPerDay) * openDays * unitPrice
+  const incomePerUser = (baseUnits + addPerDay) * openDays * unitPrice * (1 + shoguuRate);
+  const varCostPerUser = type === 'B' ? avgWage : 0;
+  const contribution = incomePerUser - varCostPerUser;
+  const fixedCost = totalSalary + rent + utilities + misc + materials;
+  const breakevenUsers = contribution > 0 ? Math.ceil(fixedCost / contribution) : Infinity;
+  const breakevenRate  = capacity > 0 ? Math.round(breakevenUsers / capacity * 100) : 0;
+
+  // ── 最低職員数ヒント ──
+  const minSupport = Math.ceil(userCount / 7.5);
+  document.getElementById('staffHint').textContent =
+    `配置基準（B型）: 支援員合計 ${minSupport}名以上（実利用${userCount}人÷7.5）/ サビ管1名 / 管理者1名`;
+
+  // ── 画面更新 ──
+  document.getElementById('mUserCount').textContent = userCount + '人';
+  document.getElementById('mUnitPrice').textContent = unitPrice.toFixed(2) + '円/単位';
+  document.getElementById('mBreakeven').textContent = isFinite(breakevenRate) ? breakevenRate + '%' : '—';
+
+  document.getElementById('r_basic').textContent   = fmt(basicIncome);
+  document.getElementById('r_add').textContent     = fmt((addUnitsDay + addUnitsMonth) * unitPrice);
+  document.getElementById('r_shoguu').textContent  = fmt(shoguuIncome);
+  document.getElementById('r_sales').textContent   = fmt(sales);
+  document.getElementById('r_total').textContent   = fmt(totalIncome);
+
+  document.getElementById('e_salary').textContent  = fmt(totalSalary);
+  document.getElementById('e_shakai').textContent  = fmt(shakaiCost);
+  document.getElementById('e_wage').textContent    = fmt(wagePayment);
+  document.getElementById('e_rent').textContent    = fmt(rent);
+  document.getElementById('e_util').textContent    = fmt(utilities);
+  document.getElementById('e_mat').textContent     = fmt(materials);
+  document.getElementById('e_misc').textContent    = fmt(misc);
+  document.getElementById('e_total').textContent   = fmt(totalExpense);
+
+  const pnlBox = document.getElementById('pnlBox');
+  pnlBox.className = 'pnl-box ' + (profit >= 0 ? 'profit' : 'loss');
+  document.getElementById('pnlValue').textContent = fmt(profit);
+  document.getElementById('pnlSub').textContent   =
+    `利益率: ${marginRate.toFixed(1)}% ／ 年間: ${fmt(profit * 12)}`;
+
+  // 年間試算
+  document.getElementById('y_kyufu').textContent  = fmt(basicIncome * 12);
+  document.getElementById('y_income').textContent = fmt(totalIncome * 12);
+  document.getElementById('y_salary').textContent = fmt(totalSalary * 12);
+  document.getElementById('y_wage').textContent   = fmt(wagePayment * 12);
+  document.getElementById('y_profit').textContent = fmt(profit * 12);
+  document.getElementById('y_profit').style.color = profit >= 0 ? '#10b981' : '#ef4444';
+}
+
+// 初期計算
+calc();
+</script>
+</body>
+</html>

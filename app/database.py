@@ -9,6 +9,8 @@ from contextlib import contextmanager
 from datetime import datetime
 from pathlib import Path
 
+from app.classify import classify
+
 DB_PATH = Path(__file__).parent.parent / "data" / "ichikawa.db"
 
 
@@ -62,6 +64,15 @@ def init_db():
             except Exception:
                 pass  # 既に存在する場合はスキップ
 
+        # 既存レコードの業種を再分類（work_typeが空・その他のもの）
+        rows = conn.execute(
+            "SELECT id, office_name FROM offices WHERE work_type IS NULL OR work_type = '' OR work_type = 'その他・不明'"
+        ).fetchall()
+        if rows:
+            for r in rows:
+                cat = classify(r["office_name"] or "")
+                conn.execute("UPDATE offices SET work_type=? WHERE id=?", (cat, r["id"]))
+
 
 @contextmanager
 def get_conn():
@@ -104,7 +115,7 @@ def upsert_offices(df, fetched_ym: str):
                 row.get("address", ""),
                 row.get("phone", ""),
                 row.get("url", ""),
-                row.get("work_type", ""),
+                classify(row.get("office_name", "")),
                 row.get("capacity", ""),
                 row.get("lat", ""),
                 row.get("lng", ""),
