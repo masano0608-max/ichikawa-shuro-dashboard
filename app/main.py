@@ -137,3 +137,9 @@ async def index():
 async def simulator():
     with open("app/static/simulator.html", encoding="utf-8") as f:
         return f.read()
+
+
+@app.get("/plan", response_class=HTMLResponse)
+async def plan():
+    with open("app/static/plan.html", encoding="utf-8") as f:
+        return f.read()
