@@ -7,7 +7,7 @@ import logging
 from contextlib import asynccontextmanager
 from typing import Optional
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
@@ -133,8 +133,15 @@ async def index():
         return f.read()
 
 
+def _is_local(request: Request) -> bool:
+    host = request.client.host if request.client else ""
+    return host in ("127.0.0.1", "::1", "localhost")
+
+
 @app.get("/simulator", response_class=HTMLResponse)
-async def simulator():
+async def simulator(request: Request):
+    if not _is_local(request):
+        raise HTTPException(status_code=403, detail="ローカル環境からのみアクセスできます")
     with open("app/static/simulator.html", encoding="utf-8") as f:
         return f.read()
 
