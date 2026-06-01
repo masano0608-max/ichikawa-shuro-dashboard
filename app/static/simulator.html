@@ -457,8 +457,11 @@
         </div>
         <div class="section-body">
           <div class="form-row">
-            <div class="form-label">家賃・共益費</div>
-            <input class="form-input" type="number" id="rent" value="150000" min="0" step="10000" oninput="calc()">
+            <div class="form-label">
+              家賃・共益費
+              <small>本八幡50〜80㎡: 約25〜35万円 / 70㎡実例: 40万円</small>
+            </div>
+            <input class="form-input" type="number" id="rent" value="250000" min="0" step="10000" oninput="calc()">
             <span class="form-unit">円/月</span>
           </div>
           <div class="form-row">
@@ -532,6 +535,10 @@
               <td class="amount income" id="r_shoguu">—</td>
             </tr>
             <tr>
+              <td class="sublabel" style="font-size:0.76rem; color:#92400e;">　※全額職員処遇改善に充当義務（下記支出に同額計上）</td>
+              <td></td>
+            </tr>
+            <tr>
               <td class="label">受注作業・販売収入</td>
               <td class="amount income" id="r_sales">—</td>
             </tr>
@@ -548,6 +555,10 @@
             <tr>
               <td class="sublabel">　うち社会保険料</td>
               <td class="amount expense" id="e_shakai">—</td>
+            </tr>
+            <tr>
+              <td class="label">処遇改善加算（職員処遇改善費）</td>
+              <td class="amount expense" id="e_shoguu">—</td>
             </tr>
             <tr>
               <td class="label">工賃支払額</td>
@@ -740,7 +751,7 @@ function calc() {
   const materials = parseFloat(document.getElementById('materials').value) || 0;
   const misc      = parseFloat(document.getElementById('misc').value) || 0;
 
-  const totalExpense = totalSalary + wagePayment + rent + utilities + materials + misc;
+  const totalExpense = totalSalary + shoguuIncome + wagePayment + rent + utilities + materials + misc;
   const profit = totalIncome - totalExpense;
   const marginRate = totalIncome > 0 ? (profit / totalIncome * 100) : 0;
 
@@ -773,6 +784,7 @@ function calc() {
 
   document.getElementById('e_salary').textContent  = fmt(totalSalary);
   document.getElementById('e_shakai').textContent  = fmt(shakaiCost);
+  document.getElementById('e_shoguu').textContent  = fmt(shoguuIncome);
   document.getElementById('e_wage').textContent    = fmt(wagePayment);
   document.getElementById('e_rent').textContent    = fmt(rent);
   document.getElementById('e_util').textContent    = fmt(utilities);
