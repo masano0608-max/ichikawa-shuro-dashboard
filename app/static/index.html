@@ -260,12 +260,18 @@
       </div>
     </div>
     <div class="chart-card">
-      <h2>定員規模別 事業所分布</h2>
-      <div style="margin-bottom:8px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:8px;">
+        <h2 id="barChartTitle">定員規模別 事業所分布</h2>
+        <div style="display:flex;gap:6px;">
+          <button class="tab active" id="viewCapBtn" onclick="switchBarView('capacity')" style="padding:5px 12px;font-size:0.8rem;">定員規模別</button>
+          <button class="tab" id="viewWorkBtn" onclick="switchBarView('worktype')" style="padding:5px 12px;font-size:0.8rem;">業種別</button>
+        </div>
+      </div>
+      <div style="margin-bottom:8px;" id="serviceTypeTabs">
         <div class="tabs" id="workTypeTabs">
-          <button class="tab active" onclick="loadCapacityChart('all')">全体</button>
-          <button class="tab a" onclick="loadCapacityChart('A型')">A型</button>
-          <button class="tab b" onclick="loadCapacityChart('B型')">B型</button>
+          <button class="tab active" onclick="reloadBar('all')">全体</button>
+          <button class="tab a" onclick="reloadBar('A型')">A型</button>
+          <button class="tab b" onclick="reloadBar('B型')">B型</button>
         </div>
       </div>
       <div class="chart-wrap">
@@ -358,6 +364,7 @@
           <tr>
             <th>★</th>
             <th>種別</th>
+            <th>業種</th>
             <th>事業所名</th>
             <th>法人名</th>
             <th>住所</th>
@@ -398,6 +405,8 @@ let cityCapChart = null;
 // ── 初期化 ───────────────────────────────────────
 async function init() {
   await Promise.all([loadStats(), loadOffices('all'), loadCapacityChart('all'), loadLog(), loadCityComparison()]);
+  // 初期タブをアクティブ
+  document.querySelectorAll('#workTypeTabs .tab')[0].classList.add('active');
 }
 
 // ── 統計 ─────────────────────────────────────────
@@ -462,15 +471,33 @@ function updatePieChart(a, b) {
   });
 }
 
-// ── 定員規模別チャート ─────────────────────────────
-async function loadCapacityChart(type) {
+// ── バービュー切替 ────────────────────────────────
+let currentBarView = 'capacity';
+let currentBarType = 'all';
+
+function switchBarView(view) {
+  currentBarView = view;
+  document.getElementById('viewCapBtn').classList.toggle('active', view === 'capacity');
+  document.getElementById('viewWorkBtn').classList.toggle('active', view === 'worktype');
+  document.getElementById('barChartTitle').textContent =
+    view === 'capacity' ? '定員規模別 事業所分布' : '業種別 事業所分布';
+  if (view === 'capacity') loadCapacityChart(currentBarType);
+  else loadWorkTypeChart(currentBarType);
+}
+
+function reloadBar(type) {
+  currentBarType = type;
   document.querySelectorAll('#workTypeTabs .tab').forEach(t => t.classList.remove('active'));
   event && event.target && event.target.classList.add('active');
+  if (currentBarView === 'capacity') loadCapacityChart(type);
+  else loadWorkTypeChart(type);
+}
 
+// ── 定員規模別チャート ─────────────────────────────
+async function loadCapacityChart(type) {
   const url = type === 'all' ? '/api/offices' : `/api/offices?service_type=${encodeURIComponent(type)}`;
   const offices = await fetch(url).then(r => r.json()).catch(() => []);
 
-  // 定員を区分
   const bands = { '〜9人': 0, '10〜19人': 0, '20〜29人': 0, '30〜39人': 0, '40人以上': 0, '不明': 0 };
   offices.forEach(o => {
     const cap = parseInt(o.capacity);
@@ -506,6 +533,50 @@ async function loadCapacityChart(type) {
       scales: {
         x: { grid: { color: '#f1f5f9' }, ticks: { font: { size: 12 } } },
         y: { grid: { color: '#f1f5f9' }, ticks: { stepSize: 1, font: { size: 11 } } }
+      }
+    }
+  });
+}
+
+// ── 業種別チャート ────────────────────────────────
+async function loadWorkTypeChart(type) {
+  const url = type === 'all' ? '/api/offices' : `/api/offices?service_type=${encodeURIComponent(type)}`;
+  const offices = await fetch(url).then(r => r.json()).catch(() => []);
+
+  const counts = {};
+  offices.forEach(o => {
+    const wt = o.work_type || 'その他・不明';
+    counts[wt] = (counts[wt] || 0) + 1;
+  });
+  const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+  const labels = sorted.map(e => e[0]);
+  const values = sorted.map(e => e[1]);
+
+  const palette = ['#6366f1','#0ea5e9','#10b981','#f59e0b','#ef4444','#8b5cf6','#ec4899','#14b8a6','#f97316','#84cc16','#06b6d4'];
+
+  const ctx = document.getElementById('barChart').getContext('2d');
+  if (barChart) barChart.destroy();
+  barChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        label: '事業所数',
+        data: values,
+        backgroundColor: labels.map((_, i) => palette[i % palette.length] + 'cc'),
+        borderColor: labels.map((_, i) => palette[i % palette.length]),
+        borderWidth: 1,
+        borderRadius: 6,
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { color: '#f1f5f9' }, ticks: { stepSize: 1 } },
+        y: { grid: { display: false }, ticks: { font: { size: 11 } } }
       }
     }
   });
@@ -594,7 +665,7 @@ function renderTable() {
   const slice = filteredOffices.slice(start, start + PAGE_SIZE);
 
   if (slice.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="8"><div class="empty-state"><div class="icon">🔍</div><div>該当する事業所がありません</div></div></td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="9"><div class="empty-state"><div class="icon">🔍</div><div>該当する事業所がありません</div></div></td></tr>`;
     document.getElementById('pageInfo').textContent = '0件';
     document.getElementById('prevBtn').disabled = true;
     document.getElementById('nextBtn').disabled = true;
@@ -615,6 +686,7 @@ function renderTable() {
           onclick="toggleFavorite(${o.id}, this)">${isFav ? '★' : '☆'}</button>
       </td>
       <td><span class="badge ${badgeClass}">${o.service_type || ''}</span></td>
+      <td><span class="work-type" style="font-size:0.78rem;color:var(--muted)">${esc(o.work_type || '—')}</span></td>
       <td>
         <div>${esc(o.office_name || '')}</div>
         ${urlLink}
