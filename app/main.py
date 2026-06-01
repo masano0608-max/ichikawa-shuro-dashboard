@@ -22,6 +22,7 @@ from app.database import (
     update_favorite,
 )
 from app.scheduler import run_update, start_scheduler, stop_scheduler
+from app.comparison import fetch_city_comparison, get_city_comparison
 
 logging.basicConfig(
     level=logging.INFO,
@@ -104,6 +105,23 @@ def api_update_log():
 async def api_update(force: bool = False):
     result = await run_update(force=force)
     return result
+
+
+@app.get("/api/neighboring-cities")
+def api_neighboring_cities():
+    data = get_city_comparison()
+    if not data:
+        # キャッシュがなければ同期取得（初回のみ遅い）
+        data = fetch_city_comparison()
+    return data
+
+
+@app.post("/api/neighboring-cities/refresh")
+async def api_neighboring_cities_refresh():
+    import asyncio
+    loop = asyncio.get_event_loop()
+    data = await loop.run_in_executor(None, fetch_city_comparison)
+    return {"ok": True, "count": len(data)}
 
 
 # ── フロントエンド ──────────────────────────────────────────

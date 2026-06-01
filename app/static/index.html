@@ -185,6 +185,30 @@
     .empty-state .icon { font-size: 3rem; margin-bottom: 12px; }
     .spinner { display: inline-block; width: 20px; height: 20px; border: 3px solid #e2e8f0; border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* 隣接市比較 */
+    .comparison-section {
+      margin-bottom: 24px;
+    }
+    .comparison-section .chart-card {
+      margin-bottom: 16px;
+    }
+    .comparison-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .comparison-header h2 { font-size: 1rem; font-weight: 700; }
+    .refresh-btn {
+      font-size: 0.8rem; padding: 5px 12px;
+      border: 1px solid var(--border); border-radius: 6px;
+      background: var(--card); cursor: pointer; color: var(--muted);
+    }
+    .refresh-btn:hover { border-color: var(--primary); color: var(--primary); }
+    .comparison-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    }
+    @media (max-width: 900px) { .comparison-grid { grid-template-columns: 1fr; } }
+    .chart-wrap-tall { position: relative; height: 320px; }
   </style>
 </head>
 <body>
@@ -250,6 +274,70 @@
     </div>
   </div>
 
+  <!-- 需要推定パネル -->
+  <div class="chart-card" style="margin-bottom:24px;">
+    <div class="comparison-header">
+      <h2>市川市 障害者数・需要推定（2026年調査）</h2>
+      <span style="font-size:0.78rem;color:var(--muted)">出典: 千葉県第8次障害者計画 / 厚生労働省統計 / 市川市公式</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;">
+      <div style="background:var(--bg);border-radius:10px;padding:14px 16px;">
+        <div style="font-size:0.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em">市川市人口</div>
+        <div style="font-size:1.6rem;font-weight:800;color:var(--text);margin-top:4px">500,937<span style="font-size:0.9rem;font-weight:400;color:var(--muted);margin-left:2px">人</span></div>
+        <div style="font-size:0.75rem;color:var(--muted);margin-top:2px">2026年4月現在</div>
+      </div>
+      <div style="background:var(--bg);border-radius:10px;padding:14px 16px;">
+        <div style="font-size:0.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em">障害者手帳所持者（推計）</div>
+        <div style="font-size:1.6rem;font-weight:800;color:var(--text);margin-top:4px">約23,000<span style="font-size:0.9rem;font-weight:400;color:var(--muted);margin-left:2px">人</span></div>
+        <div style="font-size:0.75rem;color:var(--muted);margin-top:2px">人口比 約4.7%（千葉県比率から按分）</div>
+      </div>
+      <div style="background:#eff6ff;border-radius:10px;padding:14px 16px;border-left:3px solid var(--a-color);">
+        <div style="font-size:0.75rem;font-weight:700;color:#0369a1;text-transform:uppercase;letter-spacing:0.05em">A型 需要推計</div>
+        <div style="font-size:1.6rem;font-weight:800;color:var(--a-color);margin-top:4px">約360<span style="font-size:0.9rem;font-weight:400;color:var(--muted);margin-left:2px">人</span></div>
+        <div style="font-size:0.75rem;color:var(--muted);margin-top:2px">全国利用率(0.72/千人)×人口</div>
+      </div>
+      <div style="background:#f0fdf4;border-radius:10px;padding:14px 16px;border-left:3px solid var(--b-color);">
+        <div style="font-size:0.75rem;font-weight:700;color:#065f46;text-transform:uppercase;letter-spacing:0.05em">B型 需要推計</div>
+        <div style="font-size:1.6rem;font-weight:800;color:var(--b-color);margin-top:4px">約1,500<span style="font-size:0.9rem;font-weight:400;color:var(--muted);margin-left:2px">人</span></div>
+        <div style="font-size:0.75rem;color:var(--muted);margin-top:2px">全国利用率(3.01/千人)×人口</div>
+      </div>
+      <div style="background:var(--bg);border-radius:10px;padding:14px 16px;border-left:3px solid #8b5cf6;">
+        <div style="font-size:0.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em">現定員合計（市川市）</div>
+        <div style="font-size:1.6rem;font-weight:800;color:#7c3aed;margin-top:4px" id="demandCapacity">—<span style="font-size:0.9rem;font-weight:400;color:var(--muted);margin-left:2px">人</span></div>
+        <div style="font-size:0.75rem;color:var(--muted);margin-top:2px">A型<span id="demandAcap">—</span>人 + B型<span id="demandBcap">—</span>人</div>
+      </div>
+      <div style="background:#fef3c7;border-radius:10px;padding:14px 16px;border-left:3px solid #f59e0b;">
+        <div style="font-size:0.75rem;font-weight:700;color:#92400e;text-transform:uppercase;letter-spacing:0.05em">充足率推計（B型）</div>
+        <div style="font-size:1.6rem;font-weight:800;color:#d97706;margin-top:4px" id="demandRate">—<span style="font-size:0.9rem;font-weight:400;color:var(--muted);margin-left:2px">%</span></div>
+        <div style="font-size:0.75rem;color:var(--muted);margin-top:2px">定員/需要推計 ※参考値</div>
+      </div>
+    </div>
+    <div style="margin-top:12px;font-size:0.78rem;color:var(--muted);background:var(--bg);border-radius:8px;padding:10px 14px;">
+      ※需要推計は全国平均利用率から算出した参考値です。精神障害者手帳所持者は千葉県内で年率9%増加中のため実際の需要はさらに高い可能性があります。
+    </div>
+  </div>
+
+  <!-- 隣接市比較 -->
+  <div class="comparison-section">
+    <div class="chart-card">
+      <div class="comparison-header">
+        <h2>隣接市との比較（WAM NET 2026年3月時点）</h2>
+        <button class="refresh-btn" onclick="refreshCityComparison()">データ更新</button>
+      </div>
+      <div class="comparison-grid">
+        <div>
+          <div style="font-size:0.85rem;font-weight:700;color:var(--muted);margin-bottom:8px;">事業所数 比較</div>
+          <div class="chart-wrap-tall"><canvas id="cityCountChart"></canvas></div>
+        </div>
+        <div>
+          <div style="font-size:0.85rem;font-weight:700;color:var(--muted);margin-bottom:8px;">B型 定員合計 比較</div>
+          <div class="chart-wrap-tall"><canvas id="cityCapChart"></canvas></div>
+        </div>
+      </div>
+      <div id="cityCompTable" style="margin-top:16px;overflow-x:auto;"></div>
+    </div>
+  </div>
+
   <!-- 事業所一覧テーブル -->
   <div class="table-card">
     <div class="table-header">
@@ -304,10 +392,12 @@ const PAGE_SIZE = 20;
 
 let pieChart = null;
 let barChart = null;
+let cityCountChart = null;
+let cityCapChart = null;
 
 // ── 初期化 ───────────────────────────────────────
 async function init() {
-  await Promise.all([loadStats(), loadOffices('all'), loadCapacityChart('all'), loadLog()]);
+  await Promise.all([loadStats(), loadOffices('all'), loadCapacityChart('all'), loadLog(), loadCityComparison()]);
 }
 
 // ── 統計 ─────────────────────────────────────────
@@ -323,6 +413,15 @@ async function loadStats() {
   document.getElementById('kpiBcap').textContent = data.b_total_capacity || '—';
   document.getElementById('kpiBavg').textContent = data.b_avg_capacity || '—';
   document.getElementById('kpiTotalCap').innerHTML = (data.total_capacity || '—') + '<span class="kpi-unit">人</span>';
+
+  // 需要推定パネル更新
+  const totalCap = (data.a_total_capacity || 0) + (data.b_total_capacity || 0);
+  document.getElementById('demandCapacity').innerHTML = totalCap + '<span style="font-size:0.9rem;font-weight:400;color:var(--muted);margin-left:2px">人</span>';
+  document.getElementById('demandAcap').textContent = data.a_total_capacity || '—';
+  document.getElementById('demandBcap').textContent = data.b_total_capacity || '—';
+  const bDemand = 1505;
+  const bRate = data.b_total_capacity ? Math.round(data.b_total_capacity / bDemand * 100) : 0;
+  document.getElementById('demandRate').innerHTML = bRate + '<span style="font-size:0.9rem;font-weight:400;color:var(--muted);margin-left:2px">%</span>';
 
   const dot = document.getElementById('statusDot');
   const txt = document.getElementById('statusText');
@@ -607,6 +706,114 @@ async function manualUpdate() {
     dot.className = 'status-dot';
     await loadStats();
   }
+}
+
+// ── 隣接市比較 ────────────────────────────────────
+async function loadCityComparison() {
+  const data = await fetch('/api/neighboring-cities').then(r => r.json()).catch(() => []);
+  if (!data || !data.length) return;
+  renderCityCharts(data);
+  renderCityTable(data);
+}
+
+async function refreshCityComparison() {
+  const btn = event.target;
+  btn.disabled = true;
+  btn.textContent = '更新中...';
+  try {
+    await fetch('/api/neighboring-cities/refresh', { method: 'POST' });
+    await loadCityComparison();
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'データ更新';
+  }
+}
+
+function renderCityCharts(data) {
+  const cities = data.map(d => d.city);
+  const aCounts = data.map(d => d.a_count);
+  const bCounts = data.map(d => d.b_count);
+  const bCaps   = data.map(d => d.b_total_capacity);
+
+  // 事業所数グループ棒グラフ
+  const ctx1 = document.getElementById('cityCountChart').getContext('2d');
+  if (cityCountChart) cityCountChart.destroy();
+  cityCountChart = new Chart(ctx1, {
+    type: 'bar',
+    data: {
+      labels: cities,
+      datasets: [
+        { label: 'A型', data: aCounts, backgroundColor: '#0ea5e9cc', borderColor: '#0ea5e9', borderWidth: 1, borderRadius: 4 },
+        { label: 'B型', data: bCounts, backgroundColor: '#10b981cc', borderColor: '#10b981', borderWidth: 1, borderRadius: 4 },
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'bottom', labels: { font: { size: 12 }, padding: 12 } } },
+      scales: {
+        x: { grid: { color: '#f1f5f9' } },
+        y: { grid: { color: '#f1f5f9' }, ticks: { stepSize: 5 } }
+      }
+    }
+  });
+
+  // B型定員合計グラフ
+  const ctx2 = document.getElementById('cityCapChart').getContext('2d');
+  if (cityCapChart) cityCapChart.destroy();
+  cityCapChart = new Chart(ctx2, {
+    type: 'bar',
+    data: {
+      labels: cities,
+      datasets: [{
+        label: 'B型 定員合計（人）',
+        data: bCaps,
+        backgroundColor: data.map(d => d.city === '市川市' ? '#f59e0bcc' : '#10b981cc'),
+        borderColor:     data.map(d => d.city === '市川市' ? '#f59e0b'   : '#10b981'),
+        borderWidth: 1, borderRadius: 4,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 12 }, padding: 12 } },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.raw}人` } }
+      },
+      scales: {
+        x: { grid: { color: '#f1f5f9' } },
+        y: { grid: { color: '#f1f5f9' } }
+      }
+    }
+  });
+}
+
+function renderCityTable(data) {
+  const rows = data.map(d => {
+    const hl = d.city === '市川市' ? ' style="background:#fef9c3;font-weight:700"' : '';
+    return `<tr${hl}>
+      <td style="padding:8px 12px">${d.city}</td>
+      <td style="padding:8px 12px;text-align:center">${d.a_count}</td>
+      <td style="padding:8px 12px;text-align:center">${d.a_total_capacity}</td>
+      <td style="padding:8px 12px;text-align:center">${d.a_avg_capacity}</td>
+      <td style="padding:8px 12px;text-align:center">${d.b_count}</td>
+      <td style="padding:8px 12px;text-align:center">${d.b_total_capacity}</td>
+      <td style="padding:8px 12px;text-align:center">${d.b_avg_capacity}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('cityCompTable').innerHTML = `
+    <table style="width:100%;border-collapse:collapse;font-size:0.85rem;">
+      <thead style="background:var(--bg)">
+        <tr>
+          <th style="padding:8px 12px;text-align:left;font-weight:700;color:var(--muted)">市区町村</th>
+          <th style="padding:8px 12px;text-align:center;font-weight:700;color:#0ea5e9">A型数</th>
+          <th style="padding:8px 12px;text-align:center;font-weight:700;color:#0ea5e9">A型定員</th>
+          <th style="padding:8px 12px;text-align:center;font-weight:700;color:#0ea5e9">A型平均定員</th>
+          <th style="padding:8px 12px;text-align:center;font-weight:700;color:#10b981">B型数</th>
+          <th style="padding:8px 12px;text-align:center;font-weight:700;color:#10b981">B型定員</th>
+          <th style="padding:8px 12px;text-align:center;font-weight:700;color:#10b981">B型平均定員</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>`;
 }
 
 // ── 起動 ─────────────────────────────────────────
