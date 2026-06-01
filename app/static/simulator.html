@@ -276,7 +276,7 @@
           </div>
           <div class="form-row">
             <div class="form-label">定員<small>利用者の上限人数</small></div>
-            <input class="form-input" type="number" id="capacity" value="20" min="1" max="200" oninput="calc()">
+            <input class="form-input" type="number" id="capacity" value="20" min="1" max="200" oninput="autoFillStaff()">
             <span class="form-unit">人</span>
           </div>
           <div class="form-row">
@@ -309,7 +309,7 @@
         <div class="section-body">
           <div class="form-row">
             <div class="form-label">利用率<small>定員に対する実利用者の割合</small></div>
-            <input class="form-input" type="number" id="utilRate" value="85" min="1" max="100" oninput="calc()">
+            <input class="form-input" type="number" id="utilRate" value="85" min="1" max="100" oninput="autoFillStaff()">
             <span class="form-unit">%</span>
           </div>
           <div class="hint-box" id="userCountHint">実利用者数: — 人</div>
@@ -329,7 +329,7 @@
 
           <div class="form-row">
             <div class="form-label">職員配置体系<small>6:1で報酬が高いが人件費も増加</small></div>
-            <select class="form-input" id="staffRatio" onchange="calc()">
+            <select class="form-input" id="staffRatio" onchange="autoFillStaff()">
               <option value="I" selected>サービス費Ⅰ（6:1配置）★</option>
               <option value="II">サービス費Ⅱ（7.5:1配置）</option>
             </select>
