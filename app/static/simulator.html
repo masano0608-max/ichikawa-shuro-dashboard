@@ -392,6 +392,15 @@
               </label>
               <span class="check-val">+6単位/日</span>
             </label>
+            <label class="check-item" style="border-color:#a78bfa; background:#faf5ff;">
+              <input type="checkbox" id="add_seishin" value="7" onchange="calc()">
+              <label for="add_seishin">
+                精神障害者支援体制加算
+                <span>精神科医療機関3年以上勤務の看護師・精神保健福祉士を配置（令和3年度創設）</span>
+                <span style="color:#7c3aed; font-size:0.74rem;">★ 大学病院精神科看護師5年以上の経験で要件充足</span>
+              </label>
+              <span class="check-val" style="color:#7c3aed;">+7単位/日</span>
+            </label>
           </div>
           <hr class="divider">
           <div class="form-row">
@@ -709,7 +718,7 @@ function calc() {
   document.getElementById('tierHint').textContent = `報酬区分: ${tierLabel} → ${baseUnits}単位/日/人`;
 
   // ── 加算（日単位）──
-  const addPerDay = ['add_fukushi1','add_fukushi2','add_kenshu','add_shokuba']
+  const addPerDay = ['add_fukushi1','add_fukushi2','add_kenshu','add_shokuba','add_seishin']
     .filter(id => document.getElementById(id).checked)
     .reduce((s, id) => s + parseFloat(document.getElementById(id).value), 0);
   // 月単位加算
