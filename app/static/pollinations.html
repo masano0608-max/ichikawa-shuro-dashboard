@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pollinations AI 画像生成プロンプト｜ひだまり</title>
+<title>画像生成プロンプト集｜ひだまり HP用</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -14,28 +14,39 @@
 
   .header {
     background: #d06040; color: white; border-radius: 12px;
-    padding: 24px 28px; margin-bottom: 28px;
+    padding: 24px 28px; margin-bottom: 24px;
   }
   .header h1 { font-size: 1.2rem; font-weight: 900; margin-bottom: 6px; }
-  .header p { font-size: 0.82rem; opacity: 0.9; line-height: 1.6; }
+  .header p { font-size: 0.82rem; opacity: 0.9; }
 
+  /* 使い方 */
   .how-to {
     background: #fff7ed; border: 2px solid #f5cfc0; border-radius: 10px;
-    padding: 18px 20px; margin-bottom: 28px;
+    padding: 18px 22px; margin-bottom: 28px;
   }
   .how-to h2 { font-size: 0.85rem; font-weight: 800; color: #d06040; margin-bottom: 10px; }
-  .how-to ol { padding-left: 18px; font-size: 0.82rem; color: #7c2d12; }
-  .how-to li { margin-bottom: 6px; }
-  .how-to .url-box {
-    background: #1e293b; color: #cbd5e1; border-radius: 6px;
-    padding: 8px 12px; font-size: 0.78rem; font-family: monospace;
-    margin: 10px 0 6px; word-break: break-all;
+  .how-to ol { padding-left: 18px; font-size: 0.83rem; color: #7c2d12; }
+  .how-to li { margin-bottom: 7px; }
+  .how-to li strong { color: #b03020; }
+  .how-to .step-url {
+    background: #1e293b; color: #93c5fd; border-radius: 6px;
+    padding: 6px 12px; font-size: 0.78rem; font-family: monospace;
+    margin: 8px 0 4px; display: block; word-break: break-all;
   }
+
+  /* 全コピー */
+  .all-copy-bar {
+    background: #1e293b; color: white; border-radius: 10px;
+    padding: 16px 20px; margin-bottom: 28px;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  }
+  .all-copy-bar p { font-size: 0.8rem; opacity: 0.8; }
+  .all-copy-bar strong { display: block; font-size: 0.9rem; }
 
   /* 画像カード */
   .img-card {
     background: white; border-radius: 12px; margin-bottom: 20px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.06); overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07); overflow: hidden;
   }
   .img-head {
     padding: 16px 20px; display: flex; align-items: center; gap: 14px;
@@ -47,57 +58,52 @@
   }
   .img-head-info { flex: 1; }
   .img-head-info h2 { font-size: 0.95rem; font-weight: 800; }
-  .img-head-info p { font-size: 0.75rem; color: #64748b; margin-top: 2px; }
+  .img-head-info p { font-size: 0.73rem; color: #64748b; margin-top: 2px; }
   .size-tag {
-    background: #f1f5f9; color: #64748b; font-size: 0.7rem; font-weight: 700;
+    background: #f1f5f9; color: #475569; font-size: 0.7rem; font-weight: 700;
     padding: 4px 10px; border-radius: 6px; white-space: nowrap;
   }
 
   .img-body { padding: 0 20px 20px; }
 
-  /* シーン説明 */
+  /* シーン */
   .scene-box {
-    background: #f8fafc; border-radius: 8px; padding: 12px 16px;
+    background: #f8fafc; border-radius: 8px; padding: 11px 15px;
     margin-bottom: 14px; font-size: 0.8rem; color: #475569;
   }
-  .scene-box strong { display: block; font-size: 0.72rem; color: #94a3b8; margin-bottom: 6px; letter-spacing: 0.06em; }
+  .scene-box strong { display: block; font-size: 0.7rem; color: #94a3b8; margin-bottom: 5px; letter-spacing: 0.06em; }
 
-  /* プロンプトブロック */
-  .prompt-block { margin-bottom: 12px; }
+  /* プロンプト */
   .prompt-label {
     font-size: 0.7rem; font-weight: 800; color: #64748b;
-    letter-spacing: 0.06em; margin-bottom: 5px; display: block;
+    letter-spacing: 0.06em; margin-bottom: 6px; display: flex; align-items: center; gap: 8px;
+  }
+  .prompt-label .badge {
+    background: #d06040; color: white; font-size: 0.62rem; padding: 1px 7px; border-radius: 4px;
   }
   .prompt-text {
-    background: #1e293b; color: #e2e8f0; border-radius: 8px;
-    padding: 12px 14px; font-size: 0.8rem; font-family: monospace;
-    line-height: 1.7; white-space: pre-wrap; word-break: break-word;
+    background: #0f172a; color: #e2e8f0; border-radius: 8px;
+    padding: 14px 16px; font-size: 0.8rem; font-family: 'Menlo', 'Monaco', monospace;
+    line-height: 1.75; white-space: pre-wrap; word-break: break-word;
+    border: 1px solid #1e293b;
   }
 
   /* コピーボタン */
   .copy-btn {
-    display: block; width: 100%; margin-top: 8px;
+    display: block; width: 100%; margin-top: 10px;
     background: #d06040; color: white; border: none;
-    padding: 10px; border-radius: 8px; font-size: 0.85rem;
-    font-weight: 800; cursor: pointer; transition: background 0.2s;
+    padding: 12px; border-radius: 8px; font-size: 0.88rem;
+    font-weight: 800; cursor: pointer; letter-spacing: 0.02em;
+    transition: background 0.15s;
   }
   .copy-btn:hover { background: #b8503a; }
   .copy-btn.copied { background: #16a34a; }
 
-  /* 生成リンク */
-  .gen-link {
-    display: block; text-align: center; margin-top: 10px;
-    background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px;
-    padding: 10px; color: #16a34a; font-size: 0.82rem; font-weight: 700;
-    text-decoration: none; transition: background 0.2s;
-  }
-  .gen-link:hover { background: #dcfce7; }
-
-  /* 注意 */
-  .notice {
-    background: #fef9c3; border: 1px solid #fde68a; border-radius: 8px;
-    padding: 10px 14px; font-size: 0.78rem; color: #713f12;
-    margin-bottom: 14px;
+  /* 注意バッジ */
+  .warn {
+    display: inline-block; background: #fef9c3; border: 1px solid #fde047;
+    color: #713f12; font-size: 0.73rem; font-weight: 700;
+    padding: 5px 12px; border-radius: 6px; margin-bottom: 12px;
   }
 
   .footer { text-align: center; font-size: 0.72rem; color: #94a3b8; margin-top: 32px; }
@@ -107,17 +113,18 @@
 <div class="wrap">
 
 <div class="header">
-  <h1>🎨 Pollinations AI 画像生成プロンプト集</h1>
-  <p>「ひだまり就労継続支援B型」HP用 ／ 5枚を1枚ずつ別々に依頼してください</p>
+  <h1>🎨 HP用 画像生成プロンプト集</h1>
+  <p>「ひだまり就労継続支援B型」HP用 全5枚 ／ 1枚ずつ別々に生成してください</p>
 </div>
 
 <div class="how-to">
-  <h2>📋 Pollinations AI の使い方</h2>
+  <h2>📋 Pollo.ai での使い方</h2>
   <ol>
-    <li>下の各カードの「プロンプトをコピー」ボタンを押す</li>
-    <li>「Pollinationsで生成する」リンクをクリック → ブラウザで画像が表示される</li>
-    <li>表示された画像を右クリック→「名前を付けて保存」</li>
-    <li><strong>1枚ずつ別々に</strong>生成してください（まとめて送ると1枚になります）</li>
+    <li>Pollo.ai の <strong>Text to Image</strong> を開く</li>
+    <li>下の各カードの「<strong>プロンプトをコピー</strong>」ボタンを押す</li>
+    <li>コピーしたプロンプトをPollo.aiの入力欄に貼り付けて生成</li>
+    <li><strong>必ず1枚ずつ！</strong> 別々に生成してください（まとめて入力すると1枚の画像になってしまいます）</li>
+    <li>生成された画像をダウンロードしてひだまりHPに使用</li>
   </ol>
 </div>
 
@@ -127,24 +134,21 @@
     <div class="img-num" style="background:#d06040;">①</div>
     <div class="img-head-info">
       <h2>トップページのメイン画像</h2>
-      <p>HPを開いたとき最初に見える大きな横長の画像</p>
+      <p>HP一番上の大きな横長画像（最重要）</p>
     </div>
-    <div class="size-tag">1200×800px</div>
+    <div class="size-tag">横長 16:9</div>
   </div>
   <div class="img-body">
     <div class="scene-box">
       <strong>シーン</strong>
-      明るい福祉施設の作業室。車椅子の利用者が封入作業、別の利用者がPCでデータ入力。女性スタッフが笑顔で寄り添う。テラコッタ・オレンジ・ベージュ系の温かいインテリア。
+      明るい福祉施設の作業室。車椅子の利用者が封入作業・別の利用者がPCでデータ入力。女性スタッフが笑顔で寄り添う。テラコッタ・オレンジ・ベージュ系の温かい空間。
     </div>
-    <div class="notice">⚠️ このプロンプトだけコピーして、1回の依頼で1枚だけ生成してください</div>
-    <div class="prompt-block">
-      <span class="prompt-label">▼ ENGLISH PROMPT（コピーして使う）</span>
-      <div class="prompt-text" id="p1">A bright and warm interior of a Japanese disability welfare support facility. A person in a wheelchair is doing envelope-stuffing work at a table, while another person wearing headphones types on a laptop nearby. A friendly female staff member in her 30s in smart-casual clothes is smiling and gently talking with a user. Warm terracotta, orange, and beige interior design. Soft natural light through large windows. Photorealistic photo style. Wide 16:9 ratio. No text in the image.</div>
-      <button class="copy-btn" onclick="copyPrompt('p1', this)">📋 プロンプトをコピー</button>
+    <div class="warn">⚠️ この画像だけ単独で生成してください</div>
+    <div class="prompt-label">
+      <span class="badge">PROMPT</span> コピーしてPollo.aiに貼り付け
     </div>
-    <a class="gen-link" href="https://image.pollinations.ai/prompt/A%20bright%20and%20warm%20interior%20of%20a%20Japanese%20disability%20welfare%20support%20facility.%20A%20person%20in%20a%20wheelchair%20is%20doing%20envelope-stuffing%20work%20at%20a%20table%2C%20while%20another%20person%20wearing%20headphones%20types%20on%20a%20laptop%20nearby.%20A%20friendly%20female%20staff%20member%20in%20her%2030s%20in%20smart-casual%20clothes%20is%20smiling%20and%20gently%20talking%20with%20a%20user.%20Warm%20terracotta%2C%20orange%2C%20and%20beige%20interior%20design.%20Soft%20natural%20light%20through%20large%20windows.%20Photorealistic%20photo%20style.%20Wide%2016%3A9%20ratio.%20No%20text%20in%20the%20image.?width=1200&height=800&seed=42" target="_blank">
-      🖼️ Pollinationsで画像①を生成する（新しいタブで開く）
-    </a>
+    <div class="prompt-text" id="p1">A bright and warm interior of a Japanese disability welfare support facility. A person in a wheelchair doing envelope-stuffing work at a table, while another person wearing headphones types on a laptop nearby. A friendly female staff member in her 30s in smart-casual clothes is smiling and gently talking with a user. Warm terracotta, orange, and beige interior. Soft natural light through large windows. Photorealistic. Wide 16:9 ratio. No text in the image.</div>
+    <button class="copy-btn" onclick="copyPrompt('p1', this)">📋 プロンプトをコピー（①トップ画像）</button>
   </div>
 </div>
 
@@ -154,24 +158,21 @@
     <div class="img-num" style="background:#2563eb;">②</div>
     <div class="img-head-info">
       <h2>清掃・メンテナンスの作業シーン</h2>
-      <p>「仕事内容①清掃」セクションの画像</p>
+      <p>「仕事内容①清掃」セクションの正方形画像</p>
     </div>
-    <div class="size-tag">800×800px</div>
+    <div class="size-tag">正方形 1:1</div>
   </div>
   <div class="img-body">
     <div class="scene-box">
       <strong>シーン</strong>
-      清潔感のあるクリニックの廊下で、利用者が業務用モップで丁寧に床を清掃。誇りある集中した表情。白・ベージュの明るい空間。遠景にスタッフ。
+      清潔感のあるクリニックの廊下で、利用者が業務用モップで丁寧に清掃。誇りある集中した表情。白・ベージュの明るい空間。遠景にスタッフ。
     </div>
-    <div class="notice">⚠️ 画像①とは別に、単独で依頼してください</div>
-    <div class="prompt-block">
-      <span class="prompt-label">▼ ENGLISH PROMPT（コピーして使う）</span>
-      <div class="prompt-text" id="p2">A young Japanese person with a disability carefully mopping a clean, bright clinic hallway in Japan. The person has a focused, proud expression. Clean white and beige interior, warm lighting. A staff member is visible in the background watching supportively. Photorealistic photo style. Square 1:1 format. No text in the image.</div>
-      <button class="copy-btn" onclick="copyPrompt('p2', this)">📋 プロンプトをコピー</button>
+    <div class="warn">⚠️ ①とは別に、単独で生成してください</div>
+    <div class="prompt-label">
+      <span class="badge">PROMPT</span> コピーしてPollo.aiに貼り付け
     </div>
-    <a class="gen-link" href="https://image.pollinations.ai/prompt/A%20young%20Japanese%20person%20with%20a%20disability%20carefully%20mopping%20a%20clean%2C%20bright%20clinic%20hallway%20in%20Japan.%20The%20person%20has%20a%20focused%2C%20proud%20expression.%20Clean%20white%20and%20beige%20interior%2C%20warm%20lighting.%20A%20staff%20member%20is%20visible%20in%20the%20background%20watching%20supportively.%20Photorealistic%20photo%20style.%20Square%201%3A1%20format.%20No%20text%20in%20the%20image.?width=800&height=800&seed=55" target="_blank">
-      🖼️ Pollinationsで画像②を生成する（新しいタブで開く）
-    </a>
+    <div class="prompt-text" id="p2">A young Japanese person with a disability carefully mopping a clean, bright clinic hallway. Focused, proud expression. Clean white and beige interior, warm lighting. A staff member visible in the background watching supportively. Photorealistic. Square 1:1 format. No text in the image.</div>
+    <button class="copy-btn" onclick="copyPrompt('p2', this)">📋 プロンプトをコピー（②清掃）</button>
   </div>
 </div>
 
@@ -181,24 +182,21 @@
     <div class="img-num" style="background:#7c3aed;">③</div>
     <div class="img-head-info">
       <h2>IT・データ入力の作業シーン</h2>
-      <p>「仕事内容②IT・データ入力」セクションの画像</p>
+      <p>「仕事内容②IT・データ入力」セクションの正方形画像</p>
     </div>
-    <div class="size-tag">800×800px</div>
+    <div class="size-tag">正方形 1:1</div>
   </div>
   <div class="img-body">
     <div class="scene-box">
       <strong>シーン</strong>
       ヘッドフォンをした若い利用者がノートPCでデータ入力。木製デスク・自然光・観葉植物。カフェのような温かい作業スペース。穏やかで集中した表情。
     </div>
-    <div class="notice">⚠️ 他の画像とは別に、単独で依頼してください</div>
-    <div class="prompt-block">
-      <span class="prompt-label">▼ ENGLISH PROMPT（コピーして使う）</span>
-      <div class="prompt-text" id="p3">A young Japanese adult wearing headphones, focused on typing data entry work on a laptop. Wooden desk, natural light, small indoor plant. Warm beige and white interior, cozy cafe-like workspace atmosphere. Calm and relaxed expression. Photorealistic photo style. Square 1:1 format. No text in the image.</div>
-      <button class="copy-btn" onclick="copyPrompt('p3', this)">📋 プロンプトをコピー</button>
+    <div class="warn">⚠️ 他の画像とは別に、単独で生成してください</div>
+    <div class="prompt-label">
+      <span class="badge">PROMPT</span> コピーしてPollo.aiに貼り付け
     </div>
-    <a class="gen-link" href="https://image.pollinations.ai/prompt/A%20young%20Japanese%20adult%20wearing%20headphones%2C%20focused%20on%20typing%20data%20entry%20work%20on%20a%20laptop.%20Wooden%20desk%2C%20natural%20light%2C%20small%20indoor%20plant.%20Warm%20beige%20and%20white%20interior%2C%20cozy%20cafe-like%20workspace%20atmosphere.%20Calm%20and%20relaxed%20expression.%20Photorealistic%20photo%20style.%20Square%201%3A1%20format.%20No%20text%20in%20the%20image.?width=800&height=800&seed=77" target="_blank">
-      🖼️ Pollinationsで画像③を生成する（新しいタブで開く）
-    </a>
+    <div class="prompt-text" id="p3">A young Japanese adult wearing headphones, focused on typing data entry on a laptop. Wooden desk, natural light, small indoor plant. Warm beige and white interior, cozy cafe-like atmosphere. Calm and relaxed expression. Photorealistic. Square 1:1 format. No text in the image.</div>
+    <button class="copy-btn" onclick="copyPrompt('p3', this)">📋 プロンプトをコピー（③IT・データ入力）</button>
   </div>
 </div>
 
@@ -208,24 +206,21 @@
     <div class="img-num" style="background:#059669;">④</div>
     <div class="img-head-info">
       <h2>内職・軽作業のグループシーン</h2>
-      <p>「仕事内容③内職・軽作業」セクションの画像</p>
+      <p>「仕事内容③内職・軽作業」セクションの正方形画像</p>
     </div>
-    <div class="size-tag">800×800px</div>
+    <div class="size-tag">正方形 1:1</div>
   </div>
   <div class="img-body">
     <div class="scene-box">
       <strong>シーン</strong>
       3〜4人の利用者がテーブルを囲んで封入・梱包作業。笑顔で会話しながら楽しく働いている。多様な年齢・障害の方が一緒に。オレンジ・ベージュ・クリーム系の温かいインテリア。
     </div>
-    <div class="notice">⚠️ 他の画像とは別に、単独で依頼してください</div>
-    <div class="prompt-block">
-      <span class="prompt-label">▼ ENGLISH PROMPT（コピーして使う）</span>
-      <div class="prompt-text" id="p4">Three to four Japanese adults with various disabilities sitting together around a table doing simple assembly and packaging work in a bright welfare facility workroom. They are smiling and chatting casually. Warm orange, beige, and cream interior. The atmosphere conveys joy, inclusion, and teamwork. Photorealistic photo style. Square 1:1 format. No text in the image.</div>
-      <button class="copy-btn" onclick="copyPrompt('p4', this)">📋 プロンプトをコピー</button>
+    <div class="warn">⚠️ 他の画像とは別に、単独で生成してください</div>
+    <div class="prompt-label">
+      <span class="badge">PROMPT</span> コピーしてPollo.aiに貼り付け
     </div>
-    <a class="gen-link" href="https://image.pollinations.ai/prompt/Three%20to%20four%20Japanese%20adults%20with%20various%20disabilities%20sitting%20together%20around%20a%20table%20doing%20simple%20assembly%20and%20packaging%20work%20in%20a%20bright%20welfare%20facility%20workroom.%20They%20are%20smiling%20and%20chatting%20casually.%20Warm%20orange%2C%20beige%2C%20and%20cream%20interior.%20The%20atmosphere%20conveys%20joy%2C%20inclusion%2C%20and%20teamwork.%20Photorealistic%20photo%20style.%20Square%201%3A1%20format.%20No%20text%20in%20the%20image.?width=800&height=800&seed=99" target="_blank">
-      🖼️ Pollinationsで画像④を生成する（新しいタブで開く）
-    </a>
+    <div class="prompt-text" id="p4">Three to four Japanese adults with various disabilities sitting around a table doing simple packaging and assembly work in a bright welfare workroom. Smiling and chatting casually. Warm orange, beige, and cream interior. Joy, inclusion, and teamwork atmosphere. Photorealistic. Square 1:1 format. No text in the image.</div>
+    <button class="copy-btn" onclick="copyPrompt('p4', this)">📋 プロンプトをコピー（④軽作業グループ）</button>
   </div>
 </div>
 
@@ -234,29 +229,26 @@
   <div class="img-head" style="background:#fef2f2;">
     <div class="img-num" style="background:#dc2626;">⑤</div>
     <div class="img-head-info">
-      <h2>スタッフのポートレート</h2>
+      <h2>スタッフのポートレート写真</h2>
       <p>「スタッフからのメッセージ」セクションのアイコン画像</p>
     </div>
-    <div class="size-tag">400×400px</div>
+    <div class="size-tag">正方形 1:1</div>
   </div>
   <div class="img-body">
     <div class="scene-box">
       <strong>シーン</strong>
       30代の日本人女性福祉スタッフ。白衣ではなくオフィスカジュアル。温かく親しみやすい笑顔。テラコッタ・ベージュ系の背景。「頼りになるけど気さく」な印象。
     </div>
-    <div class="notice">⚠️ 他の画像とは別に、単独で依頼してください</div>
-    <div class="prompt-block">
-      <span class="prompt-label">▼ ENGLISH PROMPT（コピーして使う）</span>
-      <div class="prompt-text" id="p5">Portrait of a friendly Japanese female welfare support worker in her early 30s. She wears smart-casual clothing, not a nurse uniform or white coat. She has a warm, trustworthy smile, approachable but professional. Background is a soft terracotta and beige gradient. Photorealistic photo style. Square 1:1 format.</div>
-      <button class="copy-btn" onclick="copyPrompt('p5', this)">📋 プロンプトをコピー</button>
+    <div class="warn">⚠️ 他の画像とは別に、単独で生成してください</div>
+    <div class="prompt-label">
+      <span class="badge">PROMPT</span> コピーしてPollo.aiに貼り付け
     </div>
-    <a class="gen-link" href="https://image.pollinations.ai/prompt/Portrait%20of%20a%20friendly%20Japanese%20female%20welfare%20support%20worker%20in%20her%20early%2030s.%20She%20wears%20smart-casual%20clothing%2C%20not%20a%20nurse%20uniform%20or%20white%20coat.%20She%20has%20a%20warm%2C%20trustworthy%20smile%2C%20approachable%20but%20professional.%20Background%20is%20a%20soft%20terracotta%20and%20beige%20gradient.%20Photorealistic%20photo%20style.%20Square%201%3A1%20format.?width=400&height=400&seed=33" target="_blank">
-      🖼️ Pollinationsで画像⑤を生成する（新しいタブで開く）
-    </a>
+    <div class="prompt-text" id="p5">Portrait of a friendly Japanese female welfare support worker in her early 30s. Smart-casual clothing, not a nurse uniform. Warm, trustworthy smile, approachable but professional. Soft terracotta and beige gradient background. Photorealistic. Square 1:1 format.</div>
+    <button class="copy-btn" onclick="copyPrompt('p5', this)">📋 プロンプトをコピー（⑤スタッフポートレート）</button>
   </div>
 </div>
 
-<div class="footer">ひだまり就労継続支援B型事業所 ／ Pollinations AI 画像生成用プロンプト集</div>
+<div class="footer">ひだまり就労継続支援B型事業所 ／ HP用画像生成プロンプト集</div>
 
 </div><!-- /wrap -->
 
@@ -264,12 +256,13 @@
 function copyPrompt(id, btn) {
   const text = document.getElementById(id).textContent.trim();
   navigator.clipboard.writeText(text).then(() => {
-    btn.textContent = '✅ コピーしました！';
+    const original = btn.textContent;
+    btn.textContent = '✅ コピーしました！Pollo.aiに貼り付けてください';
     btn.classList.add('copied');
     setTimeout(() => {
-      btn.textContent = '📋 プロンプトをコピー';
+      btn.textContent = original;
       btn.classList.remove('copied');
-    }, 2000);
+    }, 3000);
   });
 }
 </script>
