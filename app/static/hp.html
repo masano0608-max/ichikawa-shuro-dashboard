@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>（仮）ひかり就労継続支援B型事業所 | 市川市本八幡</title>
+<style>
+  :root {
+    --green:  #10b981;
+    --green2: #059669;
+    --blue:   #2563eb;
+    --amber:  #f59e0b;
+    --dark:   #1e293b;
+    --muted:  #64748b;
+    --bg:     #f8fafc;
+    --white:  #ffffff;
+    --border: #e2e8f0;
+    --radius: 12px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif; color: var(--dark); background: var(--white); line-height: 1.7; }
+
+  /* ── ナビ ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 32px; height: 60px;
+  }
+  .nav-logo { font-size: 1rem; font-weight: 800; color: var(--green2); }
+  .nav-logo span { color: var(--muted); font-weight: 400; font-size: 0.8rem; margin-left: 8px; }
+  .nav-links { display: flex; gap: 24px; }
+  .nav-links a { font-size: 0.85rem; color: var(--muted); text-decoration: none; font-weight: 600; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--green2); }
+  .nav-cta {
+    background: var(--green); color: white;
+    padding: 8px 20px; border-radius: 20px;
+    font-size: 0.82rem; font-weight: 700; text-decoration: none;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--green2); }
+  @media (max-width: 700px) { .nav-links { display: none; } }
+
+  /* ── セクション共通 ── */
+  section { padding: 80px 20px; }
+  .container { max-width: 1000px; margin: 0 auto; }
+  .section-label {
+    font-size: 0.75rem; font-weight: 800; letter-spacing: 0.12em;
+    color: var(--green2); text-transform: uppercase; margin-bottom: 10px;
+  }
+  .section-title { font-size: 1.8rem; font-weight: 800; line-height: 1.35; margin-bottom: 14px; }
+  .section-sub { font-size: 0.95rem; color: var(--muted); max-width: 600px; }
+  .center { text-align: center; }
+  .center .section-sub { margin: 0 auto; }
+
+  /* ── ヒーロー ── */
+  #hero {
+    background: linear-gradient(135deg, #ecfdf5 0%, #eff6ff 100%);
+    padding: 100px 20px 80px;
+    position: relative; overflow: hidden;
+  }
+  #hero::before {
+    content: '';
+    position: absolute; top: -60px; right: -60px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(16,185,129,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-inner { max-width: 700px; margin: 0 auto; text-align: center; position: relative; }
+  .hero-badge {
+    display: inline-block;
+    background: #d1fae5; color: var(--green2);
+    font-size: 0.78rem; font-weight: 700;
+    padding: 5px 16px; border-radius: 20px; margin-bottom: 20px;
+  }
+  .hero-title {
+    font-size: 2.4rem; font-weight: 900; line-height: 1.3;
+    margin-bottom: 20px; color: var(--dark);
+  }
+  .hero-title em { color: var(--green2); font-style: normal; }
+  .hero-desc { font-size: 1rem; color: var(--muted); margin-bottom: 36px; }
+  .hero-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--green); color: white;
+    padding: 14px 32px; border-radius: 8px;
+    font-size: 0.95rem; font-weight: 700; text-decoration: none;
+    transition: background 0.2s; display: inline-block;
+  }
+  .btn-primary:hover { background: var(--green2); }
+  .btn-secondary {
+    background: white; color: var(--green2);
+    border: 2px solid var(--green);
+    padding: 12px 28px; border-radius: 8px;
+    font-size: 0.95rem; font-weight: 700; text-decoration: none;
+    transition: all 0.2s; display: inline-block;
+  }
+  .btn-secondary:hover { background: #ecfdf5; }
+  .hero-stats {
+    display: flex; gap: 32px; justify-content: center;
+    margin-top: 48px; flex-wrap: wrap;
+  }
+  .hero-stat .num { font-size: 1.8rem; font-weight: 900; color: var(--green2); }
+  .hero-stat .lbl { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+
+  /* ── 強み ── */
+  #features { background: var(--white); }
+  .features-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px;
+  }
+  @media (max-width: 700px) { .features-grid { grid-template-columns: 1fr; } }
+  .feature-card {
+    border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 28px 24px;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .feature-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.08); transform: translateY(-2px); }
+  .feature-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; margin-bottom: 16px;
+  }
+  .feature-card h3 { font-size: 1rem; font-weight: 800; margin-bottom: 10px; }
+  .feature-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+
+  /* ── サービス ── */
+  #services { background: #f8fafc; }
+  .services-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 48px;
+  }
+  @media (max-width: 700px) { .services-grid { grid-template-columns: 1fr; } }
+  .service-card {
+    background: white; border-radius: var(--radius);
+    overflow: hidden; border: 1px solid var(--border);
+  }
+  .service-header {
+    padding: 20px 24px 16px;
+    border-bottom: 3px solid;
+  }
+  .service-header .num { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.1em; opacity: 0.7; }
+  .service-header h3 { font-size: 1.1rem; font-weight: 800; margin: 6px 0; }
+  .service-header p { font-size: 0.78rem; opacity: 0.8; }
+  .service-body { padding: 20px 24px; }
+  .service-body ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .service-body li { font-size: 0.85rem; color: var(--muted); padding-left: 18px; position: relative; }
+  .service-body li::before { content: '✓'; position: absolute; left: 0; font-weight: 800; }
+  .service-tag {
+    display: inline-block; margin-top: 14px;
+    font-size: 0.72rem; font-weight: 700; padding: 3px 10px; border-radius: 10px;
+  }
+
+  /* ── 対象 ── */
+  #target { background: white; }
+  .target-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 40px;
+  }
+  @media (max-width: 600px) { .target-grid { grid-template-columns: 1fr; } }
+  .target-card {
+    display: flex; gap: 16px; align-items: flex-start;
+    padding: 20px; border: 1px solid var(--border); border-radius: var(--radius);
+  }
+  .target-icon { font-size: 2rem; flex-shrink: 0; }
+  .target-card h4 { font-size: 0.95rem; font-weight: 800; margin-bottom: 4px; }
+  .target-card p { font-size: 0.82rem; color: var(--muted); }
+
+  /* ── 清掃（法人向け） ── */
+  #cleaning {
+    background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+    color: white;
+  }
+  #cleaning .section-label { color: #93c5fd; }
+  #cleaning .section-title { color: white; }
+  #cleaning .section-sub { color: rgba(255,255,255,0.75); }
+  .cleaning-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; margin-top: 40px; }
+  @media (max-width: 700px) { .cleaning-inner { grid-template-columns: 1fr; } }
+  .cleaning-list { display: flex; flex-direction: column; gap: 16px; }
+  .cleaning-item {
+    display: flex; gap: 14px; align-items: flex-start;
+    background: rgba(255,255,255,0.08); border-radius: 10px; padding: 16px;
+  }
+  .cleaning-item .ci-icon { font-size: 1.4rem; flex-shrink: 0; }
+  .cleaning-item h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 2px; }
+  .cleaning-item p { font-size: 0.78rem; color: rgba(255,255,255,0.7); }
+  .cleaning-price {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: var(--radius); padding: 28px;
+  }
+  .cleaning-price h3 { font-size: 1rem; font-weight: 800; margin-bottom: 20px; color: #bfdbfe; }
+  .price-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 0.85rem; }
+  .price-row:last-of-type { border-bottom: none; }
+  .price-row .amount { font-weight: 800; color: #fbbf24; }
+  .cleaning-cta {
+    margin-top: 20px;
+    background: var(--amber); color: #78350f;
+    padding: 14px; border-radius: 8px; text-align: center;
+    font-weight: 800; font-size: 0.9rem; text-decoration: none; display: block;
+    transition: background 0.2s;
+  }
+  .cleaning-cta:hover { background: #fcd34d; }
+
+  /* ── 利用の流れ ── */
+  #flow { background: #f8fafc; }
+  .flow-steps {
+    display: flex; gap: 0; margin-top: 48px; position: relative;
+    flex-wrap: wrap;
+  }
+  .flow-step {
+    flex: 1; min-width: 160px;
+    text-align: center; padding: 0 16px;
+    position: relative;
+  }
+  .flow-step:not(:last-child)::after {
+    content: '→';
+    position: absolute; right: -12px; top: 28px;
+    font-size: 1.2rem; color: var(--green);
+    font-weight: 900;
+  }
+  @media (max-width: 700px) {
+    .flow-step:not(:last-child)::after { display: none; }
+    .flow-step { min-width: 100%; padding: 12px 0; }
+  }
+  .flow-num {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--green); color: white;
+    font-size: 1.1rem; font-weight: 900;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 14px;
+  }
+  .flow-step h4 { font-size: 0.9rem; font-weight: 800; margin-bottom: 6px; }
+  .flow-step p { font-size: 0.78rem; color: var(--muted); }
+
+  /* ── お問い合わせ ── */
+  #contact { background: white; }
+  .contact-box {
+    max-width: 600px; margin: 40px auto 0;
+    background: #f8fafc; border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 36px;
+  }
+  .contact-row { margin-bottom: 20px; }
+  .contact-row label { display: block; font-size: 0.82rem; font-weight: 700; margin-bottom: 6px; }
+  .contact-row input,
+  .contact-row select,
+  .contact-row textarea {
+    width: 100%; padding: 10px 14px;
+    border: 1px solid var(--border); border-radius: 8px;
+    font-size: 0.9rem; font-family: inherit;
+    background: white; color: var(--dark);
+    outline: none; transition: border-color 0.2s;
+  }
+  .contact-row input:focus,
+  .contact-row select:focus,
+  .contact-row textarea:focus { border-color: var(--green); }
+  .contact-row textarea { height: 120px; resize: vertical; }
+  .contact-submit {
+    width: 100%; padding: 14px;
+    background: var(--green); color: white; border: none;
+    border-radius: 8px; font-size: 1rem; font-weight: 700;
+    cursor: pointer; transition: background 0.2s;
+  }
+  .contact-submit:hover { background: var(--green2); }
+  .contact-note { font-size: 0.75rem; color: var(--muted); margin-top: 12px; text-align: center; }
+
+  /* ── フッター ── */
+  footer {
+    background: var(--dark); color: rgba(255,255,255,0.6);
+    padding: 32px 20px; text-align: center; font-size: 0.78rem;
+  }
+  footer strong { color: white; }
+</style>
+</head>
+<body>
+
+<!-- ナビ -->
+<nav>
+  <div class="nav-logo">
+    ひかり就労継続支援B型
+    <span>市川市本八幡（仮称）</span>
+  </div>
+  <div class="nav-links">
+    <a href="#features">特徴</a>
+    <a href="#services">サービス</a>
+    <a href="#target">対象の方</a>
+    <a href="#cleaning">清掃依頼</a>
+    <a href="#flow">利用の流れ</a>
+    <a href="#contact">お問い合わせ</a>
+  </div>
+  <a href="#contact" class="nav-cta">お問い合わせ</a>
+</nav>
+
+<!-- ヒーロー -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">市川市本八幡 2027年開所予定（仮）</div>
+    <h1 class="hero-title">
+      あなたのペースで、<br>
+      <em>働く喜びを</em>一緒に見つけよう
+    </h1>
+    <p class="hero-desc">
+      就労継続支援B型事業所として、精神・発達・身体・知的など<br>
+      幅広い障害のある方の「働く」をサポートします。<br>
+      元精神科看護師スタッフが寄り添いながら支援します。
+    </p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-primary">見学・相談のお申し込み</a>
+      <a href="#flow" class="btn-secondary">利用の流れを見る</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="num">20名</div>
+        <div class="lbl">定員</div>
+      </div>
+      <div class="hero-stat">
+        <div class="num">3種類</div>
+        <div class="lbl">作業メニュー</div>
+      </div>
+      <div class="hero-stat">
+        <div class="num">駅徒歩</div>
+        <div class="lbl">10分以内（予定）</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 強み -->
+<section id="features">
+  <div class="container">
+    <div class="center">
+      <div class="section-label">Features</div>
+      <h2 class="section-title">3つの強み</h2>
+      <p class="section-sub">医療現場を知るスタッフが、安心できる環境をつくります</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#d1fae5;">🏥</div>
+        <h3>精神科看護師が在籍</h3>
+        <p>元大学病院精神科看護師が直接支援。精神疾患のある方も安心して通所できる医療的サポート体制を整えています。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#dbeafe;">🤝</div>
+        <h3>全障害種別に対応</h3>
+        <p>精神・発達・身体・知的と幅広い障害特性に対応。3種類の作業メニューから、その日の体調に合わせて選べます。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#fef3c7;">💼</div>
+        <h3>実際の仕事で工賃を稼ぐ</h3>
+        <p>クリニック清掃・データ入力など実際の受注仕事に取り組みます。働いた分だけ工賃として受け取れます。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- サービス -->
+<section id="services">
+  <div class="container">
+    <div class="center">
+      <div class="section-label">Services</div>
+      <h2 class="section-title">3つの作業メニュー</h2>
+      <p class="section-sub">それぞれの得意・体調に合わせて選べます。同じ日に複数の作業を組み合わせることもできます</p>
+    </div>
+    <div class="services-grid">
+
+      <div class="service-card">
+        <div class="service-header" style="border-color:#10b981; background:#ecfdf5;">
+          <div class="num">SERVICE 01</div>
+          <h3>🧹 清掃・メンテナンス</h3>
+          <p style="color:#065f46;">医療施設・オフィスの清掃作業</p>
+        </div>
+        <div class="service-body">
+          <ul>
+            <li>近隣クリニック・歯科の清掃</li>
+            <li>オフィス・共用部の清掃</li>
+            <li>業務用清掃機器の操作研修あり</li>
+            <li>外出作業で気分転換にもなる</li>
+          </ul>
+          <span class="service-tag" style="background:#d1fae5; color:#065f46;">全障害種別 対応</span>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <div class="service-header" style="border-color:#2563eb; background:#eff6ff;">
+          <div class="num">SERVICE 02</div>
+          <h3>💻 IT・データ入力</h3>
+          <p style="color:#1d4ed8;">パソコン作業・デジタル軽作業</p>
+        </div>
+        <div class="service-body">
+          <ul>
+            <li>名刺・アンケートのデータ入力</li>
+            <li>ECサイトの商品登録</li>
+            <li>文字起こし・テキスト校正</li>
+            <li>スキルアップで一般就労への道も</li>
+          </ul>
+          <span class="service-tag" style="background:#dbeafe; color:#1d4ed8;">精神・発達障害の方に特に人気</span>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <div class="service-header" style="border-color:#f59e0b; background:#fffbeb;">
+          <div class="num">SERVICE 03</div>
+          <h3>📦 内職・軽作業</h3>
+          <p style="color:#92400e;">体に負担の少ない室内作業</p>
+        </div>
+        <div class="service-body">
+          <ul>
+            <li>封入・梱包・シール貼り</li>
+            <li>仕分け・ピッキング</li>
+            <li>座ったままできる作業中心</li>
+            <li>体調が不安定な日も無理なく参加</li>
+          </ul>
+          <span class="service-tag" style="background:#fef3c7; color:#92400e;">体調に合わせて調整できる</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- 対象の方 -->
+<section id="target">
+  <div class="container">
+    <div class="center">
+      <div class="section-label">For</div>
+      <h2 class="section-title">こんな方にご利用いただけます</h2>
+      <p class="section-sub">障害者手帳または医師の診断書があれば、まずはご相談ください</p>
+    </div>
+    <div class="target-grid">
+      <div class="target-card">
+        <div class="target-icon">🧠</div>
+        <div>
+          <h4>精神障害のある方</h4>
+          <p>うつ病・統合失調症・双極性障害など。元精神科看護師のスタッフが在籍しているので安心して相談できます。</p>
+        </div>
+      </div>
+      <div class="target-card">
+        <div class="target-icon">🌈</div>
+        <div>
+          <h4>発達障害のある方</h4>
+          <p>ASD・ADHD・LDなど。得意なことを活かせるIT・データ入力作業が充実しています。</p>
+        </div>
+      </div>
+      <div class="target-card">
+        <div class="target-icon">♿</div>
+        <div>
+          <h4>身体障害のある方</h4>
+          <p>バリアフリー設備完備（予定）。清掃・室内作業を中心に、体の状態に合わせた作業をご提案します。</p>
+        </div>
+      </div>
+      <div class="target-card">
+        <div class="target-icon">💛</div>
+        <div>
+          <h4>知的障害のある方</h4>
+          <p>単純作業から始めて、できることを少しずつ広げていける環境です。ひとりひとりのペースを大切にします。</p>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center; margin-top:32px; font-size:0.85rem; color:var(--muted);">
+      ※ 精神障害者保健福祉手帳・療育手帳・身体障害者手帳のいずれかをお持ちの方、または医師の診断書がある方が対象です。<br>
+      まずはお気軽にお問い合わせください。
+    </div>
+  </div>
+</section>
+
+<!-- 清掃サービス（法人向け） -->
+<section id="cleaning">
+  <div class="container">
+    <div class="section-label">For Business</div>
+    <h2 class="section-title">クリニック・法人の皆さまへ</h2>
+    <p class="section-sub">障害のある方が心を込めて清掃します。社会貢献と品質を両立した清掃サービスをご提供します。</p>
+    <div class="cleaning-inner">
+      <div class="cleaning-list">
+        <div class="cleaning-item">
+          <div class="ci-icon">🏥</div>
+          <div>
+            <h4>医療現場の衛生管理を熟知</h4>
+            <p>元精神科看護師のスタッフが監修。医療施設の衛生基準に沿った清掃を行います。</p>
+          </div>
+        </div>
+        <div class="cleaning-item">
+          <div class="ci-icon">📅</div>
+          <div>
+            <h4>月額契約で安定したサービス</h4>
+            <p>週2〜5回の定期清掃が基本。突発的な対応もご相談ください。</p>
+          </div>
+        </div>
+        <div class="cleaning-item">
+          <div class="ci-icon">♻️</div>
+          <div>
+            <h4>社会貢献・CSR活動として</h4>
+            <p>障害者就労支援事業所への発注は、地域の福祉向上への貢献にもなります。</p>
+          </div>
+        </div>
+      </div>
+      <div class="cleaning-price">
+        <h3>清掃料金の目安</h3>
+        <div class="price-row">
+          <span>小規模クリニック（50〜80㎡）週2〜3回</span>
+          <span class="amount">月3〜5万円</span>
+        </div>
+        <div class="price-row">
+          <span>中規模クリニック（100〜150㎡）毎日</span>
+          <span class="amount">月6〜10万円</span>
+        </div>
+        <div class="price-row">
+          <span>大型施設・特殊清掃</span>
+          <span class="amount">要お見積り</span>
+        </div>
+        <a href="#contact" class="cleaning-cta">無料でお見積り・相談する →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 利用の流れ -->
+<section id="flow">
+  <div class="container">
+    <div class="center">
+      <div class="section-label">Flow</div>
+      <h2 class="section-title">ご利用までの流れ</h2>
+      <p class="section-sub">まずはお気軽にご連絡ください。見学だけでも大歓迎です</p>
+    </div>
+    <div class="flow-steps">
+      <div class="flow-step">
+        <div class="flow-num">1</div>
+        <h4>お問い合わせ</h4>
+        <p>フォームまたはお電話でご連絡ください</p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">2</div>
+        <h4>見学・相談</h4>
+        <p>事業所を見ていただき、スタッフと話しましょう</p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">3</div>
+        <h4>体験利用</h4>
+        <p>最大5日間の無料体験利用が可能です</p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">4</div>
+        <h4>受給者証の申請</h4>
+        <p>市川市の窓口でサービス受給者証を申請します</p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">5</div>
+        <h4>ご利用開始</h4>
+        <p>ご自身のペースで通所スタートです</p>
+      </div>
+    </div>
+    <div style="text-align:center; margin-top:40px; padding:20px; background:#f0fdf4; border-radius:10px; font-size:0.85rem; color:#065f46;">
+      💡 「受給者証ってなに？」「どこに相談すればいいの？」そんな疑問にもスタッフが丁寧にお答えします。
+    </div>
+  </div>
+</section>
+
+<!-- お問い合わせ -->
+<section id="contact">
+  <div class="container">
+    <div class="center">
+      <div class="section-label">Contact</div>
+      <h2 class="section-title">お問い合わせ</h2>
+      <p class="section-sub">見学・ご相談・清掃サービスのご依頼など、お気軽にどうぞ</p>
+    </div>
+    <div class="contact-box">
+      <div class="contact-row">
+        <label>お名前 *</label>
+        <input type="text" placeholder="例：田中 太郎">
+      </div>
+      <div class="contact-row">
+        <label>電話番号またはメールアドレス *</label>
+        <input type="text" placeholder="例：090-0000-0000 または example@mail.com">
+      </div>
+      <div class="contact-row">
+        <label>お問い合わせの種類</label>
+        <select>
+          <option>利用・見学について（ご本人・ご家族）</option>
+          <option>清掃サービスのご依頼・お見積り（法人）</option>
+          <option>スタッフ採用について</option>
+          <option>その他</option>
+        </select>
+      </div>
+      <div class="contact-row">
+        <label>メッセージ</label>
+        <textarea placeholder="ご質問・ご要望をご記入ください（任意）"></textarea>
+      </div>
+      <button class="contact-submit">送信する（※現在準備中）</button>
+      <div class="contact-note">※ 現在開設準備中のため、返信にお時間をいただく場合があります。</div>
+    </div>
+  </div>
+</section>
+
+<!-- フッター -->
+<footer>
+  <strong>（仮称）ひかり就労継続支援B型事業所</strong><br>
+  〒272-0021 千葉県市川市八幡（本八幡駅周辺・所在地は開設時に確定）<br>
+  <span style="margin-top:8px; display:block;">© 2026 ひかり就労継続支援B型事業所. All rights reserved.</span>
+</footer>
+
+</body>
+</html>

@@ -150,3 +150,9 @@ async def simulator(request: Request):
 async def plan():
     with open("app/static/plan.html", encoding="utf-8") as f:
         return f.read()
+
+
+@app.get("/hp", response_class=HTMLResponse)
+async def hp():
+    with open("app/static/hp.html", encoding="utf-8") as f:
+        return f.read()
