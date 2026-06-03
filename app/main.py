@@ -156,3 +156,9 @@ async def plan():
 async def hp():
     with open("app/static/hp.html", encoding="utf-8") as f:
         return f.read()
+
+
+@app.get("/gemini-brief", response_class=HTMLResponse)
+async def gemini_brief():
+    with open("app/static/gemini-brief.html", encoding="utf-8") as f:
+        return f.read()
