@@ -83,12 +83,10 @@
   }
   .btn-outline:hover { background: var(--green-l); }
   .hero-img {
-    background: var(--green-m); border-radius: 16px;
-    aspect-ratio: 4/3; display: flex; flex-direction: column;
-    align-items: center; justify-content: center; gap: 10px;
-    color: var(--green); font-size: 0.85rem; font-weight: 700;
+    border-radius: 16px; overflow: hidden;
+    aspect-ratio: 4/3;
   }
-  .hero-img .ph-icon { font-size: 3rem; }
+  .hero-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
   /* ── 施設概要バー ── */
   #overview-bar {
@@ -128,6 +126,7 @@
   .works-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
   @media (max-width: 680px) { .works-grid { grid-template-columns: 1fr; } }
   .work-card { background: white; border-radius: var(--r); overflow: hidden; border: 1px solid var(--border); }
+  .work-img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; }
   .work-head { padding: 20px 20px 14px; }
   .work-head .wh-num { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.08em; opacity: 0.6; margin-bottom: 4px; }
   .work-head h3 { font-size: 1.05rem; font-weight: 800; margin-bottom: 6px; }
@@ -318,8 +317,7 @@
       </div>
     </div>
     <div class="hero-img">
-      <div class="ph-icon">🌿</div>
-      <div>事業所の写真（開設後掲載）</div>
+      <img src="/static/images/hero.webp" alt="ひだまりのような温かい光と花">
     </div>
   </div>
 </section>
@@ -398,6 +396,7 @@
     <div class="works-grid">
 
       <div class="work-card">
+        <img src="/static/images/cleaning.webp" alt="清掃作業のシーン" class="work-img">
         <div class="work-head" style="background:#fdf4f0;">
           <div class="wh-num">WORK 01</div>
           <h3>🧹 清掃・メンテナンス</h3>
@@ -415,6 +414,7 @@
       </div>
 
       <div class="work-card">
+        <img src="/static/images/it-work.webp" alt="データ入力作業のシーン" class="work-img">
         <div class="work-head" style="background:#eff6ff;">
           <div class="wh-num">WORK 02</div>
           <h3>💻 IT・データ入力</h3>
@@ -432,6 +432,7 @@
       </div>
 
       <div class="work-card">
+        <img src="/static/images/group-work.webp" alt="軽作業グループ作業のシーン" class="work-img">
         <div class="work-head" style="background:#fffbeb;">
           <div class="wh-num">WORK 03</div>
           <h3>📦 内職・軽作業</h3>
