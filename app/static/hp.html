@@ -54,39 +54,55 @@
   }
   .section-sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 36px; }
 
-  /* ── ヒーロー ── */
+  /* ── ヒーロー（フルワイド画像オーバーレイ） ── */
   #hero {
-    background: linear-gradient(160deg, #fdf4f0 0%, #fdf0ea 50%, #fdf4f0 100%);
-    padding: 72px 20px 56px;
+    position: relative; overflow: hidden;
+    min-height: 580px; display: flex; align-items: center;
   }
-  .hero-wrap { max-width: 860px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
-  @media (max-width: 680px) { .hero-wrap { grid-template-columns: 1fr; } }
+  @media (max-width: 680px) { #hero { min-height: 440px; } }
+  .hero-bg {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%; object-fit: cover; object-position: center;
+    z-index: 0;
+  }
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to right, rgba(20,10,5,0.65) 0%, rgba(20,10,5,0.35) 55%, rgba(20,10,5,0.1) 100%);
+    z-index: 1;
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    max-width: 900px; margin: 0 auto; padding: 80px 32px;
+    color: white;
+  }
   .hero-badge {
     display: inline-block; background: var(--green); color: white;
-    font-size: 0.75rem; font-weight: 700; padding: 4px 14px; border-radius: 20px; margin-bottom: 16px;
+    font-size: 0.75rem; font-weight: 700; padding: 4px 14px; border-radius: 20px; margin-bottom: 20px;
   }
-  .hero-catch { font-size: 2rem; font-weight: 900; line-height: 1.4; margin-bottom: 16px; }
-  .hero-catch em { color: var(--green); font-style: normal; }
-  .hero-desc { color: var(--muted); font-size: 0.92rem; margin-bottom: 28px; line-height: 1.8; }
+  .hero-catch {
+    font-size: 2.4rem; font-weight: 900; line-height: 1.4; margin-bottom: 18px; color: white;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  }
+  .hero-catch em { color: #fde68a; font-style: normal; }
+  .hero-desc {
+    color: rgba(255,255,255,0.88); font-size: 0.95rem; margin-bottom: 32px;
+    line-height: 1.9; max-width: 480px;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.4);
+  }
   .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
   .btn-g {
     background: var(--green); color: white;
-    padding: 12px 28px; border-radius: 6px; font-size: 0.9rem; font-weight: 700;
+    padding: 13px 28px; border-radius: 6px; font-size: 0.9rem; font-weight: 700;
     text-decoration: none; display: inline-block; transition: background 0.2s;
   }
   .btn-g:hover { background: #b04e30; }
   .btn-outline {
-    background: white; color: var(--green);
-    border: 2px solid var(--green);
-    padding: 10px 24px; border-radius: 6px; font-size: 0.9rem; font-weight: 700;
-    text-decoration: none; display: inline-block; transition: all 0.2s;
+    background: rgba(255,255,255,0.15); color: white;
+    border: 2px solid rgba(255,255,255,0.7);
+    padding: 11px 24px; border-radius: 6px; font-size: 0.9rem; font-weight: 700;
+    text-decoration: none; display: inline-block; transition: all 0.2s; backdrop-filter: blur(4px);
   }
-  .btn-outline:hover { background: var(--green-l); }
-  .hero-img {
-    border-radius: 16px; overflow: hidden;
-    aspect-ratio: 4/3;
-  }
-  .hero-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .btn-outline:hover { background: rgba(255,255,255,0.28); }
 
   /* ── 施設概要バー ── */
   #overview-bar {
@@ -121,25 +137,43 @@
   .about-point h4 { font-size: 0.9rem; font-weight: 800; margin-bottom: 2px; }
   .about-point p { font-size: 0.8rem; color: var(--muted); }
 
-  /* ── 仕事内容 ── */
-  #works { background: var(--bg); }
-  .works-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-  @media (max-width: 680px) { .works-grid { grid-template-columns: 1fr; } }
-  .work-card { background: white; border-radius: var(--r); overflow: hidden; border: 1px solid var(--border); }
-  .work-img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; }
-  .work-head { padding: 20px 20px 14px; }
-  .work-head .wh-num { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.08em; opacity: 0.6; margin-bottom: 4px; }
-  .work-head h3 { font-size: 1.05rem; font-weight: 800; margin-bottom: 6px; }
-  .work-head p { font-size: 0.8rem; }
-  .work-body { padding: 0 20px 20px; }
-  .work-items { display: flex; flex-direction: column; gap: 6px; }
-  .work-item {
-    display: flex; align-items: center; gap: 8px;
-    font-size: 0.82rem; color: var(--muted);
-    padding: 6px 10px; background: var(--bg); border-radius: 6px;
+  /* ── 仕事内容（左右交互レイアウト） ── */
+  #works { background: white; padding: 0; }
+  .works-header { padding: 64px 20px 0; }
+  .works-header .wrap { max-width: 900px; margin: 0 auto; }
+  .work-row {
+    display: flex; min-height: 400px;
+    border-top: 1px solid var(--border);
   }
-  .work-item .wi-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
-  .work-for { margin-top: 14px; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 12px; display: inline-block; }
+  .work-row:last-child { border-bottom: 1px solid var(--border); }
+  @media (max-width: 680px) { .work-row { flex-direction: column; min-height: auto; } }
+  .work-row-img { flex: 1; overflow: hidden; flex-shrink: 0; min-width: 0; }
+  .work-row-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  @media (max-width: 680px) { .work-row-img { height: 240px; } }
+  .work-row-text {
+    flex: 1; padding: 52px 56px;
+    display: flex; flex-direction: column; justify-content: center; min-width: 0;
+  }
+  @media (max-width: 680px) { .work-row-text { padding: 32px 24px; } }
+  .work-row.reverse .work-row-img { order: 2; }
+  .work-row.reverse .work-row-text { order: 1; }
+  @media (max-width: 680px) {
+    .work-row.reverse .work-row-img { order: 0; }
+    .work-row.reverse .work-row-text { order: 0; }
+  }
+  .work-row-text .wh-num {
+    font-size: 0.7rem; font-weight: 800; letter-spacing: 0.1em; opacity: 0.5; margin-bottom: 8px;
+  }
+  .work-row-text h3 { font-size: 1.5rem; font-weight: 900; margin-bottom: 8px; }
+  .work-row-text .wh-sub { font-size: 0.88rem; margin-bottom: 24px; }
+  .work-items { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+  .work-item {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 0.85rem; color: var(--text); padding: 8px 12px;
+    background: var(--bg); border-radius: 6px;
+  }
+  .work-item .wi-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+  .work-for { font-size: 0.75rem; font-weight: 700; padding: 5px 14px; border-radius: 20px; display: inline-block; }
 
   /* ── 一日の流れ ── */
   #schedule { background: white; }
@@ -298,26 +332,23 @@
 
 <!-- ヒーロー -->
 <section id="hero">
-  <div class="hero-wrap">
-    <div>
-      <div class="hero-badge">市川市本八幡 2027年開所予定（仮）</div>
-      <h1 class="hero-catch">
-        自分のペースで、<br>
-        <em>働く喜びを</em><br>
-        見つける場所
-      </h1>
-      <p class="hero-desc">
-        就労継続支援B型事業所として、精神・発達・身体・知的など<br>
-        さまざまな障害のある方が、無理なく「働く」を体験できる場所です。<br>
-        元大学病院精神科看護師のスタッフが、あなたに寄り添います。
-      </p>
-      <div class="hero-btns">
-        <a href="#contact" class="btn-g">見学・相談のお申し込み</a>
-        <a href="#works" class="btn-outline">仕事内容を見る</a>
-      </div>
-    </div>
-    <div class="hero-img">
-      <img src="/static/images/hero.webp" alt="ひだまりのような温かい光と花">
+  <img src="/static/images/hero.webp" alt="ひだまりのような温かい光と花" class="hero-bg">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-badge">市川市本八幡 2027年開所予定（仮）</div>
+    <h1 class="hero-catch">
+      自分のペースで、<br>
+      <em>働く喜びを</em><br>
+      見つける場所
+    </h1>
+    <p class="hero-desc">
+      精神・発達・身体・知的など、さまざまな障害のある方が<br>
+      無理なく「働く」を体験できる就労継続支援B型事業所。<br>
+      元大学病院精神科看護師のスタッフが寄り添います。
+    </p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-g">見学・相談のお申し込み</a>
+      <a href="#works" class="btn-outline">仕事内容を見る</a>
     </div>
   </div>
 </section>
@@ -390,67 +421,70 @@
 
 <!-- 仕事内容 -->
 <section id="works">
-  <div class="wrap">
-    <div class="section-ttl">仕事内容</div>
-    <div class="section-sub">3つのメニューから、その日の体調や得意に合わせて選べます</div>
-    <div class="works-grid">
-
-      <div class="work-card">
-        <img src="/static/images/cleaning.webp" alt="清掃作業のシーン" class="work-img">
-        <div class="work-head" style="background:#fdf4f0;">
-          <div class="wh-num">WORK 01</div>
-          <h3>🧹 清掃・メンテナンス</h3>
-          <p style="color:#b04e30;">近くのクリニック・施設の清掃</p>
-        </div>
-        <div class="work-body">
-          <div class="work-items">
-            <div class="work-item"><div class="wi-dot" style="background:#d06040;"></div>クリニック・歯科の院内清掃</div>
-            <div class="work-item"><div class="wi-dot" style="background:#d06040;"></div>オフィス・共用部の清掃</div>
-            <div class="work-item"><div class="wi-dot" style="background:#d06040;"></div>業務用清掃機器の操作</div>
-            <div class="work-item"><div class="wi-dot" style="background:#d06040;"></div>外出作業で気分転換にも</div>
-          </div>
-          <span class="work-for tag" style="background:#fdf0ea; color:#b04e30;">精神・身体・知的・発達 全員OK</span>
-        </div>
-      </div>
-
-      <div class="work-card">
-        <img src="/static/images/it-work.webp" alt="データ入力作業のシーン" class="work-img">
-        <div class="work-head" style="background:#eff6ff;">
-          <div class="wh-num">WORK 02</div>
-          <h3>💻 IT・データ入力</h3>
-          <p style="color:#1d4ed8;">パソコンを使った作業</p>
-        </div>
-        <div class="work-body">
-          <div class="work-items">
-            <div class="work-item"><div class="wi-dot" style="background:#2563eb;"></div>名刺・アンケートのデータ入力</div>
-            <div class="work-item"><div class="wi-dot" style="background:#2563eb;"></div>ネットショップの商品登録</div>
-            <div class="work-item"><div class="wi-dot" style="background:#2563eb;"></div>文字起こし・テキスト校正</div>
-            <div class="work-item"><div class="wi-dot" style="background:#2563eb;"></div>スキルアップで一般就労も目指せる</div>
-          </div>
-          <span class="work-for tag" style="background:#dbeafe; color:#1d4ed8;">精神・発達障害の方に人気</span>
-        </div>
-      </div>
-
-      <div class="work-card">
-        <img src="/static/images/group-work.webp" alt="軽作業グループ作業のシーン" class="work-img">
-        <div class="work-head" style="background:#fffbeb;">
-          <div class="wh-num">WORK 03</div>
-          <h3>📦 内職・軽作業</h3>
-          <p style="color:#92400e;">座ってできる室内作業</p>
-        </div>
-        <div class="work-body">
-          <div class="work-items">
-            <div class="work-item"><div class="wi-dot" style="background:#f59e0b;"></div>封入・梱包・シール貼り</div>
-            <div class="work-item"><div class="wi-dot" style="background:#f59e0b;"></div>仕分け・ピッキング作業</div>
-            <div class="work-item"><div class="wi-dot" style="background:#f59e0b;"></div>商品の袋詰め・検品</div>
-            <div class="work-item"><div class="wi-dot" style="background:#f59e0b;"></div>体調が悪い日も無理なく参加できる</div>
-          </div>
-          <span class="work-for tag" style="background:#fef3c7; color:#92400e;">体調に合わせて調整できる</span>
-        </div>
-      </div>
-
+  <div class="works-header">
+    <div class="wrap">
+      <div class="section-ttl">仕事内容</div>
+      <div class="section-sub" style="margin-bottom:32px;">3つのメニューから、その日の体調や得意に合わせて選べます</div>
     </div>
   </div>
+
+  <!-- WORK 01 清掃 -->
+  <div class="work-row">
+    <div class="work-row-img">
+      <img src="/static/images/cleaning.webp" alt="清掃作業のシーン">
+    </div>
+    <div class="work-row-text">
+      <div class="wh-num">WORK 01</div>
+      <h3>🧹 清掃・メンテナンス</h3>
+      <p class="wh-sub" style="color:#b04e30;">近くのクリニック・施設の清掃</p>
+      <div class="work-items">
+        <div class="work-item"><div class="wi-dot" style="background:#d06040;"></div>クリニック・歯科の院内清掃</div>
+        <div class="work-item"><div class="wi-dot" style="background:#d06040;"></div>オフィス・共用部の清掃</div>
+        <div class="work-item"><div class="wi-dot" style="background:#d06040;"></div>業務用清掃機器の操作</div>
+        <div class="work-item"><div class="wi-dot" style="background:#d06040;"></div>外出作業で気分転換にも</div>
+      </div>
+      <span class="work-for" style="background:#fdf0ea; color:#b04e30;">精神・身体・知的・発達 全員OK</span>
+    </div>
+  </div>
+
+  <!-- WORK 02 IT（左右逆） -->
+  <div class="work-row reverse" style="background:#f8fafc;">
+    <div class="work-row-img">
+      <img src="/static/images/it-work.webp" alt="データ入力作業のシーン">
+    </div>
+    <div class="work-row-text">
+      <div class="wh-num">WORK 02</div>
+      <h3>💻 IT・データ入力</h3>
+      <p class="wh-sub" style="color:#1d4ed8;">パソコンを使った作業</p>
+      <div class="work-items">
+        <div class="work-item"><div class="wi-dot" style="background:#2563eb;"></div>名刺・アンケートのデータ入力</div>
+        <div class="work-item"><div class="wi-dot" style="background:#2563eb;"></div>ネットショップの商品登録</div>
+        <div class="work-item"><div class="wi-dot" style="background:#2563eb;"></div>文字起こし・テキスト校正</div>
+        <div class="work-item"><div class="wi-dot" style="background:#2563eb;"></div>スキルアップで一般就労も目指せる</div>
+      </div>
+      <span class="work-for" style="background:#dbeafe; color:#1d4ed8;">精神・発達障害の方に人気</span>
+    </div>
+  </div>
+
+  <!-- WORK 03 軽作業 -->
+  <div class="work-row">
+    <div class="work-row-img">
+      <img src="/static/images/group-work.webp" alt="軽作業グループ作業のシーン">
+    </div>
+    <div class="work-row-text">
+      <div class="wh-num">WORK 03</div>
+      <h3>📦 内職・軽作業</h3>
+      <p class="wh-sub" style="color:#92400e;">座ってできる室内作業</p>
+      <div class="work-items">
+        <div class="work-item"><div class="wi-dot" style="background:#f59e0b;"></div>封入・梱包・シール貼り</div>
+        <div class="work-item"><div class="wi-dot" style="background:#f59e0b;"></div>仕分け・ピッキング作業</div>
+        <div class="work-item"><div class="wi-dot" style="background:#f59e0b;"></div>商品の袋詰め・検品</div>
+        <div class="work-item"><div class="wi-dot" style="background:#f59e0b;"></div>体調が悪い日も無理なく参加できる</div>
+      </div>
+      <span class="work-for" style="background:#fef3c7; color:#92400e;">体調に合わせて調整できる</span>
+    </div>
+  </div>
+
 </section>
 
 <!-- 一日の流れ -->
