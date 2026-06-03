@@ -2,304 +2,546 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>画像生成ブリーフ｜ひだまり就労継続支援B型</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gemini画像生成依頼｜ひだまり就労継続支援B型</title>
 <style>
+  @page { margin: 20mm; }
   @media print {
-    body { font-size: 11pt; }
-    .no-print { display: none; }
+    .no-print { display: none !important; }
+    body { font-size: 10pt; }
     .page-break { page-break-before: always; }
-    section { page-break-inside: avoid; }
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     font-family: 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
-    color: #1e293b; background: #fff; line-height: 1.8;
-    max-width: 800px; margin: 0 auto; padding: 40px 32px;
+    color: #1e293b; background: #f8fafc; line-height: 1.7;
   }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 40px 24px; }
 
   /* 印刷ボタン */
   .print-bar {
-    background: #d06040; color: white;
-    padding: 12px 24px; border-radius: 8px;
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 40px;
+    background: #d06040; color: white; padding: 14px 28px;
+    display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; border-radius: 10px;
   }
-  .print-bar span { font-size: 0.88rem; }
+  .print-bar p { font-size: 0.85rem; }
+  .print-bar strong { display: block; font-size: 1rem; }
   .print-btn {
-    background: white; color: #d06040;
-    border: none; padding: 8px 20px; border-radius: 6px;
-    font-size: 0.85rem; font-weight: 700; cursor: pointer;
+    background: white; color: #d06040; border: none; padding: 10px 24px;
+    border-radius: 6px; font-weight: 800; font-size: 0.9rem; cursor: pointer; white-space: nowrap;
   }
-  .print-btn:hover { background: #fdf4f0; }
 
   /* タイトル */
-  .doc-header { border-bottom: 3px solid #d06040; padding-bottom: 16px; margin-bottom: 32px; }
-  .doc-header .label { font-size: 0.75rem; font-weight: 700; color: #d06040; letter-spacing: 0.1em; margin-bottom: 6px; }
-  .doc-header h1 { font-size: 1.5rem; font-weight: 900; }
-  .doc-header .sub { font-size: 0.85rem; color: #64748b; margin-top: 6px; }
-
-  /* セクション */
-  section { margin-bottom: 40px; }
-  h2 {
-    font-size: 1rem; font-weight: 800;
-    background: #fdf4f0; color: #b04e30;
-    padding: 8px 14px; border-radius: 6px;
-    border-left: 4px solid #d06040;
-    margin-bottom: 16px;
+  .title-block {
+    background: white; border-radius: 12px; padding: 28px 32px; margin-bottom: 28px;
+    border-top: 5px solid #d06040;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
   }
-  h3 { font-size: 0.9rem; font-weight: 700; margin-bottom: 8px; color: #1e293b; }
-  p { font-size: 0.88rem; color: #334155; margin-bottom: 8px; }
+  .title-block .eyebrow { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.12em; color: #d06040; margin-bottom: 8px; }
+  .title-block h1 { font-size: 1.4rem; font-weight: 900; margin-bottom: 6px; }
+  .title-block p { font-size: 0.85rem; color: #64748b; }
+
+  /* セクション共通 */
+  .card {
+    background: white; border-radius: 12px; padding: 24px 28px; margin-bottom: 24px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .card-title {
+    font-size: 1rem; font-weight: 800; margin-bottom: 16px;
+    padding-bottom: 10px; border-bottom: 2px solid #f1f5f9;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .card-title .step {
+    background: #d06040; color: white;
+    width: 28px; height: 28px; border-radius: 50%;
+    font-size: 0.8rem; font-weight: 900;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+
+  /* ── STEP1: HPの概要 ── */
+  .concept-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  @media (max-width: 600px) { .concept-grid { grid-template-columns: 1fr; } }
+  .concept-item { background: #f8fafc; border-radius: 8px; padding: 14px 16px; }
+  .concept-item .ci-label { font-size: 0.72rem; font-weight: 700; color: #94a3b8; letter-spacing: 0.06em; margin-bottom: 4px; }
+  .concept-item .ci-val { font-size: 0.88rem; font-weight: 700; color: #1e293b; }
 
   /* カラーパレット */
-  .palette { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 12px; }
-  .swatch { text-align: center; }
-  .swatch-box { width: 72px; height: 48px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 4px; }
-  .swatch-label { font-size: 0.72rem; color: #64748b; font-weight: 600; }
-  .swatch-hex { font-size: 0.7rem; color: #94a3b8; }
+  .palette { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+  .sw { text-align: center; }
+  .sw-box { width: 64px; height: 44px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.08); margin-bottom: 4px; }
+  .sw-name { font-size: 0.68rem; font-weight: 700; color: #64748b; }
+  .sw-hex { font-size: 0.65rem; color: #94a3b8; }
 
-  /* 画像カード */
-  .img-card {
-    border: 1px solid #e2e8f0; border-radius: 10px;
-    overflow: hidden; margin-bottom: 20px;
+  /* ムードワード */
+  .mood-words { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .mood-word {
+    padding: 5px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 700;
+    background: #fdf4f0; color: #d06040; border: 1px solid #f5cfc0;
   }
-  .img-card-head {
-    background: #f8fafc; padding: 12px 18px;
-    border-bottom: 1px solid #e2e8f0;
-    display: flex; align-items: center; gap: 10px;
+
+  /* ── STEP2: HPミニプレビュー ── */
+  .hp-preview {
+    border: 2px solid #e2e8f0; border-radius: 10px; overflow: hidden;
+    font-size: 0; /* inline-block gap fix */
   }
-  .img-num {
+  .hp-section {
+    padding: 14px 18px; border-bottom: 1px solid #e2e8f0;
+    display: flex; align-items: center; gap: 14px; font-size: 0.82rem;
+  }
+  .hp-section:last-child { border-bottom: none; }
+  .hp-section-label { font-weight: 700; min-width: 120px; color: #64748b; font-size: 0.75rem; }
+  .hp-section-content { flex: 1; color: #334155; }
+  .img-badge {
     background: #d06040; color: white;
-    width: 24px; height: 24px; border-radius: 50%;
-    font-size: 0.75rem; font-weight: 800;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
+    font-size: 0.68rem; font-weight: 800; padding: 2px 10px; border-radius: 10px; white-space: nowrap;
   }
-  .img-card-head h3 { margin: 0; font-size: 0.9rem; }
-  .img-card-head .img-size { font-size: 0.75rem; color: #94a3b8; margin-left: auto; }
-  .img-card-body { padding: 16px 18px; }
-  .img-card-body .row { display: grid; grid-template-columns: 80px 1fr; gap: 8px; font-size: 0.82rem; margin-bottom: 8px; }
-  .img-card-body .row .lbl { font-weight: 700; color: #64748b; }
-  .img-card-body .row .val { color: #1e293b; }
-  .prompt-box {
-    background: #1e293b; color: #e2e8f0;
-    border-radius: 8px; padding: 14px 16px;
-    font-size: 0.78rem; line-height: 1.8;
-    margin-top: 12px; font-family: monospace;
-    white-space: pre-wrap;
+  .img-badge.b2 { background: #2563eb; }
+  .img-badge.b3 { background: #7c3aed; }
+  .img-badge.b4 { background: #059669; }
+  .img-badge.b5 { background: #dc2626; }
+
+  /* ── STEP3: 画像依頼カード ── */
+  .req-card {
+    border: 1px solid #e2e8f0; border-radius: 10px; overflow: hidden; margin-bottom: 20px;
   }
-  .prompt-box .prompt-label {
-    font-size: 0.7rem; font-weight: 700; color: #94a3b8;
-    letter-spacing: 0.08em; margin-bottom: 6px; display: block;
-    font-family: 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+  .req-head {
+    padding: 14px 20px; display: flex; align-items: center; gap: 12px;
+  }
+  .req-num {
+    width: 36px; height: 36px; border-radius: 50%; color: white;
+    font-size: 0.9rem; font-weight: 900;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .req-head-text h3 { font-size: 0.95rem; font-weight: 800; }
+  .req-head-text p { font-size: 0.75rem; color: #64748b; margin-top: 1px; }
+  .req-head .size-badge {
+    margin-left: auto; background: #f1f5f9; color: #64748b;
+    font-size: 0.7rem; font-weight: 700; padding: 3px 10px; border-radius: 6px; white-space: nowrap;
+  }
+  .req-body { padding: 16px 20px; background: #f8fafc; }
+
+  /* イメージボード */
+  .image-board {
+    background: white; border: 1px solid #e2e8f0; border-radius: 8px;
+    padding: 16px; margin-bottom: 14px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+  }
+  @media (max-width: 600px) { .image-board { grid-template-columns: 1fr; } }
+  .ib-col h4 { font-size: 0.72rem; font-weight: 800; color: #94a3b8; letter-spacing: 0.06em; margin-bottom: 8px; }
+  .ib-item { font-size: 0.82rem; color: #334155; margin-bottom: 4px; padding-left: 14px; position: relative; }
+  .ib-item::before { content: '→'; position: absolute; left: 0; color: #d06040; font-weight: 700; }
+
+  /* イメージプレビュー枠 */
+  .img-placeholder {
+    border: 2px dashed #d06040; border-radius: 8px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 6px; color: #d06040; font-size: 0.75rem; font-weight: 700;
+    margin-bottom: 14px; padding: 20px;
+    background: #fdf4f0;
+  }
+  .img-placeholder .ph-icon { font-size: 2rem; }
+  .img-placeholder .ph-label { font-size: 0.7rem; color: #b04e30; }
+
+  /* プロンプトボックス */
+  .prompt-section { margin-top: 12px; }
+  .prompt-label { font-size: 0.72rem; font-weight: 800; color: #94a3b8; letter-spacing: 0.08em; margin-bottom: 6px; display: block; }
+  .prompt-ja {
+    background: #fff7ed; border: 1px solid #f5cfc0; border-radius: 8px;
+    padding: 12px 14px; font-size: 0.82rem; color: #7c2d12; line-height: 1.8; margin-bottom: 8px;
+  }
+  .prompt-en {
+    background: #1e293b; border-radius: 8px;
+    padding: 12px 14px; font-size: 0.78rem; color: #cbd5e1;
+    line-height: 1.8; font-family: monospace;
   }
 
-  /* NG表 */
-  .ng-list { display: flex; flex-direction: column; gap: 6px; }
-  .ng-item {
-    display: flex; gap: 10px; align-items: flex-start;
-    padding: 8px 12px; background: #fef2f2;
-    border: 1px solid #fecaca; border-radius: 6px;
-    font-size: 0.82rem; color: #991b1b;
-  }
-  .ng-item::before { content: '✗'; font-weight: 900; flex-shrink: 0; }
+  /* NG/OK */
+  .ng-ok-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+  @media (max-width: 600px) { .ng-ok-grid { grid-template-columns: 1fr; } }
+  .ng-box { background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: 14px; }
+  .ok-box { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 14px; }
+  .ng-box h4 { font-size: 0.78rem; font-weight: 800; color: #dc2626; margin-bottom: 8px; }
+  .ok-box h4 { font-size: 0.78rem; font-weight: 800; color: #16a34a; margin-bottom: 8px; }
+  .ng-box li, .ok-box li { font-size: 0.78rem; color: #334155; margin-left: 14px; margin-bottom: 4px; }
 
-  /* OK表 */
-  .ok-list { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
-  .ok-item {
-    display: flex; gap: 10px; align-items: flex-start;
-    padding: 8px 12px; background: #f0fdf4;
-    border: 1px solid #bbf7d0; border-radius: 6px;
-    font-size: 0.82rem; color: #166534;
-  }
-  .ok-item::before { content: '✓'; font-weight: 900; flex-shrink: 0; }
-
-  table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
-  table th { background: #f8fafc; padding: 8px 12px; text-align: left; border-bottom: 1px solid #e2e8f0; font-weight: 700; }
-  table td { padding: 8px 12px; border-bottom: 1px solid #f0f0f0; }
-
-  .footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid #e2e8f0; font-size: 0.75rem; color: #94a3b8; text-align: center; }
+  .footer-note { text-align: center; font-size: 0.75rem; color: #94a3b8; margin-top: 32px; padding-top: 16px; border-top: 1px solid #e2e8f0; }
 </style>
 </head>
 <body>
+<div class="wrap">
 
-<!-- 印刷ボタン（印刷時は非表示） -->
+<!-- 印刷ボタン -->
 <div class="print-bar no-print">
-  <span>このページをPDFとして保存 → Geminiに添付してください</span>
-  <button class="print-btn" onclick="window.print()">🖨️ PDF として保存</button>
+  <div>
+    <strong>このページをPDFとして保存してGeminiに添付する</strong>
+    <p>ブラウザの「印刷」→「PDFとして保存」でOKです</p>
+  </div>
+  <button class="print-btn" onclick="window.print()">🖨️ PDFとして保存</button>
 </div>
 
-<!-- ヘッダー -->
-<div class="doc-header">
-  <div class="label">GEMINI IMAGE GENERATION BRIEF</div>
-  <h1>ひだまり就労継続支援B型事業所<br>HP用 画像生成ブリーフ</h1>
-  <div class="sub">作成日：2026年6月　／　このドキュメントをGeminiに添付し、各画像の生成を依頼してください</div>
+<!-- タイトル -->
+<div class="title-block">
+  <div class="eyebrow">GEMINI IMAGE GENERATION REQUEST</div>
+  <h1>「ひだまり就労継続支援B型事業所」HP用 画像生成のお願い</h1>
+  <p>このPDFには、ホームページに使う画像のイメージと依頼内容がまとまっています。<br>各セクションのプロンプトをコピーして、画像を生成してください。</p>
 </div>
 
-<!-- 1. 事業所コンセプト -->
-<section>
-  <h2>1. 事業所のコンセプト・雰囲気</h2>
-  <table>
-    <tr><th>項目</th><th>内容</th></tr>
-    <tr><td>事業所名</td><td>ひだまり就労継続支援B型事業所（千葉県市川市本八幡）</td></tr>
-    <tr><td>サービス</td><td>障害のある方が自分のペースで働ける就労継続支援B型</td></tr>
-    <tr><td>対象者</td><td>精神障害・発達障害・身体障害・知的障害のある方</td></tr>
-    <tr><td>特徴</td><td>元大学病院精神科看護師のスタッフが在籍。清掃・IT入力・軽作業の3本柱</td></tr>
-    <tr><td>雰囲気</td><td>温かみがある・明るい・ほっとできる・押し付けない・地域密着</td></tr>
-    <tr><td>キャッチコピー</td><td>「自分のペースで、働く喜びを見つける場所」</td></tr>
-  </table>
-</section>
+<!-- STEP1: 事業所・HPのイメージ -->
+<div class="card">
+  <div class="card-title"><div class="step">1</div>事業所・HPの基本情報とデザインイメージ</div>
 
-<!-- 2. カラーパレット -->
-<section>
-  <h2>2. デザインカラー（画像に反映してください）</h2>
-  <p>メインカラーは<strong>オレンジ系・温かみのある色調</strong>です。寒色・モノトーンは避けてください。</p>
-  <div class="palette">
-    <div class="swatch">
-      <div class="swatch-box" style="background:#d06040;"></div>
-      <div class="swatch-label">メインオレンジ</div>
-      <div class="swatch-hex">#d06040</div>
+  <div class="concept-grid">
+    <div class="concept-item">
+      <div class="ci-label">事業所名</div>
+      <div class="ci-val">ひだまり 就労継続支援B型事業所</div>
     </div>
-    <div class="swatch">
-      <div class="swatch-box" style="background:#fdf4f0;"></div>
-      <div class="swatch-label">背景（薄橙）</div>
-      <div class="swatch-hex">#fdf4f0</div>
+    <div class="concept-item">
+      <div class="ci-label">場所</div>
+      <div class="ci-val">千葉県市川市 本八幡駅周辺</div>
     </div>
-    <div class="swatch">
-      <div class="swatch-box" style="background:#fed7aa;"></div>
-      <div class="swatch-label">アクセント橙</div>
-      <div class="swatch-hex">#fed7aa</div>
+    <div class="concept-item">
+      <div class="ci-label">キャッチコピー</div>
+      <div class="ci-val">「自分のペースで、働く喜びを見つける場所」</div>
     </div>
-    <div class="swatch">
-      <div class="swatch-box" style="background:#f8fafc;"></div>
-      <div class="swatch-label">背景グレー</div>
-      <div class="swatch-hex">#f8fafc</div>
+    <div class="concept-item">
+      <div class="ci-label">支援対象</div>
+      <div class="ci-val">精神障害・発達障害・身体障害・知的障害のある方</div>
     </div>
-    <div class="swatch">
-      <div class="swatch-box" style="background:#1e293b;"></div>
-      <div class="swatch-label">テキスト</div>
-      <div class="swatch-hex">#1e293b</div>
+    <div class="concept-item">
+      <div class="ci-label">スタッフの特徴</div>
+      <div class="ci-val">元大学病院・精神科看護師（5年以上）が在籍</div>
     </div>
-  </div>
-</section>
-
-<!-- 3. 必要な画像リスト -->
-<section class="page-break">
-  <h2>3. 必要な画像リスト（全5枚）</h2>
-
-  <!-- 画像①  -->
-  <div class="img-card">
-    <div class="img-card-head">
-      <div class="img-num">1</div>
-      <h3>ヒーローメインビジュアル（最重要）</h3>
-      <span class="img-size">推奨: 1200×800px 横長</span>
-    </div>
-    <div class="img-card-body">
-      <div class="row"><span class="lbl">用途</span><span class="val">HPトップページ最上部のメイン画像</span></div>
-      <div class="row"><span class="lbl">シーン</span><span class="val">明るい室内で、異なる障害特性の利用者数名が思い思いの作業をしている様子。スタッフが笑顔で寄り添っている。</span></div>
-      <div class="row"><span class="lbl">雰囲気</span><span class="val">温かい日差しが差し込む、ほっとできる空間。多様性がある（車椅子の方・PC作業の方など）</span></div>
-      <div class="row"><span class="lbl">色調</span><span class="val">オレンジ・ベージュ・暖色系。全体的に明るく柔らかい光</span></div>
-      <div class="prompt-box"><span class="prompt-label">▼ Geminiへのプロンプト（コピーして使ってください）</span>A warm and welcoming interior scene of a Japanese disability welfare support facility (就労継続支援B型). Several people with various disabilities are working peacefully together — one person in a wheelchair doing light assembly work, one young adult with headphones doing data entry on a laptop, and a staff member (a woman in her 30s, dressed casually professional) smiling and gently supporting a user. Soft warm orange sunlight streams through large windows. The room is clean, simple, and cozy — like a sunny community workspace. Color palette: warm orange, beige, cream. Photorealistic illustration style, wide angle, 16:9 ratio.</div>
+    <div class="concept-item">
+      <div class="ci-label">仕事内容</div>
+      <div class="ci-val">①清掃・②IT・データ入力・③内職・軽作業</div>
     </div>
   </div>
 
-  <!-- 画像②  -->
-  <div class="img-card">
-    <div class="img-card-head">
-      <div class="img-num">2</div>
-      <h3>清掃作業のシーン</h3>
-      <span class="img-size">推奨: 800×600px</span>
-    </div>
-    <div class="img-card-body">
-      <div class="row"><span class="lbl">用途</span><span class="val">「仕事内容」セクション（清掃）のアイキャッチ</span></div>
-      <div class="row"><span class="lbl">シーン</span><span class="val">クリニックや清潔感のある廊下で、利用者がモップや清掃道具を使って丁寧に清掃している様子</span></div>
-      <div class="row"><span class="lbl">雰囲気</span><span class="val">明るく清潔感がある。利用者が誇りを持って作業している表情</span></div>
-      <div class="prompt-box"><span class="prompt-label">▼ Geminiへのプロンプト</span>A person with a disability carefully mopping a bright, clean clinic corridor in Japan. The person looks focused and proud of their work. Clean medical facility with white walls and warm lighting. Staff member visible in background giving a thumbs up. Warm orange and white tones. Photorealistic illustration, friendly and positive atmosphere.</div>
-    </div>
-  </div>
-
-  <!-- 画像③  -->
-  <div class="img-card">
-    <div class="img-card-head">
-      <div class="img-num">3</div>
-      <h3>IT・データ入力作業のシーン</h3>
-      <span class="img-size">推奨: 800×600px</span>
-    </div>
-    <div class="img-card-body">
-      <div class="row"><span class="lbl">用途</span><span class="val">「仕事内容」セクション（IT・入力）のアイキャッチ</span></div>
-      <div class="row"><span class="lbl">シーン</span><span class="val">明るい作業スペースで、若い利用者がPCでデータ入力をしている。ヘッドフォンをしている方もいる。集中しているが穏やかな表情。</span></div>
-      <div class="row"><span class="lbl">雰囲気</span><span class="val">静かで落ち着いた空間。自分のペースで作業できている感じ</span></div>
-      <div class="prompt-box"><span class="prompt-label">▼ Geminiへのプロンプト</span>A young Japanese adult with a developmental disability (wearing headphones) focused on typing data into a laptop at a clean wooden desk in a bright community workspace. Natural light, warm and calm atmosphere. Another person visible in background also working quietly. Beige and orange warm tones. Photorealistic illustration style.</div>
-    </div>
-  </div>
-
-  <!-- 画像④  -->
-  <div class="img-card">
-    <div class="img-card-head">
-      <div class="img-num">4</div>
-      <h3>軽作業・内職のシーン</h3>
-      <span class="img-size">推奨: 800×600px</span>
-    </div>
-    <div class="img-card-body">
-      <div class="row"><span class="lbl">用途</span><span class="val">「仕事内容」セクション（軽作業）のアイキャッチ</span></div>
-      <div class="row"><span class="lbl">シーン</span><span class="val">テーブルを囲んで複数の利用者が封入・梱包作業をしている。笑顔で会話しながら楽しそうに作業している様子。</span></div>
-      <div class="row"><span class="lbl">雰囲気</span><span class="val">仲間と一緒に作業する楽しさ。無理していない。日常的な温かさ</span></div>
-      <div class="prompt-box"><span class="prompt-label">▼ Geminiへのプロンプト</span>Several Japanese adults with various disabilities sitting together around a table doing simple assembly and packaging work (folding, inserting papers into envelopes) in a bright community welfare facility. They are smiling and talking casually. Warm indoor lighting, orange and beige color tones. Cozy, inclusive, and cheerful atmosphere. Photorealistic illustration.</div>
+  <div style="margin-top:20px;">
+    <div style="font-size:0.78rem; font-weight:800; color:#64748b; margin-bottom:8px;">HPのメインカラー</div>
+    <div class="palette">
+      <div class="sw">
+        <div class="sw-box" style="background:#d06040;"></div>
+        <div class="sw-name">テラコッタ</div>
+        <div class="sw-hex">#d06040</div>
+      </div>
+      <div class="sw">
+        <div class="sw-box" style="background:#fdf4f0;"></div>
+        <div class="sw-name">薄い橙</div>
+        <div class="sw-hex">#fdf4f0</div>
+      </div>
+      <div class="sw">
+        <div class="sw-box" style="background:#f5cfc0;"></div>
+        <div class="sw-name">ピーチ</div>
+        <div class="sw-hex">#f5cfc0</div>
+      </div>
+      <div class="sw">
+        <div class="sw-box" style="background:#f8fafc;"></div>
+        <div class="sw-name">背景グレー</div>
+        <div class="sw-hex">#f8fafc</div>
+      </div>
+      <div class="sw">
+        <div class="sw-box" style="background:#1e293b;"></div>
+        <div class="sw-name">テキスト</div>
+        <div class="sw-hex">#1e293b</div>
+      </div>
     </div>
   </div>
 
-  <!-- 画像⑤  -->
-  <div class="img-card">
-    <div class="img-card-head">
-      <div class="img-num">5</div>
-      <h3>スタッフ（精神科看護師）のポートレート風</h3>
-      <span class="img-size">推奨: 400×400px 正方形</span>
+  <div style="margin-top:20px;">
+    <div style="font-size:0.78rem; font-weight:800; color:#64748b; margin-bottom:8px;">画像に込めたいイメージ・雰囲気</div>
+    <div class="mood-words">
+      <span class="mood-word">☀️ あたたかい</span>
+      <span class="mood-word">🌿 ほっとできる</span>
+      <span class="mood-word">🤝 押し付けない</span>
+      <span class="mood-word">🏠 居場所感がある</span>
+      <span class="mood-word">🌈 多様性がある</span>
+      <span class="mood-word">💛 明るい・前向き</span>
+      <span class="mood-word">👩‍⚕️ 医療の安心感</span>
+      <span class="mood-word">🙆 自分のペース</span>
     </div>
-    <div class="img-card-body">
-      <div class="row"><span class="lbl">用途</span><span class="val">「スタッフメッセージ」セクションのアバター画像</span></div>
-      <div class="row"><span class="lbl">シーン</span><span class="val">30代女性スタッフ。白衣ではなくカジュアルなオフィスカジュアルの服装。優しい笑顔。温かみのある背景。</span></div>
-      <div class="row"><span class="lbl">雰囲気</span><span class="val">信頼できる・親しみやすい・専門性がある</span></div>
-      <div class="prompt-box"><span class="prompt-label">▼ Geminiへのプロンプト</span>A portrait of a friendly Japanese female welfare support worker in her early 30s. She is wearing smart-casual clothing (not a nurse uniform), has a warm and trustworthy smile. Soft orange and warm beige background. She looks caring, professional, and approachable. Square format, photorealistic illustration style.</div>
-    </div>
   </div>
-
-</section>
-
-<!-- 4. 共通NG事項 -->
-<section>
-  <h2>4. 画像に含めないでほしいこと（NG）</h2>
-  <div class="ng-list">
-    <div class="ng-item">障害を強調するような暗い・かわいそうなシーン</div>
-    <div class="ng-item">病院・施設らしい冷たい雰囲気（白すぎる・無機質な空間）</div>
-    <div class="ng-item">スーツ・ビジネス寄りすぎるスタイル</div>
-    <div class="ng-item">青・緑・紫を強調した配色（オレンジ・ベージュ系で統一）</div>
-    <div class="ng-item">リアルな人物の顔写真（イラスト調・フォトリアリスティックイラストを希望）</div>
-  </div>
-  <div class="ok-list">
-    <div class="ok-item">温かく明るい日常的なシーン</div>
-    <div class="ok-item">多様な障害のある方が自然に共存している様子</div>
-    <div class="ok-item">スタッフと利用者が対等に関わっている表情</div>
-    <div class="ok-item">オレンジ・ベージュ・クリーム系の暖色トーン</div>
-  </div>
-</section>
-
-<!-- 5. Geminiへの添付時の指示 -->
-<section>
-  <h2>5. Geminiへの指示（このPDF添付時に使う文章）</h2>
-  <div class="prompt-box" style="font-family:'Hiragino Kaku Gothic ProN','Meiryo',sans-serif; font-size:0.85rem;">このPDFは就労継続支援B型事業所「ひだまり」のホームページ用画像の仕様書です。
-各画像番号ごとに記載されたプロンプトをもとに、5枚の画像を生成してください。
-
-共通の注意点：
-・日本の福祉施設らしい温かみのある雰囲気
-・メインカラーはオレンジ・ベージュ・暖色系（#d06040）
-・フォトリアリスティックなイラスト調（アニメ調ではなく）
-・明るく前向きな表現。暗さ・哀れみのイメージは避けること
-・画像内に文字・テキストは入れないでください</div>
-</section>
-
-<div class="footer">
-  ひだまり就労継続支援B型事業所　開業準備資料　2026年6月
 </div>
 
+<!-- STEP2: HPの構成とどこに画像が入るか -->
+<div class="card">
+  <div class="card-title"><div class="step">2</div>HPの構成と、画像が入る場所</div>
+  <p style="font-size:0.82rem; color:#64748b; margin-bottom:14px;">ホームページは下記の順番で並んでいます。色のついた「画像①〜⑤」の部分に画像を入れます。</p>
+
+  <div class="hp-preview">
+    <div class="hp-section" style="background:#fdf4f0;">
+      <div class="hp-section-label">🔝 トップ（ヒーロー）</div>
+      <div class="hp-section-content">「自分のペースで、働く喜びを見つける場所」というキャッチコピー＋ボタン</div>
+      <div class="img-badge">画像①</div>
+    </div>
+    <div class="hp-section">
+      <div class="hp-section-label">事業所について</div>
+      <div class="hp-section-content">ひだまりとは？3つの強み（精神科看護師在籍・全障害対応・実仕事）</div>
+      <div style="font-size:0.72rem; color:#94a3b8;">テキストのみ</div>
+    </div>
+    <div class="hp-section" style="background:#f8fafc;">
+      <div class="hp-section-label">仕事内容 ①清掃</div>
+      <div class="hp-section-content">クリニック・施設の清掃。外出作業。</div>
+      <div class="img-badge b2">画像②</div>
+    </div>
+    <div class="hp-section" style="background:#f8fafc;">
+      <div class="hp-section-label">仕事内容 ②IT入力</div>
+      <div class="hp-section-content">データ入力・文字起こし・ネットショップ登録</div>
+      <div class="img-badge b3">画像③</div>
+    </div>
+    <div class="hp-section" style="background:#f8fafc;">
+      <div class="hp-section-label">仕事内容 ③軽作業</div>
+      <div class="hp-section-content">封入・梱包・シール貼り。座ってできる室内作業。</div>
+      <div class="img-badge b4">画像④</div>
+    </div>
+    <div class="hp-section">
+      <div class="hp-section-label">一日の流れ</div>
+      <div class="hp-section-content">9:30開所〜15:30まで。週2〜5日、体調に合わせて</div>
+      <div style="font-size:0.72rem; color:#94a3b8;">テキストのみ</div>
+    </div>
+    <div class="hp-section">
+      <div class="hp-section-label">スタッフメッセージ</div>
+      <div class="hp-section-content">元精神科看護師スタッフからのメッセージ文</div>
+      <div class="img-badge b5">画像⑤</div>
+    </div>
+    <div class="hp-section">
+      <div class="hp-section-label">お問い合わせ</div>
+      <div class="hp-section-content">見学・清掃依頼などの連絡フォーム</div>
+      <div style="font-size:0.72rem; color:#94a3b8;">テキストのみ</div>
+    </div>
+  </div>
+</div>
+
+<!-- STEP3: 画像依頼 -->
+<div class="card page-break">
+  <div class="card-title"><div class="step">3</div>画像の依頼内容（全5枚）</div>
+
+  <!-- 画像① -->
+  <div class="req-card">
+    <div class="req-head" style="background:#fdf4f0;">
+      <div class="req-num" style="background:#d06040;">①</div>
+      <div class="req-head-text">
+        <h3>トップページのメイン画像（最重要）</h3>
+        <p>HPを開いたとき、一番最初に目に入る大きな画像</p>
+      </div>
+      <div class="size-badge">横長 1200×800px</div>
+    </div>
+    <div class="req-body">
+      <div class="image-board">
+        <div class="ib-col">
+          <h4>SCENE / シーン</h4>
+          <div class="ib-item">明るい室内。窓から温かい日差しが差し込んでいる</div>
+          <div class="ib-item">車椅子の方が封入作業をしている</div>
+          <div class="ib-item">別の人がパソコンでデータ入力している</div>
+          <div class="ib-item">女性スタッフが笑顔で利用者に寄り添っている</div>
+          <div class="ib-item">全員が穏やかで、無理していない自然な表情</div>
+        </div>
+        <div class="ib-col">
+          <h4>STYLE / スタイル・色</h4>
+          <div class="ib-item">テラコッタ・オレンジ・ベージュ・暖色系</div>
+          <div class="ib-item">フォトリアルな写真 or イラスト調</div>
+          <div class="ib-item">アニメ・漫画調はNG</div>
+          <div class="ib-item">暗い・かわいそうな雰囲気はNG</div>
+          <div class="ib-item">画像内にテキスト・文字はいれない</div>
+        </div>
+      </div>
+      <div class="prompt-section">
+        <span class="prompt-label">▼ 日本語プロンプト（Geminiに貼ってください）</span>
+        <div class="prompt-ja">
+就労継続支援B型事業所の明るい作業室。窓から温かい日差しが差し込んでいる。車椅子に乗った利用者が封入作業をしており、隣でヘッドフォンをしたもう一人の利用者がパソコンでデータ入力をしている。笑顔の30代女性スタッフが優しく利用者に話しかけている。テラコッタ・オレンジ・ベージュを基調とした温かみのあるインテリア。フォトリアリスティックな写真スタイル。横長（16:9）。画像内に文字は入れないこと。
+        </div>
+        <span class="prompt-label">▼ 英語プロンプト</span>
+        <div class="prompt-en">A bright and warm interior of a Japanese disability welfare support facility (就労継続支援B型). A person in a wheelchair is doing envelope-stuffing work at a table, while another person wearing headphones types on a laptop nearby. A friendly female staff member in her 30s in smart-casual clothes is smiling and gently talking with a user. Warm terracotta, orange, and beige interior design. Soft natural light through large windows. Photorealistic photo style. Wide 16:9 ratio. No text in the image.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 画像② -->
+  <div class="req-card">
+    <div class="req-head" style="background:#eff6ff;">
+      <div class="req-num" style="background:#2563eb;">②</div>
+      <div class="req-head-text">
+        <h3>清掃・メンテナンスの作業写真</h3>
+        <p>「仕事内容①清掃」のセクションに入る画像</p>
+      </div>
+      <div class="size-badge">正方形 800×800px</div>
+    </div>
+    <div class="req-body">
+      <div class="image-board">
+        <div class="ib-col">
+          <h4>SCENE / シーン</h4>
+          <div class="ib-item">清潔感のあるクリニック・廊下・待合室</div>
+          <div class="ib-item">利用者がモップや雑巾で丁寧に清掃している</div>
+          <div class="ib-item">誇りを持って作業している、集中した表情</div>
+          <div class="ib-item">スタッフがそばで見守っている（遠景でもOK）</div>
+        </div>
+        <div class="ib-col">
+          <h4>STYLE / スタイル</h4>
+          <div class="ib-item">明るく清潔感がある白・ベージュの空間</div>
+          <div class="ib-item">温かみのある照明</div>
+          <div class="ib-item">フォトリアリスティック</div>
+          <div class="ib-item">暗い・施設らしい冷たさはNG</div>
+        </div>
+      </div>
+      <div class="prompt-section">
+        <span class="prompt-label">▼ 日本語プロンプト</span>
+        <div class="prompt-ja">
+日本のクリニック（診療所）の廊下で、障害のある若い利用者が業務用モップを使って丁寧に床を清掃している。利用者は集中した、誇りを持った表情。清潔感があり明るい白とベージュの廊下。温かみのある照明。遠景にスタッフが見守っている。フォトリアリスティックな写真スタイル。正方形。画像内に文字はなし。
+        </div>
+        <span class="prompt-label">▼ 英語プロンプト</span>
+        <div class="prompt-en">A young Japanese person with a disability carefully mopping a clean, bright clinic hallway in Japan. The person has a focused, proud expression. Clean white and beige interior, warm lighting. A staff member is visible in the background watching supportively. Photorealistic photo style. Square format. No text in the image.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 画像③ -->
+  <div class="req-card">
+    <div class="req-head" style="background:#f5f3ff;">
+      <div class="req-num" style="background:#7c3aed;">③</div>
+      <div class="req-head-text">
+        <h3>IT・データ入力の作業写真</h3>
+        <p>「仕事内容②IT・データ入力」のセクションに入る画像</p>
+      </div>
+      <div class="size-badge">正方形 800×800px</div>
+    </div>
+    <div class="req-body">
+      <div class="image-board">
+        <div class="ib-col">
+          <h4>SCENE / シーン</h4>
+          <div class="ib-item">明るい作業スペース</div>
+          <div class="ib-item">ヘッドフォンをした若い利用者がPCでデータ入力</div>
+          <div class="ib-item">集中しているが、穏やかで楽しそうな表情</div>
+          <div class="ib-item">木製のデスク・自然光・観葉植物など</div>
+        </div>
+        <div class="ib-col">
+          <h4>STYLE / スタイル</h4>
+          <div class="ib-item">ベージュ・白・暖色系の落ち着いた空間</div>
+          <div class="ib-item">カフェ・コワーキングスペース的な温かさ</div>
+          <div class="ib-item">フォトリアリスティック</div>
+          <div class="ib-item">オフィス・無機質な感じはNG</div>
+        </div>
+      </div>
+      <div class="prompt-section">
+        <span class="prompt-label">▼ 日本語プロンプト</span>
+        <div class="prompt-ja">
+ヘッドフォンをした発達障害のある若い日本人がノートパソコンでデータ入力作業に集中している。木製の机、自然光、観葉植物のある温かみのある作業スペース。穏やかで落ち着いた表情。ベージュ・白・暖色系のインテリア。カフェのような居心地の良い雰囲気。フォトリアリスティックな写真スタイル。正方形。画像内に文字はなし。
+        </div>
+        <span class="prompt-label">▼ 英語プロンプト</span>
+        <div class="prompt-en">A young Japanese adult with a developmental disability wearing headphones, focused on typing data entry work on a laptop. Wooden desk, natural light, small indoor plant. Warm beige and white interior, cozy cafe-like workspace atmosphere. Calm and relaxed expression. Photorealistic photo style. Square format. No text in the image.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 画像④ -->
+  <div class="req-card">
+    <div class="req-head" style="background:#f0fdf4;">
+      <div class="req-num" style="background:#059669;">④</div>
+      <div class="req-head-text">
+        <h3>内職・軽作業のシーン写真</h3>
+        <p>「仕事内容③内職・軽作業」のセクションに入る画像</p>
+      </div>
+      <div class="size-badge">正方形 800×800px</div>
+    </div>
+    <div class="req-body">
+      <div class="image-board">
+        <div class="ib-col">
+          <h4>SCENE / シーン</h4>
+          <div class="ib-item">テーブルを囲んで複数の利用者が一緒に作業</div>
+          <div class="ib-item">封入・梱包・シール貼りなどの軽作業</div>
+          <div class="ib-item">笑顔で自然に会話している雰囲気</div>
+          <div class="ib-item">多様な年齢・障害の方が一緒に</div>
+        </div>
+        <div class="ib-col">
+          <h4>STYLE / スタイル</h4>
+          <div class="ib-item">温かく賑やかな室内</div>
+          <div class="ib-item">テラコッタ・ベージュ・クリーム系</div>
+          <div class="ib-item">「仲間と働く楽しさ」が伝わる</div>
+          <div class="ib-item">フォトリアリスティック</div>
+        </div>
+      </div>
+      <div class="prompt-section">
+        <span class="prompt-label">▼ 日本語プロンプト</span>
+        <div class="prompt-ja">
+障害福祉施設の明るい作業室で、3〜4人の利用者がテーブルを囲んで封入・梱包作業をしている。年齢・障害の違う人たちが笑顔で会話しながら楽しそうに働いている。温かいオレンジ・ベージュ・クリーム系のインテリア。「仲間と一緒に」という安心感と楽しさが伝わる雰囲気。フォトリアリスティックな写真スタイル。正方形。画像内に文字はなし。
+        </div>
+        <span class="prompt-label">▼ 英語プロンプト</span>
+        <div class="prompt-en">Three to four Japanese adults with various disabilities sitting together around a table doing simple assembly and packaging work (folding papers, stuffing envelopes, sticking labels) in a bright welfare facility workroom. They are smiling and chatting casually. Warm orange, beige, and cream interior. The atmosphere conveys joy, inclusion, and teamwork. Photorealistic photo style. Square format. No text in the image.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 画像⑤ -->
+  <div class="req-card">
+    <div class="req-head" style="background:#fef2f2;">
+      <div class="req-num" style="background:#dc2626;">⑤</div>
+      <div class="req-head-text">
+        <h3>スタッフ（精神科看護師）のポートレート</h3>
+        <p>「スタッフからのメッセージ」セクションのアイコン画像</p>
+      </div>
+      <div class="size-badge">正方形 400×400px</div>
+    </div>
+    <div class="req-body">
+      <div class="image-board">
+        <div class="ib-col">
+          <h4>SCENE / 人物イメージ</h4>
+          <div class="ib-item">30代の日本人女性</div>
+          <div class="ib-item">白衣ではなくカジュアルオフィス服装</div>
+          <div class="ib-item">温かく信頼できる笑顔</div>
+          <div class="ib-item">正面を向いている（証明写真風でなく自然に）</div>
+        </div>
+        <div class="ib-col">
+          <h4>STYLE / スタイル</h4>
+          <div class="ib-item">背景は暖かいベージュ・テラコッタ系</div>
+          <div class="ib-item">「親しみやすさ＋専門性」両立</div>
+          <div class="ib-item">フォトリアリスティック</div>
+          <div class="ib-item">正方形（SNSアイコンサイズ）</div>
+        </div>
+      </div>
+      <div class="prompt-section">
+        <span class="prompt-label">▼ 日本語プロンプト</span>
+        <div class="prompt-ja">
+30代の日本人女性福祉スタッフのポートレート。白衣ではなく、清潔感のあるカジュアルオフィスカジュアルの服装。温かく親しみやすい笑顔で、信頼感がある表情。背景はテラコッタ・ベージュ系の暖かいグラデーション。「頼りになるけど気さく」という印象。フォトリアリスティックな写真スタイル。正方形。
+        </div>
+        <span class="prompt-label">▼ 英語プロンプト</span>
+        <div class="prompt-en">Portrait of a friendly Japanese female welfare support worker in her early 30s. She wears smart-casual clothing (not a nurse uniform or white coat). She has a warm, trustworthy smile — approachable but professional. Background is a soft terracotta and beige gradient. Photorealistic photo style. Square format.</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /card -->
+
+<!-- STEP4: 共通NG/OK -->
+<div class="card">
+  <div class="card-title"><div class="step">4</div>全画像共通のNG・OK（必ず守ってください）</div>
+  <div class="ng-ok-grid">
+    <div class="ng-box">
+      <h4>✗ やってほしくないこと</h4>
+      <ul>
+        <li>画像内に文字・テキストを入れる</li>
+        <li>暗い・重い・かわいそうな雰囲気</li>
+        <li>病院らしい冷たい・無機質な空間</li>
+        <li>アニメ・マンガ調のイラスト</li>
+        <li>青・緑・紫を強調した配色</li>
+        <li>ステレオタイプな「障害者」の描写</li>
+      </ul>
+    </div>
+    <div class="ok-box">
+      <h4>✓ こうしてほしいこと</h4>
+      <ul>
+        <li>明るく温かみのある実写風・フォトリアリスティック</li>
+        <li>テラコッタ・オレンジ・ベージュ・暖色系</li>
+        <li>多様な人が自然に共存しているシーン</li>
+        <li>自然で笑顔のある表情</li>
+        <li>「ここに来たい」と思える居場所感</li>
+        <li>日本人・日本の空間に合ったリアリティ</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="footer-note">
+  ひだまり就労継続支援B型事業所 ／ HP画像生成ブリーフ ／ 2026年6月作成
+</div>
+
+</div><!-- /wrap -->
 </body>
 </html>
