@@ -162,3 +162,9 @@ async def hp():
 async def gemini_brief():
     with open("app/static/gemini-brief.html", encoding="utf-8") as f:
         return f.read()
+
+
+@app.get("/pollinations", response_class=HTMLResponse)
+async def pollinations():
+    with open("app/static/pollinations.html", encoding="utf-8") as f:
+        return f.read()
