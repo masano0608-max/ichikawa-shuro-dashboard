@@ -83,11 +83,11 @@
   /* ── ヒーロー（フルワイド画像オーバーレイ） ── */
   #hero {
     position: relative; overflow: hidden;
-    min-height: 580px; display: flex; align-items: center;
+    min-height: 460px; max-height: 540px; display: flex; align-items: center;
   }
   @media (max-width: 680px) {
-    #hero { min-height: 440px; }
-    .hero-content { padding: 60px 20px 48px; }
+    #hero { min-height: 380px; max-height: none; }
+    .hero-content { padding: 56px 20px 44px; }
     .hero-catch { font-size: 1.7rem; }
     .hero-desc { font-size: 0.88rem; max-width: 100%; }
   }
@@ -172,20 +172,24 @@
   #works { background: white; padding: 0; }
   .works-header { padding: 64px 20px 0; }
   .works-header .wrap { max-width: 900px; margin: 0 auto; }
+  .works-rows { max-width: 1060px; margin: 0 auto; padding: 0 20px; }
   .work-row {
-    display: flex; min-height: 400px;
+    display: flex; min-height: 320px;
     border-top: 1px solid var(--border);
+    border-radius: 12px; overflow: hidden; margin-bottom: 20px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
   }
-  .work-row:last-child { border-bottom: 1px solid var(--border); }
-  @media (max-width: 680px) { .work-row { flex-direction: column; min-height: auto; } }
-  .work-row-img { flex: 1; overflow: hidden; flex-shrink: 0; min-width: 0; }
+  .work-row:first-child { margin-top: 32px; }
+  .work-row:last-child { margin-bottom: 64px; }
+  @media (max-width: 680px) { .work-row { flex-direction: column; min-height: auto; border-radius: 10px; } }
+  .work-row-img { flex: 0 0 42%; overflow: hidden; }
   .work-row-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  @media (max-width: 680px) { .work-row-img { height: 240px; } }
+  @media (max-width: 680px) { .work-row-img { flex: none; height: 220px; } }
   .work-row-text {
-    flex: 1; padding: 52px 56px;
+    flex: 1; padding: 40px 44px;
     display: flex; flex-direction: column; justify-content: center; min-width: 0;
   }
-  @media (max-width: 680px) { .work-row-text { padding: 32px 24px; } }
+  @media (max-width: 680px) { .work-row-text { padding: 28px 22px; } }
   .work-row.reverse .work-row-img { order: 2; }
   .work-row.reverse .work-row-text { order: 1; }
   @media (max-width: 680px) {
@@ -193,18 +197,18 @@
     .work-row.reverse .work-row-text { order: 0; }
   }
   .work-row-text .wh-num {
-    font-size: 0.7rem; font-weight: 800; letter-spacing: 0.1em; opacity: 0.5; margin-bottom: 8px;
+    font-size: 0.68rem; font-weight: 800; letter-spacing: 0.1em; opacity: 0.45; margin-bottom: 6px;
   }
-  .work-row-text h3 { font-size: 1.5rem; font-weight: 900; margin-bottom: 8px; }
-  .work-row-text .wh-sub { font-size: 0.88rem; margin-bottom: 24px; }
-  .work-items { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+  .work-row-text h3 { font-size: 1.3rem; font-weight: 900; margin-bottom: 6px; }
+  .work-row-text .wh-sub { font-size: 0.85rem; margin-bottom: 20px; }
+  .work-items { display: flex; flex-direction: column; gap: 7px; margin-bottom: 18px; }
   .work-item {
     display: flex; align-items: center; gap: 10px;
-    font-size: 0.85rem; color: var(--text); padding: 8px 12px;
+    font-size: 0.83rem; color: var(--text); padding: 7px 11px;
     background: var(--bg); border-radius: 6px;
   }
   .work-item .wi-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
-  .work-for { font-size: 0.75rem; font-weight: 700; padding: 5px 14px; border-radius: 20px; display: inline-block; }
+  .work-for { font-size: 0.74rem; font-weight: 700; padding: 5px 14px; border-radius: 20px; display: inline-block; }
 
   /* ── 一日の流れ ── */
   #schedule { background: white; }
@@ -470,6 +474,7 @@
     </div>
   </div>
 
+  <div class="works-rows">
   <!-- WORK 01 清掃 -->
   <div class="work-row">
     <div class="work-row-img">
@@ -526,6 +531,7 @@
       <span class="work-for" style="background:#fef3c7; color:#92400e;">体調に合わせて調整できる</span>
     </div>
   </div>
+  </div><!-- /works-rows -->
 
 </section>
 
