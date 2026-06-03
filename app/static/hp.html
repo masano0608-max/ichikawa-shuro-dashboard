@@ -28,17 +28,43 @@
   nav {
     background: var(--green);
     display: flex; align-items: center; justify-content: space-between;
-    padding: 0 28px; height: 56px; position: sticky; top: 0; z-index: 100;
+    padding: 0 20px; height: 56px; position: sticky; top: 0; z-index: 200;
   }
-  .nav-logo { color: white; font-size: 1rem; font-weight: 800; letter-spacing: 0.03em; }
+  .nav-logo { color: white; font-size: 0.95rem; font-weight: 800; letter-spacing: 0.03em; }
   .nav-links { display: flex; gap: 0; }
   .nav-links a {
     color: rgba(255,255,255,0.85); text-decoration: none;
-    padding: 0 16px; height: 56px; display: flex; align-items: center;
+    padding: 0 14px; height: 56px; display: flex; align-items: center;
     font-size: 0.82rem; font-weight: 600; transition: background 0.15s;
   }
   .nav-links a:hover { background: rgba(255,255,255,0.15); color: white; }
-  @media (max-width: 680px) { .nav-links { display: none; } }
+
+  /* ハンバーガー */
+  .nav-burger {
+    display: none; flex-direction: column; gap: 5px; cursor: pointer;
+    background: none; border: none; padding: 6px;
+  }
+  .nav-burger span {
+    display: block; width: 24px; height: 2px;
+    background: white; border-radius: 2px; transition: all 0.25s;
+  }
+  .nav-drawer {
+    display: none; position: fixed; top: 56px; left: 0; right: 0;
+    background: var(--green); z-index: 199; flex-direction: column;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  }
+  .nav-drawer.open { display: flex; }
+  .nav-drawer a {
+    color: white; text-decoration: none; padding: 16px 24px;
+    font-size: 1rem; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.15);
+  }
+  .nav-drawer a:last-child { border-bottom: none; }
+  .nav-drawer a:active { background: rgba(255,255,255,0.15); }
+
+  @media (max-width: 680px) {
+    .nav-links { display: none; }
+    .nav-burger { display: flex; }
+  }
 
   /* ── 共通 ── */
   section { padding: 64px 20px; }
@@ -59,7 +85,12 @@
     position: relative; overflow: hidden;
     min-height: 580px; display: flex; align-items: center;
   }
-  @media (max-width: 680px) { #hero { min-height: 440px; } }
+  @media (max-width: 680px) {
+    #hero { min-height: 440px; }
+    .hero-content { padding: 60px 20px 48px; }
+    .hero-catch { font-size: 1.7rem; }
+    .hero-desc { font-size: 0.88rem; max-width: 100%; }
+  }
   .hero-bg {
     position: absolute; inset: 0;
     width: 100%; height: 100%; object-fit: cover; object-position: center;
@@ -319,7 +350,7 @@
 
 <!-- ナビ -->
 <nav>
-  <div class="nav-logo">ひだまり 就労継続支援B型事業所</div>
+  <div class="nav-logo">ひだまり 就労継続支援B型</div>
   <div class="nav-links">
     <a href="#about">事業所について</a>
     <a href="#works">仕事内容</a>
@@ -328,7 +359,18 @@
     <a href="#cleaning">清掃依頼</a>
     <a href="#contact">お問い合わせ</a>
   </div>
+  <button class="nav-burger" onclick="toggleMenu()" aria-label="メニュー">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+<div class="nav-drawer" id="navDrawer">
+  <a href="#about" onclick="closeMenu()">事業所について</a>
+  <a href="#works" onclick="closeMenu()">仕事内容</a>
+  <a href="#schedule" onclick="closeMenu()">一日の流れ</a>
+  <a href="#target" onclick="closeMenu()">ご利用方法</a>
+  <a href="#cleaning" onclick="closeMenu()">清掃依頼</a>
+  <a href="#contact" onclick="closeMenu()">お問い合わせ</a>
+</div>
 
 <!-- ヒーロー -->
 <section id="hero">
@@ -761,5 +803,17 @@
   <span style="margin-top:8px; display:block; font-size:0.72rem;">© 2026 ひだまり就労継続支援B型事業所</span>
 </footer>
 
+<script>
+function toggleMenu() {
+  document.getElementById('navDrawer').classList.toggle('open');
+}
+function closeMenu() {
+  document.getElementById('navDrawer').classList.remove('open');
+}
+// 外側タップで閉じる
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('nav') && !e.target.closest('#navDrawer')) closeMenu();
+});
+</script>
 </body>
 </html>
