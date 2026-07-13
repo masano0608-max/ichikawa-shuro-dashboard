@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>創業計画書 — 訪問看護ステーション</title>
+<style>
+  @media print {
+    body { margin: 12mm 10mm; font-size: 11px; }
+    .no-print { display: none !important; }
+    .page-break { page-break-before: always; }
+    table { font-size: 10px; }
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "游ゴシック", "Yu Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #222;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px 20px;
+    background: #fff;
+  }
+  .no-print {
+    position: fixed; top: 12px; right: 12px; z-index: 100;
+    display: flex; gap: 8px;
+  }
+  .no-print button {
+    padding: 7px 16px; border: 1px solid #1e3a8a; border-radius: 6px;
+    background: #1e3a8a; color: white; font-size: 13px; cursor: pointer;
+  }
+  .no-print button:hover { background: #1e40af; }
+  .no-print button.sec { background: white; color: #1e3a8a; }
+  h1 {
+    text-align: center;
+    font-size: 20px;
+    letter-spacing: 8px;
+    margin-bottom: 4px;
+    padding-bottom: 8px;
+    border-bottom: 3px double #222;
+  }
+  .subtitle {
+    text-align: center;
+    font-size: 11px;
+    color: #666;
+    margin-bottom: 16px;
+  }
+  .section {
+    margin-bottom: 14px;
+    border: 1px solid #999;
+  }
+  .section-head {
+    background: #f0f0f0;
+    font-weight: bold;
+    font-size: 12px;
+    padding: 4px 8px;
+    border-bottom: 1px solid #999;
+  }
+  .section-body {
+    padding: 8px 10px;
+  }
+  .section-body p { margin-bottom: 4px; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+  th, td {
+    border: 1px solid #999;
+    padding: 4px 6px;
+    vertical-align: top;
+  }
+  th {
+    background: #f0f0f0;
+    font-weight: bold;
+    white-space: nowrap;
+    text-align: center;
+  }
+  .editable {
+    outline: none;
+    min-height: 1.5em;
+  }
+  .editable:focus { background: #fffde7; }
+  .right { text-align: right; }
+  .center { text-align: center; }
+  .small { font-size: 10px; color: #666; }
+  .w120 { width: 120px; }
+  .w80 { width: 80px; }
+  .w60 { width: 60px; }
+  .topinfo {
+    display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 12px;
+  }
+  .topinfo span { border-bottom: 1px solid #999; padding: 0 8px; }
+  .half { display: flex; gap: 0; }
+  .half > div { flex: 1; }
+  .calc { color: #1e3a8a; font-weight: 700; }
+  input.ed {
+    border: none; border-bottom: 1px dotted #999; background: transparent;
+    font-size: 12px; font-family: inherit; padding: 0 2px; width: 100%;
+    outline: none;
+  }
+  input.ed:focus { background: #fffde7; }
+  input.num {
+    border: none; border-bottom: 1px dotted #999; background: transparent;
+    font-size: 12px; font-family: inherit; text-align: right; width: 80px;
+    outline: none; padding: 0 2px;
+  }
+  input.num:focus { background: #fffde7; }
+</style>
+</head>
+<body>
+
+<div class="no-print">
+  <button onclick="calcAll();window.print()">印刷 / PDF</button>
+  <button class="sec" onclick="calcAll()">再計算</button>
+  <button class="sec" onclick="location.href='/'">戻る</button>
+</div>
+
+<h1>創 業 計 画 書</h1>
+<div class="subtitle">日本政策金融公庫 国民生活事業部 提出用</div>
+
+<div class="topinfo">
+  <div>お名前: <span contenteditable="true" class="editable">広辺 雅乃</span></div>
+  <div>作成日: <span contenteditable="true" class="editable">2026年　　月　　日</span></div>
+</div>
+
+<!-- 1. 創業の動機 -->
+<div class="section">
+  <div class="section-head">1. 創業の動機（事業を始めた理由、目指す姿）</div>
+  <div class="section-body" contenteditable="true" class="editable" style="min-height:80px">
+精神疾患の患者数は全国で約615万人（令和2年）と増加の一途をたどっており、地域で暮らしながら治療を続ける方への訪問看護の需要が急速に高まっています。
+
+一方で、千葉市には訪問看護ステーションが約125ヶ所あるものの、精神科に専門特化した事業所はごく少数であり、精神疾患を抱える方が専門的な訪問看護を受けられる環境が十分に整っていません。
+
+管理者候補の看護師は、慶應義塾大学病院の精神科病棟で5年以上の臨床経験を有しており、この専門性を活かして精神科に強い訪問看護ステーションを立ち上げ、地域の精神医療・福祉を支える事業を展開したいと考えております。
+
+将来的には、障害福祉サービス（就労継続支援B型・グループホーム）との連携を視野に入れた総合的な福祉事業を目指しています。
+  </div>
+</div>
+
+<!-- 2. 経営者の略歴等 -->
+<div class="section">
+  <div class="section-head">2. 経営者の略歴等</div>
+  <div class="section-body">
+    <table>
+      <tr><th class="w80">年月</th><th>内容（勤務先・役職・職務内容）</th></tr>
+      <tr><td><input class="ed" value=""></td><td><input class="ed" value=""></td></tr>
+      <tr><td><input class="ed" value=""></td><td><input class="ed" value=""></td></tr>
+      <tr><td><input class="ed" value=""></td><td><input class="ed" value=""></td></tr>
+      <tr><td><input class="ed" value=""></td><td><input class="ed" value=""></td></tr>
+      <tr><td><input class="ed" value=""></td><td><input class="ed" value=""></td></tr>
+      <tr><td><input class="ed" value=""></td><td><input class="ed" value=""></td></tr>
+    </table>
+    <div style="margin-top:6px;font-size:12px">
+      <strong>過去の事業経験:</strong>
+      <label><input type="radio" name="exp" checked> 事業を経営していたことはない</label>
+      <label style="margin-left:12px"><input type="radio" name="exp"> 事業を経営していたことがある → 内容: <input class="ed" style="width:200px" value=""></label>
+    </div>
+    <div style="margin-top:4px;font-size:12px">
+      <strong>取得資格:</strong> <input class="ed" value="" style="width:80%">
+    </div>
+    <div style="margin-top:4px;font-size:12px">
+      <strong>知的財産権等:</strong> <input class="ed" value="なし" style="width:80%">
+    </div>
+  </div>
+</div>
+
+<!-- 3. 取扱商品・サービス -->
+<div class="section">
+  <div class="section-head">3. 取扱商品・サービス</div>
+  <div class="section-body">
+    <table>
+      <tr><th>取扱商品・サービスの内容</th><th class="w80">売上シェア</th></tr>
+      <tr><td><input class="ed" value="精神科訪問看護（医療保険）— 精神疾患を抱える利用者への訪問看護サービス"></td><td class="center"><input class="ed center" value="70%" style="width:50px"></td></tr>
+      <tr><td><input class="ed" value="一般訪問看護（介護保険・医療保険）— 高齢者・身体障害者への訪問看護"></td><td class="center"><input class="ed center" value="25%" style="width:50px"></td></tr>
+      <tr><td><input class="ed" value="その他（居宅療養管理指導、地域連携等）"></td><td class="center"><input class="ed center" value="5%" style="width:50px"></td></tr>
+    </table>
+    <div style="margin-top:8px">
+      <strong>セールスポイント:</strong>
+      <div contenteditable="true" class="editable" style="min-height:50px;border:1px dotted #ccc;padding:4px;margin-top:2px">
+・管理者が慶應義塾大学病院精神科での5年以上の臨床経験を有し、精神科看護の高い専門性を持つ
+・千葉市において精神科に特化した訪問看護ステーションはごく少数であり、差別化が明確
+・精神科クリニック・病院の退院支援チームとの連携体制を開業前から構築
+・2026年6月施行の処遇改善加算（1.8%）により看護師の待遇を改善し、人材確保力を強化
+      </div>
+    </div>
+    <div style="margin-top:6px">
+      <strong>販売ターゲット・販売戦略:</strong>
+      <div contenteditable="true" class="editable" style="min-height:40px;border:1px dotted #ccc;padding:4px;margin-top:2px">
+・千葉市中央区を中心に半径10km圏内の精神科クリニック・病院と連携し、退院患者・通院患者の紹介を受ける
+・地域包括支援センター、相談支援事業所との関係構築により、介護保険利用者の獲得も並行して推進
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 4. 取引先・取引関係等 -->
+<div class="section">
+  <div class="section-head">4. 取引先・取引関係等</div>
+  <div class="section-body">
+    <table>
+      <tr><th rowspan="2" style="width:60px">区分</th><th rowspan="2">取引先名（所在地）</th><th rowspan="2" class="w60">シェア</th><th colspan="2">掛取引の割合</th><th rowspan="2" class="w80">回収・支払条件</th></tr>
+      <tr><th class="w60">回収</th><th class="w60">支払</th></tr>
+      <tr><td rowspan="3" style="text-align:center;font-weight:700">販売先</td>
+        <td><input class="ed" value="国保連合会（千葉県）— 医療保険・介護保険請求"></td>
+        <td class="center"><input class="ed center" value="95%" style="width:40px"></td>
+        <td class="center">100%</td><td class="center">—</td>
+        <td><input class="ed" value="月末締翌々月末"></td></tr>
+      <tr><td><input class="ed" value="利用者自己負担（窓口徴収）"></td>
+        <td class="center"><input class="ed center" value="5%" style="width:40px"></td>
+        <td class="center">—</td><td class="center">—</td>
+        <td><input class="ed" value="サービス提供時"></td></tr>
+      <tr><td><input class="ed" value=""></td>
+        <td class="center"><input class="ed center" value="" style="width:40px"></td>
+        <td class="center"></td><td class="center"></td>
+        <td><input class="ed" value=""></td></tr>
+      <tr><td rowspan="2" style="text-align:center;font-weight:700">仕入先</td>
+        <td><input class="ed" value="医療材料・消耗品（各メーカー）"></td>
+        <td class="center"><input class="ed center" value="100%" style="width:40px"></td>
+        <td class="center">—</td><td class="center">100%</td>
+        <td><input class="ed" value="月末締翌月末"></td></tr>
+      <tr><td><input class="ed" value=""></td>
+        <td class="center"><input class="ed center" value="" style="width:40px"></td>
+        <td class="center"></td><td class="center"></td>
+        <td><input class="ed" value=""></td></tr>
+    </table>
+    <div class="small" style="margin-top:4px">※訪問看護は保険請求が主体のため、入金は2ヶ月遅れ。開業後5ヶ月間は入金なし。</div>
+  </div>
+</div>
+
+<!-- 5. 従業員 -->
+<div class="section">
+  <div class="section-head">5. 従業員</div>
+  <div class="section-body">
+    <table>
+      <tr><th>区分</th><th class="w80">人数</th><th>内訳・備考</th></tr>
+      <tr><td>常勤役員（うち家族）</td><td class="center"><input class="num" value="1" style="width:30px">名</td><td><input class="ed" value="代表取締役（広辺） ※看護師資格不要"></td></tr>
+      <tr><td>正社員</td><td class="center"><input class="num" value="1" style="width:30px">名</td><td><input class="ed" value="管理者・看護師（金井） 10月〜正社員 ※8-9月は業務委託"></td></tr>
+      <tr><td>パート・アルバイト</td><td class="center"><input class="num" value="3" style="width:30px">名</td><td><input class="ed" value="非常勤看護師3名（滝田・外部2名） 11月〜 常勤換算計2.5人"></td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- 6. お借入の状況 -->
+<div class="section">
+  <div class="section-head">6. お借入の状況（代表者個人のもの。事業分は含みません。）</div>
+  <div class="section-body">
+    <table>
+      <tr><th>借入先</th><th class="w80">使いみち</th><th class="w80">残高</th><th class="w60">年間返済額</th></tr>
+      <tr><td><input class="ed" value=""></td><td><input class="ed" value=""></td><td class="right"><input class="num" value="">円</td><td class="right"><input class="num" value="">円</td></tr>
+      <tr><td><input class="ed" value=""></td><td><input class="ed" value=""></td><td class="right"><input class="num" value="">円</td><td class="right"><input class="num" value="">円</td></tr>
+      <tr><td><input class="ed" value=""></td><td><input class="ed" value=""></td><td class="right"><input class="num" value="">円</td><td class="right"><input class="num" value="">円</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- 7. 必要な資金と調達方法 -->
+<div class="section">
+  <div class="section-head">7. 必要な資金と調達方法</div>
+  <div class="section-body">
+    <div class="half">
+      <div style="border-right:1px solid #999;padding-right:8px">
+        <table>
+          <tr><th colspan="3" style="background:#e8f0fe">必要な資金</th></tr>
+          <tr><th colspan="2">設備資金</th><th class="w80">金額</th></tr>
+          <tr><td colspan="2"><input class="ed" value="内装・設備工事"></td><td class="right"><input class="num" id="s7_1" value="240000" oninput="calc7()">円</td></tr>
+          <tr><td colspan="2"><input class="ed" value="PC・プリンタ・携帯電話"></td><td class="right"><input class="num" id="s7_2" value="350000" oninput="calc7()">円</td></tr>
+          <tr><td colspan="2"><input class="ed" value="車両（訪問用）"></td><td class="right"><input class="num" id="s7_3" value="200000" oninput="calc7()">円</td></tr>
+          <tr><td colspan="2"><input class="ed" value="鍵付き書庫・相談室設備"></td><td class="right"><input class="num" id="s7_4" value="50000" oninput="calc7()">円</td></tr>
+          <tr><td colspan="2"><input class="ed" value="電子カルテ初期導入費"></td><td class="right"><input class="num" id="s7_5" value="100000" oninput="calc7()">円</td></tr>
+          <tr><td colspan="2"><input class="ed" value="その他（名刺・届出・予備費等）"></td><td class="right"><input class="num" id="s7_6" value="250000" oninput="calc7()">円</td></tr>
+          <tr style="background:#e8f0fe;font-weight:700"><td colspan="2">設備資金 小計</td><td class="right" id="s7_sub1">—</td></tr>
+          <tr><th colspan="2">運転資金</th><th class="w80">金額</th></tr>
+          <tr><td colspan="2"><input class="ed" value="法人設立費用（定款認証・登記）"></td><td class="right"><input class="num" id="s7_w1" value="300000" oninput="calc7()">円</td></tr>
+          <tr><td colspan="2"><input class="ed" value="物件取得費（敷金・礼金）"></td><td class="right"><input class="num" id="s7_w2" value="240000" oninput="calc7()">円</td></tr>
+          <tr><td colspan="2"><input class="ed" value="開業前人件費（8〜10月）"></td><td class="right"><input class="num" id="s7_w3" value="560000" oninput="calc7()">円</td></tr>
+          <tr><td colspan="2"><input class="ed" value="開業後運転資金（入金遅れ5ヶ月分）"></td><td class="right"><input class="num" id="s7_w4" value="4000000" oninput="calc7()">円</td></tr>
+          <tr style="background:#e8f0fe;font-weight:700"><td colspan="2">運転資金 小計</td><td class="right" id="s7_sub2">—</td></tr>
+          <tr style="background:#1e3a8a;color:white;font-weight:700"><td colspan="2">合計</td><td class="right" id="s7_total">—</td></tr>
+        </table>
+      </div>
+      <div style="padding-left:8px">
+        <table>
+          <tr><th colspan="2" style="background:#e8f0fe">調達の方法</th></tr>
+          <tr><th>調達先</th><th class="w80">金額</th></tr>
+          <tr><td>自己資金</td><td class="right"><input class="num" id="s7_f1" value="5000000" oninput="calc7()">円</td></tr>
+          <tr><td>親、兄弟、知人、友人等からの借入</td><td class="right"><input class="num" id="s7_f2" value="0" oninput="calc7()">円</td></tr>
+          <tr><td style="font-weight:700">日本政策金融公庫 国民生活事業からの借入</td><td class="right"><input class="num" id="s7_f3" value="" oninput="calc7()" style="color:#1e3a8a;font-weight:700">円</td></tr>
+          <tr><td>他の金融機関等からの借入<br><span class="small">（内訳: <input class="ed" value="" style="width:160px">）</span></td><td class="right"><input class="num" id="s7_f4" value="0" oninput="calc7()">円</td></tr>
+          <tr><td></td><td></td></tr>
+          <tr><td></td><td></td></tr>
+          <tr><td></td><td></td></tr>
+          <tr><td></td><td></td></tr>
+          <tr><td></td><td></td></tr>
+          <tr><td></td><td></td></tr>
+          <tr><td></td><td></td></tr>
+          <tr style="background:#1e3a8a;color:white;font-weight:700"><td>合計</td><td class="right" id="s7_ftotal">—</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 8. 事業の見通し（月平均） -->
+<div class="section">
+  <div class="section-head">8. 事業の見通し（月平均）</div>
+  <div class="section-body">
+    <table>
+      <tr><th style="width:140px">項目</th><th class="w120">創業当初</th><th class="w120">軌道に乗った後<br><span class="small">（1年後）</span></th><th>算出の根拠</th></tr>
+      <tr>
+        <td style="font-weight:700">売上高 (A)</td>
+        <td class="right"><input class="num" id="s8_rev1" value="" oninput="calc8()" style="width:90px">円</td>
+        <td class="right"><input class="num" id="s8_rev2" value="" oninput="calc8()" style="width:90px">円</td>
+        <td contenteditable="true" class="editable" style="font-size:11px">利用者単価 約85,000円/月 × 利用者数<br>創業当初: 15名 × 85,000 = 1,275,000<br>軌道後: 30名 × 85,000 = 2,550,000</td>
+      </tr>
+      <tr>
+        <td style="font-weight:700">売上原価 (B)</td>
+        <td class="right"><input class="num" id="s8_cost1" value="8000" oninput="calc8()" style="width:90px">円</td>
+        <td class="right"><input class="num" id="s8_cost2" value="15000" oninput="calc8()" style="width:90px">円</td>
+        <td contenteditable="true" class="editable" style="font-size:11px">医療材料・消耗品（利用者数に比例）</td>
+      </tr>
+      <tr style="background:#f0fdf4;font-weight:700">
+        <td>売上総利益 (A)-(B)</td>
+        <td class="right" id="s8_gp1">—</td>
+        <td class="right" id="s8_gp2">—</td>
+        <td></td>
+      </tr>
+      <tr><td colspan="4" style="background:#f0f0f0;font-weight:700;font-size:11px;padding:2px 6px">経費の内訳</td></tr>
+      <tr>
+        <td style="padding-left:16px">人件費</td>
+        <td class="right"><input class="num" id="s8_e1_1" value="" oninput="calc8()" style="width:90px">円</td>
+        <td class="right"><input class="num" id="s8_e2_1" value="" oninput="calc8()" style="width:90px">円</td>
+        <td contenteditable="true" class="editable" style="font-size:11px">看護師4名体制（常勤1＋非常勤3）<br>当初: 管理者+非常勤3名<br>軌道後: +正社員1名追加</td>
+      </tr>
+      <tr>
+        <td style="padding-left:16px">家賃</td>
+        <td class="right"><input class="num" id="s8_e1_2" value="230000" oninput="calc8()" style="width:90px">円</td>
+        <td class="right"><input class="num" id="s8_e2_2" value="230000" oninput="calc8()" style="width:90px">円</td>
+        <td contenteditable="true" class="editable" style="font-size:11px">事務所（千葉市中央区）</td>
+      </tr>
+      <tr>
+        <td style="padding-left:16px">支払利息</td>
+        <td class="right"><input class="num" id="s8_e1_3" value="" oninput="calc8()" style="width:90px">円</td>
+        <td class="right"><input class="num" id="s8_e2_3" value="" oninput="calc8()" style="width:90px">円</td>
+        <td contenteditable="true" class="editable" style="font-size:11px">公庫借入分（年利 ＿＿%）</td>
+      </tr>
+      <tr>
+        <td style="padding-left:16px">その他</td>
+        <td class="right"><input class="num" id="s8_e1_4" value="85000" oninput="calc8()" style="width:90px">円</td>
+        <td class="right"><input class="num" id="s8_e2_4" value="85000" oninput="calc8()" style="width:90px">円</td>
+        <td contenteditable="true" class="editable" style="font-size:11px">車両費25,000+通信費15,000+カルテ12,000+保険5,000+光熱10,000+雑費18,000</td>
+      </tr>
+      <tr style="background:#f0f0f0;font-weight:700">
+        <td>経費合計 (C)</td>
+        <td class="right" id="s8_exp1">—</td>
+        <td class="right" id="s8_exp2">—</td>
+        <td></td>
+      </tr>
+      <tr style="background:#dcfce7;font-weight:700;font-size:14px">
+        <td>利益 (A)-(B)-(C)</td>
+        <td class="right" id="s8_profit1">—</td>
+        <td class="right" id="s8_profit2">—</td>
+        <td></td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!-- 9. 自由記述欄 -->
+<div class="section">
+  <div class="section-head">9. 自由記述欄</div>
+  <div class="section-body" contenteditable="true" class="editable" style="min-height:60px">
+<strong>【事業の社会的意義】</strong>
+精神疾患の患者数増加に伴い、入院から地域生活への移行が国の施策として推進されています。当ステーションは、退院後の精神疾患患者が安定した地域生活を送るための専門的な訪問看護を提供し、再入院の予防と生活の質の向上に貢献します。
+
+<strong>【開業に向けた準備状況】</strong>
+・管理者候補（慶應義塾大学病院精神科 看護師）は2026年7月末に退職し、8月より開業準備に専従
+・2026年8月に法人設立、10月に千葉市へ指定申請、11月1日開業を予定
+・千葉市内の精神科クリニック・病院との連携については、開業前から営業活動を開始する計画
+  </div>
+</div>
+
+<script>
+function v(id){var el=document.getElementById(id);if(!el)return 0;var val=el.value||el.textContent;return parseInt(val.replace(/[^0-9.-]/g,''))||0}
+function fmt(n){return n.toLocaleString()+'円'}
+
+function calc7(){
+  var s=[v('s7_1'),v('s7_2'),v('s7_3'),v('s7_4'),v('s7_5'),v('s7_6')];
+  var w=[v('s7_w1'),v('s7_w2'),v('s7_w3'),v('s7_w4')];
+  var sub1=s.reduce(function(a,b){return a+b},0);
+  var sub2=w.reduce(function(a,b){return a+b},0);
+  var total=sub1+sub2;
+  document.getElementById('s7_sub1').textContent=fmt(sub1);
+  document.getElementById('s7_sub2').textContent=fmt(sub2);
+  document.getElementById('s7_total').textContent=fmt(total);
+
+  var f=[v('s7_f1'),v('s7_f2'),v('s7_f3'),v('s7_f4')];
+  var ftotal=f.reduce(function(a,b){return a+b},0);
+  document.getElementById('s7_ftotal').textContent=fmt(ftotal);
+
+  // 公庫借入が未記入なら自動計算
+  var el3=document.getElementById('s7_f3');
+  if(!el3.value||el3.value==='0'){
+    var need=total-v('s7_f1')-v('s7_f2')-v('s7_f4');
+    if(need>0)el3.value=need;
+  }
+}
+
+function calc8(){
+  var rev1=v('s8_rev1'),rev2=v('s8_rev2');
+  var cost1=v('s8_cost1'),cost2=v('s8_cost2');
+  var gp1=rev1-cost1,gp2=rev2-cost2;
+  document.getElementById('s8_gp1').textContent=fmt(gp1);
+  document.getElementById('s8_gp2').textContent=fmt(gp2);
+
+  var e1=[v('s8_e1_1'),v('s8_e1_2'),v('s8_e1_3'),v('s8_e1_4')];
+  var e2=[v('s8_e2_1'),v('s8_e2_2'),v('s8_e2_3'),v('s8_e2_4')];
+  var exp1=e1.reduce(function(a,b){return a+b},0);
+  var exp2=e2.reduce(function(a,b){return a+b},0);
+  document.getElementById('s8_exp1').textContent=fmt(exp1);
+  document.getElementById('s8_exp2').textContent=fmt(exp2);
+
+  var p1=gp1-exp1,p2=gp2-exp2;
+  var el1=document.getElementById('s8_profit1');
+  var el2=document.getElementById('s8_profit2');
+  el1.textContent=(p1>=0?'':'')+fmt(p1);
+  el2.textContent=(p2>=0?'':'')+fmt(p2);
+  el1.style.color=p1>=0?'#16a34a':'#dc2626';
+  el2.style.color=p2>=0?'#16a34a':'#dc2626';
+}
+
+function calcAll(){calc7();calc8()}
+
+// Auto-fill from strategy dashboard values if available
+function autoFill(){
+  try{
+    // 売上
+    var unit=85000;
+    document.getElementById('s8_rev1').value=unit*15; // 創業当初15名
+    document.getElementById('s8_rev2').value=unit*30; // 軌道後30名
+
+    // 人件費（11-3月: kFull+tPay+ePay）
+    var kFull=350000+350000*0.15;
+    var tPay=2000*48;
+    var ePay=1800*69*2;
+    var staff1103=kFull+tPay+ePay;
+    var rFull=300000+300000*0.15;
+    var staff04=staff1103+rFull;
+    document.getElementById('s8_e1_1').value=Math.round(staff1103);
+    document.getElementById('s8_e2_1').value=Math.round(staff04);
+
+    // 支払利息（仮に借入200万×年利2%÷12ヶ月）
+    var loan=v('s7_f3')||2000000;
+    var interest=Math.round(loan*0.02/12);
+    document.getElementById('s8_e1_3').value=interest;
+    document.getElementById('s8_e2_3').value=interest;
+
+    calcAll();
+  }catch(e){}
+}
+
+autoFill();
+</script>
+
+</body>
+</html>

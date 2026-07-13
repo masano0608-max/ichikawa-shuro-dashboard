@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>訪問看護ST開業準備 業務委託単価調査</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  nav {
+    background: #1e3a8a;
+    display: flex;
+    gap: 0;
+    flex-wrap: wrap;
+  }
+  nav a {
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    padding: 10px 24px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+  }
+  nav a:hover { color: white; background: rgba(255,255,255,0.08); }
+  nav a.active { color: white; border-bottom-color: #60a5fa; }
+  body {
+    font-family: 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+    background: #f5f7fa;
+    color: #222;
+    padding: 0;
+  }
+  .page {
+    max-width: 960px;
+    margin: 32px auto;
+    background: #fff;
+    border-radius: 12px;
+    padding: 40px 48px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+  }
+  @media (max-width: 640px) {
+    .page { padding: 20px 16px; margin: 16px 8px; }
+  }
+  .header {
+    border-bottom: 3px solid #0f766e;
+    padding-bottom: 16px;
+    margin-bottom: 28px;
+  }
+  .header h1 {
+    font-size: 22px;
+    color: #0f766e;
+    font-weight: 700;
+  }
+  .header .sub {
+    font-size: 13px;
+    color: #666;
+    margin-top: 6px;
+  }
+
+  /* --- conclusion box --- */
+  .conclusion {
+    background: #fef3c7;
+    border-left: 5px solid #f59e0b;
+    padding: 20px 24px;
+    border-radius: 8px;
+    margin-bottom: 32px;
+  }
+  .conclusion h2 {
+    font-size: 16px;
+    color: #92400e;
+    margin-bottom: 10px;
+  }
+  .conclusion p {
+    font-size: 14px;
+    line-height: 1.8;
+    color: #78350f;
+  }
+  .conclusion .highlight {
+    font-weight: 700;
+    color: #b45309;
+  }
+
+  /* --- summary table --- */
+  .summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 32px;
+    font-size: 13px;
+  }
+  .summary-table th {
+    background: #0f766e;
+    color: white;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+  }
+  .summary-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #e5e7eb;
+    vertical-align: top;
+  }
+  .summary-table tr:hover { background: #f0fdfa; }
+  .summary-table .cat {
+    font-weight: 700;
+    color: #0f766e;
+    white-space: nowrap;
+  }
+  .summary-table .rate {
+    font-weight: 700;
+    color: #b45309;
+    white-space: nowrap;
+  }
+  .summary-table .level {
+    font-size: 11px;
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+  .level-low { background: #dbeafe; color: #1e40af; }
+  .level-mid { background: #fef3c7; color: #92400e; }
+  .level-high { background: #fecaca; color: #991b1b; }
+  .level-very-high { background: #7f1d1d; color: white; }
+
+  /* --- section --- */
+  .section {
+    margin-bottom: 36px;
+  }
+  .section h2 {
+    font-size: 18px;
+    color: #0f766e;
+    border-left: 4px solid #0f766e;
+    padding-left: 12px;
+    margin-bottom: 16px;
+  }
+  .section h3 {
+    font-size: 15px;
+    color: #374151;
+    margin: 16px 0 8px;
+    padding-left: 4px;
+  }
+  .section p, .section li {
+    font-size: 14px;
+    line-height: 1.8;
+    color: #374151;
+  }
+  .section ul {
+    margin-left: 20px;
+    margin-bottom: 12px;
+  }
+
+  /* --- detail table --- */
+  .detail-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0 20px;
+    font-size: 13px;
+  }
+  .detail-table th {
+    background: #f0fdfa;
+    color: #0f766e;
+    padding: 8px 12px;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 2px solid #0f766e;
+  }
+  .detail-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  .detail-table .em { font-weight: 700; color: #b45309; }
+
+  /* --- info box --- */
+  .info-box {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    padding: 16px 20px;
+    border-radius: 8px;
+    margin: 16px 0;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  .info-box.warn {
+    background: #fef2f2;
+    border-color: #fecaca;
+  }
+  .info-box strong {
+    color: #1e40af;
+  }
+  .info-box.warn strong {
+    color: #991b1b;
+  }
+
+  /* --- comparison chart (CSS bar) --- */
+  .bar-chart { margin: 16px 0 24px; }
+  .bar-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 6px;
+    font-size: 13px;
+  }
+  .bar-label {
+    width: 180px;
+    text-align: right;
+    padding-right: 12px;
+    color: #374151;
+    flex-shrink: 0;
+  }
+  .bar-track {
+    flex: 1;
+    height: 24px;
+    background: #f3f4f6;
+    border-radius: 4px;
+    position: relative;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    color: white;
+    min-width: 60px;
+  }
+
+  /* --- proposal box --- */
+  .proposal {
+    background: #f0fdf4;
+    border: 2px solid #16a34a;
+    padding: 24px;
+    border-radius: 12px;
+    margin: 32px 0;
+  }
+  .proposal h2 {
+    font-size: 18px;
+    color: #15803d;
+    margin-bottom: 16px;
+    border-left: none;
+    padding-left: 0;
+  }
+  .proposal table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+  .proposal th {
+    background: #16a34a;
+    color: white;
+    padding: 8px 12px;
+    text-align: left;
+  }
+  .proposal td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #bbf7d0;
+  }
+  .proposal .total-row {
+    background: #dcfce7;
+    font-weight: 700;
+  }
+
+  .sources {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #e5e7eb;
+    font-size: 12px;
+    color: #6b7280;
+  }
+  .sources a { color: #2563eb; }
+  .sources li { margin-bottom: 4px; }
+
+  /* --- tab switcher --- */
+  .tab-bar {
+    display: flex;
+    gap: 0;
+    background: #0f766e;
+    border-radius: 8px 8px 0 0;
+    overflow: hidden;
+    margin: 32px auto 0;
+    max-width: 960px;
+  }
+  @media (max-width: 640px) { .tab-bar { margin: 16px 8px 0; } }
+  .tab-bar button {
+    flex: 1;
+    padding: 14px 20px;
+    border: none;
+    background: transparent;
+    color: rgba(255,255,255,0.65);
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-bottom: 3px solid transparent;
+  }
+  .tab-bar button:hover { background: rgba(255,255,255,0.1); color: white; }
+  .tab-bar button.active { background: rgba(255,255,255,0.15); color: white; border-bottom-color: #fbbf24; }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* --- cash flow table --- */
+  .cf-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  .cf-table th {
+    background: #0f766e;
+    color: white;
+    padding: 8px 6px;
+    text-align: right;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+  }
+  .cf-table th:first-child { text-align: left; }
+  .cf-table td {
+    padding: 7px 6px;
+    border-bottom: 1px solid #e5e7eb;
+    text-align: right;
+  }
+  .cf-table td:first-child { text-align: left; font-weight: 600; color: #0f766e; }
+  .cf-table .sep { background: #f0fdfa; font-weight: 700; }
+  .cf-table .neg { color: #dc2626; }
+  .cf-table .pos { color: #16a34a; }
+  .cf-table .total-row { background: #0f766e; color: white; font-weight: 700; }
+  .cf-table .total-row td { border: none; }
+  .cf-table .break-even { background: #fef3c7; }
+  .cf-wrap { overflow-x: auto; margin: 16px 0; border: 1px solid #e5e7eb; border-radius: 8px; }
+  .assumption-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .assumption-card {
+    background: #f0fdfa;
+    border-radius: 8px;
+    padding: 12px 16px;
+    border-left: 3px solid #0f766e;
+  }
+  .assumption-card .label { font-size: 11px; font-weight: 700; color: #0f766e; text-transform: uppercase; letter-spacing: 0.05em; }
+  .assumption-card .value { font-size: 1.3rem; font-weight: 800; color: #222; margin-top: 4px; }
+  .assumption-card .note { font-size: 11px; color: #666; margin-top: 2px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/">戦略</a>
+  <a href="/dashboard">市場調査</a>
+  <a href="/houmon-simulator">訪看シミュレーター</a>
+  <a href="/itaku-tanka" class="active">報酬・キャッシュフロー</a>
+  <a href="/plan">B型メモ</a>
+</nav>
+
+<div class="tab-bar">
+  <button class="active" onclick="switchTab('salary')">報酬設計（社長用）</button>
+  <button onclick="switchTab('cashflow')">キャッシュフロー（共有用）</button>
+</div>
+
+<div id="tab-salary" class="tab-content active">
+<div class="page" style="border-radius:0 0 12px 12px;margin-top:0">
+
+<div class="header">
+  <h1>訪問看護ST開業準備 業務委託単価 詳細調査レポート</h1>
+  <div class="sub">調査日: 2026年7月13日 / 対象エリア: 千葉県・東京都 / 対象期間: 2025-2026年相場</div>
+</div>
+
+<!-- ===== 結論 ===== -->
+<div class="conclusion">
+  <h2>結論: 「事務作業 = 時給1,200円」は一般事務のパート相場であり、開業準備業務には過小評価</h2>
+  <p>
+    金井さんが担当する業務は「単純事務」ではなく、<span class="highlight">マニュアル作成・運用設計・営業・PM業務</span>を含む高度な専門業務です。
+    業務委託の市場相場では、一般事務は1,200〜1,800円に対し、専門業務は2,500〜5,000円が標準です。<br>
+    <span class="highlight">業務内容に応じた単価設定（加重平均で時給2,500〜3,000円程度）が妥当</span>であり、
+    将来の正社員額面35万円（時給換算約2,190円）とも整合性が取れます。
+  </p>
+</div>
+
+<!-- ===== サマリー表 ===== -->
+<h2 style="font-size:17px; color:#0f766e; margin-bottom:16px;">業務カテゴリ別 時給単価サマリー</h2>
+
+<table class="summary-table">
+  <thead>
+    <tr>
+      <th>業務カテゴリ</th>
+      <th>具体的業務</th>
+      <th>市場相場（時給）</th>
+      <th>専門性</th>
+      <th>推奨単価</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="cat">1. 一般事務作業</td>
+      <td>データ入力、書類整理、電話対応、備品発注</td>
+      <td class="rate">1,200〜1,800円</td>
+      <td><span class="level level-low">定型業務</span></td>
+      <td class="rate">1,500円</td>
+    </tr>
+    <tr>
+      <td class="cat">2. マニュアル・文書作成</td>
+      <td>業務マニュアル、BCP、運営規程、重説作成</td>
+      <td class="rate">2,000〜4,000円</td>
+      <td><span class="level level-mid">専門業務</span></td>
+      <td class="rate">2,500〜3,000円</td>
+    </tr>
+    <tr>
+      <td class="cat">3. 運用設計・仕組み構築</td>
+      <td>業務フロー設計、電子カルテ導入、記録設計</td>
+      <td class="rate">3,000〜5,000円</td>
+      <td><span class="level level-high">高度専門</span></td>
+      <td class="rate">3,000〜3,500円</td>
+    </tr>
+    <tr>
+      <td class="cat">4. 営業・渉外活動</td>
+      <td>医療機関への営業、パンフ作成、関係構築</td>
+      <td class="rate">2,000〜3,500円</td>
+      <td><span class="level level-mid">専門業務</span></td>
+      <td class="rate">2,500円</td>
+    </tr>
+    <tr>
+      <td class="cat">5. 指定申請準備</td>
+      <td>行政書類作成補助、各種届出準備</td>
+      <td class="rate">2,000〜3,000円</td>
+      <td><span class="level level-mid">専門業務</span></td>
+      <td class="rate">2,500円</td>
+    </tr>
+    <tr>
+      <td class="cat">6. 採用・研修関連</td>
+      <td>求人票作成、面接対応、研修計画策定</td>
+      <td class="rate">2,000〜3,500円</td>
+      <td><span class="level level-mid">専門業務</span></td>
+      <td class="rate">2,500円</td>
+    </tr>
+    <tr>
+      <td class="cat">7. プロジェクト管理</td>
+      <td>全体スケジュール管理、業者調整、進捗管理</td>
+      <td class="rate">3,500〜6,000円+</td>
+      <td><span class="level level-very-high">PM業務</span></td>
+      <td class="rate">3,000〜3,500円</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ===== 時給比較バーチャート ===== -->
+<h2 style="font-size:17px; color:#0f766e; margin-bottom:16px;">時給レンジ比較</h2>
+<div class="bar-chart">
+  <div class="bar-row">
+    <div class="bar-label">一般事務</div>
+    <div class="bar-track">
+      <div class="bar-fill" style="width:22%; background:linear-gradient(90deg,#93c5fd,#3b82f6);">1,200〜1,800</div>
+    </div>
+  </div>
+  <div class="bar-row">
+    <div class="bar-label">医療事務（千葉）</div>
+    <div class="bar-track">
+      <div class="bar-fill" style="width:20%; background:linear-gradient(90deg,#93c5fd,#60a5fa);">1,200〜1,600</div>
+    </div>
+  </div>
+  <div class="bar-row">
+    <div class="bar-label">マニュアル・文書作成</div>
+    <div class="bar-track">
+      <div class="bar-fill" style="width:45%; background:linear-gradient(90deg,#fcd34d,#f59e0b);">2,000〜4,000</div>
+    </div>
+  </div>
+  <div class="bar-row">
+    <div class="bar-label">営業・渉外</div>
+    <div class="bar-track">
+      <div class="bar-fill" style="width:40%; background:linear-gradient(90deg,#fdba74,#ea580c);">2,000〜3,500</div>
+    </div>
+  </div>
+  <div class="bar-row">
+    <div class="bar-label">人事・採用</div>
+    <div class="bar-track">
+      <div class="bar-fill" style="width:40%; background:linear-gradient(90deg,#fda4af,#e11d48);">2,000〜3,500</div>
+    </div>
+  </div>
+  <div class="bar-row">
+    <div class="bar-label">運用設計・業務コンサル</div>
+    <div class="bar-track">
+      <div class="bar-fill" style="width:56%; background:linear-gradient(90deg,#f87171,#dc2626);">3,000〜5,000</div>
+    </div>
+  </div>
+  <div class="bar-row">
+    <div class="bar-label">PM（プロジェクト管理）</div>
+    <div class="bar-track">
+      <div class="bar-fill" style="width:70%; background:linear-gradient(90deg,#c084fc,#7c3aed);">3,500〜6,000+</div>
+    </div>
+  </div>
+  <div class="bar-row">
+    <div class="bar-label">コンサルタント全般</div>
+    <div class="bar-track">
+      <div class="bar-fill" style="width:80%; background:linear-gradient(90deg,#6366f1,#312e81);">5,000〜10,000+</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 1. 事務作業 ===== -->
+<div class="section">
+  <h2>1. 事務作業の時給相場</h2>
+
+  <h3>千葉県の相場</h3>
+  <table class="detail-table">
+    <tr><th>雇用形態</th><th>職種</th><th>時給</th></tr>
+    <tr><td>パート・アルバイト</td><td>一般事務</td><td class="em">1,120〜1,200円</td></tr>
+    <tr><td>パート・アルバイト</td><td>医療事務</td><td class="em">1,120〜1,200円</td></tr>
+    <tr><td>派遣社員</td><td>医療事務</td><td class="em">1,597円</td></tr>
+    <tr><td>業務委託</td><td>一般事務・営業事務</td><td class="em">1,200〜1,800円</td></tr>
+  </table>
+
+  <h3>東京都の相場</h3>
+  <table class="detail-table">
+    <tr><th>雇用形態</th><th>職種</th><th>時給</th></tr>
+    <tr><td>パート・アルバイト</td><td>医療事務</td><td class="em">1,298〜1,307円</td></tr>
+    <tr><td>派遣社員</td><td>医療事務</td><td class="em">1,688円</td></tr>
+    <tr><td>業務委託</td><td>一般事務・営業事務</td><td class="em">1,200〜1,800円</td></tr>
+  </table>
+
+  <div class="info-box">
+    <strong>「1,200円」の妥当性について:</strong><br>
+    千葉県のパート・アルバイトの一般事務・医療事務の相場としては妥当です。
+    ただし、2026年の最低賃金は千葉県で1,210〜1,220円が予測されており、
+    <strong>1,200円はほぼ最低賃金レベル</strong>です。
+    業務委託契約は最低賃金の適用外ですが、社会保険料・福利厚生がないことを考慮すると、
+    業務委託の場合は雇用時給の1.5〜2倍が適正とされています。
+    つまり純粋な事務作業でも業務委託なら<strong>1,500〜1,800円が妥当</strong>です。
+  </div>
+</div>
+
+<!-- ===== 2. マニュアル作成 ===== -->
+<div class="section">
+  <h2>2. マニュアル作成・文書作成の業務委託単価</h2>
+
+  <h3>時給ベースの相場</h3>
+  <table class="detail-table">
+    <tr><th>業務内容</th><th>時給相場</th><th>備考</th></tr>
+    <tr><td>テクニカルライティング全般</td><td class="em">1,500〜5,000円</td><td>Workship調査、経験・専門性で大きく変動</td></tr>
+    <tr><td>医療分野のマニュアル作成</td><td class="em">2,500〜4,000円</td><td>看護・医療知識が必須のため上振れ</td></tr>
+    <tr><td>フリーランスライター平均</td><td class="em">1,500〜5,000円</td><td>ジュニアは1,500円、プロ人材は5,000円</td></tr>
+  </table>
+
+  <h3>成果物ベースの相場（外注した場合との比較）</h3>
+  <table class="detail-table">
+    <tr><th>成果物</th><th>外注相場</th><th>備考</th></tr>
+    <tr><td>BCP（業務継続計画）</td><td class="em">15万〜45万円</td><td>コンサル会社への委託相場。追加事業所+5〜8万円</td></tr>
+    <tr><td>マニュアル一式（BCP除く）</td><td class="em">5万円〜</td><td>行政書士事務所の例</td></tr>
+    <tr><td>マニュアル一式（BCP含む）</td><td class="em">12万円〜</td><td>行政書士事務所の例</td></tr>
+    <tr><td>運営規程・重説セット</td><td class="em">5〜10万円</td><td>自治体テンプレートからのカスタマイズ含む</td></tr>
+  </table>
+
+  <div class="info-box">
+    <strong>ポイント:</strong>
+    BCPを外注すると15〜45万円かかる業務を内製化できること自体が大きな価値です。
+    仮にBCP作成に40時間かかるとして、外注相場30万円を時給換算すると<strong>7,500円/時間</strong>に相当します。
+    看護師の専門知識を活かしたマニュアル作成は「事務作業」ではなく「専門コンサルティング業務」です。
+  </div>
+</div>
+
+<!-- ===== 3. 運用設計 ===== -->
+<div class="section">
+  <h2>3. 運用設計・仕組み構築の業務委託単価</h2>
+
+  <table class="detail-table">
+    <tr><th>業務内容</th><th>時給相場</th><th>根拠</th></tr>
+    <tr><td>業務フロー設計</td><td class="em">3,000〜5,000円</td><td>業務コンサルタントの相場。月額換算70〜220万円</td></tr>
+    <tr><td>電子カルテ導入・初期設定</td><td class="em">3,000〜5,000円</td><td>ITコンサル水準。導入支援費用は別途数十万円が一般的</td></tr>
+    <tr><td>記録フォーマット設計</td><td class="em">2,500〜4,000円</td><td>看護記録の知識+システム設計スキルが必要</td></tr>
+    <tr><td>シフト管理体制構築</td><td class="em">2,500〜3,500円</td><td>労務管理知識を含む仕組み設計</td></tr>
+  </table>
+
+  <div class="info-box warn">
+    <strong>参考: 開業支援コンサルの相場</strong><br>
+    訪問看護ステーション開業支援コンサルティングは月額3万円（基本契約）+ オプション費用が一般的。
+    指定申請代行だけで10万円、求人面接同席8,000円/時間、ホームページ作成代行20万円など、
+    個別の専門業務には高い単価が設定されています。<br>
+    金井さんがこれらを「一括で」担うことは、コンサル委託の代替となるため<strong>非常に高い付加価値</strong>があります。
+  </div>
+</div>
+
+<!-- ===== 4. 営業・渉外 ===== -->
+<div class="section">
+  <h2>4. 営業・渉外活動の業務委託単価</h2>
+
+  <table class="detail-table">
+    <tr><th>業務内容</th><th>時給相場</th><th>根拠</th></tr>
+    <tr><td>医療機関への営業活動</td><td class="em">2,000〜3,500円</td><td>フリーランス営業の平均時給3,450円（SOKUDAN調査）</td></tr>
+    <tr><td>看護師による医療営業</td><td class="em">2,500〜4,000円</td><td>医療知識を持つ営業は一般営業より高単価</td></tr>
+    <tr><td>パンフレット企画・原稿作成</td><td class="em">2,000〜3,000円</td><td>デザイン外注は別途5〜20万円</td></tr>
+    <tr><td>パンフレット制作（デザイン含む外注）</td><td class="em">5〜20万円/件</td><td>A4 4Pで5〜12万円が相場</td></tr>
+  </table>
+
+  <div class="info-box">
+    <strong>看護師が行う営業の付加価値:</strong>
+    医療知識を持つ看護師が直接医療機関に営業することで、
+    専門的な会話ができ信頼関係構築が早い。これは一般営業担当では代替できない価値であり、
+    通常の営業委託（時給2,000〜3,500円）より高い時給が妥当です。
+  </div>
+</div>
+
+<!-- ===== 5. 指定申請 ===== -->
+<div class="section">
+  <h2>5. 指定申請準備の業務委託単価</h2>
+
+  <table class="detail-table">
+    <tr><th>業務内容</th><th>外注相場（成果物単位）</th><th>時給換算目安</th></tr>
+    <tr><td>訪問看護 指定申請代行（行政書士）</td><td class="em">12〜17.6万円</td><td>-</td></tr>
+    <tr><td>法人設立 + 指定申請セット</td><td class="em">16.2万円〜</td><td>-</td></tr>
+    <tr><td>行政書士 出張日当</td><td class="em">2.5〜4万円/日</td><td>約3,000〜5,000円/h</td></tr>
+    <tr><td>行政書士 相談料</td><td class="em">3,000〜5,000円/時間</td><td>-</td></tr>
+    <tr><td>書類作成補助（事務レベル）</td><td class="em">-</td><td>1,500〜2,000円</td></tr>
+    <tr><td>書類作成（内容理解を伴う専門作業）</td><td class="em">-</td><td>2,500〜3,000円</td></tr>
+  </table>
+
+  <div class="info-box">
+    <strong>ポイント:</strong>
+    指定申請を行政書士に完全外注すると12〜18万円かかります。金井さんが内製で対応する場合、
+    行政書士との連携・確認は必要ですが、書類の「内容理解」と「作成」ができる点で
+    単なる事務代行ではなく専門業務として評価すべきです。
+  </div>
+</div>
+
+<!-- ===== 6. 採用・研修 ===== -->
+<div class="section">
+  <h2>6. 採用・研修関連の業務委託単価</h2>
+
+  <table class="detail-table">
+    <tr><th>業務内容</th><th>外注相場</th><th>時給換算目安</th></tr>
+    <tr><td>採用代行（RPO）月額パッケージ</td><td class="em">月額5〜100万円</td><td>業務範囲による</td></tr>
+    <tr><td>求人票作成</td><td class="em">5,000〜3万円/件</td><td>-</td></tr>
+    <tr><td>面接同席・代行</td><td class="em">8,000円〜/時間</td><td>8,000円/h</td></tr>
+    <tr><td>人事業務委託（フリーランス）</td><td class="em">時給2,000〜3,500円</td><td>平均3,374円（SOKUDAN調査）</td></tr>
+    <tr><td>研修計画策定・研修実施</td><td class="em">時給2,500〜4,000円</td><td>看護専門性が加算</td></tr>
+  </table>
+</div>
+
+<!-- ===== 7. PM ===== -->
+<div class="section">
+  <h2>7. プロジェクト管理（PM）の業務委託単価</h2>
+
+  <table class="detail-table">
+    <tr><th>形態</th><th>単価</th><th>備考</th></tr>
+    <tr><td>フリーランスPM 月額</td><td class="em">80〜150万円</td><td>平均81.4万円（2024年調査）</td></tr>
+    <tr><td>フリーランスPM 時給（直接契約）</td><td class="em">6,000〜7,000円</td><td>エージェント介在で1万円以上</td></tr>
+    <tr><td>小規模事業のPM（開業準備）</td><td class="em">3,500〜5,000円</td><td>IT系PMより低めだが高度業務</td></tr>
+  </table>
+
+  <div class="info-box">
+    <strong>PM業務の本質:</strong>
+    開業準備全体のスケジュール管理、行政・業者・スタッフとの調整、各種意思決定のサポートは
+    典型的なプロジェクトマネジメント業務です。IT分野のPM相場は時給6,000〜10,000円ですが、
+    医療・介護分野の小規模プロジェクトでも<strong>3,500〜5,000円</strong>が妥当な水準です。
+  </div>
+</div>
+
+<!-- ===== 根拠まとめ ===== -->
+<div class="section">
+  <h2>「事務作業」と「専門業務」の単価差の根拠</h2>
+
+  <h3>単価差が生じる3つの理由</h3>
+  <ul>
+    <li><strong>1. 代替可能性の違い:</strong> 一般事務（データ入力・書類整理）は誰でも対応可能だが、BCP作成や業務フロー設計は医療・看護の専門知識が必要。代替が困難な業務ほど単価が高い。</li>
+    <li><strong>2. 外注した場合のコスト:</strong> BCP作成を外注すれば15〜45万円、指定申請代行は12〜18万円、開業コンサルは月額3万円+各種オプション費用。これらを内製化できることの経済的価値は時給1,200円の範疇ではない。</li>
+    <li><strong>3. 業務委託の原則:</strong> 業務委託料の適正額は「同じ仕事の正社員時給 x 1.5〜2倍」が目安（フリーランスは社会保険・福利厚生の負担がないため）。看護師の平均時給2,214円（令和5年賃金構造基本統計調査）の1.5倍は約3,300円。</li>
+  </ul>
+
+  <h3>フリーランスの時給中央値データ</h3>
+  <div class="info-box">
+    SOKUDAN独自調査によるフリーランス19職種の平均時給: <strong>4,093円</strong>、中央値: <strong>3,500円</strong><br>
+    最多価格帯は<strong>3,000円</strong>（全体の27.4%）<br>
+    コンサルタントの平均時給: <strong>5,124円</strong> / 事業企画: <strong>4,439円</strong> / 人事: <strong>3,374円</strong> / 営業: <strong>3,450円</strong><br>
+    コンサルティング系フリーランスの半数以上が時給5,000円以上を意識
+  </div>
+</div>
+
+<!-- ===== 業務別工数・コスト見積り ===== -->
+<div class="section">
+  <h2>金井さんの立ち上げ業務 — 業務別工数・コスト見積り（一律1,800円）</h2>
+  <p style="margin-bottom:16px">開業準備期間（8〜9月）における業務委託の内訳です。全業務一律 時給1,800円で算出。</p>
+
+  <table class="summary-table">
+    <thead>
+      <tr>
+        <th>業務</th>
+        <th>具体的内容</th>
+        <th>性質</th>
+        <th>時給</th>
+        <th>想定時間</th>
+        <th>小計</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background:#f0f9ff">
+        <td colspan="6" style="font-weight:700;color:#1e40af;padding:8px 12px">A. マニュアル・文書整備（メイン業務）</td>
+      </tr>
+      <tr>
+        <td class="cat">業務マニュアル作成</td>
+        <td>訪問看護の業務手順書・フロー図</td>
+        <td><span class="level level-mid">専門</span></td>
+        <td class="rate">1,800円</td>
+        <td>40h</td>
+        <td class="rate">72,000円</td>
+      </tr>
+      <tr>
+        <td class="cat">BCP（業務継続計画）</td>
+        <td>感染症・災害時の対応計画書</td>
+        <td><span class="level level-high">高度専門</span></td>
+        <td class="rate">1,800円</td>
+        <td>40h</td>
+        <td class="rate">72,000円</td>
+      </tr>
+      <tr>
+        <td class="cat">感染対策マニュアル</td>
+        <td>標準予防策・感染症別対応</td>
+        <td><span class="level level-mid">専門</span></td>
+        <td class="rate">1,800円</td>
+        <td>20h</td>
+        <td class="rate">36,000円</td>
+      </tr>
+      <tr>
+        <td class="cat">その他マニュアル4種</td>
+        <td>個人情報保護/苦情対応/事故対応/衛生管理</td>
+        <td><span class="level level-mid">専門</span></td>
+        <td class="rate">1,800円</td>
+        <td>40h</td>
+        <td class="rate">72,000円</td>
+      </tr>
+      <tr>
+        <td class="cat">運営規程・重説・契約書</td>
+        <td>テンプレートベースのカスタマイズ</td>
+        <td><span class="level level-mid">専門</span></td>
+        <td class="rate">1,800円</td>
+        <td>20h</td>
+        <td class="rate">36,000円</td>
+      </tr>
+      <tr style="background:#dbeafe">
+        <td colspan="4" style="font-weight:700;text-align:right">A小計</td>
+        <td style="font-weight:700">160h</td>
+        <td class="rate" style="font-size:14px">288,000円</td>
+      </tr>
+
+      <tr style="background:#f0fdf4">
+        <td colspan="6" style="font-weight:700;color:#15803d;padding:8px 12px">B. 運用設計・仕組み構築</td>
+      </tr>
+      <tr>
+        <td class="cat">電子カルテ選定・導入</td>
+        <td>カイポケ等の初期設定・マスタ登録</td>
+        <td><span class="level level-high">高度専門</span></td>
+        <td class="rate">1,800円</td>
+        <td>30h</td>
+        <td class="rate">54,000円</td>
+      </tr>
+      <tr>
+        <td class="cat">記録フォーマット設計</td>
+        <td>看護記録・報告書の書式策定</td>
+        <td><span class="level level-mid">専門</span></td>
+        <td class="rate">1,800円</td>
+        <td>15h</td>
+        <td class="rate">27,000円</td>
+      </tr>
+      <tr>
+        <td class="cat">シフト・レセプト体制</td>
+        <td>訪問スケジュール・請求フロー設計</td>
+        <td><span class="level level-mid">専門</span></td>
+        <td class="rate">1,800円</td>
+        <td>15h</td>
+        <td class="rate">27,000円</td>
+      </tr>
+      <tr style="background:#dcfce7">
+        <td colspan="4" style="font-weight:700;text-align:right">B小計</td>
+        <td style="font-weight:700">60h</td>
+        <td class="rate" style="font-size:14px">108,000円</td>
+      </tr>
+
+      <tr style="background:#fef3c7">
+        <td colspan="6" style="font-weight:700;color:#92400e;padding:8px 12px">C. 指定申請・行政対応</td>
+      </tr>
+      <tr>
+        <td class="cat">指定申請書類準備</td>
+        <td>申請書作成・必要書類の収集</td>
+        <td><span class="level level-mid">専門</span></td>
+        <td class="rate">1,800円</td>
+        <td>25h</td>
+        <td class="rate">45,000円</td>
+      </tr>
+      <tr>
+        <td class="cat">行政との事前相談</td>
+        <td>千葉市への事前相談・確認</td>
+        <td><span class="level level-mid">専門</span></td>
+        <td class="rate">1,800円</td>
+        <td>10h</td>
+        <td class="rate">18,000円</td>
+      </tr>
+      <tr style="background:#fef9c3">
+        <td colspan="4" style="font-weight:700;text-align:right">C小計</td>
+        <td style="font-weight:700">35h</td>
+        <td class="rate" style="font-size:14px">63,000円</td>
+      </tr>
+
+      <tr style="background:#fce7f3">
+        <td colspan="6" style="font-weight:700;color:#9d174d;padding:8px 12px">D. 営業・採用・その他</td>
+      </tr>
+      <tr>
+        <td class="cat">医療機関への営業</td>
+        <td>クリニック・病院への挨拶回り</td>
+        <td><span class="level level-mid">専門</span></td>
+        <td class="rate">1,800円</td>
+        <td>30h</td>
+        <td class="rate">54,000円</td>
+      </tr>
+      <tr>
+        <td class="cat">営業資料・パンフ原稿</td>
+        <td>サービス案内の原稿作成</td>
+        <td><span class="level level-low">定型</span></td>
+        <td class="rate">1,800円</td>
+        <td>10h</td>
+        <td class="rate">18,000円</td>
+      </tr>
+      <tr>
+        <td class="cat">採用関連</td>
+        <td>求人票作成・面接同席</td>
+        <td><span class="level level-mid">専門</span></td>
+        <td class="rate">1,800円</td>
+        <td>15h</td>
+        <td class="rate">27,000円</td>
+      </tr>
+      <tr>
+        <td class="cat">一般事務</td>
+        <td>備品発注・電話対応・書類整理</td>
+        <td><span class="level level-low">定型</span></td>
+        <td class="rate">1,800円</td>
+        <td>10h</td>
+        <td class="rate">18,000円</td>
+      </tr>
+      <tr style="background:#fce7f3">
+        <td colspan="4" style="font-weight:700;text-align:right">D小計</td>
+        <td style="font-weight:700">65h</td>
+        <td class="rate" style="font-size:14px">117,000円</td>
+      </tr>
+
+      <tr style="background:#1e3a8a;color:white">
+        <td colspan="3" style="font-weight:700;font-size:15px;padding:12px">業務委託期間 合計（8〜9月・2ヶ月間）</td>
+        <td style="font-weight:700;font-size:14px">一律<br>1,800円/h</td>
+        <td style="font-weight:700;font-size:15px">320h</td>
+        <td style="font-weight:700;font-size:16px">576,000円</td>
+      </tr>
+      <tr style="background:#e0e7ff">
+        <td colspan="3" style="font-weight:700;padding:10px 12px">→ 月額換算</td>
+        <td colspan="2" style="font-weight:700">月160h（週5日×8h）</td>
+        <td class="rate" style="font-size:15px">月額 288,000円</td>
+      </tr>
+      <tr style="background:#e0e7ff">
+        <td colspan="3" style="padding:10px 12px">→ 週4日×5hの場合</td>
+        <td colspan="2">月80h</td>
+        <td class="rate">月額 144,000円</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="info-box">
+    <strong>一律1,800円にした理由:</strong><br>
+    ・金井さんの認識（事務1,200円）より上で、準備業務全般の付加価値を反映<br>
+    ・正社員35万（時給換算2,190円）より低く、正社員化のインセンティブを維持<br>
+    ・管理がシンプル（業務ごとに単価を分ける手間がない）<br>
+    <br>
+    <strong>参考: この業務を全て外注した場合は74〜205万円かかります（下記参照）</strong>
+  </div>
+</div>
+
+<!-- ===== 確定プラン ===== -->
+<div class="proposal">
+  <h2>確定: 報酬設計・人員体制プラン</h2>
+
+  <h3 style="font-size:16px; color:#15803d; margin-bottom:16px;">メンバー構成と報酬</h3>
+  <table>
+    <tr><th>メンバー</th><th>役割</th><th>雇用形態</th><th>報酬</th><th>常勤換算</th></tr>
+    <tr style="background:#dcfce7">
+      <td><strong>金井さん</strong></td>
+      <td>管理者</td>
+      <td>8-9月: 業務委託<br>10月〜: 正社員</td>
+      <td>委託: 時給1,800円<br>正社員: 額面35万</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <td><strong>滝田さん</strong></td>
+      <td>看護師（大学院生）</td>
+      <td>非常勤パート（11月〜）</td>
+      <td>時給2,000円<br>月48h（週2日×6h）</td>
+      <td>0.5</td>
+    </tr>
+    <tr>
+      <td><strong>外部パートA</strong></td>
+      <td>看護師</td>
+      <td>パート（11月〜）</td>
+      <td>時給1,800円<br>月69h（週4日×4h）</td>
+      <td>0.5</td>
+    </tr>
+    <tr>
+      <td><strong>外部パートB</strong></td>
+      <td>看護師</td>
+      <td>パート（11月〜）</td>
+      <td>時給1,800円<br>月69h（週4日×4h）</td>
+      <td>0.5</td>
+    </tr>
+    <tr>
+      <td><strong>リュウナさん</strong></td>
+      <td>看護師</td>
+      <td>正社員（2027年4月〜）</td>
+      <td>額面30万</td>
+      <td>1.0</td>
+    </tr>
+    <tr style="background:#dcfce7">
+      <td colspan="4" style="font-weight:700;text-align:right">開業時 常勤換算合計</td>
+      <td style="font-weight:700;font-size:16px">2.5</td>
+    </tr>
+  </table>
+
+  <h3 style="font-size:16px; color:#15803d; margin: 28px 0 16px;">人件費タイムライン</h3>
+  <table>
+    <tr><th>期間</th><th>金井さん</th><th>滝田さん</th><th>外部2名</th><th>リュウナ</th><th>月合計</th></tr>
+    <tr>
+      <td><strong>8-9月</strong><br><span style="font-size:11px;color:#666">開業準備</span></td>
+      <td>委託14.4万<br><span style="font-size:11px;color:#666">80h×1,800円</span></td>
+      <td>—</td>
+      <td>—</td>
+      <td>—</td>
+      <td style="font-weight:700;color:#15803d">14.4万</td>
+    </tr>
+    <tr>
+      <td><strong>10月</strong><br><span style="font-size:11px;color:#666">開業直前</span></td>
+      <td>35万+社保5.3万</td>
+      <td>—</td>
+      <td>—</td>
+      <td>—</td>
+      <td style="font-weight:700;color:#15803d">40.3万</td>
+    </tr>
+    <tr style="background:#f0fdf4">
+      <td><strong>11月〜3月</strong><br><span style="font-size:11px;color:#666">開業〜安定期</span></td>
+      <td>35万+社保5.3万</td>
+      <td>9.6万<br><span style="font-size:11px;color:#666">48h×2,000円</span></td>
+      <td>24.8万<br><span style="font-size:11px;color:#666">12.4万×2名</span></td>
+      <td>—</td>
+      <td style="font-weight:700;color:#15803d">約74.7万</td>
+    </tr>
+    <tr style="background:#dcfce7">
+      <td><strong>2027年4月〜</strong><br><span style="font-size:11px;color:#666">フル体制</span></td>
+      <td>35万+社保5.3万</td>
+      <td>9.6万</td>
+      <td>24.8万</td>
+      <td>30万+社保4.5万</td>
+      <td style="font-weight:700;color:#15803d">約109.2万</td>
+    </tr>
+  </table>
+
+  <div style="margin-top:16px; padding:12px 16px; background:#dcfce7; border-radius:8px; font-size:13px;">
+    <strong>コストまとめ:</strong><br>
+    ・開業前コスト（8〜10月）: <strong>約69.1万円</strong>（委託14.4万×2 + 正社員40.3万）<br>
+    ・開業後の月額人件費: <strong>約74.7万円/月</strong>（11月〜3月）<br>
+    ・リュウナさん合流後: <strong>約109.2万円/月</strong>（4月〜）<br>
+    ・外部パート2名は週20h未満のため社保なし → コスト抑制
+  </div>
+
+  <h3 style="font-size:16px; color:#15803d; margin: 28px 0 16px;">最短開業スケジュール</h3>
+  <table>
+    <tr><th>時期</th><th>やること</th><th>担当</th></tr>
+    <tr><td><strong>8月前半</strong></td><td>法人設立（株式会社）</td><td>広辺</td></tr>
+    <tr><td><strong>8月</strong></td><td>物件探し・契約 / 金井さん業務委託開始</td><td>広辺・金井</td></tr>
+    <tr><td><strong>8〜9月</strong></td><td>マニュアル・運営規程・BCP作成</td><td>金井</td></tr>
+    <tr><td><strong>9月</strong></td><td>外部パート2名の採用活動</td><td>金井・広辺</td></tr>
+    <tr><td><strong>10月1日</strong></td><td>金井さん正社員雇用（管理者就任）</td><td>—</td></tr>
+    <tr><td><strong>10月1〜10日</strong></td><td>千葉市に指定申請提出</td><td>金井・広辺</td></tr>
+    <tr><td><strong>10月</strong></td><td>医療機関への営業・関東信越厚生局届出</td><td>金井</td></tr>
+    <tr style="background:#dcfce7"><td><strong>11月1日</strong></td><td style="font-weight:700;font-size:15px">開業・利用者受入れ開始</td><td>全員</td></tr>
+  </table>
+</div>
+
+<!-- ===== 外注した場合の総コスト比較 ===== -->
+<div class="section">
+  <h2>参考: 開業準備を全て外注した場合のコスト試算</h2>
+
+  <table class="detail-table">
+    <tr><th>外注項目</th><th>推定費用</th></tr>
+    <tr><td>開業支援コンサルティング</td><td class="em">12〜20万円</td></tr>
+    <tr><td>BCP作成代行</td><td class="em">15〜45万円</td></tr>
+    <tr><td>マニュアル一式作成</td><td class="em">5〜12万円</td></tr>
+    <tr><td>指定申請代行（行政書士）</td><td class="em">12〜18万円</td></tr>
+    <tr><td>パンフレット作成</td><td class="em">5〜20万円</td></tr>
+    <tr><td>採用代行（2名採用）</td><td class="em">10〜40万円</td></tr>
+    <tr><td>電子カルテ導入支援</td><td class="em">10〜30万円</td></tr>
+    <tr><td style="font-weight:700;">外注合計</td><td class="em" style="font-size:15px;">69〜185万円</td></tr>
+  </table>
+
+  <div class="info-box warn">
+    <strong>比較:</strong> 金井さんの業務委託（14.4万×2ヶ月 = 28.8万円）で準備業務を内製化する方が、
+    外注総額（69〜185万円）と比べて<strong>大幅にコストを抑えられます</strong>。
+    さらに金井さんは開業後にそのまま管理者として即戦力になるため、
+    外注にはない「事業理解の蓄積」という圧倒的なメリットがあります。
+  </div>
+</div>
+
+<!-- ===== ソース ===== -->
+<div class="sources">
+  <h3 style="font-size:14px; color:#374151; margin-bottom:8px;">出典・参考資料</h3>
+  <ul>
+    <li><a href="https://enterprise.goworkship.com/lp/consignment/outsourcing-hourlywage" target="_blank">Workship ENTERPRISE - 業務委託の時給相場一覧（職種別）</a></li>
+    <li><a href="https://business.sokudan.work/magazine/_019/" target="_blank">SOKUDAN - 業務委託の時給相場（19職種調査）</a></li>
+    <li><a href="https://xn--pckua2a7gp15o89zb.com/%E5%8C%BB%E7%99%82%E4%BA%8B%E5%8B%99%E3%81%AE%E5%B9%B4%E5%8F%8E%E3%83%BB%E6%99%82%E7%B5%A6-%E5%8D%83%E8%91%89%E7%9C%8C" target="_blank">求人ボックス - 千葉県医療事務の平均時給</a></li>
+    <li><a href="https://xn--pckua2a7gp15o89zb.com/%E5%8C%BB%E7%99%82%E4%BA%8B%E5%8B%99%E3%81%AE%E5%B9%B4%E5%8F%8E%E3%83%BB%E6%99%82%E7%B5%A6-%E6%9D%B1%E4%BA%AC%E9%83%BD" target="_blank">求人ボックス - 東京都医療事務の平均時給</a></li>
+    <li><a href="https://kaigo.taskman.co.jp/bcp" target="_blank">タスクマン合同法務事務所 - BCP作成代行コンサルティング費用</a></li>
+    <li><a href="https://n-jimu.com/fee/" target="_blank">介護障害福祉事業指定申請サポート - 報酬額一覧</a></li>
+    <li><a href="https://www.anycia.or.jp/fukushi/service/%E6%8C%87%E5%AE%9A%E7%94%B3%E8%AB%8B%E4%BB%A3%E8%A1%8C%E5%A0%B1%E9%85%AC/" target="_blank">行政書士法人エニシア - 指定申請代行報酬</a></li>
+    <li><a href="https://ai-cmo.co.jp/pm%EF%BC%88%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%83%9E%E3%83%8D%E3%83%BC%E3%82%B8%E3%83%A3%EF%BC%89%E3%82%92%E7%99%BA%E6%B3%A8%E3%81%99%E3%82%8B%E8%B2%BB%E7%94%A8%E7%9B%B8%E5%A0%B4/" target="_blank">Ai CMO - PM発注費用相場</a></li>
+    <li><a href="https://c-1st.jp/service/rpo_price.html" target="_blank">クライアントファースト - 採用代行（RPO）費用相場</a></li>
+    <li><a href="https://roumunews.jp/minimum-wage-2026-forecast/" target="_blank">労務ニュース - 2026年最低賃金予測</a></li>
+    <li><a href="https://itpropartners.com/blog/32350/" target="_blank">ITプロマガジン - 業務委託の時給制と時給相場</a></li>
+    <li><a href="https://levtech.jp/partner/guide/article/detail/389/" target="_blank">レバテック - フリーランスの時給相場（職種別）</a></li>
+    <li><a href="https://titan-art.com/10921" target="_blank">タイタン・アート - パンフレットデザイン料金相場</a></li>
+  </ul>
+</div>
+
+</div><!-- /.page -->
+</div><!-- /tab-salary -->
+
+<!-- ===== TAB 2: キャッシュフロー ===== -->
+<div id="tab-cashflow" class="tab-content">
+<div class="page" style="border-radius:0 0 12px 12px;margin-top:0">
+
+<div class="header">
+  <h1>訪問看護ST キャッシュフロー計画</h1>
+  <div class="sub">2026年8月〜2027年7月（開業: 2026年11月1日）</div>
+</div>
+
+<!-- 前提条件 -->
+<div class="section">
+  <h2>前提条件</h2>
+  <div class="assumption-grid">
+    <div class="assumption-card">
+      <div class="label">開業日</div>
+      <div class="value">2026年11月1日</div>
+      <div class="note">千葉市指定</div>
+    </div>
+    <div class="assumption-card">
+      <div class="label">利用者あたり月売上</div>
+      <div class="value">55,000円</div>
+      <div class="note">精神科基本療養費×8回+加算</div>
+    </div>
+    <div class="assumption-card">
+      <div class="label">入金タイミング</div>
+      <div class="value">2ヶ月遅れ</div>
+      <div class="note">11月分→翌1月入金</div>
+    </div>
+    <div class="assumption-card">
+      <div class="label">看護体制</div>
+      <div class="value">常勤換算 2.5人</div>
+      <div class="note">常勤1+非常勤3名</div>
+    </div>
+    <div class="assumption-card">
+      <div class="label">黒字化目安（11〜3月）</div>
+      <div class="value">約18名</div>
+      <div class="note">月固定費÷利用者単価</div>
+    </div>
+    <div class="assumption-card">
+      <div class="label">黒字化目安（4月〜）</div>
+      <div class="value">約24名</div>
+      <div class="note">増員後の固定費ベース</div>
+    </div>
+  </div>
+</div>
+
+<!-- 初期費用 -->
+<div class="section">
+  <h2>初期費用（開業前）</h2>
+  <table class="detail-table">
+    <tr><th>項目</th><th>金額</th><th>時期</th></tr>
+    <tr><td>法人設立（株式会社）</td><td class="em">300,000円</td><td>8月</td></tr>
+    <tr><td>物件取得（敷金・礼金・前家賃）</td><td class="em">480,000円</td><td>8月</td></tr>
+    <tr><td>内装・設備</td><td class="em">300,000円</td><td>9月</td></tr>
+    <tr><td>備品（PC・タブレット・携帯）</td><td class="em">400,000円</td><td>9月</td></tr>
+    <tr><td>車両・移動手段</td><td class="em">200,000円</td><td>10月</td></tr>
+    <tr><td>印刷物（名刺・パンフレット）</td><td class="em">50,000円</td><td>10月</td></tr>
+    <tr><td>その他（保険・登録費等）</td><td class="em">100,000円</td><td>10月</td></tr>
+    <tr style="background:#f0fdfa;font-weight:700"><td>初期費用 合計</td><td class="em" style="font-size:15px">1,830,000円</td><td>—</td></tr>
+  </table>
+</div>
+
+<!-- 月次キャッシュフロー -->
+<div class="section">
+  <h2>月次キャッシュフロー</h2>
+  <div class="cf-wrap">
+    <table class="cf-table">
+      <thead>
+        <tr>
+          <th>項目</th>
+          <th>8月</th>
+          <th>9月</th>
+          <th>10月</th>
+          <th>11月</th>
+          <th>12月</th>
+          <th>1月</th>
+          <th>2月</th>
+          <th>3月</th>
+          <th>4月</th>
+          <th>5月</th>
+          <th>6月</th>
+          <th>7月</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="sep"><td colspan="13">売上</td></tr>
+        <tr>
+          <td>利用者数</td>
+          <td>—</td><td>—</td><td>—</td>
+          <td>3</td><td>7</td><td>11</td><td>15</td><td>18</td>
+          <td>20</td><td>22</td><td>24</td><td>25</td>
+        </tr>
+        <tr>
+          <td>売上（発生）</td>
+          <td>—</td><td>—</td><td>—</td>
+          <td>16.5</td><td>38.5</td><td>60.5</td><td>82.5</td><td>99.0</td>
+          <td>110.0</td><td>121.0</td><td>132.0</td><td>137.5</td>
+        </tr>
+        <tr style="background:#fef3c7">
+          <td>入金（2ヶ月遅れ）</td>
+          <td>—</td><td>—</td><td>—</td>
+          <td>—</td><td>—</td><td class="pos">16.5</td><td class="pos">38.5</td><td class="pos">60.5</td>
+          <td class="pos">82.5</td><td class="pos">99.0</td><td class="pos">110.0</td><td class="pos">121.0</td>
+        </tr>
+
+        <tr class="sep"><td colspan="13">支出</td></tr>
+        <tr>
+          <td>人件費</td>
+          <td>14.4</td><td>14.4</td><td>40.3</td>
+          <td>74.7</td><td>74.7</td><td>74.7</td><td>74.7</td><td>74.7</td>
+          <td>109.2</td><td>109.2</td><td>109.2</td><td>109.2</td>
+        </tr>
+        <tr>
+          <td>家賃</td>
+          <td>—</td><td>—</td><td>12.0</td>
+          <td>12.0</td><td>12.0</td><td>12.0</td><td>12.0</td><td>12.0</td>
+          <td>12.0</td><td>12.0</td><td>12.0</td><td>12.0</td>
+        </tr>
+        <tr>
+          <td>運営費</td>
+          <td>—</td><td>—</td><td>5.0</td>
+          <td>8.5</td><td>8.5</td><td>8.5</td><td>8.5</td><td>8.5</td>
+          <td>8.5</td><td>8.5</td><td>8.5</td><td>8.5</td>
+        </tr>
+        <tr>
+          <td>初期費用</td>
+          <td>78.0</td><td>70.0</td><td>35.0</td>
+          <td>—</td><td>—</td><td>—</td><td>—</td><td>—</td>
+          <td>—</td><td>—</td><td>—</td><td>—</td>
+        </tr>
+        <tr style="background:#fee2e2">
+          <td>支出合計</td>
+          <td>92.4</td><td>84.4</td><td>92.3</td>
+          <td>95.2</td><td>95.2</td><td>95.2</td><td>95.2</td><td>95.2</td>
+          <td>129.7</td><td>129.7</td><td>129.7</td><td>129.7</td>
+        </tr>
+
+        <tr class="sep"><td colspan="13">収支</td></tr>
+        <tr>
+          <td>月次収支</td>
+          <td class="neg">▲92.4</td><td class="neg">▲84.4</td><td class="neg">▲92.3</td>
+          <td class="neg">▲95.2</td><td class="neg">▲95.2</td><td class="neg">▲78.7</td><td class="neg">▲56.7</td><td class="neg">▲34.7</td>
+          <td class="neg">▲47.2</td><td class="neg">▲30.7</td><td class="neg">▲19.7</td><td class="neg">▲8.7</td>
+        </tr>
+        <tr class="total-row">
+          <td>累計収支</td>
+          <td>▲92.4</td><td>▲176.8</td><td>▲269.1</td>
+          <td>▲364.3</td><td>▲459.5</td><td>▲538.2</td><td>▲594.9</td><td>▲629.6</td>
+          <td>▲676.8</td><td>▲707.5</td><td>▲727.2</td><td>▲735.9</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="font-size:12px;color:#666;margin-top:4px">※金額は万円。運営費 = 電子カルテ(2.5万)+通信(1.5万)+車両(3万)+消耗品(1万)+雑費(0.5万) = 8.5万/月</div>
+</div>
+
+<!-- 分析 -->
+<div class="section">
+  <h2>分析</h2>
+
+  <div class="info-box warn">
+    <strong>最大キャッシュアウト: 約736万円（2027年7月時点）</strong><br>
+    初期費用183万 + 開業前人件費69.1万 + 開業後の赤字分 ≒ 累計約736万円の資金が必要。<br>
+    売上が計画通り伸びても、入金2ヶ月遅れの影響で<strong>1年目は黒字化しません</strong>。<br>
+    <strong>最低でも800万円の運転資金を確保</strong>してください。
+  </div>
+
+  <div class="info-box">
+    <strong>黒字化の見通し:</strong><br>
+    ・11月〜3月の月間固定費: 約95.2万円 → <strong>利用者18名で損益分岐</strong>（発生ベース）<br>
+    ・4月以降（リュウナさん合流）の月間固定費: 約129.7万円 → <strong>利用者24名で損益分岐</strong><br>
+    ・ただし入金は2ヶ月遅れのため、キャッシュフローの黒字化はさらに2ヶ月後<br>
+    ・<strong>発生ベースの単月黒字: 利用者18名到達時（2027年3月頃）</strong><br>
+    ・<strong>キャッシュフロー黒字: 2027年8月以降</strong>（利用者25名以上を維持できれば）
+  </div>
+
+  <h3>利用者数と月次売上の関係</h3>
+  <table class="detail-table">
+    <tr><th>利用者数</th><th>月売上</th><th>固定費（11〜3月）</th><th>月次損益</th></tr>
+    <tr><td>5名</td><td>27.5万</td><td>95.2万</td><td class="neg">▲67.7万</td></tr>
+    <tr><td>10名</td><td>55.0万</td><td>95.2万</td><td class="neg">▲40.2万</td></tr>
+    <tr><td>15名</td><td>82.5万</td><td>95.2万</td><td class="neg">▲12.7万</td></tr>
+    <tr class="break-even"><td><strong>18名</strong></td><td><strong>99.0万</strong></td><td>95.2万</td><td class="pos"><strong>+3.8万</strong></td></tr>
+    <tr><td>20名</td><td>110.0万</td><td>95.2万</td><td class="pos">+14.8万</td></tr>
+    <tr><td>25名</td><td>137.5万</td><td>95.2万</td><td class="pos">+42.3万</td></tr>
+  </table>
+
+  <table class="detail-table" style="margin-top:20px">
+    <tr><th>利用者数</th><th>月売上</th><th>固定費（4月〜）</th><th>月次損益</th></tr>
+    <tr><td>15名</td><td>82.5万</td><td>129.7万</td><td class="neg">▲47.2万</td></tr>
+    <tr><td>20名</td><td>110.0万</td><td>129.7万</td><td class="neg">▲19.7万</td></tr>
+    <tr class="break-even"><td><strong>24名</strong></td><td><strong>132.0万</strong></td><td>129.7万</td><td class="pos"><strong>+2.3万</strong></td></tr>
+    <tr><td>30名</td><td>165.0万</td><td>129.7万</td><td class="pos">+35.3万</td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <h2>必要資金まとめ</h2>
+  <table class="detail-table">
+    <tr><th>項目</th><th>金額</th></tr>
+    <tr><td>初期費用（法人設立・物件・備品等）</td><td class="em">約183万円</td></tr>
+    <tr><td>開業前人件費（8〜10月）</td><td class="em">約69万円</td></tr>
+    <tr><td>運転資金（入金遅れ+赤字補填）</td><td class="em">約484万円</td></tr>
+    <tr style="background:#fef2f2;font-weight:700"><td>必要資金 合計</td><td class="em" style="font-size:16px">約736万円</td></tr>
+    <tr style="background:#fef3c7"><td>推奨（余裕を持って）</td><td class="em" style="font-size:16px">800〜1,000万円</td></tr>
+  </table>
+</div>
+
+</div><!-- /.page -->
+</div><!-- /tab-cashflow -->
+
+<script>
+function switchTab(tab) {
+  document.querySelectorAll('.tab-content').forEach(function(el) { el.classList.remove('active'); });
+  document.querySelectorAll('.tab-bar button').forEach(function(el) { el.classList.remove('active'); });
+  document.getElementById('tab-' + tab).classList.add('active');
+  var idx = tab === 'salary' ? 0 : 1;
+  document.querySelectorAll('.tab-bar button')[idx].classList.add('active');
+}
+</script>
+</body>
+</html>

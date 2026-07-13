@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>業務委託契約書 — 訪問看護ステーション開設準備</title>
+<style>
+  @media print {
+    body { margin: 20mm 15mm; }
+    .no-print { display: none !important; }
+    .page-break { page-break-before: always; }
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "游明朝", "Yu Mincho", "Hiragino Mincho ProN", serif;
+    font-size: 14px;
+    line-height: 2;
+    color: #222;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 32px;
+    background: #fff;
+  }
+  .no-print {
+    position: fixed; top: 16px; right: 16px; z-index: 100;
+    display: flex; gap: 8px;
+  }
+  .no-print button {
+    padding: 8px 20px; border: 1px solid #1e3a8a; border-radius: 6px;
+    background: #1e3a8a; color: white; font-size: 14px; cursor: pointer;
+  }
+  .no-print button:hover { background: #1e40af; }
+  .no-print button.secondary { background: white; color: #1e3a8a; }
+  h1 {
+    text-align: center;
+    font-size: 22px;
+    letter-spacing: 6px;
+    margin-bottom: 32px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #222;
+  }
+  .preamble {
+    margin-bottom: 28px;
+    text-indent: 1em;
+  }
+  .article {
+    margin-bottom: 20px;
+  }
+  .article-title {
+    font-weight: bold;
+    margin-bottom: 2px;
+  }
+  .article-body {
+    padding-left: 1em;
+  }
+  .article-body p {
+    margin-bottom: 4px;
+  }
+  .sub-item {
+    padding-left: 1.5em;
+  }
+  .signature-block {
+    margin-top: 48px;
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+  }
+  .signature-box {
+    flex: 1;
+    border: 1px solid #ccc;
+    padding: 24px 20px;
+    min-height: 200px;
+  }
+  .signature-box h3 {
+    font-size: 15px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #999;
+    padding-bottom: 6px;
+  }
+  .sig-row {
+    display: flex;
+    margin-bottom: 10px;
+    align-items: baseline;
+  }
+  .sig-label {
+    width: 70px;
+    flex-shrink: 0;
+    font-size: 13px;
+  }
+  .sig-value {
+    flex: 1;
+    border-bottom: 1px dotted #999;
+    min-height: 1.8em;
+    font-size: 14px;
+    padding-left: 4px;
+  }
+  .sig-value.editable {
+    cursor: text;
+    outline: none;
+  }
+  .sig-value.editable:focus {
+    background: #fffde7;
+    border-bottom-color: #1e3a8a;
+  }
+  .seal-space {
+    text-align: right;
+    margin-top: 16px;
+    font-size: 13px;
+    color: #666;
+  }
+  .date-line {
+    text-align: right;
+    margin: 32px 0 8px;
+    font-size: 15px;
+  }
+  .blank {
+    display: inline-block;
+    border-bottom: 1px solid #999;
+    min-width: 80px;
+    text-align: center;
+    color: #1e3a8a;
+    font-weight: normal;
+  }
+  .editable {
+    cursor: text;
+    outline: none;
+  }
+  .editable:focus {
+    background: #fffde7;
+  }
+  .note {
+    font-size: 12px;
+    color: #666;
+    margin-top: 4px;
+  }
+  .appendix {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid #222;
+  }
+  .appendix h2 {
+    font-size: 18px;
+    text-align: center;
+    letter-spacing: 4px;
+    margin-bottom: 20px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 13px;
+  }
+  th, td {
+    border: 1px solid #999;
+    padding: 6px 10px;
+    text-align: left;
+  }
+  th {
+    background: #f5f5f5;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+</style>
+</head>
+<body>
+
+<div class="no-print">
+  <button onclick="window.print()">印刷 / PDF保存</button>
+  <button class="secondary" onclick="location.href='/'">戻る</button>
+</div>
+
+<h1>業 務 委 託 契 約 書</h1>
+
+<p class="preamble">
+<span class="blank editable" contenteditable="true">＿＿＿＿＿＿＿＿＿＿</span>（以下「甲」という）と
+<span class="blank editable" contenteditable="true">金井＿＿＿＿</span>（以下「乙」という）は、
+訪問看護ステーションの開設準備業務について、以下のとおり業務委託契約（以下「本契約」という）を締結する。
+</p>
+
+<!-- 第1条 -->
+<div class="article">
+  <div class="article-title">第1条（目的）</div>
+  <div class="article-body">
+    <p>甲は、精神科を含む訪問看護ステーション（以下「本事業」という）の開設準備に関する業務を乙に委託し、乙はこれを受託する。</p>
+  </div>
+</div>
+
+<!-- 第2条 -->
+<div class="article">
+  <div class="article-title">第2条（委託業務の内容）</div>
+  <div class="article-body">
+    <p>乙が行う業務は、以下の各号に定めるとおりとする。</p>
+    <div class="sub-item">
+      <p>（1）運営規程の作成</p>
+      <p>（2）重要事項説明書および利用契約書の作成</p>
+      <p>（3）BCP（業務継続計画）の作成</p>
+      <p>（4）業務マニュアル一式の作成</p>
+      <p>（5）感染対策マニュアルおよび個人情報保護マニュアルの作成</p>
+      <p>（6）指定申請書類の作成および申請手続きの補助</p>
+      <p>（7）電子カルテシステムの選定および導入準備</p>
+      <p>（8）その他、本事業の開設準備に必要な業務で甲乙が合意したもの</p>
+    </div>
+  </div>
+</div>
+
+<!-- 第3条 -->
+<div class="article">
+  <div class="article-title">第3条（契約期間）</div>
+  <div class="article-body">
+    <p>本契約の期間は、2026年8月1日から2026年9月30日までとする。</p>
+    <p>2　甲乙いずれかから契約期間満了の14日前までに書面による異議がない場合は、同一条件にて1ヶ月間自動延長されるものとし、以後も同様とする。</p>
+    <p>3　甲が乙を正社員として雇用する場合、本契約は雇用契約の開始日をもって終了するものとする。</p>
+  </div>
+</div>
+
+<!-- 第4条 -->
+<div class="article">
+  <div class="article-title">第4条（報酬）</div>
+  <div class="article-body">
+    <p>甲は乙に対し、以下の報酬を支払うものとする。</p>
+    <div class="sub-item">
+      <p>（1）時間単価：1時間あたり金1,800円（税込）</p>
+      <p>（2）月間上限：80時間（月額上限 金144,000円）</p>
+      <p>（3）交通費：業務に必要な交通費は実費を別途精算する</p>
+    </div>
+    <p>2　乙は毎月末日までに当月の稼働時間および業務内容を記載した業務報告書を甲に提出するものとする。</p>
+  </div>
+</div>
+
+<!-- 第5条 -->
+<div class="article">
+  <div class="article-title">第5条（報酬の支払い）</div>
+  <div class="article-body">
+    <p>甲は、乙から提出された業務報告書に基づき、毎月末日締め、翌月末日までに乙が指定する金融機関口座に振り込む方法により支払う。振込手数料は甲の負担とする。</p>
+  </div>
+</div>
+
+<!-- 第6条 -->
+<div class="article">
+  <div class="article-title">第6条（業務遂行の方法）</div>
+  <div class="article-body">
+    <p>乙は、本業務を自己の裁量と責任において遂行するものとし、甲は業務の遂行方法について指揮命令を行わないものとする。</p>
+    <p>2　業務の遂行場所は乙の自宅またはリモート環境を原則とし、必要に応じて甲が指定する場所で行うものとする。</p>
+    <p>3　業務遂行に必要なパソコン等の機器は、原則として乙が用意するものとする。ただし、甲が貸与する場合はこの限りでない。</p>
+  </div>
+</div>
+
+<!-- 第7条 -->
+<div class="article">
+  <div class="article-title">第7条（成果物の帰属）</div>
+  <div class="article-body">
+    <p>乙が本契約に基づき作成した成果物（運営規程、マニュアル、申請書類等の一切のドキュメント）の著作権その他一切の知的財産権は、報酬の支払いをもって甲に帰属するものとする。</p>
+  </div>
+</div>
+
+<!-- 第8条 -->
+<div class="article">
+  <div class="article-title">第8条（秘密保持）</div>
+  <div class="article-body">
+    <p>甲および乙は、本契約の遂行に際して知り得た相手方の技術上・営業上その他一切の秘密情報を、本契約期間中はもとより、本契約終了後も第三者に漏洩してはならない。</p>
+    <p>2　前項の規定は、次の各号のいずれかに該当する情報には適用しない。</p>
+    <div class="sub-item">
+      <p>（1）開示時に既に公知であったもの</p>
+      <p>（2）開示後に乙の責めによらず公知となったもの</p>
+      <p>（3）法令に基づき開示が求められたもの</p>
+    </div>
+  </div>
+</div>
+
+<!-- 第9条 -->
+<div class="article">
+  <div class="article-title">第9条（個人情報の取扱い）</div>
+  <div class="article-body">
+    <p>乙は、本業務の遂行に際して取り扱う個人情報について、個人情報の保護に関する法律その他関連法令を遵守し、適切に管理するものとする。</p>
+    <p>2　乙は、本業務の遂行に必要な範囲を超えて個人情報を利用してはならず、本契約終了後は速やかに甲に返還または廃棄するものとする。</p>
+  </div>
+</div>
+
+<!-- 第10条 -->
+<div class="article">
+  <div class="article-title">第10条（再委託の禁止）</div>
+  <div class="article-body">
+    <p>乙は、甲の事前の書面による承諾なく、本業務の全部または一部を第三者に再委託してはならない。</p>
+  </div>
+</div>
+
+<!-- 第11条 -->
+<div class="article">
+  <div class="article-title">第11条（契約の解除）</div>
+  <div class="article-body">
+    <p>甲または乙は、相手方が次の各号のいずれかに該当した場合、催告なく直ちに本契約を解除することができる。</p>
+    <div class="sub-item">
+      <p>（1）本契約に違反し、相当期間を定めた催告をしても是正されないとき</p>
+      <p>（2）破産手続開始、民事再生手続開始その他の法的整理手続の申立てがあったとき</p>
+      <p>（3）差押え、仮差押え、競売の申立てがあったとき</p>
+      <p>（4）信用を著しく毀損する行為があったとき</p>
+    </div>
+    <p>2　前項によらず、甲または乙は、30日前までに書面で通知することにより、本契約を解約することができる。この場合、甲は解約日までに乙が遂行した業務に対する報酬を支払うものとする。</p>
+  </div>
+</div>
+
+<!-- 第12条 -->
+<div class="article">
+  <div class="article-title">第12条（損害賠償）</div>
+  <div class="article-body">
+    <p>甲または乙が本契約に違反し、相手方に損害を与えた場合、その損害を賠償する責任を負う。ただし、賠償額は本契約に基づき支払われた報酬の総額を上限とする。</p>
+  </div>
+</div>
+
+<!-- 第13条 -->
+<div class="article">
+  <div class="article-title">第13条（反社会的勢力の排除）</div>
+  <div class="article-body">
+    <p>甲および乙は、自らが暴力団、暴力団員、暴力団関係企業その他の反社会的勢力（以下「反社会的勢力」という）に該当しないこと、および将来にわたって該当しないことを表明し保証する。</p>
+    <p>2　甲または乙が前項の表明保証に反した場合、相手方は催告なく直ちに本契約を解除することができる。</p>
+  </div>
+</div>
+
+<!-- 第14条 -->
+<div class="article">
+  <div class="article-title">第14条（権利義務の譲渡禁止）</div>
+  <div class="article-body">
+    <p>甲および乙は、相手方の事前の書面による承諾なく、本契約上の地位または権利義務の全部もしくは一部を第三者に譲渡し、または担保に供してはならない。</p>
+    <p>2　前項にかかわらず、甲が設立する法人に対して本契約上の地位を承継させる場合は、乙に書面で通知することをもって足りるものとする。</p>
+  </div>
+</div>
+
+<!-- 第15条 -->
+<div class="article">
+  <div class="article-title">第15条（正社員登用）</div>
+  <div class="article-body">
+    <p>甲は、2026年10月1日を目途に乙を正社員（管理者候補）として雇用することを予定している。正社員登用にあたっては、別途雇用契約を締結するものとする。</p>
+    <p>2　正社員としての雇用条件は、本契約とは別に甲乙間で協議のうえ決定する。</p>
+  </div>
+</div>
+
+<!-- 第16条 -->
+<div class="article">
+  <div class="article-title">第16条（協議事項）</div>
+  <div class="article-body">
+    <p>本契約に定めのない事項または本契約の解釈について疑義が生じた場合は、甲乙誠意をもって協議し、円満に解決を図るものとする。</p>
+  </div>
+</div>
+
+<!-- 第17条 -->
+<div class="article">
+  <div class="article-title">第17条（管轄裁判所）</div>
+  <div class="article-body">
+    <p>本契約に関する紛争については、千葉地方裁判所を第一審の専属的合意管轄裁判所とする。</p>
+  </div>
+</div>
+
+<p style="margin-top:28px; text-indent:1em;">
+本契約の成立を証するため、本書2通を作成し、甲乙記名押印のうえ、各1通を保有する。
+</p>
+
+<div class="date-line">
+  <span>2026年</span>
+  <span class="blank editable" contenteditable="true">＿＿</span>月
+  <span class="blank editable" contenteditable="true">＿＿</span>日
+</div>
+
+<div class="signature-block">
+  <div class="signature-box">
+    <h3>甲（委託者）</h3>
+    <div class="sig-row"><span class="sig-label">住所</span><span class="sig-value editable" contenteditable="true"></span></div>
+    <div class="sig-row"><span class="sig-label">氏名</span><span class="sig-value editable" contenteditable="true"></span></div>
+    <div class="sig-row"><span class="sig-label">電話</span><span class="sig-value editable" contenteditable="true"></span></div>
+    <div class="seal-space">印</div>
+  </div>
+  <div class="signature-box">
+    <h3>乙（受託者）</h3>
+    <div class="sig-row"><span class="sig-label">住所</span><span class="sig-value editable" contenteditable="true"></span></div>
+    <div class="sig-row"><span class="sig-label">氏名</span><span class="sig-value editable" contenteditable="true"></span></div>
+    <div class="sig-row"><span class="sig-label">電話</span><span class="sig-value editable" contenteditable="true"></span></div>
+    <div class="sig-row"><span class="sig-label">口座</span><span class="sig-value editable" contenteditable="true"></span></div>
+    <div class="seal-space">印</div>
+  </div>
+</div>
+
+<!-- 別紙 -->
+<div class="appendix page-break">
+  <h2>別紙：業務報告書（様式）</h2>
+  <p style="text-align:right; margin-bottom:12px;">
+    対象月：2026年<span class="blank editable" contenteditable="true">＿＿</span>月
+  </p>
+
+  <table>
+    <tr><th style="width:60px">日付</th><th style="width:80px">稼働時間</th><th>業務内容</th><th style="width:60px">備考</th></tr>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+  </table>
+
+  <div style="margin-top:16px;">
+    <table>
+      <tr><th>合計稼働時間</th><td style="width:120px" contenteditable="true"></td><td>時間</td></tr>
+      <tr><th>報酬額（税込）</th><td contenteditable="true"></td><td>円（稼働時間 × 1,800円）</td></tr>
+      <tr><th>交通費（実費）</th><td contenteditable="true"></td><td>円</td></tr>
+      <tr><th>合計請求額</th><td contenteditable="true"></td><td>円</td></tr>
+    </table>
+  </div>
+
+  <div class="signature-block" style="margin-top:32px;">
+    <div>
+      <p>上記のとおり報告いたします。</p>
+      <div class="sig-row" style="margin-top:16px;"><span class="sig-label">提出日</span><span class="sig-value" style="width:200px" contenteditable="true"></span></div>
+      <div class="sig-row"><span class="sig-label">氏名</span><span class="sig-value" style="width:200px" contenteditable="true"></span></div>
+    </div>
+    <div>
+      <p>確認しました。</p>
+      <div class="sig-row" style="margin-top:16px;"><span class="sig-label">確認日</span><span class="sig-value" style="width:200px" contenteditable="true"></span></div>
+      <div class="sig-row"><span class="sig-label">氏名</span><span class="sig-value" style="width:200px" contenteditable="true"></span></div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
