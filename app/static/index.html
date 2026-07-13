@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>市川市 就労継続支援 市場調査ダッシュボード</title>
+  <title>市川市 市場調査ダッシュボード</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
     :root {
@@ -220,21 +220,60 @@
     }
     @media (max-width: 900px) { .comparison-grid { grid-template-columns: 1fr; } }
     .chart-wrap-tall { position: relative; height: 320px; }
+
+    /* ドメインタブ */
+    .domain-tabs {
+      display: flex; gap: 0;
+      background: #1e3a8a;
+    }
+    .domain-tab {
+      padding: 10px 28px; font-size: 0.92rem; font-weight: 700;
+      background: transparent; border: none; outline: none; color: rgba(255,255,255,0.6);
+      cursor: pointer; transition: all 0.2s;
+      border-bottom: 3px solid transparent;
+    }
+    .domain-tab:hover { color: white; background: rgba(255,255,255,0.06); }
+    .domain-tab:focus { outline: none; }
+    .domain-tab.active { color: white; border-bottom-color: #60a5fa; background: rgba(255,255,255,0.08); }
+    .domain-tab .domain-badge {
+      font-size: 0.65rem; padding: 1px 6px; border-radius: 8px;
+      margin-left: 6px; vertical-align: middle;
+    }
+    .domain-tab .domain-badge.shuro { background: #2563eb44; color: #93c5fd; }
+    .domain-tab .domain-badge.houmon { background: #dc262644; color: #fca5a5; }
+
+    .domain-content { display: none; }
+    .domain-content.active { display: block; }
+
+    /* 訪問看護カラー */
+    .kpi-card.houmon-total { border-top: 4px solid #dc2626; }
+    .kpi-card.houmon-psych { border-top: 4px solid #9333ea; }
+    .kpi-card.houmon-general { border-top: 4px solid #6366f1; }
+    .kpi-card.houmon-shogai { border-top: 4px solid #059669; }
+    .badge-psych { background: #f3e8ff; color: #7e22ce; }
+    .badge-general { background: #e0e7ff; color: #3730a3; }
+    .badge-child { background: #fce7f3; color: #be185d; }
+    .badge-rehab { background: #ccfbf1; color: #0f766e; }
+    .badge-24h { background: #fef9c3; color: #854d0e; }
   </style>
 </head>
 <body>
 
 <header>
   <div>
-    <h1>市川市 就労継続支援 市場調査ダッシュボード</h1>
-    <div class="subtitle">WAM NET（厚生労働省）オープンデータを自動取得・更新</div>
+    <h1>市川市 市場調査ダッシュボード</h1>
+    <div class="subtitle">厚生労働省オープンデータを自動取得・更新</div>
   </div>
-  <button class="update-btn" id="updateBtn" onclick="manualUpdate()">データを今すぐ更新</button>
+  <button class="update-btn" id="updateBtn" onclick="handleUpdate()">データを今すぐ更新</button>
 </header>
 <nav>
   <a href="/" class="active">ダッシュボード</a>
   <a href="/plan">開業戦略メモ</a>
 </nav>
+<div class="domain-tabs">
+  <button class="domain-tab active" onclick="switchDomain('shuro', this)">就労継続支援<span class="domain-badge shuro">WAM NET</span></button>
+  <button class="domain-tab" onclick="switchDomain('houmon', this)">訪問看護<span class="domain-badge houmon">介護情報公表</span></button>
+</div>
 
 <main>
   <!-- ステータスバー -->
@@ -242,6 +281,9 @@
     <div class="status-dot" id="statusDot"></div>
     <span id="statusText">読み込み中...</span>
   </div>
+
+  <!-- ===== 就労継続支援タブ ===== -->
+  <div id="shuro-domain" class="domain-content active">
 
   <!-- KPI -->
   <div class="kpi-grid">
@@ -403,6 +445,158 @@
     <div class="table-header"><h2>更新ログ</h2></div>
     <div class="log-list" id="updateLog"></div>
   </div>
+
+  </div><!-- /shuro-domain -->
+
+  <!-- ===== 訪問看護タブ ===== -->
+  <div id="houmon-domain" class="domain-content">
+
+  <!-- 訪問看護 KPI -->
+  <div class="kpi-grid">
+    <div class="kpi-card houmon-total">
+      <div class="kpi-label">千葉市 訪問看護ステーション</div>
+      <div class="kpi-value" id="hKpiTotal">—<span class="kpi-unit">件</span></div>
+    </div>
+    <div class="kpi-card houmon-psych">
+      <div class="kpi-label">精神科特化</div>
+      <div class="kpi-value" id="hKpiPsych">—<span class="kpi-unit">件</span></div>
+      <div style="font-size:0.82rem;color:var(--muted);margin-top:4px">全体の <span id="hKpiPsychRate" style="font-weight:700;color:#9333ea">—</span>%</div>
+    </div>
+    <div class="kpi-card houmon-general">
+      <div class="kpi-label">一般訪問看護</div>
+      <div class="kpi-value" id="hKpiGeneral">—<span class="kpi-unit">件</span></div>
+    </div>
+    <div class="kpi-card houmon-shogai">
+      <div class="kpi-label">障害福祉基準対応</div>
+      <div class="kpi-value" id="hKpiShogai">—<span class="kpi-unit">件</span></div>
+    </div>
+  </div>
+
+  <!-- 訪問看護チャート -->
+  <div class="chart-grid">
+    <div class="chart-card">
+      <h2>精神科特化 vs 一般 割合</h2>
+      <div class="chart-wrap">
+        <canvas id="hPieChart"></canvas>
+      </div>
+    </div>
+    <div class="chart-card">
+      <h2>カテゴリ別分布</h2>
+      <div class="chart-wrap">
+        <canvas id="hBarChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- 訪問看護 需要推計パネル -->
+  <div class="chart-card" style="margin-bottom:24px;">
+    <div class="comparison-header">
+      <h2>精神科訪問看護 需要推計（2026年調査）</h2>
+      <span style="font-size:0.78rem;color:var(--muted)">出典: 厚生労働省 患者調査 / 千葉市公式</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;">
+      <div style="background:var(--bg);border-radius:10px;padding:14px 16px;">
+        <div style="font-size:0.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em">千葉市人口</div>
+        <div style="font-size:1.6rem;font-weight:800;color:var(--text);margin-top:4px">980,000<span style="font-size:0.9rem;font-weight:400;color:var(--muted);margin-left:2px">人</span></div>
+        <div style="font-size:0.75rem;color:var(--muted);margin-top:2px">2026年推計</div>
+      </div>
+      <div style="background:var(--bg);border-radius:10px;padding:14px 16px;">
+        <div style="font-size:0.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em">精神疾患通院患者（推計）</div>
+        <div style="font-size:1.6rem;font-weight:800;color:var(--text);margin-top:4px">約49,000<span style="font-size:0.9rem;font-weight:400;color:var(--muted);margin-left:2px">人</span></div>
+        <div style="font-size:0.75rem;color:var(--muted);margin-top:2px">人口の約5%（厚労省患者調査）</div>
+      </div>
+      <div style="background:#faf5ff;border-radius:10px;padding:14px 16px;border-left:3px solid #9333ea;">
+        <div style="font-size:0.75rem;font-weight:700;color:#7e22ce;text-transform:uppercase;letter-spacing:0.05em">精神科訪問看護 利用者推計</div>
+        <div style="font-size:1.6rem;font-weight:800;color:#9333ea;margin-top:4px">約4,900<span style="font-size:0.9rem;font-weight:400;color:var(--muted);margin-left:2px">人</span></div>
+        <div style="font-size:0.75rem;color:var(--muted);margin-top:2px">通院患者の約10%が訪問看護利用</div>
+      </div>
+      <div style="background:#fef2f2;border-radius:10px;padding:14px 16px;border-left:3px solid #dc2626;">
+        <div style="font-size:0.75rem;font-weight:700;color:#991b1b;text-transform:uppercase;letter-spacing:0.05em">1ステーションあたり利用者</div>
+        <div style="font-size:1.6rem;font-weight:800;color:#dc2626;margin-top:4px" id="hDemandPerStation">—<span style="font-size:0.9rem;font-weight:400;color:var(--muted);margin-left:2px">人</span></div>
+        <div style="font-size:0.75rem;color:var(--muted);margin-top:2px">精神科推計利用者 / 精神科特化ST数</div>
+      </div>
+      <div style="background:var(--bg);border-radius:10px;padding:14px 16px;border-left:3px solid #dc2626;">
+        <div style="font-size:0.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em">精神科特化ステーション</div>
+        <div style="font-size:1.6rem;font-weight:800;color:#dc2626;margin-top:4px" id="hDemandPsychCount">—<span style="font-size:0.9rem;font-weight:400;color:var(--muted);margin-left:2px">件</span></div>
+        <div style="font-size:0.75rem;color:var(--muted);margin-top:2px">千葉市内の精神科特化ST数</div>
+      </div>
+      <div style="background:#fef3c7;border-radius:10px;padding:14px 16px;border-left:3px solid #f59e0b;">
+        <div style="font-size:0.75rem;font-weight:700;color:#92400e;text-transform:uppercase;letter-spacing:0.05em">充足率推計</div>
+        <div style="font-size:1.6rem;font-weight:800;color:#d97706;margin-top:4px" id="hDemandRate">—<span style="font-size:0.9rem;font-weight:400;color:var(--muted);margin-left:2px">%</span></div>
+        <div style="font-size:0.75rem;color:var(--muted);margin-top:2px">適正ST数(50人/ST)に対する充足率</div>
+      </div>
+    </div>
+    <div style="margin-top:12px;font-size:0.78rem;color:var(--muted);background:var(--bg);border-radius:8px;padding:10px 14px;">
+      ※推計値は厚生労働省患者調査の全国平均から算出した参考値です。精神疾患患者数は年々増加傾向にあり、実際の需要はさらに高い可能性があります。
+    </div>
+  </div>
+
+  <!-- 訪問看護 近隣市比較 -->
+  <div class="comparison-section">
+    <div class="chart-card">
+      <div class="comparison-header">
+        <h2>近隣市との比較（訪問看護ステーション）</h2>
+      </div>
+      <div class="comparison-grid">
+        <div>
+          <div style="font-size:0.85rem;font-weight:700;color:var(--muted);margin-bottom:8px;">ステーション数 比較</div>
+          <div class="chart-wrap-tall"><canvas id="hCityCountChart"></canvas></div>
+        </div>
+        <div>
+          <div style="font-size:0.85rem;font-weight:700;color:var(--muted);margin-bottom:8px;">精神科特化 ST数 比較</div>
+          <div class="chart-wrap-tall"><canvas id="hCityPsychChart"></canvas></div>
+        </div>
+      </div>
+      <div id="hCityCompTable" style="margin-top:16px;overflow-x:auto;"></div>
+    </div>
+  </div>
+
+  <!-- 訪問看護 事業所一覧 -->
+  <div class="table-card">
+    <div class="table-header">
+      <div>
+        <h2>事業所一覧（訪問看護ステーション）</h2>
+        <div class="tabs" style="margin-top:10px;" id="hOfficeTabs">
+          <button class="tab active" onclick="hFilterOffices('all')">全体</button>
+          <button class="tab" onclick="hFilterOffices('精神科特化')" style="border-color:#9333ea33;color:#9333ea">精神科特化</button>
+          <button class="tab" onclick="hFilterOffices('一般')">一般</button>
+          <button class="tab fav" onclick="hFilterOffices('fav')">★ お気に入り</button>
+        </div>
+      </div>
+      <input class="search-box" type="text" id="hSearchBox" placeholder="事業所名・法人名で絞り込み" oninput="hApplySearch()">
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>★</th>
+            <th>カテゴリ</th>
+            <th>事業所名</th>
+            <th>法人名</th>
+            <th>住所</th>
+            <th>電話</th>
+            <th>曜日</th>
+            <th>メモ</th>
+          </tr>
+        </thead>
+        <tbody id="hOfficeTable"></tbody>
+      </table>
+    </div>
+    <div class="pagination">
+      <button class="page-btn" id="hPrevBtn" onclick="hChangePage(-1)">← 前へ</button>
+      <span class="page-info" id="hPageInfo"></span>
+      <button class="page-btn" id="hNextBtn" onclick="hChangePage(1)">次へ →</button>
+    </div>
+  </div>
+
+  <!-- 訪問看護 更新ログ -->
+  <div class="table-card">
+    <div class="table-header"><h2>更新ログ（訪問看護）</h2></div>
+    <div class="log-list" id="hUpdateLog"></div>
+  </div>
+
+  </div><!-- /houmon-domain -->
+
 </main>
 
 <script>
@@ -447,14 +641,17 @@ async function loadStats() {
   const bRate = data.b_total_capacity ? Math.round(data.b_total_capacity / bDemand * 100) : 0;
   document.getElementById('demandRate').innerHTML = bRate + '<span style="font-size:0.9rem;font-weight:400;color:var(--muted);margin-left:2px">%</span>';
 
+  // ステータスバー
   const dot = document.getElementById('statusDot');
   const txt = document.getElementById('statusText');
-  if (data.total > 0) {
-    dot.className = 'status-dot';
-    txt.textContent = `最終更新: ${data.last_run || '不明'} | WAM NETデータ自動更新中（毎月1日）`;
-  } else {
-    dot.className = 'status-dot updating';
-    txt.textContent = 'データを取得中...';
+  if (currentDomain === 'shuro') {
+    if (data.total > 0) {
+      dot.className = 'status-dot';
+      txt.textContent = `最終更新: ${data.last_run || '不明'} | WAM NETデータ自動更新中（毎月1日）`;
+    } else {
+      dot.className = 'status-dot updating';
+      txt.textContent = 'データを取得中...';
+    }
   }
 
   // 円グラフ更新
@@ -903,10 +1100,416 @@ function renderCityTable(data) {
     </table>`;
 }
 
+// ── ドメインタブ切り替え ────────────────────────────
+let currentDomain = 'shuro';
+let houmonInitialized = false;
+
+function switchDomain(domain, btn) {
+  currentDomain = domain;
+  document.querySelectorAll('.domain-tab').forEach(t => t.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  document.querySelectorAll('.domain-content').forEach(d => d.classList.remove('active'));
+  document.getElementById(domain + '-domain').classList.add('active');
+
+  if (domain === 'houmon' && !houmonInitialized) {
+    houmonInitialized = true;
+    hInit();
+  }
+}
+
+function handleUpdate() {
+  if (currentDomain === 'shuro') manualUpdate();
+  else hManualUpdate();
+}
+
+// ── 訪問看護 ─────────────────────────────────────
+let hAllOffices = [];
+let hFilteredOffices = [];
+let hCurrentFilter = 'all';
+let hCurrentPage = 1;
+const H_PAGE_SIZE = 20;
+
+let hPieChart = null;
+let hBarChart = null;
+let hCityCountChart = null;
+let hCityPsychChart = null;
+
+async function hInit() {
+  await Promise.all([hLoadStats(), hLoadOffices('all'), hLoadCityComparison(), hLoadLog()]);
+}
+
+async function hLoadStats() {
+  const data = await fetch('/api/houmon/stats').then(r => r.json()).catch(() => null);
+  if (!data) return;
+
+  document.getElementById('hKpiTotal').innerHTML = data.total + '<span class="kpi-unit">件</span>';
+  document.getElementById('hKpiPsych').innerHTML = data.psych_count + '<span class="kpi-unit">件</span>';
+  document.getElementById('hKpiGeneral').innerHTML = data.general_count + '<span class="kpi-unit">件</span>';
+  document.getElementById('hKpiShogai').innerHTML = data.shogai_count + '<span class="kpi-unit">件</span>';
+
+  const psychRate = data.total > 0 ? Math.round(data.psych_count / data.total * 100) : 0;
+  document.getElementById('hKpiPsychRate').textContent = psychRate;
+
+  // 需要推計パネル更新
+  const psychDemand = 4900; // 精神科訪問看護利用者推計（千葉市）
+  const optimalPerStation = 50; // 1ステーションあたり適正利用者数
+  const psych = data.psych_count || 0;
+  const perStation = psych > 0 ? Math.round(psychDemand / psych) : 0;
+  document.getElementById('hDemandPerStation').innerHTML = perStation + '<span style="font-size:0.9rem;font-weight:400;color:var(--muted);margin-left:2px">人</span>';
+  document.getElementById('hDemandPsychCount').innerHTML = psych + '<span style="font-size:0.9rem;font-weight:400;color:var(--muted);margin-left:2px">件</span>';
+  const optimalCount = Math.ceil(psychDemand / optimalPerStation); // 必要ST数
+  const fulfillRate = optimalCount > 0 ? Math.round(psych / optimalCount * 100) : 0;
+  document.getElementById('hDemandRate').innerHTML = fulfillRate + '<span style="font-size:0.9rem;font-weight:400;color:var(--muted);margin-left:2px">%</span>';
+
+  // 円グラフ
+  hUpdatePieChart(data.psych_count, data.general_count, data.total - data.psych_count - data.general_count);
+
+  // カテゴリ別棒グラフ
+  if (data.categories && data.categories.length) {
+    hUpdateBarChart(data.categories);
+  }
+
+  // ステータスバー
+  if (data.last_run) {
+    const dot = document.getElementById('statusDot');
+    const txt = document.getElementById('statusText');
+    if (currentDomain === 'houmon') {
+      dot.className = 'status-dot';
+      txt.textContent = `最終更新: ${data.last_run} | 介護サービス情報公表データ自動更新中（毎月1日）`;
+    }
+  }
+}
+
+function hUpdatePieChart(psych, general, other) {
+  const ctx = document.getElementById('hPieChart').getContext('2d');
+  if (hPieChart) hPieChart.destroy();
+  const labels = ['精神科特化', '一般'];
+  const values = [psych, general];
+  const colors = ['#9333ea', '#6366f1'];
+  if (other > 0) {
+    labels.push('その他（小児・リハ等）');
+    values.push(other);
+    colors.push('#f59e0b');
+  }
+  hPieChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels,
+      datasets: [{ data: values, backgroundColor: colors, borderWidth: 0, hoverOffset: 6 }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 13 }, padding: 16 } },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw}件` } }
+      }
+    }
+  });
+}
+
+function hUpdateBarChart(categories) {
+  const ctx = document.getElementById('hBarChart').getContext('2d');
+  if (hBarChart) hBarChart.destroy();
+  const labels = categories.map(c => c.category);
+  const values = categories.map(c => c.count);
+  const palette = ['#9333ea','#6366f1','#dc2626','#f59e0b','#059669','#0ea5e9','#ec4899'];
+  hBarChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        label: 'ステーション数',
+        data: values,
+        backgroundColor: labels.map((_, i) => palette[i % palette.length] + 'cc'),
+        borderColor: labels.map((_, i) => palette[i % palette.length]),
+        borderWidth: 1, borderRadius: 6,
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { color: '#f1f5f9' }, ticks: { stepSize: 1 } },
+        y: { grid: { display: false }, ticks: { font: { size: 12 } } }
+      }
+    }
+  });
+}
+
+// ── 訪問看護 事業所一覧 ─────────────────────────────
+async function hLoadOffices(type) {
+  let url = '/api/houmon/offices';
+  if (type === 'fav') url += '?favorite_only=true';
+  else if (type !== 'all') url += `?category=${encodeURIComponent(type)}`;
+  hAllOffices = await fetch(url).then(r => r.json()).catch(() => []);
+  hFilteredOffices = [...hAllOffices];
+  hCurrentPage = 1;
+  hRenderTable();
+}
+
+function hFilterOffices(type) {
+  hCurrentFilter = type;
+  document.querySelectorAll('#hOfficeTabs .tab').forEach(t => t.classList.remove('active'));
+  event && event.target && event.target.classList.add('active');
+  hLoadOffices(type);
+}
+
+function hApplySearch() {
+  const q = document.getElementById('hSearchBox').value.toLowerCase();
+  hFilteredOffices = hAllOffices.filter(o =>
+    (o.office_name || '').toLowerCase().includes(q) ||
+    (o.corp_name || '').toLowerCase().includes(q) ||
+    (o.address || '').toLowerCase().includes(q) ||
+    (o.phone || '').includes(q) ||
+    (o.memo || '').toLowerCase().includes(q)
+  );
+  hCurrentPage = 1;
+  hRenderTable();
+}
+
+function hCategoryBadge(cat) {
+  const map = {
+    '精神科特化': 'badge-psych',
+    '一般': 'badge-general',
+    '小児・重症児': 'badge-child',
+    'リハビリ特化': 'badge-rehab',
+    '24時間対応': 'badge-24h',
+  };
+  return `<span class="badge ${map[cat] || 'badge-general'}">${esc(cat)}</span>`;
+}
+
+function hRenderTable() {
+  const tbody = document.getElementById('hOfficeTable');
+  const total = hFilteredOffices.length;
+  const totalPages = Math.max(1, Math.ceil(total / H_PAGE_SIZE));
+  hCurrentPage = Math.min(hCurrentPage, totalPages);
+
+  const start = (hCurrentPage - 1) * H_PAGE_SIZE;
+  const slice = hFilteredOffices.slice(start, start + H_PAGE_SIZE);
+
+  if (slice.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="8"><div class="empty-state"><div class="icon">🔍</div><div>該当する事業所がありません</div></div></td></tr>`;
+    document.getElementById('hPageInfo').textContent = '0件';
+    document.getElementById('hPrevBtn').disabled = true;
+    document.getElementById('hNextBtn').disabled = true;
+    return;
+  }
+
+  tbody.innerHTML = slice.map(o => {
+    const isFav = o.is_favorite == 1;
+    const memo = o.memo || '';
+    const addr = (o.address || '').replace(/^千葉県千葉市/, '千葉市');
+    return `<tr>
+      <td style="text-align:center;padding:8px 6px">
+        <button class="fav-btn ${isFav ? 'active' : 'inactive'}"
+          title="${isFav ? 'お気に入り解除' : 'お気に入り追加'}"
+          onclick="hToggleFavorite(${o.id}, this)">${isFav ? '★' : '☆'}</button>
+      </td>
+      <td>${hCategoryBadge(o.category || '一般')}</td>
+      <td>
+        <div>${esc(o.office_name || '')}</div>
+        ${o.url && o.url !== 'nan' ? `<a href="${esc(o.url)}" target="_blank" style="font-size:0.78rem;color:var(--primary)">HP</a>` : ''}
+      </td>
+      <td style="font-size:0.83rem">${esc(o.corp_name || '')}</td>
+      <td style="font-size:0.83rem">${esc(addr)}</td>
+      <td style="font-size:0.83rem">${esc(o.phone || '')}</td>
+      <td style="font-size:0.78rem;color:var(--muted)">${esc(o.available_days || '')}</td>
+      <td>
+        <textarea class="memo-box" rows="2"
+          placeholder="メモを入力..."
+          oninput="hScheduleSaveMemo(${o.id}, this)"
+          onblur="hSaveMemoNow(${o.id}, this)"
+        >${esc(memo)}</textarea>
+      </td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('hPageInfo').textContent = `${start+1}〜${Math.min(start+H_PAGE_SIZE, total)} / ${total}件`;
+  document.getElementById('hPrevBtn').disabled = hCurrentPage <= 1;
+  document.getElementById('hNextBtn').disabled = hCurrentPage >= totalPages;
+}
+
+function hChangePage(delta) {
+  hCurrentPage += delta;
+  hRenderTable();
+}
+
+async function hToggleFavorite(id, btn) {
+  const isFav = btn.classList.contains('inactive');
+  btn.textContent = isFav ? '★' : '☆';
+  btn.classList.toggle('active', isFav);
+  btn.classList.toggle('inactive', !isFav);
+  await fetch(`/api/houmon/offices/${id}/favorite`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ is_favorite: isFav }),
+  });
+  if (hCurrentFilter === 'fav') setTimeout(() => hLoadOffices('fav'), 300);
+}
+
+const hMemoTimers = {};
+function hScheduleSaveMemo(id, el) {
+  clearTimeout(hMemoTimers[id]);
+  hMemoTimers[id] = setTimeout(() => hSaveMemoNow(id, el), 1000);
+}
+async function hSaveMemoNow(id, el) {
+  clearTimeout(hMemoTimers[id]);
+  await fetch(`/api/houmon/offices/${id}/memo`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ memo: el.value }),
+  });
+  el.classList.add('saved');
+  setTimeout(() => el.classList.remove('saved'), 1500);
+}
+
+// ── 訪問看護 手動更新 ──────────────────────────────
+async function hManualUpdate() {
+  const btn = document.getElementById('updateBtn');
+  const dot = document.getElementById('statusDot');
+  const txt = document.getElementById('statusText');
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> 更新中...';
+  dot.className = 'status-dot updating';
+  txt.textContent = '厚生労働省からデータを取得しています...';
+
+  try {
+    const result = await fetch('/api/houmon/update?force=true', { method: 'POST' }).then(r => r.json());
+    if (result.status === 'success') {
+      txt.textContent = `更新完了: ${result.total_count}件（精神科特化: ${result.psych_count}件）`;
+      await hInit();
+    } else {
+      txt.textContent = `エラー: ${result.message || '不明なエラー'}`;
+    }
+  } catch (e) {
+    txt.textContent = 'ネットワークエラー';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'データを今すぐ更新';
+    dot.className = 'status-dot';
+  }
+}
+
+// ── 訪問看護 近隣市比較 ────────────────────────────
+async function hLoadCityComparison() {
+  const data = await fetch('/api/houmon/cities').then(r => r.json()).catch(() => []);
+  if (!data || !data.length) return;
+  hRenderCityCharts(data);
+  hRenderCityTable(data);
+}
+
+function hRenderCityCharts(data) {
+  const cities = data.map(d => d.city);
+  const totals = data.map(d => d.total);
+  const psychs = data.map(d => d.psych_count);
+
+  // ステーション数
+  const ctx1 = document.getElementById('hCityCountChart').getContext('2d');
+  if (hCityCountChart) hCityCountChart.destroy();
+  hCityCountChart = new Chart(ctx1, {
+    type: 'bar',
+    data: {
+      labels: cities,
+      datasets: [{
+        label: 'ステーション数',
+        data: totals,
+        backgroundColor: data.map(d => d.city === '千葉市' ? '#dc2626cc' : '#6366f1cc'),
+        borderColor: data.map(d => d.city === '千葉市' ? '#dc2626' : '#6366f1'),
+        borderWidth: 1, borderRadius: 4,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { color: '#f1f5f9' } },
+        y: { grid: { color: '#f1f5f9' }, ticks: { stepSize: 5 } }
+      }
+    }
+  });
+
+  // 精神科特化
+  const ctx2 = document.getElementById('hCityPsychChart').getContext('2d');
+  if (hCityPsychChart) hCityPsychChart.destroy();
+  hCityPsychChart = new Chart(ctx2, {
+    type: 'bar',
+    data: {
+      labels: cities,
+      datasets: [{
+        label: '精神科特化 ST数',
+        data: psychs,
+        backgroundColor: data.map(d => d.city === '千葉市' ? '#9333eacc' : '#c084fccc'),
+        borderColor: data.map(d => d.city === '千葉市' ? '#9333ea' : '#c084fc'),
+        borderWidth: 1, borderRadius: 4,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { color: '#f1f5f9' } },
+        y: { grid: { color: '#f1f5f9' }, ticks: { stepSize: 1 } }
+      }
+    }
+  });
+}
+
+function hRenderCityTable(data) {
+  const rows = data.map(d => {
+    const hl = d.city === '千葉市' ? ' style="background:#fef9c3;font-weight:700"' : '';
+    const psychRate = d.total > 0 ? Math.round(d.psych_count / d.total * 100) : 0;
+    return `<tr${hl}>
+      <td style="padding:8px 12px">${d.city}</td>
+      <td style="padding:8px 12px;text-align:center">${d.total}</td>
+      <td style="padding:8px 12px;text-align:center">${d.psych_count}</td>
+      <td style="padding:8px 12px;text-align:center">${psychRate}%</td>
+      <td style="padding:8px 12px;text-align:center">${d.shogai_count}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('hCityCompTable').innerHTML = `
+    <table style="width:100%;border-collapse:collapse;font-size:0.85rem;">
+      <thead style="background:var(--bg)">
+        <tr>
+          <th style="padding:8px 12px;text-align:left;font-weight:700;color:var(--muted)">市区町村</th>
+          <th style="padding:8px 12px;text-align:center;font-weight:700;color:#dc2626">ST数</th>
+          <th style="padding:8px 12px;text-align:center;font-weight:700;color:#9333ea">精神科特化</th>
+          <th style="padding:8px 12px;text-align:center;font-weight:700;color:#9333ea">精神科率</th>
+          <th style="padding:8px 12px;text-align:center;font-weight:700;color:#059669">障害福祉基準</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+}
+
+// ── 訪問看護 更新ログ ──────────────────────────────
+async function hLoadLog() {
+  const data = await fetch('/api/houmon/update-log').then(r => r.json()).catch(() => []);
+  const el = document.getElementById('hUpdateLog');
+  if (!data.length) {
+    el.innerHTML = '<div style="color:var(--muted);font-size:0.85rem;padding:8px 0;">ログなし</div>';
+    return;
+  }
+  el.innerHTML = data.map(d => {
+    const statusClass = `status-${d.status}`;
+    const counts = d.status === 'success' ? ` 合計:${d.total_count}件 精神科特化:${d.psych_count}件` : '';
+    return `<div class="log-item">
+      <span class="log-status ${statusClass}">${statusLabel(d.status)}</span>
+      <span>${d.run_at}</span>
+      <span>${counts}</span>
+      <span style="color:var(--muted)">${d.message || ''}</span>
+    </div>`;
+  }).join('');
+}
+
 // ── 起動 ─────────────────────────────────────────
 init();
 // 5分ごとに統計更新
-setInterval(loadStats, 5 * 60 * 1000);
+setInterval(() => {
+  if (currentDomain === 'shuro') loadStats();
+  else hLoadStats();
+}, 5 * 60 * 1000);
 </script>
 </body>
 </html>

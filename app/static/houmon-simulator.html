@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>精神科訪問看護 収支シミュレーター</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --primary: #9333ea;
+      --primary-dark: #7e22ce;
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 12px;
+      --profit: #10b981;
+      --loss: #ef4444;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Hiragino Sans", "Yu Gothic", sans-serif; background: var(--bg); color: var(--text); }
+
+    nav { background: #1e3a8a; display: flex; gap: 0; }
+    nav a {
+      color: rgba(255,255,255,0.75); text-decoration: none;
+      padding: 10px 24px; font-size: 0.88rem; font-weight: 600;
+      border-bottom: 3px solid transparent; transition: all 0.2s;
+    }
+    nav a:hover { color: white; background: rgba(255,255,255,0.08); }
+    nav a.active { color: white; border-bottom-color: #60a5fa; }
+
+    header {
+      background: linear-gradient(135deg, #581c87 0%, #9333ea 100%);
+      color: white; padding: 20px 32px 12px;
+    }
+    header h1 { font-size: 1.4rem; font-weight: 700; }
+    header .subtitle { font-size: 0.82rem; opacity: 0.75; margin-top: 4px; }
+
+    main { max-width: 1400px; margin: 0 auto; padding: 24px 20px; }
+
+    .sim-tabs { display: flex; gap: 0; border-bottom: 2px solid var(--border); margin-bottom: 24px; }
+    .sim-tab-btn {
+      padding: 10px 24px; font-size: 0.88rem; font-weight: 700;
+      color: var(--muted); background: none; border: none;
+      border-bottom: 3px solid transparent; cursor: pointer; transition: all 0.2s; margin-bottom: -2px;
+    }
+    .sim-tab-btn:hover { color: var(--primary); }
+    .sim-tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+    .sim-tab-content { display: none; }
+    .sim-tab-content.active { display: block; }
+
+    .sim-layout { display: grid; grid-template-columns: 480px 1fr; gap: 20px; align-items: start; }
+    @media (max-width: 1000px) { .sim-layout { grid-template-columns: 1fr; } }
+
+    .input-panel { display: flex; flex-direction: column; gap: 16px; }
+    .section-card { background: var(--card); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; }
+    .section-header {
+      background: var(--bg); padding: 12px 20px; font-size: 0.88rem; font-weight: 700;
+      display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--border);
+    }
+    .section-num {
+      width: 22px; height: 22px; background: var(--primary); color: white;
+      border-radius: 50%; font-size: 0.72rem; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .section-body { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; }
+    .form-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .form-label { font-size: 0.85rem; color: var(--text); flex: 1; line-height: 1.4; }
+    .form-label small { display: block; color: var(--muted); font-size: 0.75rem; margin-top: 1px; }
+    .form-input {
+      width: 130px; padding: 7px 10px; border: 1px solid var(--border); border-radius: 8px;
+      font-size: 0.9rem; text-align: right; background: #f8fafc; color: var(--text); outline: none;
+    }
+    .form-input:focus { border-color: var(--primary); background: white; }
+    select.form-input { text-align: left; }
+    .form-unit { font-size: 0.8rem; color: var(--muted); white-space: nowrap; min-width: 28px; }
+
+    .hint-box { background: #faf5ff; border-radius: 8px; padding: 8px 12px; font-size: 0.78rem; color: #7e22ce; line-height: 1.6; }
+
+    .check-list { display: flex; flex-direction: column; gap: 8px; }
+    .check-item {
+      display: flex; align-items: flex-start; gap: 10px; padding: 8px 10px;
+      border-radius: 8px; border: 1px solid var(--border); cursor: pointer; transition: background 0.15s;
+    }
+    .check-item:hover { background: var(--bg); }
+    .check-item input[type="checkbox"] { margin-top: 2px; cursor: pointer; }
+    .check-item label { font-size: 0.82rem; cursor: pointer; flex: 1; }
+    .check-item label span { color: var(--muted); font-size: 0.76rem; display: block; margin-top: 2px; }
+    .check-item .check-val { font-size: 0.78rem; color: var(--primary); font-weight: 700; white-space: nowrap; }
+
+    .result-panel { position: sticky; top: 20px; display: flex; flex-direction: column; gap: 16px; }
+    .result-card { background: var(--card); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; }
+    .result-header { padding: 14px 20px; font-size: 0.88rem; font-weight: 700; border-bottom: 1px solid var(--border); }
+    .result-body { padding: 16px 20px; }
+
+    .pnl-box { text-align: center; padding: 20px; border-radius: 10px; margin-bottom: 16px; }
+    .pnl-box.profit { background: #f0fdf4; border: 2px solid #10b981; }
+    .pnl-box.loss   { background: #fef2f2; border: 2px solid #ef4444; }
+    .pnl-label { font-size: 0.8rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    .pnl-value { font-size: 2.4rem; font-weight: 900; margin: 6px 0; }
+    .pnl-box.profit .pnl-value { color: #10b981; }
+    .pnl-box.loss   .pnl-value { color: #ef4444; }
+    .pnl-sub { font-size: 0.8rem; color: var(--muted); }
+
+    .detail-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    .detail-table tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
+    .detail-table td { padding: 7px 4px; }
+    .detail-table .label { color: var(--text); }
+    .detail-table .sublabel { color: var(--muted); padding-left: 14px; font-size: 0.8rem; }
+    .detail-table .amount { text-align: right; font-weight: 600; white-space: nowrap; }
+    .detail-table .income { color: #0369a1; }
+    .detail-table .expense { color: #991b1b; }
+    .detail-table .total-row td { font-weight: 800; font-size: 0.92rem; padding-top: 10px; border-top: 2px solid var(--border) !important; }
+    .detail-table .section-title td { background: var(--bg); font-weight: 700; padding: 6px 4px; font-size: 0.78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+
+    .annual-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .annual-item { background: var(--bg); border-radius: 8px; padding: 10px 14px; }
+    .annual-item .al { font-size: 0.75rem; color: var(--muted); font-weight: 700; }
+    .annual-item .av { font-size: 1.15rem; font-weight: 800; color: var(--text); margin-top: 3px; }
+
+    .metrics-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .metric-item { background: var(--bg); border-radius: 8px; padding: 10px; text-align: center; }
+    .metric-item .ml { font-size: 0.72rem; color: var(--muted); font-weight: 700; }
+    .metric-item .mv { font-size: 1.1rem; font-weight: 800; color: var(--text); margin-top: 3px; }
+
+    .divider { border: none; border-top: 1px solid var(--border); margin: 12px 0; }
+    .note { font-size: 0.75rem; color: var(--muted); line-height: 1.6; margin-top: 10px; }
+
+    /* 報酬相場テーブル */
+    .fee-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-top: 8px; }
+    .fee-table th { background: var(--bg); padding: 6px 10px; text-align: left; font-weight: 700; font-size: 0.75rem; color: var(--muted); border-bottom: 1px solid var(--border); }
+    .fee-table td { padding: 6px 10px; border-bottom: 1px solid var(--border); }
+    .fee-table td.num { text-align: right; font-weight: 600; }
+    .fee-table tr:hover td { background: #faf5ff; }
+
+    /* 開業戦略セクション */
+    .strategy-section { margin-top: 24px; }
+    .strategy-card {
+      background: var(--card); border-radius: var(--radius); border: 1px solid var(--border);
+      overflow: hidden; margin-bottom: 16px;
+    }
+    .strategy-header {
+      padding: 14px 20px; font-size: 0.92rem; font-weight: 700;
+      border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px;
+    }
+    .strategy-body { padding: 16px 20px; font-size: 0.85rem; line-height: 1.8; color: var(--text); }
+    .strategy-body h3 { font-size: 0.88rem; font-weight: 700; margin: 14px 0 6px; color: var(--primary-dark); }
+    .strategy-body h3:first-child { margin-top: 0; }
+    .strategy-body ul { padding-left: 18px; margin: 4px 0; }
+    .strategy-body li { margin-bottom: 4px; }
+    .strategy-body .highlight { background: #faf5ff; border-left: 3px solid var(--primary); padding: 8px 12px; border-radius: 0 8px 8px 0; margin: 8px 0; font-size: 0.82rem; }
+    .strategy-body table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 0.82rem; }
+    .strategy-body table th { background: var(--bg); padding: 6px 10px; text-align: left; font-weight: 700; color: var(--muted); border: 1px solid var(--border); }
+    .strategy-body table td { padding: 6px 10px; border: 1px solid var(--border); }
+
+    /* CF chart */
+    .cf-chart-wrap { position: relative; height: 300px; margin-top: 12px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>精神科訪問看護 収支シミュレーター & 開業戦略</h1>
+  <div class="subtitle">報酬単価（令和8年6月〜改定対応）・人件費・管理費を入力して月間収支を自動計算</div>
+</header>
+<nav>
+  <a href="/">ダッシュボード</a>
+  <a href="/plan">開業戦略メモ</a>
+  <a href="/houmon-simulator" class="active">訪問看護シミュレーター</a>
+</nav>
+
+<main>
+  <div class="sim-tabs">
+    <button class="sim-tab-btn active" onclick="switchTab('cashflow')">収支シミュレーション</button>
+    <button class="sim-tab-btn" onclick="switchTab('fee')">報酬単価一覧</button>
+    <button class="sim-tab-btn" onclick="switchTab('strategy')">開業戦略</button>
+  </div>
+
+  <!-- ===== 収支シミュレーション ===== -->
+  <div id="tab-cashflow" class="sim-tab-content active">
+    <div class="sim-layout">
+      <div class="input-panel">
+
+        <!-- 1. 利用者・訪問設定 -->
+        <div class="section-card">
+          <div class="section-header"><span class="section-num">1</span>利用者・訪問設定</div>
+          <div class="section-body">
+            <div class="form-row">
+              <div class="form-label">利用者数<small>精神科訪問看護の登録者数</small></div>
+              <input class="form-input" type="number" id="numClients" value="40" min="1" max="200" oninput="calc()">
+              <span class="form-unit">人</span>
+            </div>
+            <div class="form-row">
+              <div class="form-label">1人あたり月間訪問回数<small>精神科は週3回まで算定可</small></div>
+              <input class="form-input" type="number" id="visitsPerClient" value="8" min="1" max="16" step="1" oninput="calc()">
+              <span class="form-unit">回/月</span>
+            </div>
+            <div class="form-row">
+              <div class="form-label">30分以上訪問の割合<small>30分未満: 4,250円 / 30分以上: 5,550円</small></div>
+              <input class="form-input" type="number" id="longVisitRate" value="80" min="0" max="100" oninput="calc()">
+              <span class="form-unit">%</span>
+            </div>
+            <div class="form-row">
+              <div class="form-label">週4日目以降訪問の割合<small>週4日目以降は+1,000円/回</small></div>
+              <input class="form-input" type="number" id="day4Rate" value="10" min="0" max="100" oninput="calc()">
+              <span class="form-unit">%</span>
+            </div>
+            <div class="hint-box">
+              精神科訪問看護は週3回まで算定可能。月8回（週2回）が標準的。利用者40人×月8回=月320回訪問が看護師3名体制の目安です。
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. 管理療養費 -->
+        <div class="section-card">
+          <div class="section-header"><span class="section-num">2</span>管理療養費・加算</div>
+          <div class="section-body">
+            <div class="form-row">
+              <div class="form-label">訪問看護管理療養費<small>月初日: 7,440円 / 2日目以降: 3,000円</small></div>
+              <select class="form-input" id="mgmtType" onchange="calc()">
+                <option value="normal" selected>通常</option>
+                <option value="func1">機能強化型1 (12,830円)</option>
+                <option value="func2">機能強化型2 (9,800円)</option>
+                <option value="func3">機能強化型3 (8,700円)</option>
+              </select>
+            </div>
+            <div class="check-list">
+              <div class="check-item" onclick="this.querySelector('input').click()">
+                <input type="checkbox" id="chk24h" onchange="calc()">
+                <label for="chk24h">24時間対応体制加算<span>24時間連絡・対応体制を整備</span></label>
+                <span class="check-val">+6,400円/月</span>
+              </div>
+              <div class="check-item" onclick="this.querySelector('input').click()">
+                <input type="checkbox" id="chkSpecial" onchange="calc()">
+                <label for="chkSpecial">特別管理加算<span>重症度の高い利用者</span></label>
+                <span class="check-val">+2,500円/月</span>
+              </div>
+              <div class="check-item" onclick="this.querySelector('input').click()">
+                <input type="checkbox" id="chkLong" onchange="calc()">
+                <label for="chkLong">長時間訪問看護加算<small>週1日算定</small><span>90分以上の訪問</span></label>
+                <span class="check-val">+5,200円/回</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. 人件費 -->
+        <div class="section-card">
+          <div class="section-header"><span class="section-num">3</span>人件費</div>
+          <div class="section-body">
+            <div class="form-row">
+              <div class="form-label">常勤看護師（管理者含）<small>平均月給（社保込）</small></div>
+              <input class="form-input" type="number" id="nurseCount" value="3" min="1" max="20" oninput="calc()">
+              <span class="form-unit">人</span>
+            </div>
+            <div class="form-row">
+              <div class="form-label">常勤看護師 月給<small>社保・賞与引当込み</small></div>
+              <input class="form-input" type="number" id="nurseSalary" value="420000" step="10000" oninput="calc()">
+              <span class="form-unit">円</span>
+            </div>
+            <div class="form-row">
+              <div class="form-label">非常勤看護師</div>
+              <input class="form-input" type="number" id="partNurseCount" value="1" min="0" max="20" oninput="calc()">
+              <span class="form-unit">人</span>
+            </div>
+            <div class="form-row">
+              <div class="form-label">非常勤 月額費用<small>時給2,000円 x 月80h想定</small></div>
+              <input class="form-input" type="number" id="partNurseCost" value="160000" step="10000" oninput="calc()">
+              <span class="form-unit">円</span>
+            </div>
+            <div class="form-row">
+              <div class="form-label">事務員</div>
+              <input class="form-input" type="number" id="clerkCount" value="1" min="0" max="5" oninput="calc()">
+              <span class="form-unit">人</span>
+            </div>
+            <div class="form-row">
+              <div class="form-label">事務員 月給</div>
+              <input class="form-input" type="number" id="clerkSalary" value="220000" step="10000" oninput="calc()">
+              <span class="form-unit">円</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. 管理費・その他 -->
+        <div class="section-card">
+          <div class="section-header"><span class="section-num">4</span>管理費・その他経費</div>
+          <div class="section-body">
+            <div class="form-row">
+              <div class="form-label">事務所家賃</div>
+              <input class="form-input" type="number" id="rent" value="120000" step="10000" oninput="calc()">
+              <span class="form-unit">円</span>
+            </div>
+            <div class="form-row">
+              <div class="form-label">車両費（リース・ガソリン）<small>台数分</small></div>
+              <input class="form-input" type="number" id="carCost" value="80000" step="10000" oninput="calc()">
+              <span class="form-unit">円</span>
+            </div>
+            <div class="form-row">
+              <div class="form-label">通信・システム<small>電子カルテ・携帯等</small></div>
+              <input class="form-input" type="number" id="itCost" value="50000" step="5000" oninput="calc()">
+              <span class="form-unit">円</span>
+            </div>
+            <div class="form-row">
+              <div class="form-label">医療材料・消耗品</div>
+              <input class="form-input" type="number" id="supplyCost" value="30000" step="5000" oninput="calc()">
+              <span class="form-unit">円</span>
+            </div>
+            <div class="form-row">
+              <div class="form-label">保険・その他<small>損害保険・研修費等</small></div>
+              <input class="form-input" type="number" id="otherCost" value="40000" step="5000" oninput="calc()">
+              <span class="form-unit">円</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. 初期費用 -->
+        <div class="section-card">
+          <div class="section-header"><span class="section-num">5</span>初期費用（開業時のみ）</div>
+          <div class="section-body">
+            <div class="form-row">
+              <div class="form-label">法人設立・許認可</div>
+              <input class="form-input" type="number" id="initLegal" value="300000" step="10000" oninput="calc()">
+              <span class="form-unit">円</span>
+            </div>
+            <div class="form-row">
+              <div class="form-label">事務所整備（敷金・内装）</div>
+              <input class="form-input" type="number" id="initOffice" value="800000" step="50000" oninput="calc()">
+              <span class="form-unit">円</span>
+            </div>
+            <div class="form-row">
+              <div class="form-label">備品・PC・医療機器</div>
+              <input class="form-input" type="number" id="initEquip" value="500000" step="50000" oninput="calc()">
+              <span class="form-unit">円</span>
+            </div>
+            <div class="form-row">
+              <div class="form-label">車両（購入 or 初期リース）</div>
+              <input class="form-input" type="number" id="initCar" value="600000" step="50000" oninput="calc()">
+              <span class="form-unit">円</span>
+            </div>
+            <div class="form-row">
+              <div class="form-label">採用・広告費</div>
+              <input class="form-input" type="number" id="initRecruit" value="300000" step="50000" oninput="calc()">
+              <span class="form-unit">円</span>
+            </div>
+            <div class="form-row">
+              <div class="form-label">運転資金（3ヶ月分）<small>自動計算: 月間支出×3</small></div>
+              <input class="form-input" type="number" id="initRunning" value="0" readonly style="background:#f1f5f9;color:var(--muted)">
+              <span class="form-unit">円</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 結果パネル -->
+      <div class="result-panel">
+        <div class="result-card">
+          <div class="result-header">月間収支サマリー</div>
+          <div class="result-body">
+            <div id="pnlBox" class="pnl-box profit">
+              <div class="pnl-label">月間損益</div>
+              <div class="pnl-value" id="pnlValue">+0 円</div>
+              <div class="pnl-sub" id="pnlSub"></div>
+            </div>
+            <div class="metrics-row">
+              <div class="metric-item"><div class="ml">月間訪問回数</div><div class="mv" id="mVisits">—</div></div>
+              <div class="metric-item"><div class="ml">1訪問あたり単価</div><div class="mv" id="mPerVisit">—</div></div>
+              <div class="metric-item"><div class="ml">人件費率</div><div class="mv" id="mLaborRate">—</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-header">月間収支明細</div>
+          <div class="result-body">
+            <table class="detail-table" id="detailTable"></table>
+          </div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-header">年間試算 & 初期投資</div>
+          <div class="result-body">
+            <div class="annual-grid" id="annualGrid"></div>
+            <hr class="divider">
+            <div class="annual-grid" id="initGrid"></div>
+            <div class="note">※ 開業後2ヶ月間は国保連請求のため入金なし。運転資金は最低3ヶ月分を確保してください。</div>
+          </div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-header">12ヶ月キャッシュフロー予測</div>
+          <div class="result-body">
+            <div class="form-row" style="margin-bottom:8px">
+              <div class="form-label">立ち上がり期間の利用者増加<small>毎月の新規利用者数</small></div>
+              <input class="form-input" type="number" id="rampClients" value="5" min="1" max="20" oninput="calc()">
+              <span class="form-unit">人/月</span>
+            </div>
+            <div class="cf-chart-wrap"><canvas id="cfChart"></canvas></div>
+            <div class="note" id="bepNote"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 報酬単価一覧 ===== -->
+  <div id="tab-fee" class="sim-tab-content">
+    <div style="max-width:900px">
+      <div class="section-card" style="margin-bottom:16px">
+        <div class="section-header">精神科訪問看護基本療養費（令和8年6月〜）</div>
+        <div class="section-body">
+          <table class="fee-table">
+            <thead>
+              <tr><th>区分</th><th>時間</th><th>週3日目まで</th><th>週4日目以降</th></tr>
+            </thead>
+            <tbody>
+              <tr><td rowspan="2"><strong>基本療養費(I)</strong><br>保健師・看護師・OT</td><td>30分以上</td><td class="num">5,550円</td><td class="num">6,550円</td></tr>
+              <tr><td>30分未満</td><td class="num">4,250円</td><td class="num">5,100円</td></tr>
+              <tr><td rowspan="2"><strong>基本療養費(I)</strong><br>准看護師</td><td>30分以上</td><td class="num">5,050円</td><td class="num">6,050円</td></tr>
+              <tr><td>30分未満</td><td class="num">3,870円</td><td class="num">4,720円</td></tr>
+              <tr><td rowspan="2"><strong>基本療養費(III)</strong><br>同一建物2人</td><td>30分以上</td><td class="num">5,550円</td><td class="num">6,550円</td></tr>
+              <tr><td>30分未満</td><td class="num">4,250円</td><td class="num">5,100円</td></tr>
+              <tr><td rowspan="2"><strong>基本療養費(III)</strong><br>同一建物3人以上</td><td>30分以上</td><td class="num">2,780円</td><td class="num">3,280円</td></tr>
+              <tr><td>30分未満</td><td class="num">2,130円</td><td class="num">2,550円</td></tr>
+              <tr><td><strong>基本療養費(IV)</strong><br>外泊時</td><td>—</td><td class="num" colspan="2">8,500円（入院中1-2回限度）</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="section-card" style="margin-bottom:16px">
+        <div class="section-header">訪問看護管理療養費（月額）</div>
+        <div class="section-body">
+          <table class="fee-table">
+            <thead><tr><th>区分</th><th>月初日</th><th>2日目以降/日</th></tr></thead>
+            <tbody>
+              <tr><td>通常</td><td class="num">7,440円</td><td class="num">3,000円</td></tr>
+              <tr><td>機能強化型1</td><td class="num">12,830円</td><td class="num">3,000円</td></tr>
+              <tr><td>機能強化型2</td><td class="num">9,800円</td><td class="num">3,000円</td></tr>
+              <tr><td>機能強化型3</td><td class="num">8,700円</td><td class="num">3,000円</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="section-card" style="margin-bottom:16px">
+        <div class="section-header">主要加算</div>
+        <div class="section-body">
+          <table class="fee-table">
+            <thead><tr><th>加算名</th><th>単価</th><th>算定頻度</th></tr></thead>
+            <tbody>
+              <tr><td>24時間対応体制加算</td><td class="num">6,400円</td><td>月1回</td></tr>
+              <tr><td>特別管理加算</td><td class="num">2,500円</td><td>月1回</td></tr>
+              <tr><td>長時間精神科訪問看護加算</td><td class="num">5,200円</td><td>週1日限度</td></tr>
+              <tr><td>精神科緊急訪問看護加算</td><td class="num">2,650円</td><td>1日1回</td></tr>
+              <tr><td>夜間・早朝訪問看護加算</td><td class="num">2,100円</td><td>1回</td></tr>
+              <tr><td>深夜訪問看護加算</td><td class="num">4,200円</td><td>1回</td></tr>
+              <tr><td>複数名精神科訪問看護加算(看護師)</td><td class="num">4,500円</td><td>1日1回</td></tr>
+              <tr><td>精神科複数回訪問加算(1日2回)</td><td class="num">4,500円</td><td>1日</td></tr>
+              <tr><td>精神科複数回訪問加算(1日3回)</td><td class="num">8,000円</td><td>1日</td></tr>
+            </tbody>
+          </table>
+          <div class="note">※ 出典: <a href="https://iroiro-nurse.net/psychiatry-medical-expenses/" target="_blank">精神科訪問看護基本療養費（医療保険）</a> / 令和8年6月〜改定版。物価対応料（+60円/初日, +20円/2日目以降）は別途加算。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 開業戦略 ===== -->
+  <div id="tab-strategy" class="sim-tab-content">
+    <div style="max-width:900px">
+
+      <div class="strategy-card">
+        <div class="strategy-header">市川市 精神科訪問看護ステーション 市場分析</div>
+        <div class="strategy-body">
+          <div class="highlight">
+            <strong>市川市の精神科特化STは1件のみ</strong>（全42ステーション中）。近隣7市区全体でも精神科特化は3件しかない。圧倒的なブルーオーシャン。
+          </div>
+
+          <h3>市場データ</h3>
+          <table>
+            <tr><th>指標</th><th>数値</th><th>出典</th></tr>
+            <tr><td>市川市人口</td><td>500,937人</td><td>市川市公式 2026年4月</td></tr>
+            <tr><td>全国 精神疾患総患者数</td><td>603万人</td><td>令和7年障害者白書</td></tr>
+            <tr><td>市川市 精神疾患患者（推計）</td><td>約24,000人</td><td>人口×4.8%</td></tr>
+            <tr><td>精神科訪問看護 潜在利用者</td><td>約1,200〜2,500人</td><td>患者の5〜10%</td></tr>
+            <tr><td>市川市 訪問看護ST総数</td><td>42件</td><td>厚労省オープンデータ</td></tr>
+            <tr><td>うち精神科特化</td><td>1件（2.4%）</td><td>同上</td></tr>
+          </table>
+
+          <h3>全国トレンド</h3>
+          <table>
+            <tr><th>指標</th><th>2017年</th><th>2021-22年</th><th>増加率</th></tr>
+            <tr><td>精神科訪問看護 算定事業所数</td><td>2,569ヶ所</td><td>4,915ヶ所</td><td>約2倍</td></tr>
+            <tr><td>精神科訪問看護 利用者数</td><td>56,060人</td><td>150,494人</td><td>約2.7倍</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="strategy-card">
+        <div class="strategy-header">開業戦略 5つの柱</div>
+        <div class="strategy-body">
+          <h3>1. 立地 — 北部エリアが空白地帯</h3>
+          <ul>
+            <li>唯一の精神科特化ST（森メンタルクリニック）は<strong>行徳（南部）</strong>に所在</li>
+            <li>本八幡・市川・中山・大野エリア（北部）には精神科特化が<strong>ゼロ</strong></li>
+            <li><strong>推奨: JR本八幡駅・市川駅周辺</strong>（交通利便性+北部カバー）</li>
+          </ul>
+
+          <h3>2. B型事業所との事業シナジー</h3>
+          <div class="highlight">
+            <strong>最大の差別化ポイント:</strong> 精神科訪問看護 + 就労B型の一体的支援。<br>
+            訪問看護で生活基盤を安定 → B型で社会参加 → A型・一般就労へ。<br>
+            利用者にワンストップで安心、行政からの評価も高い。
+          </div>
+
+          <h3>3. 精神科クリニックとの連携</h3>
+          <ul>
+            <li>市川市内の精神科・心療内科クリニックへの挨拶回り（開業前から）</li>
+            <li>主治医からの「精神科訪問看護指示書」が算定の必須条件</li>
+            <li>紹介ルートの構築が利用者獲得の最重要施策</li>
+          </ul>
+
+          <h3>4. 人材確保</h3>
+          <ul>
+            <li>精神科病院からの転職組を採用ターゲットに</li>
+            <li>柔軟な勤務体制（時短・週3勤務可）で差別化</li>
+            <li>精神科認定看護師の配置で機能強化型を目指す</li>
+            <li>常勤看護師2.5名以上が開業要件（管理者は常勤必須）</li>
+          </ul>
+
+          <h3>5. 段階的な成長計画</h3>
+          <table>
+            <tr><th>時期</th><th>利用者数</th><th>体制</th><th>目標</th></tr>
+            <tr><td>開業〜3ヶ月</td><td>5→15人</td><td>常勤3名</td><td>クリニック連携構築</td></tr>
+            <tr><td>4〜6ヶ月</td><td>15→25人</td><td>常勤3名+非常勤1名</td><td>損益分岐点到達</td></tr>
+            <tr><td>7〜12ヶ月</td><td>25→40人</td><td>常勤3名+非常勤2名</td><td>安定黒字化</td></tr>
+            <tr><td>2年目〜</td><td>40人以上</td><td>常勤4-5名</td><td>24時間対応体制・機能強化型取得</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="strategy-card">
+        <div class="strategy-header">リスクと対策</div>
+        <div class="strategy-body">
+          <table>
+            <tr><th>リスク</th><th>対策</th></tr>
+            <tr><td>精神科経験看護師の採用難</td><td>精神科病院への直接営業。柔軟な勤務形態。研修制度充実</td></tr>
+            <tr><td>利用者獲得の初動が遅い</td><td>開業3ヶ月前からクリニック挨拶回り。地域の相談支援事業所との関係構築</td></tr>
+            <tr><td>開業後2ヶ月の無収入期間</td><td>最低3ヶ月分の運転資金を確保。創業融資の活用</td></tr>
+            <tr><td>診療報酬改定リスク</td><td>精神科特化の加算が拡充傾向。国策に合致している</td></tr>
+            <tr><td>利用者の急変・緊急対応</td><td>24時間対応体制の段階的構築。近隣病院との連携</td></tr>
+          </table>
+          <div class="note" style="margin-top:12px">
+            ※ 出典: <a href="https://houkan.kaipoke.biz/magazine/management/psychiatric-nursing-profit.html" target="_blank">カイポケ</a> /
+            <a href="https://glug.co.jp/column/welfare/182" target="_blank">GLUG</a> /
+            <a href="https://www8.cao.go.jp/shougai/whitepaper/r07hakusho/zenbun/siryo_01.html" target="_blank">令和7年障害者白書</a> /
+            <a href="https://www.mhlw.go.jp/content/12200000/001113536.pdf" target="_blank">厚労省 精神科訪問看護実態調査</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+// 管理療養費 月初日の単価
+const MGMT_FIRST = { normal: 7440, func1: 12830, func2: 9800, func3: 8700 };
+const MGMT_DAILY = 3000; // 2日目以降
+
+let cfChart = null;
+
+function val(id) { return parseFloat(document.getElementById(id).value) || 0; }
+
+function calc() {
+  const clients = val('numClients');
+  const visitsPerClient = val('visitsPerClient');
+  const longRate = val('longVisitRate') / 100;
+  const day4Rate = val('day4Rate') / 100;
+  const mgmtType = document.getElementById('mgmtType').value;
+
+  // 月間訪問回数
+  const totalVisits = Math.round(clients * visitsPerClient);
+
+  // 基本療養費計算
+  const longVisits = Math.round(totalVisits * longRate);
+  const shortVisits = totalVisits - longVisits;
+  const day4Visits = Math.round(totalVisits * day4Rate);
+  const normalVisits = totalVisits - day4Visits;
+
+  // 加重平均単価
+  const longNormal = 5550;
+  const longDay4 = 6550;
+  const shortNormal = 4250;
+  const shortDay4 = 5100;
+
+  const basicFee = Math.round(
+    longVisits * (1 - day4Rate) * longNormal +
+    longVisits * day4Rate * longDay4 +
+    shortVisits * (1 - day4Rate) * shortNormal +
+    shortVisits * day4Rate * shortDay4
+  );
+
+  // 管理療養費（利用者ごとに月1回初日 + 残り訪問日は日額）
+  const mgmtFirst = MGMT_FIRST[mgmtType] * clients;
+  // 各利用者の2日目以降の訪問日数（訪問回数-1）
+  const mgmtDaily = MGMT_DAILY * clients * Math.max(0, visitsPerClient - 1);
+  const mgmtTotal = mgmtFirst + mgmtDaily;
+
+  // 加算
+  const add24h = document.getElementById('chk24h').checked ? 6400 * clients : 0;
+  const addSpecial = document.getElementById('chkSpecial').checked ? 2500 * Math.round(clients * 0.1) : 0; // 10%が該当
+  const addLong = document.getElementById('chkLong').checked ? 5200 * Math.round(clients * 0.05) * 4 : 0; // 5%が週1回
+
+  const totalIncome = basicFee + mgmtTotal + add24h + addSpecial + addLong;
+
+  // 支出
+  const nurseCost = val('nurseCount') * val('nurseSalary');
+  const partNurseCost = val('partNurseCount') * val('partNurseCost');
+  const clerkCost = val('clerkCount') * val('clerkSalary');
+  const laborTotal = nurseCost + partNurseCost + clerkCost;
+
+  const rent = val('rent');
+  const carCost = val('carCost');
+  const itCost = val('itCost');
+  const supplyCost = val('supplyCost');
+  const otherCost = val('otherCost');
+  const adminTotal = rent + carCost + itCost + supplyCost + otherCost;
+
+  const totalExpense = laborTotal + adminTotal;
+  const profit = totalIncome - totalExpense;
+
+  // 運転資金自動計算
+  document.getElementById('initRunning').value = Math.round(totalExpense * 3);
+
+  // 表示更新
+  const pnlBox = document.getElementById('pnlBox');
+  pnlBox.className = 'pnl-box ' + (profit >= 0 ? 'profit' : 'loss');
+  document.getElementById('pnlValue').textContent = (profit >= 0 ? '+' : '') + fmt(profit) + ' 円';
+  document.getElementById('pnlSub').textContent = `収入 ${fmt(totalIncome)}円 − 支出 ${fmt(totalExpense)}円`;
+
+  // 指標
+  document.getElementById('mVisits').textContent = totalVisits + '回';
+  document.getElementById('mPerVisit').textContent = totalVisits > 0 ? fmt(Math.round(totalIncome / totalVisits)) + '円' : '—';
+  document.getElementById('mLaborRate').textContent = totalIncome > 0 ? Math.round(laborTotal / totalIncome * 100) + '%' : '—';
+
+  // 明細テーブル
+  const dt = document.getElementById('detailTable');
+  dt.innerHTML = `
+    <tr class="section-title"><td colspan="2">収入</td></tr>
+    <tr><td class="label">精神科訪問看護基本療養費</td><td class="amount income">${fmt(basicFee)}円</td></tr>
+    <tr><td class="sublabel">30分以上: ${longVisits}回 / 30分未満: ${shortVisits}回</td><td></td></tr>
+    <tr><td class="label">訪問看護管理療養費</td><td class="amount income">${fmt(mgmtTotal)}円</td></tr>
+    <tr><td class="sublabel">初日: ${fmt(MGMT_FIRST[mgmtType])}円×${clients}人 + 2日目以降: ${fmt(MGMT_DAILY)}円×${clients}人×${Math.max(0,visitsPerClient-1)}日</td><td></td></tr>
+    ${add24h ? `<tr><td class="label">24時間対応体制加算</td><td class="amount income">${fmt(add24h)}円</td></tr>` : ''}
+    ${addSpecial ? `<tr><td class="label">特別管理加算</td><td class="amount income">${fmt(addSpecial)}円</td></tr>` : ''}
+    ${addLong ? `<tr><td class="label">長時間訪問看護加算</td><td class="amount income">${fmt(addLong)}円</td></tr>` : ''}
+    <tr class="total-row"><td class="label">収入合計</td><td class="amount income">${fmt(totalIncome)}円</td></tr>
+
+    <tr class="section-title"><td colspan="2">支出 — 人件費</td></tr>
+    <tr><td class="label">常勤看護師（${val('nurseCount')}名）</td><td class="amount expense">${fmt(nurseCost)}円</td></tr>
+    ${partNurseCost > 0 ? `<tr><td class="label">非常勤看護師（${val('partNurseCount')}名）</td><td class="amount expense">${fmt(partNurseCost)}円</td></tr>` : ''}
+    ${clerkCost > 0 ? `<tr><td class="label">事務員（${val('clerkCount')}名）</td><td class="amount expense">${fmt(clerkCost)}円</td></tr>` : ''}
+    <tr class="section-title"><td colspan="2">支出 — 管理費</td></tr>
+    <tr><td class="label">事務所家賃</td><td class="amount expense">${fmt(rent)}円</td></tr>
+    <tr><td class="label">車両費</td><td class="amount expense">${fmt(carCost)}円</td></tr>
+    <tr><td class="label">通信・システム</td><td class="amount expense">${fmt(itCost)}円</td></tr>
+    <tr><td class="label">医療材料・消耗品</td><td class="amount expense">${fmt(supplyCost)}円</td></tr>
+    <tr><td class="label">保険・その他</td><td class="amount expense">${fmt(otherCost)}円</td></tr>
+    <tr class="total-row"><td class="label">支出合計</td><td class="amount expense">${fmt(totalExpense)}円</td></tr>
+  `;
+
+  // 年間試算
+  document.getElementById('annualGrid').innerHTML = `
+    <div class="annual-item"><div class="al">年間売上</div><div class="av">${fmt(totalIncome * 12)}円</div></div>
+    <div class="annual-item"><div class="al">年間支出</div><div class="av">${fmt(totalExpense * 12)}円</div></div>
+    <div class="annual-item"><div class="al">年間利益</div><div class="av" style="color:${profit >= 0 ? 'var(--profit)' : 'var(--loss)'}">${fmt(profit * 12)}円</div></div>
+    <div class="annual-item"><div class="al">収支差率</div><div class="av">${totalIncome > 0 ? (profit / totalIncome * 100).toFixed(1) : 0}%</div></div>
+  `;
+
+  // 初期費用
+  const initTotal = val('initLegal') + val('initOffice') + val('initEquip') + val('initCar') + val('initRecruit') + Math.round(totalExpense * 3);
+  document.getElementById('initGrid').innerHTML = `
+    <div class="annual-item"><div class="al">初期投資合計</div><div class="av" style="color:var(--loss)">${fmt(initTotal)}円</div></div>
+    <div class="annual-item"><div class="al">投資回収期間</div><div class="av">${profit > 0 ? Math.ceil(initTotal / profit) + 'ヶ月' : '—'}</div></div>
+  `;
+
+  // 12ヶ月CF
+  renderCFChart(totalExpense, clients, visitsPerClient, longRate, day4Rate, mgmtType, initTotal);
+}
+
+function renderCFChart(monthlyExpense, maxClients, visitsPerClient, longRate, day4Rate, mgmtType, initCost) {
+  const ramp = val('rampClients');
+  const months = [];
+  const revenues = [];
+  const expenses = [];
+  const cumCF = [];
+  let cumulative = -initCost;
+
+  for (let m = 1; m <= 12; m++) {
+    const clients = Math.min(Math.round(ramp * m), maxClients);
+    const visits = clients * visitsPerClient;
+
+    // 簡易収入計算
+    const longV = Math.round(visits * longRate);
+    const shortV = visits - longV;
+    const basic = Math.round(
+      longV * (1 - day4Rate) * 5550 + longV * day4Rate * 6550 +
+      shortV * (1 - day4Rate) * 4250 + shortV * day4Rate * 5100
+    );
+    const mgmt = MGMT_FIRST[mgmtType] * clients + MGMT_DAILY * clients * Math.max(0, visitsPerClient - 1);
+    const add24h = document.getElementById('chk24h').checked ? 6400 * clients : 0;
+    let income = basic + mgmt + add24h;
+
+    // 入金遅延（1-2ヶ月目は入金なし）
+    let actualIncome = m <= 2 ? 0 : (m === 3 ? revenues[0] : income);
+
+    const expense = monthlyExpense;
+    const cf = actualIncome - expense;
+    cumulative += cf;
+
+    months.push(m + '月目');
+    revenues.push(income);
+    expenses.push(expense);
+    cumCF.push(cumulative);
+  }
+
+  const ctx = document.getElementById('cfChart').getContext('2d');
+  if (cfChart) cfChart.destroy();
+  cfChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: months,
+      datasets: [
+        {
+          type: 'line', label: '累計キャッシュフロー', data: cumCF,
+          borderColor: '#9333ea', backgroundColor: '#9333ea22',
+          borderWidth: 2, fill: true, tension: 0.3, yAxisID: 'y1',
+          pointRadius: 3,
+        },
+        {
+          label: '月間収入', data: revenues.map((r, i) => i < 2 ? 0 : (i === 2 ? revenues[0] : r)),
+          backgroundColor: '#10b981cc', borderRadius: 4, yAxisID: 'y',
+        },
+        {
+          label: '月間支出', data: expenses,
+          backgroundColor: '#ef4444cc', borderRadius: 4, yAxisID: 'y',
+        },
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 10 } },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${fmt(Math.round(ctx.raw))}円` } }
+      },
+      scales: {
+        y: { position: 'left', grid: { color: '#f1f5f9' }, ticks: { callback: v => fmt(v) } },
+        y1: { position: 'right', grid: { drawOnChartArea: false }, ticks: { callback: v => fmt(v) } },
+        x: { grid: { color: '#f1f5f9' } }
+      }
+    }
+  });
+
+  // 損益分岐点
+  const bepMonth = cumCF.findIndex(v => v >= 0) + 1;
+  document.getElementById('bepNote').textContent = bepMonth > 0
+    ? `累計キャッシュフローが黒字転換するのは約${bepMonth}ヶ月目（利用者${Math.min(Math.round(ramp * bepMonth), maxClients)}人時点）の見込みです。`
+    : '12ヶ月以内の黒字転換が見込めません。利用者数増加ペースまたは支出を見直してください。';
+}
+
+function fmt(n) {
+  return Math.round(n).toLocaleString('ja-JP');
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.sim-tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.sim-tab-content').forEach(c => c.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('tab-' + tab).classList.add('active');
+}
+
+// 初期計算
+calc();
+</script>
+</body>
+</html>

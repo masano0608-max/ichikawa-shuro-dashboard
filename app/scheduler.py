@@ -8,8 +8,9 @@ import logging
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 
-from app.database import get_stats, log_update, upsert_offices
+from app.database import get_stats, log_update, upsert_offices, get_houmon_stats, log_houmon_update, upsert_houmon_offices
 from app.fetcher import fetch_ichikawa_data
+from app.fetcher_houmon import fetch_houmon_data
 
 logger = logging.getLogger(__name__)
 
@@ -60,6 +61,36 @@ async def run_update(force: bool = False):
         return {"status": "error", "message": str(e)}
 
 
+async def run_houmon_update(force: bool = False):
+    """訪問看護データ更新を実行する"""
+    logger.info("訪問看護データ更新開始...")
+    try:
+        df, fetched_at = fetch_houmon_data()
+
+        if df.empty:
+            log_houmon_update(0, 0, "no_data", "データが取得できませんでした")
+            logger.warning("訪問看護データが空でした")
+            return {"status": "no_data", "message": "データが取得できませんでした"}
+
+        total = len(df)
+        psych = len(df[df["category"] == "精神科特化"]) if "category" in df.columns else 0
+
+        upsert_houmon_offices(df, fetched_at)
+        log_houmon_update(total, psych, "success")
+
+        logger.info(f"訪問看護更新完了: 合計={total} 精神科特化={psych}")
+        return {
+            "status": "success",
+            "total_count": total,
+            "psych_count": psych,
+        }
+
+    except Exception as e:
+        logger.error(f"訪問看護更新エラー: {e}", exc_info=True)
+        log_houmon_update(0, 0, "error", str(e))
+        return {"status": "error", "message": str(e)}
+
+
 def start_scheduler():
     """スケジューラーを起動する（毎月1日 午前3時にチェック）"""
     scheduler.add_job(
@@ -68,8 +99,14 @@ def start_scheduler():
         id="monthly_update",
         replace_existing=True,
     )
+    scheduler.add_job(
+        run_houmon_update,
+        trigger=CronTrigger(day=1, hour=4, minute=0, timezone="Asia/Tokyo"),
+        id="houmon_update",
+        replace_existing=True,
+    )
     scheduler.start()
-    logger.info("スケジューラー起動: 毎月1日 03:00 に自動更新")
+    logger.info("スケジューラー起動: 毎月1日 03:00就労支援 / 04:00訪問看護 自動更新")
 
 
 def stop_scheduler():

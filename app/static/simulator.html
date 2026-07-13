@@ -240,13 +240,113 @@
     }
     .spinner-inline { display: inline-block; width: 14px; height: 14px; border: 2px solid #e2e8f0; border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; vertical-align: middle; }
     @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ─ シミュレータータブ ─ */
+    .sim-tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 24px;
+    }
+    .sim-tab-btn {
+      padding: 10px 24px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--muted);
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: -2px;
+    }
+    .sim-tab-btn:hover { color: var(--primary); }
+    .sim-tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+    .sim-tab-content { display: none; }
+    .sim-tab-content.active { display: block; }
+
+    /* ─ 工賃明細タブ ─ */
+    .wage-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+    @media (max-width: 1000px) { .wage-layout { grid-template-columns: 1fr; } }
+
+    .wage-result-panel {
+      position: sticky;
+      top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .wage-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    .wage-table th { background: var(--bg); padding: 8px 10px; text-align: left; font-weight: 700; font-size: 0.78rem; color: var(--muted); border-bottom: 1px solid var(--border); }
+    .wage-table td { padding: 7px 10px; border-bottom: 1px solid var(--border); }
+    .wage-table td.num { text-align: right; font-weight: 600; white-space: nowrap; }
+    .wage-table tr.total-row td { font-weight: 800; border-top: 2px solid var(--border); background: var(--bg); }
+
+    .wage-big-box {
+      text-align: center;
+      padding: 20px;
+      border-radius: 10px;
+      background: #eff6ff;
+      border: 2px solid var(--primary);
+      margin-bottom: 12px;
+    }
+    .wage-big-label { font-size: 0.8rem; font-weight: 700; color: var(--muted); }
+    .wage-big-value { font-size: 2.2rem; font-weight: 900; color: var(--primary); margin: 6px 0; }
+    .wage-big-sub { font-size: 0.82rem; color: var(--muted); }
+
+    .wage-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .wage-metric {
+      background: var(--bg);
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+    }
+    .wage-metric .wm-label { font-size: 0.72rem; color: var(--muted); font-weight: 700; }
+    .wage-metric .wm-value { font-size: 1.05rem; font-weight: 800; color: var(--text); margin-top: 3px; }
+
+    .sync-btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: white;
+      background: var(--primary);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .sync-btn:hover { background: #1d4ed8; }
+
+    .wage-mismatch {
+      background: #fef9c3;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 0.78rem;
+      color: #854d0e;
+      line-height: 1.6;
+      display: none;
+    }
+
+    .range-hint { font-size: 0.72rem; color: var(--muted); }
   </style>
 </head>
 <body>
 
 <header>
   <h1>就労継続支援 収支シミュレーター</h1>
-  <div class="subtitle">給付費・人件費・管理費を入力するだけで月間収支を自動計算</div>
+  <div class="subtitle">令和8年6月〜改定対応｜給付費・人件費・管理費を入力するだけで月間収支を自動計算</div>
 </header>
 <nav>
   <a href="/">ダッシュボード</a>
@@ -255,6 +355,12 @@
 </nav>
 
 <main>
+  <div class="sim-tabs">
+    <button class="sim-tab-btn active" onclick="switchSimTab('main')">収支シミュレーター</button>
+    <button class="sim-tab-btn" onclick="switchSimTab('wage')">工賃明細</button>
+  </div>
+
+  <div class="sim-tab-content active" id="simtab-main">
   <div class="sim-layout">
 
     <!-- ═══════ 入力パネル ═══════ -->
@@ -332,6 +438,17 @@
             <select class="form-input" id="staffRatio" onchange="autoFillStaff()">
               <option value="I" selected>サービス費Ⅰ（6:1配置）★</option>
               <option value="II">サービス費Ⅱ（7.5:1配置）</option>
+              <option value="III">サービス費Ⅲ（10:1配置）</option>
+              <option value="IV">サービス費Ⅳ（6:1・一律評価型）</option>
+              <option value="V">サービス費Ⅴ（7.5:1・一律評価型）</option>
+              <option value="VI">サービス費Ⅵ（10:1・一律評価型）</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <div class="form-label">新規事業所<small>令和8〜9年度開所は1.6%減額</small></div>
+            <select class="form-input" id="newFacility" onchange="calc()">
+              <option value="1" selected>はい（2027年開所予定）</option>
+              <option value="0">いいえ（既存事業所）</option>
             </select>
           </div>
           <div class="form-row">
@@ -474,9 +591,9 @@
           <div class="form-row">
             <div class="form-label">
               家賃・共益費
-              <small>本八幡50〜80㎡: 約25〜35万円 / 70㎡実例: 40万円</small>
+              <small>本八幡50〜80㎡: 約40〜50万円</small>
             </div>
-            <input class="form-input" type="number" id="rent" value="250000" min="0" step="10000" oninput="calc()">
+            <input class="form-input" type="number" id="rent" value="400000" min="0" step="10000" oninput="calc()">
             <span class="form-unit">円/月</span>
           </div>
           <div class="form-row">
@@ -637,8 +754,10 @@
         <div class="result-header">計算根拠・注意事項</div>
         <div class="result-body">
           <p class="note">
-            <strong>基本報酬（令和6年度改定）:</strong><br>
-            令和6年4月から報酬体系が再編。職員配置6:1（サービス費Ⅰ）と7.5:1（サービス費Ⅱ）で単位数が異なる。平均工賃月額が高いほど報酬単価が高い（8区分）。<br><br>
+            <strong>基本報酬（令和8年6月〜改定反映）:</strong><br>
+            令和8年度臨時改定により、各工賃区分の基準額が<strong>一律3,000円引き上げ</strong>。サービス費Ⅰ〜Ⅲ（工賃連動型）とⅣ〜Ⅵ（一律評価型）の6区分。<br><br>
+            <strong>新規事業所の臨時応急的報酬単価:</strong><br>
+            令和8〜9年度に新規開所する事業所は、所定単位数の<strong>1000分の984（約1.6%減額）</strong>が適用。<br><br>
             <strong>地域区分:</strong><br>
             市川市 = <strong>5級地（+6%・人件費割合70%）</strong> → 1単位 = <strong>10.42円</strong><br>
             計算式: 10円 × (1 + 0.06 × 0.70) = 10.42円<br>
@@ -653,35 +772,324 @@
 
     </div><!-- /result-panel -->
   </div><!-- /sim-layout -->
+  </div><!-- /simtab-main -->
+
+  <!-- ═══════ 工賃明細タブ ═══════ -->
+  <div class="sim-tab-content" id="simtab-wage">
+    <div class="wage-layout">
+
+      <!-- 左カラム: 入力 -->
+      <div class="input-panel">
+
+        <!-- B型全国平均参考値 -->
+        <div class="hint-box" style="margin-bottom:4px;">
+          B型全国平均工賃月額: 約17,000円（令和5年度）／ 平均時給: 約233円
+        </div>
+
+        <!-- 清掃・メンテナンス -->
+        <div class="section-card">
+          <div class="section-header">
+            <div class="section-num" style="background:#059669;">1</div>
+            清掃・メンテナンス
+          </div>
+          <div class="section-body">
+            <div class="form-row">
+              <div class="form-label">配置利用者数</div>
+              <input class="form-input" type="number" id="w_clean_users" value="6" min="0" max="50" oninput="calcWage()">
+              <span class="form-unit">人</span>
+            </div>
+            <div class="form-row">
+              <div class="form-label">1日作業時間</div>
+              <input class="form-input" type="number" id="w_clean_hours" value="4" min="0.5" max="8" step="0.5" oninput="calcWage()">
+              <span class="form-unit">時間</span>
+            </div>
+            <div class="form-row">
+              <div class="form-label">月間稼働日数</div>
+              <input class="form-input" type="number" id="w_clean_days" value="23" min="1" max="31" oninput="calcWage()">
+              <span class="form-unit">日</span>
+            </div>
+            <div class="form-row">
+              <div class="form-label">受注単価<small>業者→事業所 <span class="range-hint">相場: 700〜1,500円</span></small></div>
+              <input class="form-input" type="number" id="w_clean_order" value="1000" min="0" step="100" oninput="calcWage()">
+              <span class="form-unit">円/h</span>
+            </div>
+            <div class="form-row">
+              <div class="form-label">工賃時給<small>事業所→利用者 <span class="range-hint">相場: 150〜300円</span></small></div>
+              <input class="form-input" type="number" id="w_clean_wage" value="200" min="0" step="10" oninput="calcWage()">
+              <span class="form-unit">円/h</span>
+            </div>
+            <div class="hint-box" id="w_clean_formula" style="background:#f0fdf4;">月額工賃/人: —</div>
+          </div>
+        </div>
+
+        <!-- IT・データ入力 -->
+        <div class="section-card">
+          <div class="section-header">
+            <div class="section-num" style="background:#2563eb;">2</div>
+            IT・データ入力
+          </div>
+          <div class="section-body">
+            <div class="form-row">
+              <div class="form-label">配置利用者数</div>
+              <input class="form-input" type="number" id="w_it_users" value="4" min="0" max="50" oninput="calcWage()">
+              <span class="form-unit">人</span>
+            </div>
+            <div class="form-row">
+              <div class="form-label">1日作業時間</div>
+              <input class="form-input" type="number" id="w_it_hours" value="4" min="0.5" max="8" step="0.5" oninput="calcWage()">
+              <span class="form-unit">時間</span>
+            </div>
+            <div class="form-row">
+              <div class="form-label">月間稼働日数</div>
+              <input class="form-input" type="number" id="w_it_days" value="23" min="1" max="31" oninput="calcWage()">
+              <span class="form-unit">日</span>
+            </div>
+            <div class="form-row">
+              <div class="form-label">受注単価<small>業者→事業所 <span class="range-hint">相場: 500〜1,000円</span></small></div>
+              <input class="form-input" type="number" id="w_it_order" value="800" min="0" step="100" oninput="calcWage()">
+              <span class="form-unit">円/h</span>
+            </div>
+            <div class="form-row">
+              <div class="form-label">工賃時給<small>事業所→利用者 <span class="range-hint">相場: 200〜400円</span></small></div>
+              <input class="form-input" type="number" id="w_it_wage" value="230" min="0" step="10" oninput="calcWage()">
+              <span class="form-unit">円/h</span>
+            </div>
+            <div class="hint-box" id="w_it_formula" style="background:#eff6ff;">月額工賃/人: —</div>
+          </div>
+        </div>
+
+        <!-- 内職・軽作業 -->
+        <div class="section-card">
+          <div class="section-header">
+            <div class="section-num" style="background:#d97706;">3</div>
+            内職・軽作業
+          </div>
+          <div class="section-body">
+            <div class="form-row">
+              <div class="form-label">配置利用者数</div>
+              <input class="form-input" type="number" id="w_craft_users" value="7" min="0" max="50" oninput="calcWage()">
+              <span class="form-unit">人</span>
+            </div>
+            <div class="form-row">
+              <div class="form-label">1日作業時間</div>
+              <input class="form-input" type="number" id="w_craft_hours" value="4" min="0.5" max="8" step="0.5" oninput="calcWage()">
+              <span class="form-unit">時間</span>
+            </div>
+            <div class="form-row">
+              <div class="form-label">月間稼働日数</div>
+              <input class="form-input" type="number" id="w_craft_days" value="23" min="1" max="31" oninput="calcWage()">
+              <span class="form-unit">日</span>
+            </div>
+            <div class="form-row">
+              <div class="form-label">受注単価<small>業者→事業所 <span class="range-hint">相場: 300〜600円</span></small></div>
+              <input class="form-input" type="number" id="w_craft_order" value="500" min="0" step="100" oninput="calcWage()">
+              <span class="form-unit">円/h</span>
+            </div>
+            <div class="form-row">
+              <div class="form-label">工賃時給<small>事業所→利用者 <span class="range-hint">相場: 100〜250円</span></small></div>
+              <input class="form-input" type="number" id="w_craft_wage" value="150" min="0" step="10" oninput="calcWage()">
+              <span class="form-unit">円/h</span>
+            </div>
+            <div class="hint-box" id="w_craft_formula" style="background:#fffbeb;">月額工賃/人: —</div>
+          </div>
+        </div>
+
+        <!-- 利用者数チェック -->
+        <div class="wage-mismatch" id="wageMismatch"></div>
+
+      </div><!-- /input-panel -->
+
+      <!-- 右カラム: 結果 -->
+      <div class="wage-result-panel">
+
+        <!-- 作業種別別 収支テーブル -->
+        <div class="result-card">
+          <div class="result-header">作業種別別 月間収支</div>
+          <div class="result-body">
+            <table class="wage-table">
+              <thead>
+                <tr>
+                  <th>作業種別</th>
+                  <th style="text-align:right;">受注収入</th>
+                  <th style="text-align:right;">工賃支払</th>
+                  <th style="text-align:right;">粗利</th>
+                  <th style="text-align:right;">利益率</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>清掃</td>
+                  <td class="num" id="wt_clean_income">—</td>
+                  <td class="num" id="wt_clean_wage">—</td>
+                  <td class="num" id="wt_clean_profit">—</td>
+                  <td class="num" id="wt_clean_margin">—</td>
+                </tr>
+                <tr>
+                  <td>IT</td>
+                  <td class="num" id="wt_it_income">—</td>
+                  <td class="num" id="wt_it_wage">—</td>
+                  <td class="num" id="wt_it_profit">—</td>
+                  <td class="num" id="wt_it_margin">—</td>
+                </tr>
+                <tr>
+                  <td>内職</td>
+                  <td class="num" id="wt_craft_income">—</td>
+                  <td class="num" id="wt_craft_wage">—</td>
+                  <td class="num" id="wt_craft_profit">—</td>
+                  <td class="num" id="wt_craft_margin">—</td>
+                </tr>
+                <tr class="total-row">
+                  <td>合計</td>
+                  <td class="num" id="wt_total_income">—</td>
+                  <td class="num" id="wt_total_wage">—</td>
+                  <td class="num" id="wt_total_profit">—</td>
+                  <td class="num" id="wt_total_margin">—</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 加重平均工賃 -->
+        <div class="result-card">
+          <div class="result-header">加重平均工賃</div>
+          <div class="result-body">
+            <div class="wage-big-box">
+              <div class="wage-big-label">加重平均工賃月額</div>
+              <div class="wage-big-value" id="wAvgWage">—</div>
+              <div class="wage-big-sub" id="wAvgTier">報酬区分: —</div>
+            </div>
+
+            <div class="wage-metrics">
+              <div class="wage-metric">
+                <div class="wm-label">清掃（月額/人）</div>
+                <div class="wm-value" id="wm_clean">—</div>
+              </div>
+              <div class="wage-metric">
+                <div class="wm-label">IT（月額/人）</div>
+                <div class="wm-value" id="wm_it">—</div>
+              </div>
+              <div class="wage-metric">
+                <div class="wm-label">内職（月額/人）</div>
+                <div class="wm-value" id="wm_craft">—</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- キャッシュフロー -->
+        <div class="result-card">
+          <div class="result-header">月間キャッシュフロー（簡易）</div>
+          <div class="result-body">
+            <div class="hint-box" id="wcf_tier_hint" style="margin-bottom:12px;">報酬区分: —</div>
+            <table class="detail-table">
+              <tr class="section-title"><td colspan="2">【 収入 】</td></tr>
+              <tr>
+                <td class="label">給付費収入</td>
+                <td class="amount income" id="wcf_kyufu">—</td>
+              </tr>
+              <tr>
+                <td class="sublabel" id="wcf_kyufu_detail">　—</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="label">処遇改善加算</td>
+                <td class="amount income" id="wcf_shoguu_in">—</td>
+              </tr>
+              <tr>
+                <td class="label">受注作業収入（3種別合計）</td>
+                <td class="amount income" id="wcf_sales">—</td>
+              </tr>
+              <tr class="total-row">
+                <td class="label">収入合計</td>
+                <td class="amount income" id="wcf_income_total">—</td>
+              </tr>
+              <tr class="section-title"><td colspan="2">【 支出 】</td></tr>
+              <tr>
+                <td class="label">人件費（社保込）</td>
+                <td class="amount expense" id="wcf_staff">—</td>
+              </tr>
+              <tr>
+                <td class="label">処遇改善（職員充当）</td>
+                <td class="amount expense" id="wcf_shoguu_out">—</td>
+              </tr>
+              <tr>
+                <td class="label">工賃支払（3種別合計）</td>
+                <td class="amount expense" id="wcf_wage">—</td>
+              </tr>
+              <tr>
+                <td class="label">家賃・光熱・管理費等</td>
+                <td class="amount expense" id="wcf_overhead">—</td>
+              </tr>
+              <tr class="total-row">
+                <td class="label">支出合計</td>
+                <td class="amount expense" id="wcf_expense_total">—</td>
+              </tr>
+            </table>
+            <hr class="divider">
+            <div class="pnl-box" id="wcf_pnl_box" style="padding:14px;">
+              <div class="pnl-label">月間キャッシュフロー</div>
+              <div class="pnl-value" id="wcf_pnl_value" style="font-size:1.8rem;">—</div>
+              <div class="pnl-sub" id="wcf_pnl_sub">—</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 反映ボタン -->
+        <button class="sync-btn" onclick="syncWageToSimulator()">
+          → 収支シミュレーターに反映
+        </button>
+        <p class="note" style="text-align:center;">加重平均工賃と合計受注収入を収支タブに転記します</p>
+
+      </div><!-- /wage-result-panel -->
+
+    </div><!-- /wage-layout -->
+  </div><!-- /simtab-wage -->
+
 </main>
 
 <script>
-// ── 報酬テーブル（令和6年度改定・就労継続支援B型）────────────────
-// サービス費 I（職員6:1配置）/ II（7.5:1）で単位数が異なる
+// ── 報酬テーブル（令和8年6月〜改定・就労継続支援B型）────────────────
+// 令和8年度臨時改定: 各工賃区分の基準額を3,000円引き上げ
 // 定員20人以下の場合（最も単価が高い区分）
 const B_TIERS_I = [ // サービス費I（6:1配置）
-  { label: '45,000円以上',          minWage: 45000, units: 837 },
-  { label: '35,000〜45,000円',      minWage: 35000, units: 805 },
-  { label: '30,000〜35,000円',      minWage: 30000, units: 758 },
-  { label: '25,000〜30,000円',      minWage: 25000, units: 738 },
-  { label: '20,000〜25,000円',      minWage: 20000, units: 726 },
-  { label: '15,000〜20,000円',      minWage: 15000, units: 703 },
-  { label: '10,000〜15,000円',      minWage: 10000, units: 673 },
-  { label: '10,000円未満',          minWage: 0,     units: 590 },
+  { label: '48,000円以上',          minWage: 48000, units: 837 },
+  { label: '38,000〜48,000円',      minWage: 38000, units: 805 },
+  { label: '33,000〜38,000円',      minWage: 33000, units: 758 },
+  { label: '28,000〜33,000円',      minWage: 28000, units: 738 },
+  { label: '23,000〜28,000円',      minWage: 23000, units: 726 },
+  { label: '18,000〜23,000円',      minWage: 18000, units: 703 },
+  { label: '13,000〜18,000円',      minWage: 13000, units: 673 },
+  { label: '13,000円未満',          minWage: 0,     units: 590 },
 ];
-const B_TIERS_II = [ // サービス費II（7.5:1配置）標準
-  { label: '45,000円以上',          minWage: 45000, units: 748 },
-  { label: '35,000〜45,000円',      minWage: 35000, units: 716 },
-  { label: '30,000〜35,000円',      minWage: 30000, units: 669 },
-  { label: '25,000〜30,000円',      minWage: 25000, units: 649 },
-  { label: '20,000〜25,000円',      minWage: 20000, units: 637 },
-  { label: '15,000〜20,000円',      minWage: 15000, units: 614 },
-  { label: '10,000〜15,000円',      minWage: 10000, units: 584 },
-  { label: '10,000円未満',          minWage: 0,     units: 537 },
+const B_TIERS_II = [ // サービス費II（7.5:1配置）
+  { label: '48,000円以上',          minWage: 48000, units: 748 },
+  { label: '38,000〜48,000円',      minWage: 38000, units: 716 },
+  { label: '33,000〜38,000円',      minWage: 33000, units: 669 },
+  { label: '28,000〜33,000円',      minWage: 28000, units: 649 },
+  { label: '23,000〜28,000円',      minWage: 23000, units: 637 },
+  { label: '18,000〜23,000円',      minWage: 18000, units: 614 },
+  { label: '13,000〜18,000円',      minWage: 13000, units: 584 },
+  { label: '13,000円未満',          minWage: 0,     units: 537 },
 ];
+const B_TIERS_III = [ // サービス費III（10:1配置）
+  { label: '48,000円以上',          minWage: 48000, units: 682 },
+  { label: '38,000〜48,000円',      minWage: 38000, units: 653 },
+  { label: '33,000〜38,000円',      minWage: 33000, units: 611 },
+  { label: '28,000〜33,000円',      minWage: 28000, units: 594 },
+  { label: '23,000〜28,000円',      minWage: 23000, units: 572 },
+  { label: '18,000〜23,000円',      minWage: 18000, units: 557 },
+  { label: '13,000〜18,000円',      minWage: 13000, units: 532 },
+  { label: '13,000円未満',          minWage: 0,     units: 490 },
+];
+// サービス費Ⅳ〜Ⅵ: 一律評価型（工賃区分なし・定員20人以下）
+const B_FLAT = { 'IV': 584, 'V': 530, 'VI': 484 };
 
-// 就労継続支援A型 基本報酬（令和6年度・参考値）
-const A_BASE_UNITS = 717; // 参考値
+// 新規事業所の臨時応急的報酬単価（令和8年度〜令和9年度）
+const NEW_FACILITY_RATE = 0.984; // 所定単位数の1000分の984
+
+// 就労継続支援A型 基本報酬（令和6年度・スコア方式・参考値）
+const A_BASE_UNITS = 717; // 参考値（スコアにより変動）
 
 function fmt(n) {
   if (isNaN(n)) return '—';
@@ -697,12 +1105,18 @@ function onServiceTypeChange() {
   calc();
 }
 
+function getStaffRatioNum(staffRatio) {
+  if (staffRatio === 'I' || staffRatio === 'IV') return 6;
+  if (staffRatio === 'II' || staffRatio === 'V') return 7.5;
+  return 10; // III, VI
+}
+
 function autoFillStaff() {
   const capacity  = parseFloat(document.getElementById('capacity').value) || 0;
   const utilRate  = parseFloat(document.getElementById('utilRate').value) || 85;
   const staffRatio = document.getElementById('staffRatio').value;
   const userCount = Math.floor(capacity * utilRate / 100);
-  const ratio     = staffRatio === 'I' ? 6 : 7.5;
+  const ratio     = getStaffRatioNum(staffRatio);
   const minSupport = Math.ceil(userCount / ratio);
   document.getElementById('support_count').value = minSupport;
   calc();
@@ -721,18 +1135,35 @@ function calc() {
   const userCount  = Math.floor(capacity * utilRate / 100);
   document.getElementById('userCountHint').textContent = `実利用者数: ${userCount}人（定員${capacity}人 × ${utilRate}%）`;
 
+  // ── 新規事業所減額 ──
+  const isNewFacility = document.getElementById('newFacility').value === '1';
+
   // ── 報酬区分 ──
   let baseUnits = A_BASE_UNITS;
-  let tierLabel = 'A型（参考値）';
+  let tierLabel = 'A型（スコア方式・参考値）';
   if (type === 'B') {
-    const tiers = staffRatio === 'I' ? B_TIERS_I : B_TIERS_II;
-    const tier = tiers.find(t => avgWage >= t.minWage) || tiers[tiers.length - 1];
-    baseUnits = tier.units;
-    tierLabel = `サービス費${staffRatio}（${tier.label}）`;
+    if (['IV','V','VI'].includes(staffRatio)) {
+      // 一律評価型（工賃区分なし）
+      baseUnits = B_FLAT[staffRatio];
+      tierLabel = `サービス費${staffRatio}（一律評価型）`;
+    } else {
+      const tiersMap = { 'I': B_TIERS_I, 'II': B_TIERS_II, 'III': B_TIERS_III };
+      const tiers = tiersMap[staffRatio];
+      const tier = tiers.find(t => avgWage >= t.minWage) || tiers[tiers.length - 1];
+      baseUnits = tier.units;
+      tierLabel = `サービス費${staffRatio}（${tier.label}）`;
+    }
   }
+
+  // 新規事業所の臨時応急的報酬単価（×984/1000）
+  if (isNewFacility) {
+    baseUnits = Math.floor(baseUnits * NEW_FACILITY_RATE);
+  }
+
   baseUnits = baseUnits * useHours; // 3時間未満は0.5
 
-  document.getElementById('tierHint').textContent = `報酬区分: ${tierLabel} → ${baseUnits}単位/日/人`;
+  const newLabel = isNewFacility ? '【新規-1.6%】' : '';
+  document.getElementById('tierHint').textContent = `報酬区分: ${tierLabel} ${newLabel}→ ${baseUnits}単位/日/人`;
 
   // ── 加算（日単位）──
   const addPerDay = ['add_fukushi1','add_fukushi2','add_kenshu','add_shokuba','add_seishin']
@@ -793,13 +1224,15 @@ function calc() {
   const breakevenRate  = capacity > 0 ? Math.round(breakevenUsers / capacity * 100) : 0;
 
   // ── 最低職員数ヒント ──
-  const ratio = staffRatio === 'I' ? 6 : 7.5;
+  const ratio = getStaffRatioNum(staffRatio);
   const minSupport = Math.ceil(userCount / ratio);
   const totalMinStaff = minSupport + 1 + 1; // 支援員 + サビ管 + 管理者
+  const ratioLabel = ratio === 6 ? '6:1' : ratio === 7.5 ? '7.5:1' : '10:1';
   document.getElementById('staffHint').innerHTML =
-    `<strong>配置基準（${staffRatio === 'I' ? '6:1' : '7.5:1'}）</strong><br>` +
+    `<strong>配置基準（${ratioLabel}）</strong><br>` +
+    `<span style="color:#1d4ed8;">★ 6:1の対象は生活支援員・職業指導員のみ（管理者・サビ管は含まない）</span><br>` +
     `生活支援員・職業指導員: <strong>${minSupport}名以上</strong>（${userCount}人 ÷ ${ratio} = ${(userCount/ratio).toFixed(1)}→切り上げ）<br>` +
-    `サービス管理責任者: 1名　管理者: 1名（兼務可）<br>` +
+    `サービス管理責任者: 1名（6:1対象外）　管理者: 1名（兼務可・6:1対象外）<br>` +
     `<span style="color:#92400e;">合計最低 <strong>${totalMinStaff}名</strong> 必要</span>`;
 
   // ── 画面更新 ──
@@ -838,8 +1271,280 @@ function calc() {
   document.getElementById('y_profit').style.color = profit >= 0 ? '#10b981' : '#ef4444';
 }
 
-// 初期計算
+// ── タブ切り替え ──
+function switchSimTab(name) {
+  document.querySelectorAll('.sim-tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.sim-tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('simtab-' + name).classList.add('active');
+  event.target.classList.add('active');
+  if (name === 'wage') calcWage();
+}
+
+// ── 工賃明細計算 ──
+function calcWage() {
+  const categories = ['clean', 'it', 'craft'];
+  let totalIncome = 0, totalWagePay = 0, totalUsers = 0;
+  const perPerson = {}; // 月額工賃/人
+
+  categories.forEach(cat => {
+    const users = parseFloat(document.getElementById('w_' + cat + '_users').value) || 0;
+    const hours = parseFloat(document.getElementById('w_' + cat + '_hours').value) || 0;
+    const days  = parseFloat(document.getElementById('w_' + cat + '_days').value) || 0;
+    const order = parseFloat(document.getElementById('w_' + cat + '_order').value) || 0;
+    const wage  = parseFloat(document.getElementById('w_' + cat + '_wage').value) || 0;
+
+    const income  = order * hours * users * days;
+    const wagePay = wage * hours * users * days;
+    const profit  = income - wagePay;
+    const margin  = income > 0 ? (profit / income * 100) : 0;
+    const monthlyPerPerson = wage * hours * days;
+
+    totalIncome  += income;
+    totalWagePay += wagePay;
+    totalUsers   += users;
+    perPerson[cat] = { monthly: monthlyPerPerson, users: users };
+
+    document.getElementById('wt_' + cat + '_income').textContent = fmt(income);
+    document.getElementById('wt_' + cat + '_wage').textContent   = fmt(wagePay);
+    document.getElementById('wt_' + cat + '_profit').textContent = fmt(profit);
+    document.getElementById('wt_' + cat + '_margin').textContent = margin.toFixed(1) + '%';
+
+    // 計算式ヒント
+    document.getElementById('w_' + cat + '_formula').innerHTML =
+      '月額工賃/人: <strong>' + wage.toLocaleString() + '円</strong> × ' +
+      hours + 'h × ' + days + '日 = <strong>' + fmt(monthlyPerPerson) + '</strong>';
+  });
+
+  const totalProfit = totalIncome - totalWagePay;
+  const totalMargin = totalIncome > 0 ? (totalProfit / totalIncome * 100) : 0;
+  document.getElementById('wt_total_income').textContent = fmt(totalIncome);
+  document.getElementById('wt_total_wage').textContent   = fmt(totalWagePay);
+  document.getElementById('wt_total_profit').textContent = fmt(totalProfit);
+  document.getElementById('wt_total_margin').textContent = totalMargin.toFixed(1) + '%';
+
+  // 加重平均工賃月額
+  let weightedSum = 0;
+  categories.forEach(cat => {
+    weightedSum += perPerson[cat].monthly * perPerson[cat].users;
+  });
+  const avgWageMonthly = totalUsers > 0 ? Math.round(weightedSum / totalUsers) : 0;
+  document.getElementById('wAvgWage').textContent = fmt(avgWageMonthly);
+
+  // 報酬区分判定
+  const staffRatio = document.getElementById('staffRatio').value;
+  let tierLabel = '';
+  if (['IV','V','VI'].includes(staffRatio)) {
+    tierLabel = 'サービス費' + staffRatio + '（一律評価型・工賃区分なし）';
+  } else {
+    const tiersMap = { 'I': B_TIERS_I, 'II': B_TIERS_II, 'III': B_TIERS_III };
+    const tiers = tiersMap[staffRatio];
+    const tier = tiers.find(t => avgWageMonthly >= t.minWage) || tiers[tiers.length - 1];
+    tierLabel = 'サービス費' + staffRatio + '（' + tier.label + '）→ ' + tier.units + '単位/日';
+  }
+  document.getElementById('wAvgTier').textContent = '報酬区分: ' + tierLabel;
+
+  // 各種別の月額工賃/人
+  document.getElementById('wm_clean').textContent = fmt(perPerson.clean.monthly);
+  document.getElementById('wm_it').textContent    = fmt(perPerson.it.monthly);
+  document.getElementById('wm_craft').textContent = fmt(perPerson.craft.monthly);
+
+  // 利用者数一致チェック
+  const capacity = parseFloat(document.getElementById('capacity').value) || 0;
+  const utilRate = parseFloat(document.getElementById('utilRate').value) || 85;
+  const simUsers = Math.floor(capacity * utilRate / 100);
+  const mismatchEl = document.getElementById('wageMismatch');
+  if (totalUsers > 0 && totalUsers !== simUsers) {
+    mismatchEl.style.display = 'block';
+    mismatchEl.innerHTML = '⚠ 工賃明細の合計利用者数（<strong>' + totalUsers + '人</strong>）と収支タブの実利用者数（<strong>' + simUsers + '人</strong>）が異なります。';
+  } else {
+    mismatchEl.style.display = 'none';
+  }
+
+  // ── キャッシュフロー（収支タブの設定値を使って簡易計算）──
+  calcWageCashflow(totalIncome, totalWagePay, avgWageMonthly, totalUsers);
+
+  saveState();
+}
+
+function calcWageCashflow(salesIncome, wagePay, avgWageMonthly, wageUsers) {
+  const type       = document.getElementById('serviceType').value;
+  const capacity   = parseFloat(document.getElementById('capacity').value) || 0;
+  const unitPrice  = parseFloat(document.getElementById('region').value) || 10.42;
+  const utilRate   = parseFloat(document.getElementById('utilRate').value) || 85;
+  const useHours   = parseFloat(document.getElementById('useHours').value) || 1.0;
+  const staffRatio = document.getElementById('staffRatio').value;
+  const isNewFacility = document.getElementById('newFacility').value === '1';
+  const userCount  = wageUsers > 0 ? wageUsers : Math.floor(capacity * utilRate / 100);
+
+  // 基本報酬（加重平均工賃から単位数を決定）
+  let baseUnits = A_BASE_UNITS;
+  let tierLabel = 'A型（参考値）';
+  let tierUnits = baseUnits;
+  if (type === 'B') {
+    if (['IV','V','VI'].includes(staffRatio)) {
+      baseUnits = B_FLAT[staffRatio];
+      tierLabel = 'サービス費' + staffRatio + '（一律評価型）';
+    } else {
+      const tiersMap = { 'I': B_TIERS_I, 'II': B_TIERS_II, 'III': B_TIERS_III };
+      const tiers = tiersMap[staffRatio];
+      const tier = tiers.find(t => avgWageMonthly >= t.minWage) || tiers[tiers.length - 1];
+      baseUnits = tier.units;
+      tierLabel = 'サービス費' + staffRatio + '（' + tier.label + '）';
+    }
+  }
+  tierUnits = baseUnits;
+  const newLabel = isNewFacility ? ' → 新規-1.6%' : '';
+  if (isNewFacility) baseUnits = Math.floor(baseUnits * NEW_FACILITY_RATE);
+  baseUnits = baseUnits * useHours;
+
+  // 給付費は種別ごとの日数×人数で按分計算（各利用者の出席日ベース）
+  const categories = ['clean', 'it', 'craft'];
+  let totalUserDays = 0;
+  categories.forEach(cat => {
+    const users = parseFloat(document.getElementById('w_' + cat + '_users').value) || 0;
+    const days  = parseFloat(document.getElementById('w_' + cat + '_days').value) || 0;
+    totalUserDays += users * days;
+  });
+
+  // 加算
+  const addPerDay = ['add_fukushi1','add_fukushi2','add_kenshu','add_shokuba','add_seishin']
+    .filter(id => document.getElementById(id).checked)
+    .reduce((s, id) => s + parseFloat(document.getElementById(id).value), 0);
+  const addPerMonth = document.getElementById('add_target').checked ? 10 : 0;
+
+  const totalUnits = (baseUnits + addPerDay) * totalUserDays + (addPerMonth * userCount);
+  const kyufuIncome = totalUnits * unitPrice;
+
+  // 報酬区分ヒント
+  document.getElementById('wcf_tier_hint').innerHTML =
+    '<strong>' + tierLabel + '</strong>' + newLabel +
+    ' → <strong>' + baseUnits + '単位/日/人</strong>' +
+    '（加算+' + addPerDay + '単位/日）' +
+    '<br>延べ利用者日数: ' + userCount + '人 × 各稼働日数 = ' + totalUserDays.toLocaleString() + '人日/月';
+  document.getElementById('wcf_kyufu_detail').textContent =
+    '　' + (baseUnits + addPerDay) + '単位 × ' + totalUserDays.toLocaleString() + '人日 × ' + unitPrice.toFixed(2) + '円';
+
+  // 処遇改善加算
+  const shoguuRate = parseFloat(document.getElementById('shoguu').value) || 0;
+  const shoguuIncome = kyufuIncome * shoguuRate;
+
+  const cfIncomeTotal = kyufuIncome + shoguuIncome + salesIncome;
+
+  // 支出
+  const mgrSalary     = parseFloat(document.getElementById('mgr_salary').value) || 0;
+  const sabikanSalary = parseFloat(document.getElementById('sabikan_salary').value) || 0;
+  const suppCount     = parseFloat(document.getElementById('support_count').value) || 0;
+  const suppSalary    = parseFloat(document.getElementById('support_salary').value) || 0;
+  const shakaiRate    = parseFloat(document.getElementById('shakai_rate').value) || 0.15;
+  const baseSalary    = mgrSalary + sabikanSalary + (suppCount * suppSalary);
+  const totalStaff    = baseSalary + baseSalary * shakaiRate;
+
+  const rent      = parseFloat(document.getElementById('rent').value) || 0;
+  const utilities = parseFloat(document.getElementById('utilities').value) || 0;
+  const materials = parseFloat(document.getElementById('materials').value) || 0;
+  const misc      = parseFloat(document.getElementById('misc').value) || 0;
+  const overhead  = rent + utilities + materials + misc;
+
+  const cfExpenseTotal = totalStaff + shoguuIncome + wagePay + overhead;
+  const cfProfit = cfIncomeTotal - cfExpenseTotal;
+  const cfMargin = cfIncomeTotal > 0 ? (cfProfit / cfIncomeTotal * 100) : 0;
+
+  // 画面更新
+  document.getElementById('wcf_kyufu').textContent        = fmt(kyufuIncome);
+  document.getElementById('wcf_shoguu_in').textContent    = fmt(shoguuIncome);
+  document.getElementById('wcf_sales').textContent        = fmt(salesIncome);
+  document.getElementById('wcf_income_total').textContent = fmt(cfIncomeTotal);
+  document.getElementById('wcf_staff').textContent        = fmt(totalStaff);
+  document.getElementById('wcf_shoguu_out').textContent   = fmt(shoguuIncome);
+  document.getElementById('wcf_wage').textContent         = fmt(wagePay);
+  document.getElementById('wcf_overhead').textContent     = fmt(overhead);
+  document.getElementById('wcf_expense_total').textContent = fmt(cfExpenseTotal);
+
+  const pnlBox = document.getElementById('wcf_pnl_box');
+  pnlBox.className = 'pnl-box ' + (cfProfit >= 0 ? 'profit' : 'loss');
+  document.getElementById('wcf_pnl_value').textContent = fmt(cfProfit);
+  document.getElementById('wcf_pnl_sub').textContent =
+    '利益率: ' + cfMargin.toFixed(1) + '% ／ 年間: ' + fmt(cfProfit * 12);
+}
+
+// ── 工賃→収支シミュレーターに反映 ──
+function syncWageToSimulator() {
+  const categories = ['clean', 'it', 'craft'];
+
+  // 加重平均工賃月額を再計算
+  let totalUsers = 0, weightedSum = 0, totalIncome = 0;
+  categories.forEach(cat => {
+    const users = parseFloat(document.getElementById('w_' + cat + '_users').value) || 0;
+    const hours = parseFloat(document.getElementById('w_' + cat + '_hours').value) || 0;
+    const days  = parseFloat(document.getElementById('w_' + cat + '_days').value) || 0;
+    const order = parseFloat(document.getElementById('w_' + cat + '_order').value) || 0;
+    const wage  = parseFloat(document.getElementById('w_' + cat + '_wage').value) || 0;
+    const monthlyPerPerson = wage * hours * days;
+    weightedSum += monthlyPerPerson * users;
+    totalUsers  += users;
+    totalIncome += order * hours * users * days;
+  });
+  const avgWageMonthly = totalUsers > 0 ? Math.round(weightedSum / totalUsers) : 0;
+
+  // 収支タブに転記
+  document.getElementById('avgWage').value = avgWageMonthly;
+  document.getElementById('sales').value = Math.round(totalIncome);
+
+  // 収支タブに切り替えて再計算
+  document.querySelectorAll('.sim-tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.sim-tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('simtab-main').classList.add('active');
+  document.querySelectorAll('.sim-tab-btn')[0].classList.add('active');
+  calc();
+}
+
+// ── localStorage 自動保存・復元 ──
+const SAVE_KEY = 'simulator_state';
+const SAVE_IDS = [
+  'serviceType','capacity','openDays','region','utilRate','avgWage',
+  'staffRatio','useHours','minWageBase','newFacility',
+  'add_fukushi1','add_fukushi2','add_kenshu','add_target','add_shokuba','add_seishin',
+  'shoguu',
+  'mgr_salary','sabikan_salary','support_count','support_salary','shakai_rate',
+  'rent','utilities','materials','misc','sales',
+  'w_clean_users','w_clean_hours','w_clean_days','w_clean_order','w_clean_wage',
+  'w_it_users','w_it_hours','w_it_days','w_it_order','w_it_wage',
+  'w_craft_users','w_craft_hours','w_craft_days','w_craft_order','w_craft_wage'
+];
+
+function saveState() {
+  const state = {};
+  SAVE_IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    state[id] = el.type === 'checkbox' ? el.checked : el.value;
+  });
+  try { localStorage.setItem(SAVE_KEY, JSON.stringify(state)); } catch(e) {}
+}
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(SAVE_KEY);
+    if (!raw) return;
+    const state = JSON.parse(raw);
+    SAVE_IDS.forEach(id => {
+      const el = document.getElementById(id);
+      if (!el || !(id in state)) return;
+      if (el.type === 'checkbox') { el.checked = state[id]; }
+      else { el.value = state[id]; }
+    });
+    onServiceTypeChange();
+  } catch(e) {}
+}
+
+// 全入力変更時に自動保存
+const _origCalc = calc;
+calc = function() { _origCalc(); saveState(); };
+
+// 復元して初期計算
+loadState();
 calc();
+calcWage();
 </script>
 </body>
 </html>
