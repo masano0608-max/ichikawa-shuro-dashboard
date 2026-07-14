@@ -60,6 +60,15 @@ def init_db():
             value TEXT,
             updated_at TEXT DEFAULT (datetime('now','localtime'))
         );
+
+        CREATE TABLE IF NOT EXISTS contact_submissions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            contact TEXT NOT NULL,
+            type TEXT,
+            message TEXT,
+            created_at TEXT DEFAULT (datetime('now','localtime'))
+        );
         """)
 
 
@@ -229,3 +238,22 @@ def kv_set(key: str, value: str):
             "ON CONFLICT(key) DO UPDATE SET value=excluded.value, updated_at=excluded.updated_at",
             (key, value)
         )
+
+
+# ── お問い合わせ ─────────────────────────────────────
+
+
+def save_contact(name: str, contact: str, type: str, message: str):
+    with get_conn() as conn:
+        conn.execute(
+            "INSERT INTO contact_submissions (name, contact, type, message) VALUES (?, ?, ?, ?)",
+            (name, contact, type, message)
+        )
+
+
+def get_contacts():
+    with get_conn() as conn:
+        rows = conn.execute(
+            "SELECT * FROM contact_submissions ORDER BY created_at DESC"
+        ).fetchall()
+        return [dict(r) for r in rows]
