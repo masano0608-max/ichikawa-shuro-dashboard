@@ -4,7 +4,10 @@ FastAPI アプリケーション
 """
 
 import logging
+import os
+import smtplib
 from contextlib import asynccontextmanager
+from email.mime.text import MIMEText
 from typing import Optional
 
 from fastapi import FastAPI, HTTPException, Request
@@ -122,9 +125,37 @@ def api_houmon_update_log():
 # ── お問い合わせ API ─────────────────────────────────────
 
 
+def _send_contact_email(name: str, contact: str, type: str, message: str):
+    """お問い合わせ内容をGmail経由で通知"""
+    gmail_user = os.environ.get("GMAIL_USER", "ayumi.godo@gmail.com")
+    gmail_pass = os.environ.get("GMAIL_APP_PASSWORD", "")
+    if not gmail_pass:
+        logger.warning("GMAIL_APP_PASSWORD が未設定のためメール通知をスキップ")
+        return
+    body_text = (
+        f"【いっぽ HP お問い合わせ】\n\n"
+        f"お名前: {name}\n"
+        f"連絡先: {contact}\n"
+        f"種類: {type}\n"
+        f"メッセージ:\n{message or '（なし）'}\n"
+    )
+    msg = MIMEText(body_text, "plain", "utf-8")
+    msg["Subject"] = f"【いっぽHP】{type} - {name}様"
+    msg["From"] = gmail_user
+    msg["To"] = gmail_user
+    try:
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as s:
+            s.login(gmail_user, gmail_pass)
+            s.send_message(msg)
+        logger.info(f"お問い合わせ通知メール送信完了: {name}")
+    except Exception as e:
+        logger.error(f"メール送信失敗: {e}")
+
+
 @app.post("/api/contact")
 def api_contact(body: ContactRequest):
     save_contact(body.name, body.contact, body.type, body.message)
+    _send_contact_email(body.name, body.contact, body.type, body.message)
     return {"ok": True}
 
 
