@@ -926,12 +926,12 @@
     <div class="section-ttl rv-blur serif">お問い合わせ</div>
     <div class="section-sub rv">ご相談・ご質問など、お気軽にどうぞ。ご本人でもご家族でも大歓迎です。<br><span style="font-size:0.85rem;">メールでのお問い合わせ：<a href="mailto:ayumi.godo@gmail.com" style="color:var(--pri);font-weight:700;">ayumi.godo@gmail.com</a></span></div>
     <div class="contact-inner rv">
-      <div class="c-row"><label>お名前 *</label><input type="text" placeholder="例：田中 花子"></div>
-      <div class="c-row"><label>電話番号またはメールアドレス *</label><input type="text" placeholder="090-0000-0000 または example@mail.com"></div>
-      <div class="c-row"><label>お問い合わせの種類</label><select><option>訪問看護の利用について（ご本人）</option><option>訪問看護の利用について（ご家族）</option><option>自費サービスについて</option><option>医療機関・ケアマネージャーの方</option><option>スタッフ採用について</option><option>その他</option></select></div>
-      <div class="c-row"><label>メッセージ（任意）</label><textarea placeholder="ご質問・ご相談など、なんでもお気軽にどうぞ"></textarea></div>
-      <button class="c-submit">送信する（※現在準備中）</button>
-      <div class="c-note">※ 現在開設準備中のため、返信にお時間をいただく場合があります。</div>
+      <div class="c-row"><label>お名前 *</label><input id="cf-name" type="text" placeholder="例：田中 花子"></div>
+      <div class="c-row"><label>電話番号またはメールアドレス *</label><input id="cf-contact" type="text" placeholder="090-0000-0000 または example@mail.com"></div>
+      <div class="c-row"><label>お問い合わせの種類</label><select id="cf-type"><option>訪問看護の利用について（ご本人）</option><option>訪問看護の利用について（ご家族）</option><option>自費サービスについて</option><option>医療機関・ケアマネージャーの方</option><option>スタッフ採用について</option><option>その他</option></select></div>
+      <div class="c-row"><label>メッセージ（任意）</label><textarea id="cf-msg" placeholder="ご質問・ご相談など、なんでもお気軽にどうぞ"></textarea></div>
+      <button class="c-submit" onclick="submitContact()">送信する</button>
+      <div class="c-note">※ 送信ボタンを押すとメールアプリが開きます。そのまま送信してください。</div>
       <div class="line-box rv">
         <div class="line-box-title">
           <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 5.81 2 10.5c0 4.08 3.42 7.5 8.05 8.32.31.07.74.21.85.48.1.25.06.63.03.88l-.14.81c-.04.24-.19.93.82.51 1-.42 5.42-3.2 7.4-5.47C21.02 13.78 22 12.21 22 10.5 22 5.81 17.52 2 12 2z" fill="#06C755"/></svg>
@@ -1090,6 +1090,18 @@ function toggleFaq(btn) { var a=btn.nextElementSibling,o=a.classList.contains('o
 
 function openLegal(id) { document.getElementById('legal-'+id).classList.add('open'); document.body.style.overflow='hidden'; }
 function closeLegal() { document.querySelectorAll('.legal-overlay').forEach(function(el){el.classList.remove('open');}); document.body.style.overflow=''; }
+
+function submitContact() {
+  var name = document.getElementById('cf-name').value.trim();
+  var contact = document.getElementById('cf-contact').value.trim();
+  if (!name) { alert('お名前を入力してください'); return; }
+  if (!contact) { alert('電話番号またはメールアドレスを入力してください'); return; }
+  var type = document.getElementById('cf-type').value;
+  var msg = document.getElementById('cf-msg').value.trim();
+  var subject = '【いっぽ HP】' + type;
+  var body = 'お名前: ' + name + '\n連絡先: ' + contact + '\nお問い合わせ種類: ' + type + '\n\nメッセージ:\n' + (msg || '（なし）');
+  window.location.href = 'mailto:ayumi.godo@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+}
 
 // 費用タブ
 function switchCostTab(idx) {
