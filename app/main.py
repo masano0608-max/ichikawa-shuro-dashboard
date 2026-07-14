@@ -134,7 +134,7 @@ def _send_contact_email(name: str, contact: str, type_: str, message: str):
         return "no_key"
     to_email = os.environ.get("GMAIL_USER", "ayumi.godo@gmail.com")
     payload = _json.dumps({
-        "from": "いっぽHP <onboarding@resend.dev>",
+        "from": "いっぽHP <noreply@ippo-kango.jp>",
         "to": [to_email],
         "subject": f"【いっぽHP】{type_} - {name}様",
         "text": (
