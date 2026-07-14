@@ -145,7 +145,8 @@ def _send_contact_email(name: str, contact: str, type: str, message: str):
     msg["From"] = gmail_user
     msg["To"] = gmail_user
     try:
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as s:
+        with smtplib.SMTP("smtp.gmail.com", 587) as s:
+            s.starttls()
             s.login(gmail_user, gmail_pass)
             s.send_message(msg)
         logger.info(f"お問い合わせ通知メール送信完了: {name}")
