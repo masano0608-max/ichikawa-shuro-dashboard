@@ -428,10 +428,18 @@
   #toTop.show { opacity: 1; transform: translateY(0) scale(1); }
   #toTop:hover { transform: translateY(-4px) scale(1.05); }
 
-  /* ── フローティングCTA ── */
-  .floating-cta { display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 150; padding: 12px 20px; background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); border-top: 1px solid var(--border); box-shadow: 0 -4px 20px rgba(0,0,0,0.08); }
-  .floating-cta a { display: flex; align-items: center; justify-content: center; gap: 8px; background: linear-gradient(135deg, var(--pri), var(--accent)); color: white; padding: 14px; border-radius: 12px; font-size: 0.9rem; font-weight: 800; text-decoration: none; box-shadow: 0 4px 16px rgba(45,106,79,0.25); }
-  @media (max-width: 768px) { .floating-cta { display: block; } footer { padding-bottom: 80px; } #toTop { bottom: 80px; } }
+  /* ── フローティングLINE ── */
+  .floating-line { position: fixed; bottom: 28px; left: 28px; z-index: 150; opacity: 0; transform: translateY(20px); transition: all 0.4s; pointer-events: none; }
+  .floating-line.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .floating-line a { display: flex; align-items: center; gap: 10px; padding: 14px 24px; background: #06C755; color: white; border-radius: 50px; font-size: 0.88rem; font-weight: 800; text-decoration: none; box-shadow: 0 4px 20px rgba(6,199,85,0.4); transition: all 0.3s; }
+  .floating-line a:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(6,199,85,0.5); }
+  .floating-line svg { width: 22px; height: 22px; fill: white; flex-shrink: 0; }
+  @media (max-width: 768px) {
+    .floating-line { left: 0; right: 0; bottom: 0; }
+    .floating-line a { border-radius: 0; justify-content: center; padding: 16px; font-size: 0.92rem; }
+    footer { padding-bottom: 64px; }
+    #toTop { bottom: 72px; }
+  }
 </style>
 </head>
 <body>
@@ -1002,7 +1010,12 @@
 </div>
 
 
-<div class="floating-cta"><a href="#contact">まずは無料で相談する →</a></div>
+<div id="floatingLine" class="floating-line">
+  <a href="https://lin.ee/v6l8R9j" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 5.81 2 10.5c0 4.08 3.42 7.5 8.05 8.32.31.07.74.21.85.48.1.25.06.63.03.88l-.14.81c-.04.24-.19.93.82.51 1-.42 5.42-3.2 7.4-5.47C21.02 13.78 22 12.21 22 10.5 22 5.81 17.52 2 12 2z"/></svg>
+    LINEで気軽に相談する
+  </a>
+</div>
 <button id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
 <script>
@@ -1061,9 +1074,10 @@ function updateParallax() {
 
 // ナビ
 window.addEventListener('scroll', function() {
-  var nav=document.getElementById('mainNav'),tt=document.getElementById('toTop');
+  var nav=document.getElementById('mainNav'),tt=document.getElementById('toTop'),fl=document.getElementById('floatingLine');
   nav.classList.toggle('scrolled',window.scrollY>60);
   tt.classList.toggle('show',window.scrollY>500);
+  fl.classList.toggle('show',window.scrollY>400);
   updateScrollProgress();
   updateParallax();
 });
