@@ -151,6 +151,7 @@ def _send_contact_email(name: str, contact: str, type_: str, message: str):
         headers={
             "Authorization": f"Bearer {api_key}",
             "Content-Type": "application/json",
+            "User-Agent": "ippo-kango/1.0",
         },
     )
     try:
