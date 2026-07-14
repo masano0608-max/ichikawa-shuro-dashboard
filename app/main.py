@@ -141,7 +141,11 @@ def _is_local(request: Request) -> bool:
 
 
 @app.get("/", response_class=HTMLResponse)
-async def index():
+async def index(request: Request):
+    host = request.headers.get("host", "")
+    if "ippo-kango.jp" in host:
+        with open("app/static/hp-ippo.html", encoding="utf-8") as f:
+            return f.read()
     with open("app/static/strategy.html", encoding="utf-8") as f:
         return f.read()
 
