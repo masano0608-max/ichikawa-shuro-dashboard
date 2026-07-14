@@ -21,6 +21,8 @@ from app.database import (
     update_houmon_favorite,
     kv_get,
     kv_set,
+    save_contact,
+    get_contacts,
 )
 from app.scheduler import run_houmon_update, start_scheduler, stop_scheduler
 from app.fetcher_houmon import fetch_houmon_comparison
@@ -68,6 +70,12 @@ class MemoRequest(BaseModel):
 class FavoriteRequest(BaseModel):
     is_favorite: bool
 
+class ContactRequest(BaseModel):
+    name: str
+    contact: str
+    type: str = ""
+    message: str = ""
+
 
 # ── 訪問看護 API エンドポイント ─────────────────────────────
 
@@ -109,6 +117,22 @@ def api_houmon_cities():
 @app.get("/api/houmon/update-log")
 def api_houmon_update_log():
     return get_houmon_update_log(20)
+
+
+# ── お問い合わせ API ─────────────────────────────────────
+
+
+@app.post("/api/contact")
+def api_contact(body: ContactRequest):
+    save_contact(body.name, body.contact, body.type, body.message)
+    return {"ok": True}
+
+
+@app.get("/api/contacts")
+def api_contacts(request: Request):
+    if not _is_local(request):
+        raise HTTPException(status_code=403, detail="ローカル環境からのみアクセスできます")
+    return get_contacts()
 
 
 # ── ガントチャート同期 API ─────────────────────────────────

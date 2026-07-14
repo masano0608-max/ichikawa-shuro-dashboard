@@ -931,7 +931,7 @@
       <div class="c-row"><label>お問い合わせの種類</label><select id="cf-type"><option>訪問看護の利用について（ご本人）</option><option>訪問看護の利用について（ご家族）</option><option>自費サービスについて</option><option>医療機関・ケアマネージャーの方</option><option>スタッフ採用について</option><option>その他</option></select></div>
       <div class="c-row"><label>メッセージ（任意）</label><textarea id="cf-msg" placeholder="ご質問・ご相談など、なんでもお気軽にどうぞ"></textarea></div>
       <button class="c-submit" onclick="submitContact()">送信する</button>
-      <div class="c-note">※ 送信ボタンを押すとメールアプリが開きます。そのまま送信してください。</div>
+      <div class="c-note">※ 送信後、折り返しご連絡いたします。</div>
       <div class="line-box rv">
         <div class="line-box-title">
           <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 5.81 2 10.5c0 4.08 3.42 7.5 8.05 8.32.31.07.74.21.85.48.1.25.06.63.03.88l-.14.81c-.04.24-.19.93.82.51 1-.42 5.42-3.2 7.4-5.47C21.02 13.78 22 12.21 22 10.5 22 5.81 17.52 2 12 2z" fill="#06C755"/></svg>
@@ -1098,9 +1098,29 @@ function submitContact() {
   if (!contact) { alert('電話番号またはメールアドレスを入力してください'); return; }
   var type = document.getElementById('cf-type').value;
   var msg = document.getElementById('cf-msg').value.trim();
-  var subject = '【いっぽ HP】' + type;
-  var body = 'お名前: ' + name + '\n連絡先: ' + contact + '\nお問い合わせ種類: ' + type + '\n\nメッセージ:\n' + (msg || '（なし）');
-  window.location.href = 'mailto:ayumi.godo@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+  var btn = document.querySelector('.c-submit');
+  btn.disabled = true;
+  btn.textContent = '送信中...';
+  fetch('/api/contact', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({name: name, contact: contact, type: type, message: msg})
+  }).then(function(r) {
+    if (!r.ok) throw new Error('送信失敗');
+    return r.json();
+  }).then(function() {
+    btn.textContent = '送信完了';
+    btn.style.background = '#2d7d56';
+    document.getElementById('cf-name').value = '';
+    document.getElementById('cf-contact').value = '';
+    document.getElementById('cf-msg').value = '';
+    alert('お問い合わせを受け付けました。\n内容を確認のうえ、折り返しご連絡いたします。');
+    setTimeout(function(){ btn.disabled = false; btn.textContent = '送信する'; btn.style.background = ''; }, 3000);
+  }).catch(function() {
+    alert('送信に失敗しました。お手数ですがLINEまたはお電話でお問い合わせください。');
+    btn.disabled = false;
+    btn.textContent = '送信する';
+  });
 }
 
 // 費用タブ
