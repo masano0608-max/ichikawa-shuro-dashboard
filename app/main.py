@@ -3,12 +3,12 @@
 FastAPI アプリケーション
 """
 
+import json as _json
 import logging
 import os
-import smtplib
 import threading
+import urllib.request
 from contextlib import asynccontextmanager
-from email.mime.text import MIMEText
 from typing import Optional
 
 from fastapi import FastAPI, HTTPException, Request
@@ -126,29 +126,36 @@ def api_houmon_update_log():
 # ── お問い合わせ API ─────────────────────────────────────
 
 
-def _send_contact_email(name: str, contact: str, type: str, message: str):
-    """お問い合わせ内容をGmail経由で通知"""
-    gmail_user = os.environ.get("GMAIL_USER", "ayumi.godo@gmail.com")
-    gmail_pass = os.environ.get("GMAIL_APP_PASSWORD", "")
-    if not gmail_pass:
-        logger.warning("GMAIL_APP_PASSWORD が未設定のためメール通知をスキップ")
-        return
-    body_text = (
-        f"【いっぽ HP お問い合わせ】\n\n"
-        f"お名前: {name}\n"
-        f"連絡先: {contact}\n"
-        f"種類: {type}\n"
-        f"メッセージ:\n{message or '（なし）'}\n"
+def _send_contact_email(name: str, contact: str, type_: str, message: str):
+    """お問い合わせ内容を Resend API 経由で通知"""
+    api_key = os.environ.get("RESEND_API_KEY", "")
+    if not api_key:
+        logger.warning("RESEND_API_KEY が未設定のためメール通知をスキップ")
+        return "no_key"
+    to_email = os.environ.get("GMAIL_USER", "ayumi.godo@gmail.com")
+    payload = _json.dumps({
+        "from": "いっぽHP <onboarding@resend.dev>",
+        "to": [to_email],
+        "subject": f"【いっぽHP】{type_} - {name}様",
+        "text": (
+            f"【いっぽ HP お問い合わせ】\n\n"
+            f"お名前: {name}\n"
+            f"連絡先: {contact}\n"
+            f"種類: {type_}\n"
+            f"メッセージ:\n{message or '（なし）'}\n"
+        ),
+    }).encode("utf-8")
+    req = urllib.request.Request(
+        "https://api.resend.com/emails",
+        data=payload,
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+        },
     )
-    msg = MIMEText(body_text, "plain", "utf-8")
-    msg["Subject"] = f"【いっぽHP】{type} - {name}様"
-    msg["From"] = gmail_user
-    msg["To"] = gmail_user
     try:
-        with smtplib.SMTP("smtp.gmail.com", 587, timeout=10) as s:
-            s.starttls()
-            s.login(gmail_user, gmail_pass)
-            s.send_message(msg)
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            result = resp.read().decode()
         logger.info(f"お問い合わせ通知メール送信完了: {name}")
         return "sent"
     except Exception as e:
@@ -159,9 +166,12 @@ def _send_contact_email(name: str, contact: str, type: str, message: str):
 @app.post("/api/contact")
 def api_contact(body: ContactRequest):
     save_contact(body.name, body.contact, body.type, body.message)
-    # メール送信（デバッグ用に同期実行）
-    email_result = _send_contact_email(body.name, body.contact, body.type, body.message)
-    return {"ok": True, "email": email_result}
+    threading.Thread(
+        target=_send_contact_email,
+        args=(body.name, body.contact, body.type, body.message),
+        daemon=True,
+    ).start()
+    return {"ok": True}
 
 
 @app.get("/api/contacts")
