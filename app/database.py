@@ -54,6 +54,12 @@ def init_db():
         );
 
         CREATE INDEX IF NOT EXISTS idx_houmon_category ON houmon_offices(category);
+
+        CREATE TABLE IF NOT EXISTS kv_store (
+            key TEXT PRIMARY KEY,
+            value TEXT,
+            updated_at TEXT DEFAULT (datetime('now','localtime'))
+        );
         """)
 
 
@@ -204,3 +210,22 @@ def get_houmon_update_log(limit: int = 10):
             "SELECT * FROM houmon_update_log ORDER BY id DESC LIMIT ?", (limit,)
         ).fetchall()
     return [dict(r) for r in rows]
+
+
+# ── KV Store（ガントチャート等） ─────────────────────
+
+def kv_get(key: str):
+    with get_conn() as conn:
+        row = conn.execute("SELECT value, updated_at FROM kv_store WHERE key=?", (key,)).fetchone()
+    if row:
+        return {"value": row["value"], "updated_at": row["updated_at"]}
+    return None
+
+
+def kv_set(key: str, value: str):
+    with get_conn() as conn:
+        conn.execute(
+            "INSERT INTO kv_store (key, value, updated_at) VALUES (?, ?, datetime('now','localtime')) "
+            "ON CONFLICT(key) DO UPDATE SET value=excluded.value, updated_at=excluded.updated_at",
+            (key, value)
+        )

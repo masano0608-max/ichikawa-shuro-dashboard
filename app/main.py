@@ -19,6 +19,8 @@ from app.database import (
     get_houmon_update_log,
     update_houmon_memo,
     update_houmon_favorite,
+    kv_get,
+    kv_set,
 )
 from app.scheduler import run_houmon_update, start_scheduler, stop_scheduler
 from app.fetcher_houmon import fetch_houmon_comparison
@@ -109,6 +111,27 @@ def api_houmon_update_log():
     return get_houmon_update_log(20)
 
 
+# ── ガントチャート同期 API ─────────────────────────────────
+
+
+@app.get("/api/gantt")
+def api_gantt_get():
+    data = kv_get("gantt")
+    if data:
+        return JSONResponse(content={"data": data["value"], "updated_at": data["updated_at"]})
+    return JSONResponse(content={"data": None, "updated_at": None})
+
+
+class GanttSaveRequest(BaseModel):
+    data: str
+
+
+@app.put("/api/gantt")
+def api_gantt_save(body: GanttSaveRequest):
+    kv_set("gantt", body.data)
+    return {"ok": True}
+
+
 # ── フロントエンド ──────────────────────────────────────────
 
 
@@ -118,16 +141,14 @@ def _is_local(request: Request) -> bool:
 
 
 @app.get("/", response_class=HTMLResponse)
-async def index(request: Request):
-    if not _is_local(request):
-        raise HTTPException(status_code=403, detail="ローカル環境からのみアクセスできます")
+async def index():
     with open("app/static/strategy.html", encoding="utf-8") as f:
         return f.read()
 
 
-@app.get("/hp-komorebi", response_class=HTMLResponse)
-async def hp_komorebi():
-    with open("app/static/hp-komorebi.html", encoding="utf-8") as f:
+@app.get("/hp-ippo", response_class=HTMLResponse)
+async def hp_ippo():
+    with open("app/static/hp-ippo.html", encoding="utf-8") as f:
         return f.read()
 
 
@@ -148,9 +169,7 @@ async def itaku_tanka(request: Request):
 
 
 @app.get("/strategy", response_class=HTMLResponse)
-async def strategy(request: Request):
-    if not _is_local(request):
-        raise HTTPException(status_code=403, detail="ローカル環境からのみアクセスできます")
+async def strategy():
     with open("app/static/strategy.html", encoding="utf-8") as f:
         return f.read()
 
@@ -168,4 +187,12 @@ async def sougyou_plan(request: Request):
     if not _is_local(request):
         raise HTTPException(status_code=403, detail="ローカル環境からのみアクセスできます")
     with open("app/static/sougyou-plan.html", encoding="utf-8") as f:
+        return f.read()
+
+
+@app.get("/tel-kouseikyoku", response_class=HTMLResponse)
+async def tel_kouseikyoku(request: Request):
+    if not _is_local(request):
+        raise HTTPException(status_code=403, detail="ローカル環境からのみアクセスできます")
+    with open("app/static/tel-kouseikyoku.html", encoding="utf-8") as f:
         return f.read()

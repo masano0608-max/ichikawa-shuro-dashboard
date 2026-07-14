@@ -260,496 +260,10 @@ select.form-input{text-align:left}
 </style>
 </head>
 <body>
-<!-- B型 domain removed -->
+<!-- B型 domain removed (API削除済) -->
+<!-- B型 HTML content removed -->
 
-<!-- B: 市場調査 -->
-<div id="b-market" class="sub-content active">
-<div class="page">
-  <div class="strat-header">
-    <h2>就労継続支援 市川市 市場調査</h2>
-    <div class="sub">厚生労働省 WAM NET オープンデータに基づくリアルタイム分析</div>
-  </div>
-  <div class="section">
-    <h3>市川市 事業所数・定員</h3>
-    <div id="bMarketKpi" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px">
-      <div class="card" style="text-align:center"><h4>A型</h4><div style="font-size:2rem;font-weight:900;color:var(--b-primary)" id="bm_a_count">—</div><div style="font-size:.8rem;color:var(--muted)">定員合計: <span id="bm_a_cap">—</span>人</div></div>
-      <div class="card" style="text-align:center"><h4>B型</h4><div style="font-size:2rem;font-weight:900;color:#10b981" id="bm_b_count">—</div><div style="font-size:.8rem;color:var(--muted)">定員合計: <span id="bm_b_cap">—</span>人</div></div>
-      <div class="card" style="text-align:center"><h4>合計</h4><div style="font-size:2rem;font-weight:900;color:var(--text)" id="bm_total">—</div><div style="font-size:.8rem;color:var(--muted)">定員合計: <span id="bm_total_cap">—</span>人</div></div>
-    </div>
-    <div class="hint-box" id="bm_updated" style="font-size:.75rem">データ取得日: —</div>
-  </div>
-  <div class="section">
-    <h3>近隣市比較</h3>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-      <div style="position:relative;height:300px"><canvas id="bCityChartA"></canvas></div>
-      <div style="position:relative;height:300px"><canvas id="bCityChartB"></canvas></div>
-    </div>
-    <table class="strat-table" id="bCityTable" style="margin-top:16px">
-      <thead><tr><th>市区</th><th style="text-align:right">A型</th><th style="text-align:right">A型定員</th><th style="text-align:right">B型</th><th style="text-align:right">B型定員</th></tr></thead>
-      <tbody id="bCityBody"></tbody>
-    </table>
-  </div>
-  <div class="section">
-    <h3>需要推計（2026年調査）</h3>
-    <div class="mkt-demand-grid">
-      <div class="mkt-demand-item"><div class="dl">市川市人口</div><div class="dv">500,937<small style="font-size:.7rem;color:var(--muted)">人</small></div><div class="ds">2026年4月現在</div></div>
-      <div class="mkt-demand-item"><div class="dl">障害者手帳所持者</div><div class="dv">約23,000<small style="font-size:.7rem;color:var(--muted)">人</small></div><div class="ds">人口比4.7%（千葉県比率按分）</div></div>
-      <div class="mkt-demand-item" style="background:#eff6ff;border-left:3px solid #0ea5e9"><div class="dl" style="color:#0369a1">A型 需要推計</div><div class="dv" style="color:#0ea5e9">約360<small style="font-size:.7rem;color:var(--muted)">人</small></div><div class="ds">全国利用率(0.72/千人)×人口</div></div>
-      <div class="mkt-demand-item" style="background:#f0fdf4;border-left:3px solid #10b981"><div class="dl" style="color:#065f46">B型 需要推計</div><div class="dv" style="color:#10b981">約1,500<small style="font-size:.7rem;color:var(--muted)">人</small></div><div class="ds">全国利用率(3.01/千人)×人口</div></div>
-      <div class="mkt-demand-item" style="border-left:3px solid #8b5cf6"><div class="dl">現定員合計</div><div class="dv" style="color:#7c3aed" id="bm_demand_cap">—<small style="font-size:.7rem;color:var(--muted)">人</small></div><div class="ds">A型 <span id="bm_demand_a_cap">—</span>人 + B型 <span id="bm_demand_b_cap">—</span>人</div></div>
-      <div class="mkt-demand-item warn"><div class="dl" style="color:#92400e">充足率推計（B型）</div><div class="dv" style="color:#d97706" id="bm_demand_rate">—<small style="font-size:.7rem;color:var(--muted)">%</small></div><div class="ds">定員/需要推計 ※参考値</div></div>
-    </div>
-    <div class="mkt-demand-note">※需要推計は全国平均利用率から算出した参考値です。精神障害者手帳所持者は千葉県内で年率9%増加中のため実際の需要はさらに高い可能性があります。</div>
-  </div>
-  <div class="section">
-    <h3>市場分析サマリー</h3>
-    <div class="highlight" style="background:#ecfdf5;border-color:#6ee7b7;color:#065f46;">
-      市川市のB型は<strong>44件</strong>で船橋市（56件）に次ぐ規模。ただし人口あたりの定員数では需要に対してまだ供給不足。<br>
-      精神障害者の増加傾向（全国603万人）を踏まえ、精神科特化型の参入余地は大きい。
-    </div>
-    <table class="strat-table">
-      <tr><th>指標</th><th>数値</th></tr>
-      <tr><td>市川市人口</td><td>500,937人</td></tr>
-      <tr><td>精神疾患患者推計</td><td>約24,000人（人口の4.8%）</td></tr>
-      <tr><td>B型定員あたり人口</td><td id="bm_pop_per_cap">—</td></tr>
-      <tr><td>B型平均定員</td><td id="bm_avg_cap">—</td></tr>
-    </table>
-  </div>
-</div>
-  <div class="section" style="max-width:1400px;margin:0 auto;padding:0 20px">
-    <h3>事業所一覧</h3>
-    <div class="mkt-table-card">
-      <div class="mkt-table-header">
-        <div>
-          <div class="mkt-tabs" id="bOfficeTabs">
-            <button class="mkt-tab active" onclick="bFilterOffices('all',this)">全体</button>
-            <button class="mkt-tab" onclick="bFilterOffices('A型',this)">A型のみ</button>
-            <button class="mkt-tab" onclick="bFilterOffices('B型',this)">B型のみ</button>
-            <button class="mkt-tab" onclick="bFilterOffices('fav',this)">★ お気に入り</button>
-          </div>
-        </div>
-        <input class="mkt-search" type="text" id="bSearchBox" placeholder="事業所名・業種で絞り込み" oninput="bApplySearch()">
-      </div>
-      <div class="mkt-table-wrap">
-        <table class="mkt-table">
-          <thead><tr><th>★</th><th>種別</th><th>業種</th><th>事業所名</th><th>法人名</th><th>住所</th><th>定員</th><th>メモ</th></tr></thead>
-          <tbody id="bOfficeTable"></tbody>
-        </table>
-      </div>
-      <div class="mkt-pagination">
-        <button class="mkt-page-btn" id="bPrevPage" onclick="bChangePage(-1)">← 前へ</button>
-        <span class="mkt-page-info" id="bPageInfo"></span>
-        <button class="mkt-page-btn" id="bNextPage" onclick="bChangePage(1)">次へ →</button>
-      </div>
-    </div>
-  </div>
-  <div class="section" style="max-width:1400px;margin:0 auto;padding:0 20px">
-    <h3>更新ログ</h3>
-    <div class="mkt-table-card">
-      <div class="mkt-log-list" id="bUpdateLog"><div style="color:var(--muted);font-size:.82rem;padding:6px 0">読み込み中...</div></div>
-    </div>
-  </div>
-</div>
-
-<!-- B: 開業戦略 -->
-<div id="b-strategy" class="sub-content">
-<div class="page">
-  <div class="strat-header">
-    <h2>就労継続支援B型 開業戦略メモ</h2>
-    <div class="sub">検討エリア：市川市（本八幡 / 市川駅周辺）　作成日：2026年6月</div>
-  </div>
-
-  <div class="section">
-    <h3>事業コンセプト</h3>
-    <div class="highlight" style="background:#ecfdf5;border-color:#6ee7b7;color:#065f46;">
-      「清掃・メンテナンス」×「IT・データ入力」×「内職・軽作業」の<br>
-      3本柱で、精神・発達・身体・知的の幅広い障害特性に対応できる事業所
-    </div>
-    <div class="tag-row">
-      <span class="tag secondary">①清掃・メンテナンス（最初の収益柱）</span>
-      <span class="tag" style="background:#2563eb">②IT・データ入力（工賃を上げる柱）</span>
-      <span class="tag accent">③内職・軽作業（全員参加できる安全網）</span>
-    </div>
-    <table class="strat-table">
-      <tr><th>優先度</th><th>業種</th><th>対象利用者</th><th>役割・強み</th></tr>
-      <tr><td><span class="good">①最優先</span></td><td>清掃・メンテナンス</td><td>精神・身体・知的・発達</td><td>精神科看護師の医療ネットワークでクリニック受注→安定月額収入</td></tr>
-      <tr><td><span class="ok">②重要</span></td><td>IT・データ入力</td><td>精神・発達障害の方</td><td>工賃単価が高い→平均工賃を上げて報酬ランクアップ</td></tr>
-      <tr><td>③補完</td><td>内職・軽作業</td><td>全障害種別・体調不安定な方</td><td>体調が悪い日でも来所・参加できる安全網</td></tr>
-    </table>
-  </div>
-
-  <div class="section">
-    <h3>立地比較：本八幡 vs 市川駅</h3>
-    <table class="strat-table">
-      <tr><th>比較項目</th><th>本八幡</th><th>市川駅</th></tr>
-      <tr><td>路線</td><td><span class="good">◎</span> JR総武線＋都営新宿線（2路線）</td><td><span class="ok">○</span> JR総武線のみ</td></tr>
-      <tr><td>利用者の通いやすさ</td><td><span class="good">◎</span> 江戸川区・船橋側からも来やすい</td><td><span class="ok">○</span></td></tr>
-      <tr><td>清掃受注先</td><td><span class="good">◎</span> 医療・商業施設が密集</td><td><span class="ok">○</span> やや住宅寄り</td></tr>
-      <tr><td>競合B型数</td><td>複数あり（でも需要過多）</td><td>少なめ</td></tr>
-    </table>
-    <div style="margin-top:10px;font-size:12px;color:var(--b-primary);font-weight:700;">→ 推奨：本八幡（2路線×受注先の豊富さで総合的に有利）</div>
-  </div>
-
-  <div class="section">
-    <h3>清掃受注の段階別目標</h3>
-    <table class="strat-table">
-      <tr><th>期間</th><th>契約軒数</th><th>月間清掃収入</th><th>アクション</th></tr>
-      <tr><td>開業前〜3ヶ月</td><td>2〜3軒</td><td>8〜15万円</td><td>精神科看護師のネットワークで声がけ</td></tr>
-      <tr><td>3〜6ヶ月</td><td>5〜6軒</td><td>20〜30万円</td><td>紹介・飛び込み営業で拡大</td></tr>
-      <tr><td>1年後</td><td>8〜10軒</td><td><span class="good">30〜40万円</span></td><td>市役所入札登録・商業施設へ拡大</td></tr>
-    </table>
-  </div>
-
-  <div class="section">
-    <h3>工賃の仕組みと目標</h3>
-    <table class="strat-table">
-      <tr><th>項目</th><th>金額</th><th>備考</th></tr>
-      <tr><td>法定最低工賃</td><td>月3,000円以上</td><td>最低ライン</td></tr>
-      <tr><td>全国平均工賃</td><td>月約17,000円</td><td>2024年度</td></tr>
-      <tr><td>開業時の目標</td><td>月<span class="good">15,000円以上</span></td><td>報酬ランク「15,000〜20,000円」区分</td></tr>
-      <tr><td>1〜2年後の目標</td><td>月<span class="good">20,000円以上</span></td><td>目標工賃達成加算の取得</td></tr>
-    </table>
-  </div>
-
-  <div class="section">
-    <h3>開業時に取れる加算まとめ</h3>
-    <table class="strat-table">
-      <tr><th>加算名</th><th>単位</th><th>取りやすさ</th><th>要件</th></tr>
-      <tr><td><strong style="color:#7c3aed;">精神障害者支援体制加算</strong></td><td>+7単位/日</td><td><span class="good">★★★</span></td><td>精神科3年以上勤務の看護師を配置</td></tr>
-      <tr><td>就労支援関係研修修了加算</td><td>+6単位/日</td><td><span class="good">★★☆</span></td><td>指定研修を修了した職員が就労支援を実施</td></tr>
-      <tr><td>福祉専門職員配置等加算（Ⅱ）</td><td>+10単位/日</td><td><span class="ok">★★☆</span></td><td>社福士等が職員の25%以上</td></tr>
-      <tr><td>処遇改善加算Ⅱ（6.6%）</td><td>給付費の6.6%</td><td><span class="ok">★★☆</span></td><td>キャリアパス要件Ⅰ〜Ⅲの整備</td></tr>
-    </table>
-  </div>
-
-  <div class="section">
-    <h3>初期費用の目安（定員20名）</h3>
-    <table class="strat-table cost-table">
-      <tr><th>項目</th><th>金額（概算）</th></tr>
-      <tr><td>物件取得（敷金・礼金・仲介）</td><td>125〜175万円</td></tr>
-      <tr><td>内装・バリアフリー改修</td><td>100〜200万円</td></tr>
-      <tr><td>IT機器・作業機材</td><td>50〜100万円</td></tr>
-      <tr><td>清掃機材（業務用）</td><td>30〜60万円</td></tr>
-      <tr><td>運転資金（3〜6ヶ月分）</td><td>200〜400万円</td></tr>
-      <tr class="total"><td>合計</td><td>505〜975万円</td></tr>
-    </table>
-  </div>
-
-  <div class="section">
-    <h3>次のアクション（優先順）</h3>
-    <ul class="strat-list">
-      <li><strong>【最優先】</strong>近隣クリニック2〜3軒に清掃の声がけ</li>
-      <li>市川市障害福祉課に事前相談</li>
-      <li>社労士に依頼：就業規則・賃金規程の整備</li>
-      <li>就労支援関係研修の申込み</li>
-      <li>サービス管理責任者（サビ管）の採用・確保</li>
-      <li>本八幡周辺で物件内見（50〜70㎡・バリアフリー）</li>
-    </ul>
-  </div>
-</div>
-</div>
-
-<!-- B: 収支シミュレーション -->
-<div id="b-sim" class="sub-content">
-<div class="sim-layout">
-  <div class="input-panel">
-    <!-- 1. 事業所基本設定 -->
-    <div class="section-card">
-      <div class="section-header"><span class="section-num">1</span>事業所基本設定</div>
-      <div class="section-body">
-        <div class="form-row">
-          <div class="form-label">サービス種別</div>
-          <select class="form-input" id="serviceType" onchange="bOnServiceTypeChange()">
-            <option value="B">就労継続支援 B型</option>
-            <option value="A">就労継続支援 A型</option>
-          </select>
-        </div>
-        <div class="form-row">
-          <div class="form-label">定員<small>利用者の上限人数</small></div>
-          <input class="form-input" type="number" id="capacity" value="20" min="1" max="200" oninput="bAutoFillStaff()">
-          <span class="form-unit">人</span>
-        </div>
-        <div class="form-row">
-          <div class="form-label">月間開所日数</div>
-          <input class="form-input" type="number" id="openDays" value="23" min="1" max="31" oninput="bCalc()">
-          <span class="form-unit">日</span>
-        </div>
-        <div class="form-row">
-          <div class="form-label">地域区分</div>
-          <select class="form-input" id="region" onchange="bCalc()">
-            <option value="11.40">1級地（20%）東京23区等</option>
-            <option value="11.12">2級地（16%）</option>
-            <option value="10.84">3級地（12%）</option>
-            <option value="10.56">4級地（8%）船橋市等</option>
-            <option value="10.42" selected>5級地（6%）市川市 ★</option>
-            <option value="10.21">6級地（3%）</option>
-            <option value="10.00">その他（0%）</option>
-          </select>
-        </div>
-      </div>
-    </div>
-    <!-- 2. 利用状況 -->
-    <div class="section-card">
-      <div class="section-header"><span class="section-num">2</span>利用状況・給付費計算</div>
-      <div class="section-body">
-        <div class="form-row">
-          <div class="form-label">利用率<small>定員に対する実利用者の割合</small></div>
-          <input class="form-input" type="number" id="utilRate" value="85" min="1" max="100" oninput="bAutoFillStaff()">
-          <span class="form-unit">%</span>
-        </div>
-        <div class="hint-box" id="userCountHint">実利用者数: — 人</div>
-        <div class="form-row" id="kochinRow">
-          <div class="form-label">平均工賃月額<small>利用者に支払う工賃（B型）</small></div>
-          <input class="form-input" type="number" id="avgWage" value="15000" min="0" oninput="bCalc()">
-          <span class="form-unit">円</span>
-        </div>
-        <div class="hint-box" id="tierHint">報酬区分: 計算中...</div>
-        <div class="form-row" id="minWageRow" style="display:none;">
-          <div class="form-label">最低賃金ベース月収<small>A型</small></div>
-          <input class="form-input" type="number" id="minWageBase" value="120000" min="0" oninput="bCalc()">
-          <span class="form-unit">円</span>
-        </div>
-        <div class="form-row">
-          <div class="form-label">職員配置体系</div>
-          <select class="form-input" id="staffRatio" onchange="bAutoFillStaff()">
-            <option value="I" selected>サービス費Ⅰ（6:1配置）★</option>
-            <option value="II">サービス費Ⅱ（7.5:1配置）</option>
-            <option value="III">サービス費Ⅲ（10:1配置）</option>
-            <option value="IV">サービス費Ⅳ（6:1・一律評価型）</option>
-            <option value="V">サービス費Ⅴ（7.5:1・一律評価型）</option>
-            <option value="VI">サービス費Ⅵ（10:1・一律評価型）</option>
-          </select>
-        </div>
-        <div class="form-row">
-          <div class="form-label">新規事業所<small>令和8〜9年度開所は1.6%減額</small></div>
-          <select class="form-input" id="newFacility" onchange="bCalc()">
-            <option value="1" selected>はい（2027年開所予定）</option>
-            <option value="0">いいえ</option>
-          </select>
-        </div>
-        <div class="form-row">
-          <div class="form-label">1日平均利用時間</div>
-          <select class="form-input" id="useHours" onchange="bCalc()">
-            <option value="1.0">3時間以上（通常）</option>
-            <option value="0.5">3時間未満（減算）</option>
-          </select>
-        </div>
-      </div>
-    </div>
-    <!-- 3. 加算 -->
-    <div class="section-card">
-      <div class="section-header"><span class="section-num">3</span>加算設定</div>
-      <div class="section-body">
-        <div class="check-list">
-          <label class="check-item"><input type="checkbox" id="add_fukushi1" value="15" onchange="bCalc()"><label>福祉専門職員配置等加算（Ⅰ）<span>社福士等が35%以上</span></label><span class="check-val">+15単位/日</span></label>
-          <label class="check-item"><input type="checkbox" id="add_fukushi2" value="10" onchange="bCalc()"><label>福祉専門職員配置等加算（Ⅱ）<span>社福士等が25%以上</span></label><span class="check-val">+10単位/日</span></label>
-          <label class="check-item"><input type="checkbox" id="add_kenshu" value="6" onchange="bCalc()"><label>就労支援関係研修修了加算</label><span class="check-val">+6単位/日</span></label>
-          <label class="check-item"><input type="checkbox" id="add_target" value="10" onchange="bCalc()"><label>目標工賃達成加算<span>（B型）</span></label><span class="check-val">+10単位/月</span></label>
-          <label class="check-item"><input type="checkbox" id="add_shokuba" value="6" onchange="bCalc()"><label>職場適応援助者養成研修修了者配置加算</label><span class="check-val">+6単位/日</span></label>
-          <label class="check-item" style="border-color:#a78bfa;background:#faf5ff;"><input type="checkbox" id="add_seishin" value="7" onchange="bCalc()"><label>精神障害者支援体制加算<span style="color:#7c3aed;font-size:.74rem;">★ 精神科看護師5年以上の経験で要件充足</span></label><span class="check-val" style="color:#7c3aed;">+7単位/日</span></label>
-        </div>
-        <hr class="divider">
-        <div class="form-row">
-          <div class="form-label">処遇改善加算</div>
-          <select class="form-input" id="shoguu" onchange="bCalc()">
-            <option value="0.093">加算Ⅰ（9.3%）</option>
-            <option value="0.066" selected>加算Ⅱ（6.6%）</option>
-            <option value="0.033">加算Ⅲ（3.3%）</option>
-            <option value="0">なし</option>
-          </select>
-        </div>
-      </div>
-    </div>
-    <!-- 4. 人件費 -->
-    <div class="section-card">
-      <div class="section-header"><span class="section-num">4</span>人件費設定</div>
-      <div class="section-body">
-        <div class="staff-hint" id="staffHint">配置基準: 計算中...</div>
-        <div class="form-row"><div class="form-label">管理者<small>兼務可・常勤1名必須</small></div><input class="form-input" type="number" id="mgr_salary" value="350000" step="10000" oninput="bCalc()"><span class="form-unit">円/月</span></div>
-        <div class="form-row"><div class="form-label">サービス管理責任者</div><input class="form-input" type="number" id="sabikan_salary" value="320000" step="10000" oninput="bCalc()"><span class="form-unit">円/月</span></div>
-        <div class="form-row"><div class="form-label">生活支援員・職業指導員</div><input class="form-input" type="number" id="support_count" value="3" min="0" max="20" oninput="bCalc()"><span class="form-unit">名</span></div>
-        <div class="form-row"><div class="form-label">　うち1人あたり月給</div><input class="form-input" type="number" id="support_salary" value="250000" step="10000" oninput="bCalc()"><span class="form-unit">円/月</span></div>
-        <div class="form-row"><div class="form-label">社会保険料率</div><select class="form-input" id="shakai_rate" onchange="bCalc()"><option value="0.15">15%</option><option value="0.14">14%</option><option value="0.16">16%</option></select></div>
-      </div>
-    </div>
-    <!-- 5. その他経費 -->
-    <div class="section-card">
-      <div class="section-header"><span class="section-num">5</span>その他経費（月間）</div>
-      <div class="section-body">
-        <div class="form-row"><div class="form-label">家賃・共益費</div><input class="form-input" type="number" id="b_rent" value="400000" step="10000" oninput="bCalc()"><span class="form-unit">円/月</span></div>
-        <div class="form-row"><div class="form-label">光熱費・通信費</div><input class="form-input" type="number" id="utilities" value="30000" step="5000" oninput="bCalc()"><span class="form-unit">円/月</span></div>
-        <div class="form-row"><div class="form-label">材料費・仕入れ</div><input class="form-input" type="number" id="materials" value="20000" step="5000" oninput="bCalc()"><span class="form-unit">円/月</span></div>
-        <div class="form-row"><div class="form-label">その他管理費</div><input class="form-input" type="number" id="misc" value="50000" step="5000" oninput="bCalc()"><span class="form-unit">円/月</span></div>
-        <div class="form-row"><div class="form-label">受注作業・販売収入</div><input class="form-input" type="number" id="sales" value="100000" step="10000" oninput="bCalc()"><span class="form-unit">円/月</span></div>
-      </div>
-    </div>
-  </div>
-  <!-- B結果パネル -->
-  <div class="result-panel">
-    <div class="result-card">
-      <div class="result-header">月間収支サマリー</div>
-      <div class="result-body">
-        <div class="pnl-box profit" id="bPnlBox">
-          <div class="pnl-label">月間損益</div>
-          <div class="pnl-value" id="bPnlValue">—</div>
-          <div class="pnl-sub" id="bPnlSub">計算中...</div>
-        </div>
-        <div class="metrics-row">
-          <div class="metric-item"><div class="ml">実利用者数</div><div class="mv" id="bMUserCount">—</div></div>
-          <div class="metric-item"><div class="ml">給付費単価</div><div class="mv" id="bMUnitPrice">—</div></div>
-          <div class="metric-item"><div class="ml">損益分岐利用率</div><div class="mv" id="bMBreakeven">—</div></div>
-        </div>
-        <hr class="divider">
-        <table class="detail-table" id="bDetailTable"></table>
-      </div>
-    </div>
-    <div class="result-card">
-      <div class="result-header">年間試算（×12ヶ月）</div>
-      <div class="result-body">
-        <div class="annual-grid">
-          <div class="annual-item"><div class="al">年間給付費</div><div class="av" id="bY_kyufu">—</div></div>
-          <div class="annual-item"><div class="al">年間総収入</div><div class="av" id="bY_income">—</div></div>
-          <div class="annual-item"><div class="al">年間人件費</div><div class="av" id="bY_salary">—</div></div>
-          <div class="annual-item"><div class="al">年間工賃</div><div class="av" id="bY_wage">—</div></div>
-          <div class="annual-item" style="grid-column:span 2;border-left:4px solid var(--b-primary)"><div class="al">年間営業利益</div><div class="av" id="bY_profit" style="font-size:1.4rem">—</div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-
-<!-- B: 工賃明細 -->
-<div id="b-wage" class="sub-content">
-<div class="wage-layout">
-  <div class="input-panel">
-    <div class="hint-box" style="margin-bottom:4px;">B型全国平均工賃月額: 約17,000円（令和5年度）</div>
-    <!-- 清掃 -->
-    <div class="section-card">
-      <div class="section-header"><span class="section-num" style="background:#059669">1</span>清掃・メンテナンス</div>
-      <div class="section-body">
-        <div class="form-row"><div class="form-label">配置利用者数</div><input class="form-input" type="number" id="w_clean_users" value="6" min="0" oninput="bCalcWage()"><span class="form-unit">人</span></div>
-        <div class="form-row"><div class="form-label">1日作業時間</div><input class="form-input" type="number" id="w_clean_hours" value="4" step="0.5" oninput="bCalcWage()"><span class="form-unit">時間</span></div>
-        <div class="form-row"><div class="form-label">月間稼働日数</div><input class="form-input" type="number" id="w_clean_days" value="23" oninput="bCalcWage()"><span class="form-unit">日</span></div>
-        <div class="form-row"><div class="form-label">受注単価<small><span class="range-hint">相場:700〜1,500円</span></small></div><input class="form-input" type="number" id="w_clean_order" value="1000" step="100" oninput="bCalcWage()"><span class="form-unit">円/h</span></div>
-        <div class="form-row"><div class="form-label">工賃時給<small><span class="range-hint">相場:150〜300円</span></small></div><input class="form-input" type="number" id="w_clean_wage" value="200" step="10" oninput="bCalcWage()"><span class="form-unit">円/h</span></div>
-        <div class="hint-box" id="w_clean_formula" style="background:#f0fdf4">月額工賃/人: —</div>
-      </div>
-    </div>
-    <!-- IT -->
-    <div class="section-card">
-      <div class="section-header"><span class="section-num">2</span>IT・データ入力</div>
-      <div class="section-body">
-        <div class="form-row"><div class="form-label">配置利用者数</div><input class="form-input" type="number" id="w_it_users" value="4" min="0" oninput="bCalcWage()"><span class="form-unit">人</span></div>
-        <div class="form-row"><div class="form-label">1日作業時間</div><input class="form-input" type="number" id="w_it_hours" value="4" step="0.5" oninput="bCalcWage()"><span class="form-unit">時間</span></div>
-        <div class="form-row"><div class="form-label">月間稼働日数</div><input class="form-input" type="number" id="w_it_days" value="23" oninput="bCalcWage()"><span class="form-unit">日</span></div>
-        <div class="form-row"><div class="form-label">受注単価<small><span class="range-hint">相場:500〜1,000円</span></small></div><input class="form-input" type="number" id="w_it_order" value="800" step="100" oninput="bCalcWage()"><span class="form-unit">円/h</span></div>
-        <div class="form-row"><div class="form-label">工賃時給<small><span class="range-hint">相場:200〜400円</span></small></div><input class="form-input" type="number" id="w_it_wage" value="230" step="10" oninput="bCalcWage()"><span class="form-unit">円/h</span></div>
-        <div class="hint-box" id="w_it_formula" style="background:#eff6ff">月額工賃/人: —</div>
-      </div>
-    </div>
-    <!-- 内職 -->
-    <div class="section-card">
-      <div class="section-header"><span class="section-num" style="background:#d97706">3</span>内職・軽作業</div>
-      <div class="section-body">
-        <div class="form-row"><div class="form-label">配置利用者数</div><input class="form-input" type="number" id="w_craft_users" value="7" min="0" oninput="bCalcWage()"><span class="form-unit">人</span></div>
-        <div class="form-row"><div class="form-label">1日作業時間</div><input class="form-input" type="number" id="w_craft_hours" value="4" step="0.5" oninput="bCalcWage()"><span class="form-unit">時間</span></div>
-        <div class="form-row"><div class="form-label">月間稼働日数</div><input class="form-input" type="number" id="w_craft_days" value="23" oninput="bCalcWage()"><span class="form-unit">日</span></div>
-        <div class="form-row"><div class="form-label">受注単価<small><span class="range-hint">相場:300〜600円</span></small></div><input class="form-input" type="number" id="w_craft_order" value="500" step="100" oninput="bCalcWage()"><span class="form-unit">円/h</span></div>
-        <div class="form-row"><div class="form-label">工賃時給<small><span class="range-hint">相場:100〜250円</span></small></div><input class="form-input" type="number" id="w_craft_wage" value="150" step="10" oninput="bCalcWage()"><span class="form-unit">円/h</span></div>
-        <div class="hint-box" id="w_craft_formula" style="background:#fffbeb">月額工賃/人: —</div>
-      </div>
-    </div>
-    <div class="wage-mismatch" id="wageMismatch"></div>
-  </div>
-  <div class="result-panel">
-    <div class="result-card">
-      <div class="result-header">作業種別別 月間収支</div>
-      <div class="result-body">
-        <table class="wage-table">
-          <thead><tr><th>作業種別</th><th style="text-align:right">受注収入</th><th style="text-align:right">工賃支払</th><th style="text-align:right">粗利</th><th style="text-align:right">利益率</th></tr></thead>
-          <tbody>
-            <tr><td>清掃</td><td class="num" id="wt_clean_income">—</td><td class="num" id="wt_clean_wage">—</td><td class="num" id="wt_clean_profit">—</td><td class="num" id="wt_clean_margin">—</td></tr>
-            <tr><td>IT</td><td class="num" id="wt_it_income">—</td><td class="num" id="wt_it_wage">—</td><td class="num" id="wt_it_profit">—</td><td class="num" id="wt_it_margin">—</td></tr>
-            <tr><td>内職</td><td class="num" id="wt_craft_income">—</td><td class="num" id="wt_craft_wage">—</td><td class="num" id="wt_craft_profit">—</td><td class="num" id="wt_craft_margin">—</td></tr>
-            <tr class="total-row"><td>合計</td><td class="num" id="wt_total_income">—</td><td class="num" id="wt_total_wage">—</td><td class="num" id="wt_total_profit">—</td><td class="num" id="wt_total_margin">—</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <div class="result-card">
-      <div class="result-header">加重平均工賃</div>
-      <div class="result-body">
-        <div class="wage-big-box"><div class="wage-big-label">加重平均工賃月額</div><div class="wage-big-value" id="wAvgWage">—</div><div class="wage-big-sub" id="wAvgTier">報酬区分: —</div></div>
-        <div class="wage-metrics">
-          <div class="wage-metric"><div class="wm-label">清掃（月額/人）</div><div class="wm-value" id="wm_clean">—</div></div>
-          <div class="wage-metric"><div class="wm-label">IT（月額/人）</div><div class="wm-value" id="wm_it">—</div></div>
-          <div class="wage-metric"><div class="wm-label">内職（月額/人）</div><div class="wm-value" id="wm_craft">—</div></div>
-        </div>
-      </div>
-    </div>
-    <button class="sync-btn" onclick="bSyncWage()">→ 収支シミュレーターに反映</button>
-    <p class="note" style="text-align:center">加重平均工賃と合計受注収入を収支タブに転記します</p>
-  </div>
-</div>
-</div>
-
-<!-- B: タイムスケジュール -->
-<div id="b-schedule" class="sub-content">
-<div class="page">
-  <div class="strat-header">
-    <h2>2027年開所 タイムスケジュール</h2>
-    <div class="sub">約12ヶ月前から準備開始の逆算スケジュール</div>
-  </div>
-  <div class="timeline">
-    <div class="tl-item current">
-      <div class="tl-period">12〜10ヶ月前（2026年6〜8月）</div>
-      <div class="tl-title">情報収集・事業計画策定</div>
-      <ul class="tl-tasks"><li>市川市 障害福祉課に事前相談</li><li>市場調査ダッシュボードで競合分析</li><li>事業計画書のドラフト作成</li><li>近隣クリニックへの清掃ニーズヒアリング</li></ul>
-      <div class="tl-milestone">MILESTONE: 事業計画書 完成</div>
-    </div>
-    <div class="tl-item">
-      <div class="tl-period">9〜8ヶ月前（2026年9〜10月）</div>
-      <div class="tl-title">法人設立・資金調達</div>
-      <ul class="tl-tasks"><li>法人設立（一般社団法人 or 株式会社）</li><li>日本政策金融公庫への融資相談</li><li>社労士に就業規則・賃金規程の整備を依頼</li></ul>
-      <div class="tl-milestone">MILESTONE: 法人設立登記 完了</div>
-    </div>
-    <div class="tl-item">
-      <div class="tl-period">7〜6ヶ月前（2026年11〜12月）</div>
-      <div class="tl-title">物件探し・契約</div>
-      <ul class="tl-tasks"><li>本八幡エリアで物件内見</li><li>消防・建築基準の事前確認</li><li>物件契約・内装設計</li></ul>
-      <div class="tl-milestone">MILESTONE: 物件契約 締結</div>
-    </div>
-    <div class="tl-item">
-      <div class="tl-period">5〜4ヶ月前（2027年1〜2月）</div>
-      <div class="tl-title">人材採用・指定申請準備</div>
-      <ul class="tl-tasks"><li>サビ管・生活支援員・職業指導員の採用</li><li>内装工事着工</li><li>指定申請書類の準備</li></ul>
-      <div class="tl-milestone">MILESTONE: 主要職員の採用内定</div>
-    </div>
-    <div class="tl-item">
-      <div class="tl-period">3ヶ月前（2027年3月）</div>
-      <div class="tl-title">指定申請</div>
-      <ul class="tl-tasks"><li>千葉県に障害福祉サービス事業者指定申請</li><li>体制届・処遇改善加算の計画書提出</li><li>内装工事完了・消防検査</li></ul>
-      <div class="tl-milestone">MILESTONE: 指定申請書 提出</div>
-    </div>
-    <div class="tl-item">
-      <div class="tl-period">2〜1ヶ月前（2027年4〜5月）</div>
-      <div class="tl-title">開業直前準備</div>
-      <ul class="tl-tasks"><li>職員研修</li><li>利用者募集開始</li><li>クリニック清掃の先行契約</li><li>HP・パンフレット作成</li></ul>
-      <div class="tl-milestone">MILESTONE: 事業者指定 通知受領</div>
-    </div>
-    <div class="tl-item">
-      <div class="tl-period">開業（2027年6月）</div>
-      <div class="tl-title">事業所オープン → 安定期（〜2028年6月）</div>
-      <ul class="tl-tasks"><li>利用者5→15名からスタート</li><li>清掃契約8〜10軒・月商30〜40万円へ</li><li>利用率85%・平均工賃20,000円以上を目指す</li></ul>
-      <div class="tl-milestone">MILESTONE: 月間黒字化 達成</div>
-    </div>
-  </div>
-</div>
-</div>
-
-</main>
-</div>
+<!-- ============================================================ -->
 
 <!-- ============================================================ -->
 <!-- 精神科訪問看護                                                -->
@@ -757,21 +271,21 @@ select.form-input{text-align:left}
 <div id="domain-h" class="domain-content h-domain active">
 <main>
 <div class="sub-tabs">
-  <button class="sub-tab active" onclick="switchSub('h','market',this)">市場調査</button>
-  <button class="sub-tab" onclick="switchSub('h','strategy',this)">開業戦略</button>
-  <button class="sub-tab" onclick="switchSub('h','sim',this)">収支シミュレーション</button>
-  <button class="sub-tab" onclick="switchSub('h','fee',this)">報酬単価一覧</button>
-  <button class="sub-tab" onclick="switchSub('h','salary',this)">報酬設計（社長用）</button>
-  <button class="sub-tab" onclick="switchSub('h','cashflow',this)">キャッシュフロー（共有用）</button>
-  <button class="sub-tab" onclick="switchSub('h','bank',this)">CF（銀行提出用）</button>
-  <button class="sub-tab" onclick="switchSub('h','gantt',this)">ガントチャート</button>
+  <button class="sub-tab active" onclick="switchSub('market',this)">市場調査</button>
+  <button class="sub-tab" onclick="switchSub('strategy',this)">開業戦略</button>
+  <button class="sub-tab" onclick="switchSub('sim',this)">&#x1F512; 収支シミュレーション</button>
+  <button class="sub-tab" onclick="switchSub('fee',this)">報酬単価一覧</button>
+  <button class="sub-tab" onclick="switchSub('salary',this)">&#x1F512; 報酬設計（社長用）</button>
+  <button class="sub-tab" onclick="switchSub('cashflow',this)">&#x1F512; キャッシュフロー（共有用）</button>
+  <button class="sub-tab" onclick="switchSub('bank',this)">&#x1F512; CF（銀行提出用）</button>
+  <button class="sub-tab" onclick="switchSub('gantt',this)">ガントチャート</button>
 </div>
 
 <!-- H: 市場調査 -->
 <div id="h-market" class="sub-content active">
 <div style="max-width:900px;margin:0 auto">
   <div class="strat-header">
-    <h2>訪問看護ステーション 千葉市（千葉みなと）市場調査</h2>
+    <h2>訪問看護ステーション 千葉市（千葉駅）市場調査</h2>
     <div class="sub">厚生労働省 介護サービス情報公表オープンデータに基づくリアルタイム分析</div>
   </div>
   <div class="section">
@@ -815,14 +329,14 @@ select.form-input{text-align:left}
     <div class="highlight">
       千葉市は人口98万人の政令指定都市。精神科クリニック・病院が集積し、単身世帯率も高い。<br>
       全国的に精神科訪問看護の利用者は5年で2.7倍に急増しており、参入のタイミングとしては最適。<br>
-      千葉みなと周辺は精神科特化STが少なく、障害者を強みとする総合型STの需要あり。
+      千葉駅周辺は精神科特化STが少なく、障害者を強みとする総合型STの需要あり。
     </div>
     <table class="strat-table">
       <tr><th>指標</th><th>数値</th></tr>
       <tr><td>千葉市人口</td><td>約980,000人</td></tr>
       <tr><td>精神疾患患者推計</td><td>約49,000人（人口の5%）</td></tr>
       <tr><td>精神科訪問看護 潜在利用者</td><td>約4,900人</td></tr>
-      <tr><td>千葉市内 精神科クリニック</td><td>多数（千葉駅・千葉みなと集積）</td></tr>
+      <tr><td>千葉市内 精神科クリニック</td><td>多数（千葉駅周辺に集積）</td></tr>
       <tr><td>1STあたり人口</td><td id="hm_pop_per_st">—</td></tr>
     </table>
   </div>
@@ -867,7 +381,7 @@ select.form-input{text-align:left}
 <div style="max-width:900px;margin:0 auto">
   <div class="strat-header">
     <h2>障害者特化型訪問看護ステーション 開業戦略</h2>
-    <div class="sub">検討エリア：千葉みなと（千葉市中央区）｜2026年7月更新</div>
+    <div class="sub">開業エリア：千葉駅（千葉市中央区）｜2026年7月更新</div>
   </div>
 
   <div class="strategy-card">
@@ -922,30 +436,33 @@ select.form-input{text-align:left}
   </div>
 
   <div class="strategy-card">
-    <div class="strategy-header">候補地：千葉みなと（千葉市中央区）</div>
+    <div class="strategy-header">開業地：千葉駅（千葉市中央区）</div>
     <div class="strategy-body">
-      <h3>千葉みなとを選ぶ理由</h3>
+      <h3>千葉駅を選ぶ理由</h3>
       <table>
         <tr><th>項目</th><th>内容</th></tr>
-        <tr><td>オーナーのアクセス</td><td style="color:#16a34a"><strong>新浦安から京葉線直通 約25分</strong>（乗換なし）</td></tr>
+        <tr><td>オーナーのアクセス</td><td>新浦安から35〜40分（乗換あり）</td></tr>
         <tr><td>背景人口</td><td><strong>千葉市98万人</strong>（中央区21万人）</td></tr>
-        <tr><td>精神科特化ST</td><td>1件（デューン千葉）のみ — 98万人に対して圧倒的に少ない</td></tr>
-        <tr><td>精神科医療機関</td><td>千葉駅周辺に精神科クリニック多数（紹介元が豊富）</td></tr>
+        <tr><td>精神科特化ST</td><td>中央区に2〜3件（デューン千葉・新千葉ST等） — 98万人に対して少ない</td></tr>
+        <tr><td>精神科医療機関</td><td style="color:#16a34a"><strong>千葉駅周辺に精神科クリニック27件（紹介元が豊富）</strong></td></tr>
         <tr><td>病院</td><td>千葉大病院・千葉メディカルセンター（退院患者需要）</td></tr>
+        <tr><td>精神病床</td><td><strong>684床</strong>（中央区）— 退院後の在宅ケア受け皿需要</td></tr>
+        <tr><td>テナント</td><td style="color:#16a34a"><strong>185件+、非常に豊富</strong></td></tr>
+        <tr><td>採用力</td><td style="color:#16a34a"><strong>3社8路線ターミナル — 千葉大・千葉メディカルからの退職看護師</strong></td></tr>
+        <tr><td>訪問カバー力</td><td style="color:#16a34a"><strong>市内中心、全区バランス良くカバー</strong></td></tr>
         <tr><td>単身世帯率</td><td>高い → 障害者の一人暮らしが多い → 訪問看護ニーズ大</td></tr>
-        <tr><td>採用力</td><td>千葉駅ターミナル — 千葉大・千葉メディカルからの退職看護師</td></tr>
         <tr><td>行政</td><td>千葉市が在宅医療推進を施策として推進中</td></tr>
         <tr><td>指定権者</td><td>千葉市（政令指定都市のため市が指定権者）</td></tr>
       </table>
       <h3>五井との比較</h3>
       <table>
-        <tr><th>比較項目</th><th>千葉みなと</th><th>五井（市原市）</th></tr>
-        <tr><td>新浦安からのアクセス</td><td style="color:#16a34a"><strong>25分（直通）</strong></td><td>50分（乗換1回）</td></tr>
+        <tr><th>比較項目</th><th>千葉駅</th><th>五井（市原市）</th></tr>
+        <tr><td>新浦安からのアクセス</td><td>35〜40分（乗換あり）</td><td>50分（乗換1回）</td></tr>
         <tr><td>背景人口</td><td style="color:#16a34a"><strong>98万人</strong></td><td>26.5万人</td></tr>
         <tr><td>訪問看護ST総数</td><td>125件</td><td>31件</td></tr>
-        <tr><td>障害者/精神科特化ST</td><td>1件（デューン千葉）</td><td>0件</td></tr>
-        <tr><td>家賃（坪単価）</td><td>1.0〜1.25万円</td><td style="color:#16a34a">0.5〜0.7万円</td></tr>
-        <tr><td>精神科病床</td><td>あり（分散）</td><td style="color:#16a34a">369床（集中）</td></tr>
+        <tr><td>障害者/精神科特化ST</td><td>2〜3件（デューン千葉・新千葉ST等）</td><td>0件</td></tr>
+        <tr><td>家賃（坪単価）</td><td>1.0〜1.2万円</td><td style="color:#16a34a">0.5〜0.7万円</td></tr>
+        <tr><td>精神科病床</td><td style="color:#16a34a"><strong>684床</strong></td><td>369床（集中）</td></tr>
         <tr><td>成長余地</td><td style="color:#16a34a"><strong>大きい（98万人商圏）</strong></td><td>限定的</td></tr>
       </table>
       <h3>市場データ</h3>
@@ -956,10 +473,137 @@ select.form-input{text-align:left}
         <tr><td>障害者手帳所持推計</td><td>約47,000人</td><td>人口×4.8%</td></tr>
         <tr><td>精神科訪問看護 潜在利用者</td><td>約4,900人</td><td>患者の10%</td></tr>
         <tr><td>訪問看護ST総数</td><td>125件</td><td>厚労省オープンデータ</td></tr>
-        <tr><td>うち精神科/障害特化</td><td>1件（デューン千葉）</td><td>同上</td></tr>
+        <tr><td>うち精神科/障害特化</td><td>N・フィールド4拠点+新千葉ST等（中央区2〜3件）</td><td>同上</td></tr>
         <tr><td>65歳以上人口推計(2040年)</td><td>31万人（現在26万人）</td><td>千葉市推計</td></tr>
       </table>
       <p style="font-size:.82rem;color:var(--muted)">※千葉県は人口あたりの訪問看護ST数が全国ワースト級（47都道府県中40位台）。精神科特化はさらに少なく、供給不足が深刻。</p>
+    </div>
+  </div>
+
+  <div class="strategy-card">
+    <div class="strategy-header">候補地3エリア比較（2026年7月調査）</div>
+    <div class="strategy-body">
+      <div class="highlight">
+        千葉みなとでテナントが見つからず、千葉駅・稲毛駅を含む3エリアを比較調査した結果、<strong>千葉駅に決定。</strong><br>
+        紹介元27件・テナント豊富・全区カバーの総合力が決め手。
+      </div>
+      <h3>基本データ比較</h3>
+      <table>
+        <tr><th>項目</th><th>千葉駅（中央区）</th><th>千葉みなと（中央区）</th><th>稲毛駅（稲毛区）</th></tr>
+        <tr><td>訪看ST総数（区内）</td><td colspan="2" style="text-align:center">35件（同じ中央区）</td><td>22件</td></tr>
+        <tr><td>精神科特化ST</td><td colspan="2" style="text-align:center">2〜3件（デューン千葉・新千葉ST等）</td><td>1件（デューン稲毛 / 2024年6月開設）</td></tr>
+        <tr><td>精神科クリニック数</td><td colspan="2" style="text-align:center"><strong>27件</strong></td><td>10件</td></tr>
+        <tr><td>精神病床</td><td colspan="2" style="text-align:center"><strong>684床</strong></td><td style="color:#dc2626"><strong>0床</strong></td></tr>
+        <tr><td>テナント探しやすさ</td><td style="color:#16a34a"><strong>185件+、非常に豊富</strong></td><td style="color:#dc2626">少ない（難航中）</td><td>駅前にビル集中、見つかる</td></tr>
+        <tr><td>家賃（15坪目安）</td><td>15〜18万円</td><td>12〜15万円</td><td style="color:#16a34a">12〜15万円</td></tr>
+        <tr><td>広辺の通勤</td><td>35〜40分（乗換あり）</td><td style="color:#16a34a"><strong>25分（京葉線直通）</strong></td><td>38分（乗換1回）</td></tr>
+        <tr><td>スタッフ通勤</td><td style="color:#16a34a"><strong>3社8路線、最強</strong></td><td>京葉線+モノレール</td><td>JR総武線（快速停車）</td></tr>
+        <tr><td>訪問カバー力</td><td style="color:#16a34a"><strong>市内中心、全区バランス良い</strong></td><td>やや南西に偏る</td><td>稲毛区+花見川区中心</td></tr>
+        <tr><td>連携先アクセス</td><td style="color:#16a34a"><strong>徒歩圏内に多数</strong></td><td>移動が必要</td><td>駅周辺に集中</td></tr>
+      </table>
+
+      <h3>千葉市6区の需要指標（JMAP日本医師会データ）</h3>
+      <table>
+        <tr><th>区</th><th>人口</th><th>高齢化率</th><th>精神科診療所</th><th>精神病床</th><th>訪看ST数</th><th>N・フィールド</th></tr>
+        <tr style="background:#dcfce7"><td><strong>中央区</strong></td><td>222,392</td><td>23.9%</td><td style="color:#dc2626"><strong>27</strong></td><td><strong>684</strong></td><td>35</td><td>デューン千葉</td></tr>
+        <tr><td>花見川区</td><td>177,595</td><td>28.8%</td><td>13</td><td>0</td><td>22</td><td>デューン幕張</td></tr>
+        <tr style="background:#eff6ff"><td><strong>稲毛区</strong></td><td>160,575</td><td>28.5%</td><td>10</td><td style="color:#dc2626">0</td><td>22</td><td>デューン稲毛(2024.6)</td></tr>
+        <tr><td>若葉区</td><td>144,057</td><td style="color:#dc2626"><strong>31.8%</strong></td><td>8</td><td>128</td><td>17</td><td>デューン若葉</td></tr>
+        <tr><td>緑区</td><td>127,964</td><td>23.4%</td><td>8</td><td><strong>435</strong></td><td>21</td><td>—</td></tr>
+        <tr><td>美浜区</td><td>156,149</td><td>26.7%</td><td>7</td><td>50</td><td>8</td><td>—</td></tr>
+      </table>
+      <p style="font-size:.82rem;color:var(--muted)">※ N・フィールドが千葉市に4拠点展開 = 大手が需要ありと判断した証拠。稲毛区のデューン稲毛は2024年6月新規出店。</p>
+
+      <h3>「競合が少ない＝穴場」とは限らない分析</h3>
+      <table>
+        <tr><th>判断指標</th><th>「ニーズない」パターン</th><th>「参入チャンス」パターン</th></tr>
+        <tr><td>精神科クリニック数</td><td>少ない（患者がいない）</td><td style="color:#16a34a"><strong>多い（通院中だが訪看不足）</strong></td></tr>
+        <tr><td>大手の参入</td><td>大手も入っていない</td><td style="color:#16a34a"><strong>大手が最近参入（需要確認済み）</strong></td></tr>
+        <tr><td>精神病床</td><td>なし＋診療所も少ない</td><td style="color:#16a34a"><strong>病床あり（退院後の受け皿不足）</strong></td></tr>
+        <tr><td>人口動態</td><td>若年ファミリー中心</td><td style="color:#16a34a"><strong>高齢化進行中、単身世帯増</strong></td></tr>
+      </table>
+      <div class="highlight" style="border-left:3px solid #0ea5e9;background:#f0f9ff">
+        <strong>稲毛区の判定：「参入チャンス」</strong><br>
+        ・N・フィールドが2024年6月にデューン稲毛を新規出店 → 大手が需要ありと判断した証拠<br>
+        ・精神科クリニック10件あり通院患者は存在する<br>
+        ・精神病床0 → 他区で入院した稲毛区住民が退院後に戻る → 在宅ケアの受け皿需要
+      </div>
+
+      <h3>紹介獲得リスク分析</h3>
+      <table>
+        <tr><th>観点</th><th>千葉駅（中央区）</th><th>稲毛駅</th></tr>
+        <tr><td>クリニック数</td><td>27件（回るのに時間かかる）</td><td style="color:#16a34a">10件（集中営業しやすい）</td></tr>
+        <tr><td>既存の紹介ルート</td><td style="color:#dc2626">出来上がっている</td><td style="color:#16a34a"><strong>まだ流動的</strong></td></tr>
+        <tr><td>差別化の必要性</td><td>高い（デューン千葉+新千葉STと比較される）</td><td style="color:#16a34a">低め（デューン稲毛の1件のみ）</td></tr>
+        <tr><td>紹介までの期間</td><td>やや長い（信頼構築に時間）</td><td style="color:#16a34a"><strong>早い可能性</strong></td></tr>
+        <tr><td>ポテンシャル上限</td><td style="color:#16a34a"><strong>大きい</strong></td><td>中程度</td></tr>
+      </table>
+      <p style="font-size:.82rem;color:var(--muted)">
+        ※精神科訪看は全国的に供給不足（利用者5年で2.7倍増）。精神科を「ちゃんと」診れるSTが少ないため、クリニック側も「紹介したいが受けてくれるSTがない」状態。<br>
+        ※金井さんの「慶應精神科7年」の経歴は営業時の最大の武器。一般STとの差別化が明確。
+      </p>
+
+      <h3>総合判定</h3>
+      <table>
+        <tr><th>エリア</th><th>総合評価</th><th>判断理由</th></tr>
+        <tr style="background:#dcfce7"><td><strong>千葉駅</strong></td><td style="color:#16a34a"><strong>◎ 決定</strong></td><td>紹介元27件・テナント豊富・全区カバー。成長の上限が高い</td></tr>
+        <tr><td><strong>稲毛駅</strong></td><td>○</td><td>デューン稲毛しか競合がなく立ち上がりが早い可能性。ただし紹介元10件で成長上限は中程度</td></tr>
+        <tr><td>千葉みなと</td><td>× テナントなし</td><td>京葉線直通の通勤メリットは大きいが、テナントが見つからず断念</td></tr>
+      </table>
+      <div class="highlight" style="border-left:3px solid #f59e0b;background:#fffbeb">
+        <strong>重要な判断軸：</strong>キャッシュフロー計画では最大キャッシュアウト約664万・月次黒字化が開業7ヶ月目。<br>
+        立ち上がり（=紹介獲得）の早さは生死に関わる。ポテンシャルの大きさと立ち上がりスピードのバランスで最終判断。
+      </div>
+    </div>
+  </div>
+
+  <div class="strategy-card">
+    <div class="strategy-header">物件選びの規定・ルール（千葉市）</div>
+    <div class="strategy-body">
+      <div class="highlight" style="border-left:3px solid #dc2626;background:#fef2f2">
+        <strong>最重要：物件候補が出たら千葉市介護保険事業課（043-245-5062）に事前相談の予約。図面持参で設備基準の適合を確認。</strong>
+      </div>
+      <h3>設備基準（絶対要件）</h3>
+      <table>
+        <tr><th>要件</th><th>内容</th><th>根拠</th></tr>
+        <tr><td><strong>事務室</strong></td><td>常勤人数分の机・椅子が置ける「専用」の広さ（具体的な平米数規定なし）</td><td>厚生省令第37号 第62条</td></tr>
+        <tr style="background:#fef2f2"><td><strong>相談室</strong></td><td>プライバシー確保できる空間（パーテーション可だが千葉市に要確認）</td><td><strong>千葉市条例 第66条（国基準より厳しい）</strong></td></tr>
+        <tr><td><strong>手洗い設備</strong></td><td>手指洗浄・消毒のための設備（共用洗面＋事務所内消毒液で可の場合あり。千葉市に要確認）</td><td>感染予防基準</td></tr>
+        <tr><td><strong>鍵付き書庫</strong></td><td>個人情報保管用のキャビネット</td><td>運営基準</td></tr>
+        <tr><td><strong>固定電話・FAX</strong></td><td>他事業所と共用不可</td><td>運営基準</td></tr>
+      </table>
+      <h3>用途地域の制限</h3>
+      <table>
+        <tr><th>用途地域</th><th>開設可否</th><th>条件</th></tr>
+        <tr><td>第1種・第2種低層住居専用地域</td><td>○</td><td>延床面積600㎡以下</td></tr>
+        <tr><td>中高層住居・住居・準住居地域</td><td>○</td><td>制限なし</td></tr>
+        <tr><td>商業・近隣商業・準工業地域</td><td style="color:#16a34a"><strong>○</strong></td><td>制限なし（千葉駅・稲毛駅はこれ）</td></tr>
+        <tr><td style="color:#dc2626">工業専用地域</td><td style="color:#dc2626"><strong>×</strong></td><td>開設不可</td></tr>
+      </table>
+      <p style="font-size:.82rem;color:var(--muted)">根拠：国交省 国住街第107号（2015年）により、訪看STは住居専用地域でも開設可能に</p>
+      <h3>賃貸契約チェックリスト</h3>
+      <table>
+        <tr><th>チェック項目</th><th>内容</th></tr>
+        <tr><td>契約名義</td><td><strong>合同会社あゆみ</strong>名義（個人名義は不可）</td></tr>
+        <tr><td>用途</td><td>「事務所」利用可であること（居住用契約では開設不可）</td></tr>
+        <tr><td>マンション一室</td><td>管理規約で事務所利用OK＋オーナー承諾があれば可能</td></tr>
+        <tr><td>看板設置</td><td>マンションは禁止の場合多い → 事前確認必須</td></tr>
+        <tr><td>消費税</td><td>事業用賃貸は課税対象（居住用は非課税）</td></tr>
+      </table>
+      <h3>千葉市の指定申請スケジュール</h3>
+      <table>
+        <tr><th>時期</th><th>内容</th></tr>
+        <tr><td>物件決定後すぐ</td><td><strong>千葉市介護保険事業課（043-245-5062）に事前相談予約</strong></td></tr>
+        <tr><td>指定月の前月1〜10日</td><td>介護保険の指定申請（対面・予約必須・来庁2〜3回）</td></tr>
+        <tr><td>15日まで</td><td>書類不備の訂正完了（間に合わないと翌月に延期）</td></tr>
+        <tr><td>翌月1日</td><td>指定日（開業）</td></tr>
+      </table>
+      <p style="font-size:.82rem;color:var(--muted)">
+        ※ 11月1日開業の場合：10月1〜10日に千葉市へ申請、10月15日までに書類完了<br>
+        ※ 介護保険の指定 → 千葉市 / 医療保険の指定 → 関東信越厚生局 千葉事務所（043-382-8101）<br>
+        ※ 介護保険指定を受ければ医療保険は「みなし指定」される場合あり<br>
+        ※ 消防・バリアフリー・駐車場の法的義務はなし（ただし実務上、訪問用の自転車・バイク分の駐輪場は必要）
+      </p>
     </div>
   </div>
 
@@ -1017,8 +661,8 @@ select.form-input{text-align:left}
       </div>
       <h3>メンバー立地条件</h3>
       <table>
-        <tr><th>メンバー</th><th>居住地</th><th>千葉みなとへのアクセス</th></tr>
-        <tr><td>広辺（オーナー）</td><td>新浦安</td><td style="color:#16a34a"><strong>京葉線直通 約25分</strong></td></tr>
+        <tr><th>メンバー</th><th>居住地</th><th>千葉駅へのアクセス</th></tr>
+        <tr><td>広辺（オーナー）</td><td>新浦安</td><td>35〜40分（乗換あり）</td></tr>
         <tr><td>金井さん（管理者）</td><td>小岩</td><td>総武線 約40分</td></tr>
         <tr><td>滝田さん（非常勤）</td><td>小岩</td><td>総武線 約40分</td></tr>
       </table>
@@ -1156,8 +800,8 @@ select.form-input{text-align:left}
   <div class="strategy-card">
     <div class="strategy-header">開業戦略 5つの柱</div>
     <div class="strategy-body">
-      <h3>1. 立地 — 千葉みなと（京葉線直通・98万人商圏）</h3>
-      <ul><li>新浦安から京葉線直通25分 — オーナーの通勤が最も楽</li><li>千葉市98万人に対し障害者/精神科特化STはデューン千葉の1件のみ</li><li>千葉駅周辺に精神科クリニック集中 → 紹介元が豊富</li><li>千葉大病院・千葉メディカルセンターからの退院患者需要</li></ul>
+      <h3>1. 立地 — 千葉駅（3社8路線ターミナル・98万人商圏）</h3>
+      <ul><li>千葉駅は3社8路線のターミナル — スタッフの採用力が最強</li><li>中央区に精神科特化STは2〜3件のみ — 98万人に対して圧倒的に少ない</li><li>千葉駅周辺に精神科クリニック27件集中 → 紹介元が豊富</li><li>千葉大病院・千葉メディカルセンターからの退院患者需要</li><li>テナント185件+と豊富、全区をバランス良くカバー</li></ul>
       <h3>2. 「障害者を強みとする総合型」で差別化</h3>
       <div class="highlight"><strong>精神科＋身体障害＋高齢者の総合型。</strong>精神科の専門性を看板に掲げつつ、身体・高齢者も対応してリスク分散。完全特化しないことで利用者獲得の間口を広げる。</div>
       <h3>3. 精神科クリニック・病院との連携</h3>
@@ -1184,7 +828,7 @@ select.form-input{text-align:left}
         <tr><td>利用者獲得の初動が遅い</td><td>開業3ヶ月前からクリニック挨拶回り。退院支援チームとの関係構築</td></tr>
         <tr><td>開業後2ヶ月の無収入期間</td><td>最大キャッシュアウト約736万円 → 800〜1,000万円の資金確保</td></tr>
         <tr><td>一般STとの競合</td><td>「障害者に強い」ブランドで紹介元からの指名を獲得。総合型だが専門性で差別化</td></tr>
-        <tr><td>千葉みなとのコスト高</td><td>本千葉・東千葉までずらして家賃削減。坪0.8〜1万円に抑制</td></tr>
+        <tr><td>家賃コスト</td><td>千葉駅周辺で坪1.0〜1.2万円。東千葉・本千葉方面ならやや安い</td></tr>
         <tr><td>診療報酬改定リスク</td><td>令和6年・8年改定で基本療養費引上げ・新加算創設と拡充傾向。2026年規制強化は真面目な事業者に追い風</td></tr>
       </table>
       <div class="note" style="margin-top:12px">
@@ -1196,7 +840,7 @@ select.form-input{text-align:left}
   </div>
 
   <div class="strategy-card">
-    <div class="strategy-header">初期費用の目安（千葉みなとエリア）</div>
+    <div class="strategy-header">初期費用の目安（千葉駅エリア）</div>
     <div class="strategy-body">
       <table>
         <tr><th>項目</th><th>金額</th><th>備考</th></tr>
@@ -1942,7 +1586,7 @@ select.form-input{text-align:left}
     <div class="strategy-header" style="justify-content:space-between">タスク管理
       <div style="display:flex;gap:8px">
         <button onclick="ganttAddTask()" style="padding:4px 14px;font-size:12px;font-weight:700;color:#fff;background:#9333ea;border:none;border-radius:6px;cursor:pointer">+ タスク追加</button>
-        <button onclick="if(confirm('初期状態に戻しますか？'))ganttReset()" style="padding:4px 14px;font-size:12px;font-weight:600;color:#666;background:#f1f5f9;border:1px solid #d1d5db;border-radius:6px;cursor:pointer">リセット</button>
+        <button onclick="ganttReset()" style="padding:4px 14px;font-size:12px;font-weight:600;color:#666;background:#f1f5f9;border:1px solid #d1d5db;border-radius:6px;cursor:pointer">リセット</button>
       </div>
     </div>
     <div class="strategy-body" style="padding:12px">
@@ -1953,11 +1597,21 @@ select.form-input{text-align:left}
   <div class="strategy-card">
     <div class="strategy-header">ガントチャート（自動生成）</div>
     <div class="strategy-body">
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px" id="gantt_filters">
+        <button onclick="ganttSetFilter('all',this)" class="gantt-filter active" style="padding:4px 12px;font-size:11px;font-weight:700;border-radius:6px;cursor:pointer;border:1px solid #d1d5db;background:#1e3a8a;color:white">全体</button>
+        <button onclick="ganttSetFilter('saiyou',this)" class="gantt-filter" style="padding:4px 12px;font-size:11px;font-weight:700;border-radius:6px;cursor:pointer;border:1px solid #d1d5db;background:#f8fafc;color:#334155">採用</button>
+        <button onclick="ganttSetFilter('gyosei',this)" class="gantt-filter" style="padding:4px 12px;font-size:11px;font-weight:700;border-radius:6px;cursor:pointer;border:1px solid #d1d5db;background:#f8fafc;color:#334155">行政</button>
+        <button onclick="ganttSetFilter('boss',this)" class="gantt-filter" style="padding:4px 12px;font-size:11px;font-weight:700;border-radius:6px;cursor:pointer;border:1px solid #d1d5db;background:#f8fafc;color:#3b82f6">社長</button>
+        <button onclick="ganttSetFilter('kanai',this)" class="gantt-filter" style="padding:4px 12px;font-size:11px;font-weight:700;border-radius:6px;cursor:pointer;border:1px solid #d1d5db;background:#f8fafc;color:#22c55e">金井</button>
+        <button onclick="ganttSetFilter('takita',this)" class="gantt-filter" style="padding:4px 12px;font-size:11px;font-weight:700;border-radius:6px;cursor:pointer;border:1px solid #d1d5db;background:#f8fafc;color:#f59e0b">滝田</button>
+      </div>
       <div style="overflow-x:auto" id="gantt_chart_wrap"></div>
       <div style="margin-top:6px;font-size:11px;color:#666;display:flex;gap:16px;flex-wrap:wrap">
         <span><span style="display:inline-block;width:12px;height:12px;background:#3b82f6;border-radius:2px;vertical-align:middle"></span> 社長（広辺）</span>
         <span><span style="display:inline-block;width:12px;height:12px;background:#22c55e;border-radius:2px;vertical-align:middle"></span> 金井さん</span>
         <span><span style="display:inline-block;width:12px;height:12px;background:#f59e0b;border-radius:2px;vertical-align:middle"></span> 滝田さん</span>
+        <span style="border-left:1px solid #d1d5db;padding-left:12px"><span style="display:inline-block;width:12px;height:12px;background:#dc2626;border-radius:2px;vertical-align:middle;background-image:repeating-linear-gradient(45deg,transparent,transparent 2px,rgba(255,255,255,.3) 2px,rgba(255,255,255,.3) 4px)"></span> 千葉市（行政処理）</span>
+        <span><span style="display:inline-block;width:12px;height:12px;background:#ea580c;border-radius:2px;vertical-align:middle;background-image:repeating-linear-gradient(45deg,transparent,transparent 2px,rgba(255,255,255,.3) 2px,rgba(255,255,255,.3) 4px)"></span> 厚生局等（行政処理）</span>
       </div>
     </div>
   </div>
@@ -1975,201 +1629,24 @@ function fmt(n){if(isNaN(n))return'—';return(n<0?'-':'')+'¥'+Math.abs(Math.ro
 function fmtPlain(n){return Math.round(n).toLocaleString('ja-JP')}
 function v(id){return parseFloat(document.getElementById(id).value)||0}
 
-function switchDomain(d,btn){
-  document.querySelectorAll('.domain-tab').forEach(b=>{b.classList.remove('active','b-active','h-active')});
-  document.querySelectorAll('.domain-content').forEach(c=>c.classList.remove('active'));
-  btn.classList.add('active',d==='b'?'b-active':'h-active');
-  var dom=document.getElementById('domain-'+d);
-  dom.classList.add('active');
-  // サブタブが消えていたら最初のタブを復元
-  if(!dom.querySelector('.sub-content.active')){
-    var ft=dom.querySelector('.sub-tab');
-    var fc=dom.querySelector('.sub-content');
-    if(ft)ft.classList.add('active');
-    if(fc)fc.classList.add('active');
+var LOCKED_TABS=['sim','salary','cashflow','bank'];
+var _unlocked=false;
+function switchSub(name,btn){
+  if(LOCKED_TABS.indexOf(name)>=0&&!_unlocked){
+    var pw=prompt('このタブはパスワードで保護されています。\nパスワードを入力してください:');
+    if(pw!=='Masano6868'){if(pw!==null)alert('パスワードが違います');return;}
+    _unlocked=true;
+    sessionStorage.setItem('strat_unlocked','1');
   }
-  // H domain 初回表示時にデータ読み込み・チャート描画
-  if(d==='h'){loadHMarket();hCalc();}
-}
-
-function switchSub(domain,name,btn){
-  var container=document.getElementById('domain-'+domain);
+  var container=document.getElementById('domain-h');
   container.querySelectorAll('.sub-tab').forEach(b=>b.classList.remove('active'));
   container.querySelectorAll('.sub-content').forEach(c=>c.classList.remove('active'));
   btn.classList.add('active');
-  document.getElementById(domain+'-'+name).classList.add('active');
-  if(domain==='b'&&name==='wage')bCalcWage();
-  if(domain==='b'&&name==='market')loadBMarket();
-  if(domain==='h'&&name==='sim')hCalc();
-  if(domain==='h'&&name==='market')loadHMarket();
+  document.getElementById('h-'+name).classList.add('active');
+  if(name==='sim')hCalc();
+  if(name==='market')loadHMarket();
 }
-
-// ═══════════════════════════════════════════════
-// B型 就労継続支援
-// ═══════════════════════════════════════════════
-const B_TIERS_I=[
-  {label:'48,000円以上',minWage:48000,units:837},{label:'38,000〜48,000円',minWage:38000,units:805},
-  {label:'33,000〜38,000円',minWage:33000,units:758},{label:'28,000〜33,000円',minWage:28000,units:738},
-  {label:'23,000〜28,000円',minWage:23000,units:726},{label:'18,000〜23,000円',minWage:18000,units:703},
-  {label:'13,000〜18,000円',minWage:13000,units:673},{label:'13,000円未満',minWage:0,units:590}
-];
-const B_TIERS_II=[
-  {label:'48,000円以上',minWage:48000,units:748},{label:'38,000〜48,000円',minWage:38000,units:716},
-  {label:'33,000〜38,000円',minWage:33000,units:669},{label:'28,000〜33,000円',minWage:28000,units:649},
-  {label:'23,000〜28,000円',minWage:23000,units:637},{label:'18,000〜23,000円',minWage:18000,units:614},
-  {label:'13,000〜18,000円',minWage:13000,units:584},{label:'13,000円未満',minWage:0,units:537}
-];
-const B_TIERS_III=[
-  {label:'48,000円以上',minWage:48000,units:682},{label:'38,000〜48,000円',minWage:38000,units:653},
-  {label:'33,000〜38,000円',minWage:33000,units:611},{label:'28,000〜33,000円',minWage:28000,units:594},
-  {label:'23,000〜28,000円',minWage:23000,units:572},{label:'18,000〜23,000円',minWage:18000,units:557},
-  {label:'13,000〜18,000円',minWage:13000,units:532},{label:'13,000円未満',minWage:0,units:490}
-];
-const B_FLAT={'IV':584,'V':530,'VI':484};
-const NEW_FACILITY_RATE=0.984;
-const A_BASE_UNITS=717;
-
-function bGetStaffRatio(sr){if(sr==='I'||sr==='IV')return 6;if(sr==='II'||sr==='V')return 7.5;return 10;}
-
-function bOnServiceTypeChange(){
-  var t=document.getElementById('serviceType').value;
-  document.getElementById('kochinRow').style.display=t==='B'?'':'none';
-  document.getElementById('minWageRow').style.display=t==='A'?'':'none';
-  bCalc();
-}
-
-function bAutoFillStaff(){
-  var cap=v('capacity'),util=v('utilRate'),sr=document.getElementById('staffRatio').value;
-  var uc=Math.floor(cap*util/100),ratio=bGetStaffRatio(sr);
-  document.getElementById('support_count').value=Math.ceil(uc/ratio);
-  bCalc();
-}
-
-function bCalc(){
-  var type=document.getElementById('serviceType').value;
-  var cap=v('capacity'),openDays=v('openDays'),unitPrice=v('region'),utilRate=v('utilRate');
-  var useHours=v('useHours'),avgWage=v('avgWage'),sr=document.getElementById('staffRatio').value;
-  var uc=Math.floor(cap*utilRate/100);
-  document.getElementById('userCountHint').textContent='実利用者数: '+uc+'人（定員'+cap+'人 × '+utilRate+'%）';
-
-  var isNew=document.getElementById('newFacility').value==='1';
-  var baseUnits=A_BASE_UNITS,tierLabel='A型（参考値）';
-  if(type==='B'){
-    if(['IV','V','VI'].includes(sr)){baseUnits=B_FLAT[sr];tierLabel='サービス費'+sr+'（一律評価型）';}
-    else{var tm={'I':B_TIERS_I,'II':B_TIERS_II,'III':B_TIERS_III},ts=tm[sr],t=ts.find(x=>avgWage>=x.minWage)||ts[ts.length-1];baseUnits=t.units;tierLabel='サービス費'+sr+'（'+t.label+'）';}
-  }
-  if(isNew)baseUnits=Math.floor(baseUnits*NEW_FACILITY_RATE);
-  baseUnits=baseUnits*useHours;
-  document.getElementById('tierHint').textContent='報酬区分: '+tierLabel+(isNew?' 【新規-1.6%】':'')+' → '+baseUnits+'単位/日/人';
-
-  var addPD=['add_fukushi1','add_fukushi2','add_kenshu','add_shokuba','add_seishin'].filter(id=>document.getElementById(id).checked).reduce((s,id)=>s+parseFloat(document.getElementById(id).value),0);
-  var addPM=document.getElementById('add_target').checked?10:0;
-  var basicUnits=baseUnits*uc*openDays,addUD=addPD*uc*openDays,addUM=addPM*uc;
-  var totalUnits=basicUnits+addUD+addUM;
-  var basicIncome=totalUnits*unitPrice;
-  var shoguuRate=parseFloat(document.getElementById('shoguu').value)||0;
-  var shoguuIncome=basicIncome*shoguuRate;
-  var salesVal=v('sales');
-  var totalIncome=basicIncome+shoguuIncome+salesVal;
-
-  var mgrS=v('mgr_salary'),sabS=v('sabikan_salary'),supC=v('support_count'),supS=v('support_salary');
-  var shakR=parseFloat(document.getElementById('shakai_rate').value)||0.15;
-  var baseS=mgrS+sabS+(supC*supS),shakC=baseS*shakR,totalS=baseS+shakC;
-  var wagePay=type==='B'?avgWage*uc:0;
-  var rent=v('b_rent'),util2=v('utilities'),mat=v('materials'),miscVal=v('misc');
-  var totalExp=totalS+shoguuIncome+wagePay+rent+util2+mat+miscVal;
-  var profit=totalIncome-totalExp;
-
-  // staff hint
-  var ratio=bGetStaffRatio(sr),minSup=Math.ceil(uc/ratio);
-  document.getElementById('staffHint').innerHTML='<strong>配置基準（'+(ratio===6?'6:1':ratio===7.5?'7.5:1':'10:1')+'）</strong><br>生活支援員・職業指導員: <strong>'+minSup+'名以上</strong>　サビ管: 1名　管理者: 1名（兼務可）';
-
-  // 損益分岐
-  var incPU=(baseUnits+addPD)*openDays*unitPrice*(1+shoguuRate);
-  var varCPU=type==='B'?avgWage:0;
-  var contrib=incPU-varCPU;
-  var fixC=totalS+rent+util2+mat+miscVal;
-  var beU=contrib>0?Math.ceil(fixC/contrib):Infinity;
-  var beR=cap>0?Math.round(beU/cap*100):0;
-
-  document.getElementById('bMUserCount').textContent=uc+'人';
-  document.getElementById('bMUnitPrice').textContent=unitPrice.toFixed(2)+'円/単位';
-  document.getElementById('bMBreakeven').textContent=isFinite(beR)?beR+'%':'—';
-
-  var dt=document.getElementById('bDetailTable');
-  dt.innerHTML='<tr class="section-title"><td colspan="2">【 収入 】</td></tr>'+
-    '<tr><td class="label">給付費（基本報酬）</td><td class="amount income">'+fmt(basicIncome)+'</td></tr>'+
-    '<tr><td class="sublabel">　うち加算計</td><td class="amount income">'+fmt((addUD+addUM)*unitPrice)+'</td></tr>'+
-    '<tr><td class="label">処遇改善加算収入</td><td class="amount income">'+fmt(shoguuIncome)+'</td></tr>'+
-    '<tr><td class="label">受注作業・販売収入</td><td class="amount income">'+fmt(salesVal)+'</td></tr>'+
-    '<tr class="total-row"><td class="label">収入合計</td><td class="amount income">'+fmt(totalIncome)+'</td></tr>'+
-    '<tr class="section-title"><td colspan="2">【 支出 】</td></tr>'+
-    '<tr><td class="label">人件費（社保込）</td><td class="amount expense">'+fmt(totalS)+'</td></tr>'+
-    '<tr><td class="label">処遇改善（職員充当）</td><td class="amount expense">'+fmt(shoguuIncome)+'</td></tr>'+
-    '<tr><td class="label">工賃支払額</td><td class="amount expense">'+fmt(wagePay)+'</td></tr>'+
-    '<tr><td class="label">家賃・共益費</td><td class="amount expense">'+fmt(rent)+'</td></tr>'+
-    '<tr><td class="label">光熱・通信・材料・その他</td><td class="amount expense">'+fmt(util2+mat+miscVal)+'</td></tr>'+
-    '<tr class="total-row"><td class="label">支出合計</td><td class="amount expense">'+fmt(totalExp)+'</td></tr>';
-
-  var pb=document.getElementById('bPnlBox');pb.className='pnl-box '+(profit>=0?'profit':'loss');
-  document.getElementById('bPnlValue').textContent=fmt(profit);
-  document.getElementById('bPnlSub').textContent='利益率: '+(totalIncome>0?(profit/totalIncome*100).toFixed(1):0)+'% ／ 年間: '+fmt(profit*12);
-
-  document.getElementById('bY_kyufu').textContent=fmt(basicIncome*12);
-  document.getElementById('bY_income').textContent=fmt(totalIncome*12);
-  document.getElementById('bY_salary').textContent=fmt(totalS*12);
-  document.getElementById('bY_wage').textContent=fmt(wagePay*12);
-  var yp=document.getElementById('bY_profit');yp.textContent=fmt(profit*12);yp.style.color=profit>=0?'#10b981':'#ef4444';
-}
-
-// B工賃明細
-function bCalcWage(){
-  var cats=['clean','it','craft'],totalInc=0,totalWP=0,totalU=0,pp={};
-  cats.forEach(function(c){
-    var u=v('w_'+c+'_users'),h=v('w_'+c+'_hours'),d=v('w_'+c+'_days'),o=v('w_'+c+'_order'),w=v('w_'+c+'_wage');
-    var inc=o*h*u*d,wp=w*h*u*d,pr=inc-wp,mg=inc>0?(pr/inc*100):0,mpp=w*h*d;
-    totalInc+=inc;totalWP+=wp;totalU+=u;pp[c]={monthly:mpp,users:u};
-    document.getElementById('wt_'+c+'_income').textContent=fmt(inc);
-    document.getElementById('wt_'+c+'_wage').textContent=fmt(wp);
-    document.getElementById('wt_'+c+'_profit').textContent=fmt(pr);
-    document.getElementById('wt_'+c+'_margin').textContent=mg.toFixed(1)+'%';
-    document.getElementById('w_'+c+'_formula').innerHTML='月額工賃/人: <strong>'+w.toLocaleString()+'円</strong> × '+h+'h × '+d+'日 = <strong>'+fmt(mpp)+'</strong>';
-  });
-  var tp=totalInc-totalWP,tm=totalInc>0?(tp/totalInc*100):0;
-  document.getElementById('wt_total_income').textContent=fmt(totalInc);
-  document.getElementById('wt_total_wage').textContent=fmt(totalWP);
-  document.getElementById('wt_total_profit').textContent=fmt(tp);
-  document.getElementById('wt_total_margin').textContent=tm.toFixed(1)+'%';
-
-  var ws=0;cats.forEach(function(c){ws+=pp[c].monthly*pp[c].users;});
-  var aw=totalU>0?Math.round(ws/totalU):0;
-  document.getElementById('wAvgWage').textContent=fmt(aw);
-
-  var sr=document.getElementById('staffRatio').value,tl='';
-  if(['IV','V','VI'].includes(sr)){tl='サービス費'+sr+'（一律評価型）';}
-  else{var tm2={'I':B_TIERS_I,'II':B_TIERS_II,'III':B_TIERS_III},ts=tm2[sr],t=ts.find(x=>aw>=x.minWage)||ts[ts.length-1];tl='サービス費'+sr+'（'+t.label+'）→ '+t.units+'単位/日';}
-  document.getElementById('wAvgTier').textContent='報酬区分: '+tl;
-  document.getElementById('wm_clean').textContent=fmt(pp.clean.monthly);
-  document.getElementById('wm_it').textContent=fmt(pp.it.monthly);
-  document.getElementById('wm_craft').textContent=fmt(pp.craft.monthly);
-
-  var cap=v('capacity'),utilR=v('utilRate'),simU=Math.floor(cap*utilR/100),mm=document.getElementById('wageMismatch');
-  if(totalU>0&&totalU!==simU){mm.style.display='block';mm.innerHTML='⚠ 工賃明細の合計利用者数（<strong>'+totalU+'人</strong>）と収支タブの実利用者数（<strong>'+simU+'人</strong>）が異なります。';}
-  else mm.style.display='none';
-}
-
-function bSyncWage(){
-  var cats=['clean','it','craft'],totalU=0,ws=0,totalInc=0;
-  cats.forEach(function(c){
-    var u=v('w_'+c+'_users'),h=v('w_'+c+'_hours'),d=v('w_'+c+'_days'),o=v('w_'+c+'_order'),w=v('w_'+c+'_wage');
-    ws+=w*h*d*u;totalU+=u;totalInc+=o*h*u*d;
-  });
-  var aw=totalU>0?Math.round(ws/totalU):0;
-  document.getElementById('avgWage').value=aw;
-  document.getElementById('sales').value=Math.round(totalInc);
-  switchSub('b','sim',document.querySelectorAll('#domain-b .sub-tab')[1]);
-  bCalc();
-}
+if(sessionStorage.getItem('strat_unlocked')==='1')_unlocked=true;
 
 // ═══════════════════════════════════════════════
 // 精神科訪問看護
@@ -2280,55 +1757,10 @@ function hRenderCFChart(mExp,maxC,vpc,longR,d4R,mt,initCost){
     {type:'line',label:'累計CF',data:cumCF,borderColor:'#9333ea',backgroundColor:'#9333ea22',borderWidth:2,fill:true,tension:.3,yAxisID:'y1',pointRadius:3},
     {label:'月間収入',data:revs.map(function(r,i){return i<2?0:(i===2?revs[0]:r)}),backgroundColor:'#10b981cc',borderRadius:4,yAxisID:'y'},
     {label:'月間支出',data:exps,backgroundColor:'#ef4444cc',borderRadius:4,yAxisID:'y'}
-  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:11}}},tooltip:{callbacks:{label:function(c){return' '+c.dataset.label+': '+fmtPlain(Math.round(c.raw))+'円'}}}},scales:{y:{position:'left',grid:{color:'#f1f5f9'},ticks:{callback:function(v2){return fmtPlain(v2)}}},y1:{position:'right',grid:{drawOnChartArea:false},ticks:{callback:function(v2){return fmtPlain(v2)}}},x:{grid:{color:'#f1f5f9'}}}}});
-  var bep=cumCF.findIndex(function(v2){return v2>=0})+1;
-  document.getElementById('hBepNote').textContent=bep>0?'累計CFが黒字転換するのは約'+bep+'ヶ月目（利用者'+Math.min(Math.round(ramp*bep),maxC)+'人時点）の見込みです。':'12ヶ月以内の黒字転換が見込めません。利用者数増加ペースまたは支出を見直してください。';
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{y:{beginAtZero:true,title:{display:true,text:'月額(円)'}},y1:{position:'right',beginAtZero:true,title:{display:true,text:'累計CF(円)'},grid:{drawOnChartArea:false}}}}});
 }
 
-// ═══════════════════════════════════════════════
-// 市場調査データ読み込み
-// ═══════════════════════════════════════════════
-var bMarketChartA=null,bMarketChartB=null,hCatChartObj=null,hCityChartObj=null;
-
-function loadBMarket(){
-  fetch('/api/stats').then(r=>r.json()).then(function(d){
-    document.getElementById('bm_a_count').textContent=d.a_count+'件';
-    document.getElementById('bm_b_count').textContent=d.b_count+'件';
-    document.getElementById('bm_total').textContent=d.total+'件';
-    document.getElementById('bm_a_cap').textContent=d.a_total_capacity;
-    document.getElementById('bm_b_cap').textContent=d.b_total_capacity;
-    document.getElementById('bm_total_cap').textContent=d.total_capacity;
-    document.getElementById('bm_avg_cap').textContent=d.b_avg_capacity+'人';
-    document.getElementById('bm_pop_per_cap').textContent=Math.round(500937/d.b_total_capacity)+'人/定員1人';
-    document.getElementById('bm_updated').textContent='データ取得日: '+d.last_run+'（YM: '+d.fetched_ym+'）';
-    var tc=(d.a_total_capacity||0)+(d.b_total_capacity||0);
-    document.getElementById('bm_demand_cap').innerHTML=tc+'<small style="font-size:.7rem;color:var(--muted)">人</small>';
-    document.getElementById('bm_demand_a_cap').textContent=d.a_total_capacity||'—';
-    document.getElementById('bm_demand_b_cap').textContent=d.b_total_capacity||'—';
-    var bDR=d.b_total_capacity?Math.round(d.b_total_capacity/1505*100):0;
-    document.getElementById('bm_demand_rate').innerHTML=bDR+'<small style="font-size:.7rem;color:var(--muted)">%</small>';
-  });
-  fetch('/api/neighboring-cities').then(r=>r.json()).then(function(cities){
-    var labels=cities.map(function(c){return c.city});
-    var aData=cities.map(function(c){return c.a_count});
-    var bData=cities.map(function(c){return c.b_count});
-    var bgA=cities.map(function(c){return c.city==='市川市'?'#2563eb':'#93c5fd'});
-    var bgB=cities.map(function(c){return c.city==='市川市'?'#10b981':'#86efac'});
-
-    if(bMarketChartA)bMarketChartA.destroy();
-    bMarketChartA=new Chart(document.getElementById('bCityChartA'),{type:'bar',data:{labels:labels,datasets:[{label:'A型',data:aData,backgroundColor:bgA,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},title:{display:true,text:'A型 事業所数'}},scales:{y:{beginAtZero:true}}}});
-
-    if(bMarketChartB)bMarketChartB.destroy();
-    bMarketChartB=new Chart(document.getElementById('bCityChartB'),{type:'bar',data:{labels:labels,datasets:[{label:'B型',data:bData,backgroundColor:bgB,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},title:{display:true,text:'B型 事業所数'}},scales:{y:{beginAtZero:true}}}});
-
-    var tbody=document.getElementById('bCityBody');
-    tbody.innerHTML=cities.map(function(c){
-      var hl=c.city==='市川市'?' style="background:#eff6ff;font-weight:700"':'';
-      return '<tr'+hl+'><td>'+c.city+'</td><td style="text-align:right">'+c.a_count+'</td><td style="text-align:right">'+c.a_total_capacity+'</td><td style="text-align:right">'+c.b_count+'</td><td style="text-align:right">'+c.b_total_capacity+'</td></tr>';
-    }).join('');
-  });
-  bLoadOffices('all');bLoadLog();
-}
+var hCatChartObj=null,hCityChartObj=null;
 
 function loadHMarket(){
   fetch('/api/houmon/stats').then(r=>r.json()).then(function(d){
@@ -2376,55 +1808,10 @@ function loadHMarket(){
 }
 
 // ═══════════════════════════════════════════════
-// B型 事業所一覧・ログ
-// ═══════════════════════════════════════════════
-var bAllOfc=[],bFiltOfc=[],bOfcFilter='all',bOfcPage=1,B_PG=20;
-function _esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML;}
-
-function bFilterOffices(type,btn){
-  bOfcFilter=type;
-  document.querySelectorAll('#bOfficeTabs .mkt-tab').forEach(function(t){t.className='mkt-tab'});
-  if(btn){btn.classList.add('active');if(type==='fav')btn.classList.add('fav-on');}
-  bLoadOffices(type);
-}
-function bLoadOffices(type){
-  var url='/api/offices';
-  if(type==='fav')url+='?favorite_only=true';
-  else if(type!=='all')url+='?service_type='+encodeURIComponent(type);
-  fetch(url).then(function(r){return r.json()}).then(function(d){bAllOfc=d;bFiltOfc=d.slice();bOfcPage=1;bRenderOfc()}).catch(function(){bAllOfc=[];bFiltOfc=[];bRenderOfc()});
-}
-function bApplySearch(){
-  var q=document.getElementById('bSearchBox').value.toLowerCase();
-  bFiltOfc=bAllOfc.filter(function(o){return(o.office_name||'').toLowerCase().indexOf(q)>=0||(o.corp_name||'').toLowerCase().indexOf(q)>=0||(o.work_type||'').toLowerCase().indexOf(q)>=0||(o.address||'').toLowerCase().indexOf(q)>=0||(o.memo||'').toLowerCase().indexOf(q)>=0});
-  bOfcPage=1;bRenderOfc();
-}
-function bRenderOfc(){
-  var tb=document.getElementById('bOfficeTable'),tot=bFiltOfc.length,tp=Math.max(1,Math.ceil(tot/B_PG));
-  bOfcPage=Math.min(bOfcPage,tp);var s=(bOfcPage-1)*B_PG,sl=bFiltOfc.slice(s,s+B_PG);
-  if(!sl.length){tb.innerHTML='<tr><td colspan="8"><div class="mkt-empty">該当する事業所がありません</div></td></tr>';document.getElementById('bPageInfo').textContent='0件';document.getElementById('bPrevPage').disabled=true;document.getElementById('bNextPage').disabled=true;return;}
-  tb.innerHTML=sl.map(function(o){
-    var f=o.is_favorite==1,bg=o.service_type==='A型'?'mkt-badge-a':'mkt-badge-b',addr=(o.address||'').replace(/^千葉県市川市/,'市川市');
-    return '<tr><td style="text-align:center"><button class="mkt-fav '+(f?'on':'off')+'" onclick="bTogFav('+o.id+',this)">'+(f?'★':'☆')+'</button></td><td><span class="mkt-badge '+bg+'">'+_esc(o.service_type||'')+'</span></td><td class="mkt-wt">'+_esc(o.work_type||'')+'</td><td>'+_esc(o.office_name||'')+'</td><td style="font-size:.78rem">'+_esc(o.corp_name||'')+'</td><td style="font-size:.78rem">'+_esc(addr)+'</td><td style="text-align:center">'+_esc(o.capacity||'')+'</td><td><textarea class="mkt-memo" rows="2" placeholder="メモ" oninput="bSchM('+o.id+',this)" onblur="bDoM('+o.id+',this)">'+_esc(o.memo||'')+'</textarea></td></tr>';
-  }).join('');
-  document.getElementById('bPageInfo').textContent=(s+1)+'〜'+Math.min(s+B_PG,tot)+' / '+tot+'件';
-  document.getElementById('bPrevPage').disabled=bOfcPage<=1;document.getElementById('bNextPage').disabled=bOfcPage>=tp;
-}
-function bChangePage(d){bOfcPage+=d;bRenderOfc();}
-function bTogFav(id,btn){var on=btn.classList.contains('off');btn.textContent=on?'★':'☆';btn.className='mkt-fav '+(on?'on':'off');fetch('/api/offices/'+id+'/favorite',{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({is_favorite:on})});if(bOfcFilter==='fav')setTimeout(function(){bLoadOffices('fav')},300);}
-var bMT={};function bSchM(id,el){clearTimeout(bMT[id]);bMT[id]=setTimeout(function(){bDoM(id,el)},1000);}
-function bDoM(id,el){clearTimeout(bMT[id]);fetch('/api/offices/'+id+'/memo',{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({memo:el.value})}).then(function(){el.classList.add('saved');setTimeout(function(){el.classList.remove('saved')},1500)});}
-function bLoadLog(){
-  fetch('/api/update-log').then(function(r){return r.json()}).then(function(d){
-    var el=document.getElementById('bUpdateLog');
-    if(!d.length){el.innerHTML='<div style="color:var(--muted);font-size:.82rem;padding:6px 0">ログなし</div>';return;}
-    el.innerHTML=d.map(function(x){var sc={'success':'mkt-log-success','error':'mkt-log-error','skip':'mkt-log-skip','no_data':'mkt-log-skip'}[x.status]||'';var sl={'success':'成功','error':'エラー','skip':'スキップ','no_data':'データなし'}[x.status]||x.status;return '<div class="mkt-log-item"><span class="mkt-log-status '+sc+'">'+sl+'</span><span>'+(x.run_at||'')+'</span><span>'+(x.status==='success'?' A型:'+x.a_count+'件 B型:'+x.b_count+'件':'')+'</span></div>'}).join('');
-  });
-}
-
-// ═══════════════════════════════════════════════
 // 訪問看護 事業所一覧・ログ
 // ═══════════════════════════════════════════════
 var hAllOfc=[],hFiltOfc=[],hOfcFilter='all',hOfcPage=1,H_PG=20;
+function _esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML;}
 
 function hFilterOffices2(type,btn){
   hOfcFilter=type;
@@ -2907,7 +2294,9 @@ var GANTT_PERIODS=['8月前半','8月後半','9月前半','9月後半','10月前
 var GANTT_OWNERS=[
   {id:'boss',label:'社長（広辺）',color:'#3b82f6',bg:'#eff6ff'},
   {id:'kanai',label:'金井さん',color:'#22c55e',bg:'#f0fdf4'},
-  {id:'takita',label:'滝田さん',color:'#f59e0b',bg:'#fef3c7'}
+  {id:'takita',label:'滝田さん',color:'#f59e0b',bg:'#fef3c7'},
+  {id:'chiba',label:'千葉市',color:'#dc2626',bg:'#fef2f2'},
+  {id:'kouseikyoku',label:'厚生局等',color:'#ea580c',bg:'#fff7ed'}
 ];
 var GANTT_DEFAULT=[
   // 社長（広辺）
@@ -2918,10 +2307,15 @@ var GANTT_DEFAULT=[
   {owner:'boss',task:'物件契約・敷金等支払い（8月末）',start:1,end:1},
   {owner:'boss',task:'法人口座開設（登記完了後）',start:1,end:1},
   {owner:'boss',task:'融資・資金調達相談',start:1,end:2},
-  {owner:'boss',task:'求人票作成・媒体掲載',start:2,end:3},
-  {owner:'boss',task:'外部パート応募者面接（2名）',start:3,end:4},
-  {owner:'boss',task:'金井さん正社員雇用契約（10/1）',start:4,end:4},
-  {owner:'boss',task:'外部パート雇用契約・労務手続き',start:4,end:5},
+  {owner:'boss',task:'【採用】求人票作成（職務内容・条件・魅力の整理）',start:1,end:2},
+  {owner:'boss',task:'【採用】求人媒体掲載（Indeed・ジョブメドレー・ナースJJ等）',start:2,end:2},
+  {owner:'boss',task:'【採用】応募受付・書類選考',start:2,end:3},
+  {owner:'boss',task:'【採用】面接日程調整・面接実施（2名採用目標）',start:3,end:4},
+  {owner:'boss',task:'【採用】内定通知・条件交渉・入職意思確認',start:4,end:4},
+  {owner:'boss',task:'【採用】金井さん正社員 雇用契約（10/1〜）',start:4,end:4},
+  {owner:'boss',task:'【採用】外部パート 雇用契約締結',start:4,end:5},
+  {owner:'boss',task:'【採用】社保手続き（かめい社労士へ依頼）',start:4,end:5},
+  {owner:'boss',task:'【採用】制服・名刺・社用携帯・備品準備',start:5,end:5},
   {owner:'boss',task:'【行政】千葉市 事前相談',start:1,end:2},
   {owner:'boss',task:'【行政】千葉市 指定申請書類提出（10月上旬）',start:4,end:4},
   {owner:'boss',task:'【行政】千葉市 現地確認・審査対応',start:4,end:5},
@@ -2942,24 +2336,62 @@ var GANTT_DEFAULT=[
   {owner:'kanai',task:'記録フォーマット・シフト設計',start:3,end:3},
   {owner:'kanai',task:'【行政】指定申請書類作成（金井が主担当）',start:3,end:4},
   {owner:'kanai',task:'【行政】申請書類の社長との最終確認',start:4,end:4},
+  {owner:'kanai',task:'【採用】面接同席・看護スキル評価',start:3,end:4},
+  {owner:'kanai',task:'【採用】外部パート オリエンテーション・研修',start:5,end:5},
   {owner:'kanai',task:'精神科クリニック・病院への営業',start:4,end:5},
   {owner:'kanai',task:'退院支援チームへの挨拶・連携構築',start:4,end:5},
   {owner:'kanai',task:'関東信越厚生局 届出書類準備',start:5,end:5},
-  {owner:'kanai',task:'外部パート オリエンテーション実施',start:5,end:5},
   {owner:'kanai',task:'【加算】処遇改善加算 届出書類作成・提出',start:4,end:5},
   {owner:'kanai',task:'【加算】24h対応体制 整備計画策定（2年目届出）',start:5,end:5},
   // 滝田さん
   {owner:'takita',task:'精神科訪問看護の方針・対象者像の協議',start:0,end:1},
   {owner:'takita',task:'BCP・マニュアル レビュー（精神科視点）',start:2,end:3},
   {owner:'takita',task:'精神科看護 研修プログラム策定',start:3,end:4},
-  {owner:'takita',task:'面接協力（精神科適性の評価）',start:3,end:4},
+  {owner:'takita',task:'【採用】面接協力（精神科適性の評価）',start:3,end:4},
   {owner:'takita',task:'【加算MTG】精神科緊急対応マニュアル作成',start:4,end:5},
-  {owner:'takita',task:'非常勤パートとして勤務開始',start:6,end:6}
+  {owner:'takita',task:'非常勤パートとして勤務開始',start:6,end:6},
+  // 千葉市（行政処理）— こちらの作業ではなく行政側の処理
+  {owner:'chiba',task:'事前相談 受付・日程調整（予約から1〜2週間待ち）',start:1,end:2},
+  {owner:'chiba',task:'事前相談 実施（図面・人員確認→フィードバック）',start:2,end:3},
+  {owner:'chiba',task:'指摘事項があれば修正期間',start:3,end:3},
+  {owner:'chiba',task:'指定申請 受理期間（10/1〜10日のみ）',start:4,end:4},
+  {owner:'chiba',task:'書類審査（不備→補正指示 10/15期限）',start:4,end:5},
+  {owner:'chiba',task:'現地確認（市職員が事務所に来訪）',start:5,end:5},
+  {owner:'chiba',task:'★ 指定決定通知（11/1付）',start:5,end:5},
+  // 厚生局等（行政処理）
+  {owner:'kouseikyoku',task:'関東信越厚生局 医療保険届出 受理・審査',start:5,end:6},
+  {owner:'kouseikyoku',task:'保険医療機関コード発行',start:5,end:6},
+  {owner:'kouseikyoku',task:'生活保護法 指定処理（千葉市福祉事務所）',start:5,end:6}
 ];
 var ganttData;
-function ganttLoad(){var s=localStorage.getItem('gantt_v2');if(s){try{ganttData=JSON.parse(s)}catch(e){ganttData=JSON.parse(JSON.stringify(GANTT_DEFAULT))}}else{ganttData=JSON.parse(JSON.stringify(GANTT_DEFAULT))}}
-function ganttSave(){localStorage.setItem('gantt_v2',JSON.stringify(ganttData))}
-function ganttReset(){localStorage.removeItem('gantt_v2');ganttData=JSON.parse(JSON.stringify(GANTT_DEFAULT));ganttRender()}
+var ganttFilter='all';
+function ganttSetFilter(f,btn){
+  ganttFilter=f;
+  var btns=document.querySelectorAll('#gantt_filters .gantt-filter');
+  btns.forEach(function(b){b.style.background='#f8fafc';b.style.color=b.getAttribute('data-color')||'#334155'});
+  if(btn){btn.style.background=f==='all'?'#1e3a8a':f==='saiyou'?'#7c3aed':f==='gyosei'?'#991b1b':ganttOwnerInfo(f).color;btn.style.color='white'}
+  ganttRender();
+}
+function ganttLoad(){
+  ganttData=JSON.parse(JSON.stringify(GANTT_DEFAULT));
+  fetch('/api/gantt').then(function(r){return r.json()}).then(function(d){
+    if(d.data){try{ganttData=JSON.parse(d.data);ganttRender()}catch(e){}}
+  }).catch(function(){});
+}
+function ganttSave(){
+  var json=JSON.stringify(ganttData);
+  fetch('/api/gantt',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({data:json})});
+}
+function ganttReset(){
+  if(!confirm('初期状態に戻しますか？全メンバーに反映されます。'))return;
+  ganttData=JSON.parse(JSON.stringify(GANTT_DEFAULT));ganttSave();ganttRender();
+}
+// 30秒ごとにサーバーから最新データを取得
+setInterval(function(){
+  fetch('/api/gantt').then(function(r){return r.json()}).then(function(d){
+    if(d.data){try{var newData=JSON.parse(d.data);if(JSON.stringify(newData)!==JSON.stringify(ganttData)){ganttData=newData;ganttRender()}}catch(e){}}
+  }).catch(function(){});
+},30000);
 function ganttOwnerInfo(id){return GANTT_OWNERS.find(function(o){return o.id===id})||GANTT_OWNERS[0]}
 
 function ganttRender(){
@@ -2986,15 +2418,24 @@ function ganttRender(){
   document.getElementById('gantt_editor').innerHTML=h;
 
   // Chart
-  var sorted=ganttData.slice().sort(function(a,b){var o={boss:0,kanai:1,takita:2};return(o[a.owner]||99)-(o[b.owner]||99)});
+  var filtered=ganttData.slice();
+  if(ganttFilter==='saiyou'){filtered=filtered.filter(function(t){return t.task.indexOf('\u3010\u63a1\u7528\u3011')>=0})}
+  else if(ganttFilter==='gyosei'){filtered=filtered.filter(function(t){return t.owner==='chiba'||t.owner==='kouseikyoku'||t.task.indexOf('\u3010\u884c\u653f\u3011')>=0})}
+  else if(ganttFilter!=='all'){filtered=filtered.filter(function(t){return t.owner===ganttFilter})}
+  var sorted=filtered.sort(function(a,b){var o={boss:0,kanai:1,takita:2,chiba:3,kouseikyoku:4};return(o[a.owner]||99)-(o[b.owner]||99)});
   var c='<table style="font-size:10.5px;border-collapse:collapse;width:100%;min-width:780px">';
   c+='<thead><tr style="background:#1e3a8a;color:white"><th style="width:70px;padding:5px 3px;border:1px solid #334155;text-align:left">担当</th><th style="width:170px;padding:5px 3px;border:1px solid #334155;text-align:left">タスク</th>';
   GANTT_PERIODS.forEach(function(p,i){c+='<th style="padding:3px 1px;border:1px solid #334155;text-align:center'+(i===6?';background:#15803d':'')+'">'+p+'</th>'});
   c+='</tr></thead><tbody>';
-  var prevOwner='',ownerCounts={};
+  var prevOwner='',ownerCounts={},adminShown=false;
   sorted.forEach(function(t){ownerCounts[t.owner]=(ownerCounts[t.owner]||0)+1});
   sorted.forEach(function(t){
     var oi=ganttOwnerInfo(t.owner);
+    var isAdmin=t.owner==='chiba'||t.owner==='kouseikyoku';
+    if(isAdmin&&!adminShown){
+      adminShown=true;
+      c+='<tr><td colspan="'+(2+GANTT_PERIODS.length)+'" style="background:#991b1b;color:white;padding:6px 8px;font-weight:700;font-size:11px;border:1px solid #7f1d1d;letter-spacing:1px">\u26a0 行政機関の処理（遅延するとスケジュール全体に影響）</td></tr>';
+    }
     c+='<tr style="background:'+oi.bg+'">';
     if(t.owner!==prevOwner){
       c+='<td rowspan="'+ownerCounts[t.owner]+'" style="font-weight:700;color:'+oi.color+';border:1px solid #e5e7eb;vertical-align:top;padding:4px 3px;font-size:11px">'+oi.label.replace(/\uff08/,'<br>\uff08')+'</td>';
@@ -3004,6 +2445,7 @@ function ganttRender(){
     for(var pi=0;pi<7;pi++){
       if(pi>=t.start&&pi<=t.end){
         if(pi===6)c+='<td style="background:'+oi.color+';border:1px solid '+oi.color+';color:white;font-weight:700;text-align:center;font-size:9px">START</td>';
+        else if(isAdmin)c+='<td style="background:'+oi.color+';border:1px solid '+oi.color+';opacity:'+(pi===t.start?'1':'0.6')+';background-image:repeating-linear-gradient(45deg,transparent,transparent 3px,rgba(255,255,255,.2) 3px,rgba(255,255,255,.2) 6px)"></td>';
         else c+='<td style="background:'+oi.color+';border:1px solid '+oi.color+';opacity:'+(pi===t.start?'1':'0.65')+'"></td>';
       }else c+='<td style="border:1px solid #e5e7eb"></td>';
     }
@@ -3020,9 +2462,6 @@ function ganttAddTask(){ganttData.push({owner:'boss',task:'新しいタスク',s
 function ganttDelete(idx){if(confirm('このタスクを削除しますか？')){ganttData.splice(idx,1);ganttSave();ganttRender()}}
 
 // 初期計算
-bCalc();
-bCalcWage();
-loadBMarket();
 cfSumOpex();
 cfSumInit(8);cfSumInit(9);cfSumInit(10);
 cfCalcUnit();
@@ -3030,7 +2469,7 @@ salCalc();
 bankCalc();
 ganttLoad();
 ganttRender();
-// hCalc()とloadHMarket()はH domain表示時に実行（非表示だとChart.jsが正しく描画できない）
+loadHMarket(); // 市場調査タブが初期表示のため、ここで呼ぶ
 </script>
 </body>
 </html>
