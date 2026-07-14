@@ -6,6 +6,7 @@ FastAPI アプリケーション
 import logging
 import os
 import smtplib
+import threading
 from contextlib import asynccontextmanager
 from email.mime.text import MIMEText
 from typing import Optional
@@ -155,7 +156,11 @@ def _send_contact_email(name: str, contact: str, type: str, message: str):
 @app.post("/api/contact")
 def api_contact(body: ContactRequest):
     save_contact(body.name, body.contact, body.type, body.message)
-    _send_contact_email(body.name, body.contact, body.type, body.message)
+    threading.Thread(
+        target=_send_contact_email,
+        args=(body.name, body.contact, body.type, body.message),
+        daemon=True,
+    ).start()
     return {"ok": True}
 
 
