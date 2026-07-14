@@ -145,24 +145,23 @@ def _send_contact_email(name: str, contact: str, type: str, message: str):
     msg["From"] = gmail_user
     msg["To"] = gmail_user
     try:
-        with smtplib.SMTP("smtp.gmail.com", 587) as s:
+        with smtplib.SMTP("smtp.gmail.com", 587, timeout=10) as s:
             s.starttls()
             s.login(gmail_user, gmail_pass)
             s.send_message(msg)
         logger.info(f"お問い合わせ通知メール送信完了: {name}")
+        return "sent"
     except Exception as e:
         logger.error(f"メール送信失敗: {e}")
+        return str(e)
 
 
 @app.post("/api/contact")
 def api_contact(body: ContactRequest):
     save_contact(body.name, body.contact, body.type, body.message)
-    threading.Thread(
-        target=_send_contact_email,
-        args=(body.name, body.contact, body.type, body.message),
-        daemon=True,
-    ).start()
-    return {"ok": True}
+    # メール送信（デバッグ用に同期実行）
+    email_result = _send_contact_email(body.name, body.contact, body.type, body.message)
+    return {"ok": True, "email": email_result}
 
 
 @app.get("/api/contacts")
