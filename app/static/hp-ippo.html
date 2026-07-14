@@ -384,6 +384,17 @@
   .c-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(45,106,79,0.35); }
   .c-note { font-size: 0.75rem; color: var(--muted); text-align: center; margin-top: 12px; }
 
+  /* ── LINE友だち追加 ── */
+  .line-box { max-width: 400px; margin: 32px auto 0; background: white; border-radius: 16px; border: 2px solid #06C755; padding: 28px 24px; text-align: center; }
+  .line-box-title { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.95rem; font-weight: 800; color: #06C755; margin-bottom: 16px; }
+  .line-box-title svg { width: 24px; height: 24px; }
+  .line-qr { width: 160px; height: 160px; margin: 0 auto 16px; }
+  .line-qr img { width: 100%; height: 100%; }
+  .line-btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 32px; background: #06C755; color: white; font-size: 0.92rem; font-weight: 800; border-radius: 50px; text-decoration: none; transition: all 0.3s; box-shadow: 0 4px 12px rgba(6,199,85,0.3); }
+  .line-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(6,199,85,0.4); }
+  .line-btn svg { width: 20px; height: 20px; fill: white; }
+  .line-note { font-size: 0.72rem; color: var(--muted); margin-top: 12px; }
+
   /* ── フッター ── */
   footer { background: var(--pri-dd); color: rgba(255,255,255,0.6); padding: 52px 20px; text-align: center; font-size: 0.78rem; }
   footer .f-name { font-family: 'Noto Serif JP', serif; font-size: 1.15rem; font-weight: 700; color: white; margin-bottom: 4px; letter-spacing: 0.08em; }
@@ -913,6 +924,18 @@
       <div class="c-row"><label>メッセージ（任意）</label><textarea placeholder="ご質問・ご相談など、なんでもお気軽にどうぞ"></textarea></div>
       <button class="c-submit">送信する（※現在準備中）</button>
       <div class="c-note">※ 現在開設準備中のため、返信にお時間をいただく場合があります。</div>
+      <div class="line-box rv">
+        <div class="line-box-title">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 5.81 2 10.5c0 4.08 3.42 7.5 8.05 8.32.31.07.74.21.85.48.1.25.06.63.03.88l-.14.81c-.04.24-.19.93.82.51 1-.42 5.42-3.2 7.4-5.47C21.02 13.78 22 12.21 22 10.5 22 5.81 17.52 2 12 2z" fill="#06C755"/></svg>
+          LINE でもお気軽にどうぞ
+        </div>
+        <div class="line-qr"><img src="/static/images/line-qr.png" alt="LINE QRコード"></div>
+        <a href="https://line.me/R/ti/p/@258mztea" target="_blank" rel="noopener" class="line-btn">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 5.81 2 10.5c0 4.08 3.42 7.5 8.05 8.32.31.07.74.21.85.48.1.25.06.63.03.88l-.14.81c-.04.24-.19.93.82.51 1-.42 5.42-3.2 7.4-5.47C21.02 13.78 22 12.21 22 10.5 22 5.81 17.52 2 12 2z"/></svg>
+          友だち追加する
+        </a>
+        <div class="line-note">QRコードをスマホで読み取るか、ボタンをタップしてください</div>
+      </div>
     </div>
   </div>
 </section>
