@@ -208,7 +208,7 @@
 
   /* ── 中間CTA ── */
   .mid-cta { text-align: center; padding: 64px 20px; position: relative; overflow: hidden; }
-  .mid-cta-bg { position: absolute; inset: 0; background: linear-gradient(135deg, #3a9d6e, #4aba80 40%, #358c64); }
+  .mid-cta-bg { position: absolute; inset: 0; background: linear-gradient(135deg, #3a9d6e, #4aba80 30%, #358c64 60%, #3a9d6e); background-size: 200% 200%; animation: gradBg 8s ease infinite; }
   .mid-cta-overlay { display: none; }
   .mid-cta .mc-inner { position: relative; z-index: 1; }
   .mid-cta .mc-text { font-family: 'Noto Serif JP', serif; font-size: 1.3rem; font-weight: 700; color: white; margin-bottom: 20px; line-height: 1.9; }
@@ -379,7 +379,7 @@
   .c-row { margin-bottom: 20px; }
   .c-row label { display: block; font-size: 0.82rem; font-weight: 700; margin-bottom: 8px; }
   .c-row input, .c-row select, .c-row textarea { width: 100%; padding: 14px 18px; border: 2px solid var(--border); border-radius: 12px; font-size: 0.9rem; font-family: inherit; background: white; color: var(--text); outline: none; transition: all 0.3s; }
-  .c-row input:focus, .c-row select:focus, .c-row textarea:focus { border-color: var(--pri); box-shadow: 0 0 0 4px rgba(45,106,79,0.08); }
+  .c-row input:focus, .c-row select:focus, .c-row textarea:focus { border-color: var(--pri); box-shadow: 0 0 0 4px rgba(58,157,110,0.12), 0 0 24px rgba(58,157,110,0.08); background: linear-gradient(white, #f0fdf4); }
   .c-row textarea { height: 120px; resize: vertical; }
   .c-submit { width: 100%; padding: 17px; background: linear-gradient(135deg, var(--pri), var(--accent)); color: white; border: none; border-radius: 50px; font-size: 1rem; font-weight: 800; font-family: inherit; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 16px rgba(45,106,79,0.2); }
   .c-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(45,106,79,0.35); }
@@ -440,6 +440,70 @@
     .floating-line a { border-radius: 0; justify-content: center; padding: 16px; font-size: 0.92rem; }
     footer { padding-bottom: 64px; }
     #toTop { bottom: 72px; }
+  }
+  /* ── 躍動感アニメーション ── */
+
+  /* #1: グラデーション文字アニメ */
+  .section-ttl {
+    background: linear-gradient(90deg, var(--pri-d), var(--gold), var(--pri), var(--pri-d));
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradText 6s ease infinite;
+  }
+  @keyframes gradText { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+  /* #2: バウンス付きホバー */
+  @media (hover: hover) {
+    .srv-card, .pain-card, .target-card, .jihi-card, .voice-card { transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.4s ease !important; }
+  }
+
+  /* #4: グラデーション背景アニメ */
+  @keyframes gradBg { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+  /* #5: 浮遊装飾 */
+  #concept, #flow { overflow: hidden; }
+  .floating-deco { position: absolute; border-radius: 50%; pointer-events: none; z-index: 0; }
+  .floating-deco.sq { border-radius: 4px; }
+  @keyframes floatDeco1 { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-18px) rotate(8deg); } }
+  @keyframes floatDeco2 { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-12px) rotate(-6deg); } }
+  @keyframes floatDeco3 { 0%,100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-15px) scale(1.1); } }
+  .fd-1 { animation: floatDeco1 4s ease-in-out infinite; }
+  .fd-2 { animation: floatDeco2 5s ease-in-out 0.5s infinite; }
+  .fd-3 { animation: floatDeco3 6s ease-in-out 1s infinite; }
+  @media (max-width: 768px) { .floating-deco { display: none; } }
+
+  /* #6: マーキー */
+  .marquee-strip { overflow: hidden; white-space: nowrap; padding: 18px 0; background: var(--pri-l); border-top: 1px solid rgba(58,157,110,0.08); border-bottom: 1px solid rgba(58,157,110,0.08); }
+  .marquee-inner { display: inline-flex; animation: marqueeScroll 20s linear infinite; }
+  .marquee-inner span { display: inline-block; padding: 0 28px; font-size: 0.85rem; font-weight: 700; color: var(--pri-d); letter-spacing: 0.08em; }
+  .marquee-inner span::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--gold); margin-right: 10px; vertical-align: middle; }
+  @keyframes marqueeScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  /* #7: タイプライター */
+  .typewriter-cursor { display: inline-block; width: 2px; height: 1.1em; background: var(--pri-d); margin-left: 2px; vertical-align: text-bottom; animation: twBlink 0.8s step-end infinite; }
+  @keyframes twBlink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+
+  /* #8: ボタンリップル */
+  .ripple-effect { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.35); transform: scale(0); animation: rippleAnim 0.6s ease-out; pointer-events: none; }
+  @keyframes rippleAnim { to { transform: scale(4); opacity: 0; } }
+
+  /* #14: 画像クリップパス */
+  .clip-reveal { clip-path: inset(0 100% 0 0); transition: clip-path 1.2s cubic-bezier(0.16,1,0.3,1); }
+  .clip-reveal.v { clip-path: inset(0 0 0 0); }
+
+  /* #15: ウェーブ区切り */
+  .wave-divider { position: relative; height: 50px; overflow: hidden; margin-top: -1px; z-index: 3; }
+  .wave-divider svg { position: absolute; bottom: 0; width: 200%; height: 100%; animation: waveDrift 8s ease-in-out infinite alternate; }
+  @keyframes waveDrift { 0% { transform: translateX(0); } 100% { transform: translateX(-25%); } }
+
+  /* アクセシビリティ: モーション軽減 */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+    .marquee-inner { animation: none; }
+    .floating-deco { display: none; }
+    .section-ttl { animation: none; -webkit-text-fill-color: var(--pri-d); }
   }
 </style>
 </head>
@@ -513,6 +577,11 @@
 
 <!-- いっぽの思い -->
 <section id="concept">
+  <!-- 浮遊装飾 -->
+  <div class="floating-deco fd-1" style="top:15%;left:8%;width:14px;height:14px;background:rgba(58,157,110,0.08);"></div>
+  <div class="floating-deco fd-2 sq" style="top:30%;right:10%;width:10px;height:10px;background:rgba(201,169,110,0.1);transform:rotate(15deg);"></div>
+  <div class="floating-deco fd-3" style="bottom:20%;left:12%;width:8px;height:8px;background:rgba(125,211,168,0.12);"></div>
+  <div class="floating-deco fd-1" style="top:60%;right:6%;width:12px;height:12px;background:rgba(58,157,110,0.06);"></div>
   <div class="concept-inner">
     <div class="section-label rv">OUR NAME</div>
     <div class="concept-name rv-blur">いっぽ</div>
@@ -533,6 +602,14 @@
     </div>
   </div>
 </section>
+
+<!-- #6: マーキー（流れるテキスト） -->
+<div class="marquee-strip">
+  <div class="marquee-inner">
+    <span>こころに寄り添う</span><span>精神科訪問看護</span><span>大学病院出身チーム</span><span>週1回からOK</span><span>あなたのペースで</span><span>自立支援医療対応</span><span>ご家族もサポート</span><span>千葉市中央区</span>
+    <span>こころに寄り添う</span><span>精神科訪問看護</span><span>大学病院出身チーム</span><span>週1回からOK</span><span>あなたのペースで</span><span>自立支援医療対応</span><span>ご家族もサポート</span><span>千葉市中央区</span>
+  </div>
+</div>
 
 <!-- スタッフメッセージ -->
 <section id="message">
@@ -607,6 +684,11 @@
     </div>
   </div>
 </section>
+
+<!-- #15: ウェーブ区切り -->
+<div class="wave-divider" style="background:var(--warm);">
+  <svg viewBox="0 0 1200 60" preserveAspectRatio="none"><path d="M0,30 C150,55 350,0 600,30 C850,60 1050,5 1200,30 L1200,60 L0,60Z" fill="white"/></svg>
+</div>
 
 <!-- お悩み -->
 <section id="pain">
@@ -703,6 +785,11 @@
   </div>
 </div>
 
+<!-- #15: ウェーブ区切り -->
+<div class="wave-divider" style="background:var(--bg);">
+  <svg viewBox="0 0 1200 60" preserveAspectRatio="none"><path d="M0,20 C200,50 400,0 600,25 C800,50 1000,10 1200,30 L1200,60 L0,60Z" fill="white"/></svg>
+</div>
+
 <!-- サービス内容（SVGアイコン） -->
 <section id="services">
   <div class="wrap">
@@ -779,6 +866,11 @@
 
 <!-- 利用者の声（開業後に追加予定） -->
 
+<!-- #15: ウェーブ区切り -->
+<div class="wave-divider" style="background:var(--bg);">
+  <svg viewBox="0 0 1200 60" preserveAspectRatio="none"><path d="M0,35 C180,10 380,55 600,28 C820,0 1020,50 1200,25 L1200,60 L0,60Z" fill="white"/></svg>
+</div>
+
 <!-- 対象の方 -->
 <section id="target">
   <div class="wrap">
@@ -799,6 +891,10 @@
 
 <!-- ご利用の流れ -->
 <section id="flow">
+  <!-- 浮遊装飾 -->
+  <div class="floating-deco fd-2" style="top:12%;right:8%;width:12px;height:12px;background:rgba(58,157,110,0.07);"></div>
+  <div class="floating-deco fd-3 sq" style="bottom:18%;left:6%;width:10px;height:10px;background:rgba(201,169,110,0.09);"></div>
+  <div class="floating-deco fd-1" style="top:50%;left:4%;width:8px;height:8px;background:rgba(125,211,168,0.1);"></div>
   <div class="wrap">
     <div class="section-label rv">HOW TO START</div>
     <div class="section-ttl rv-blur serif">ご利用の流れ</div>
@@ -1033,13 +1129,16 @@ window.addEventListener('load', function() { setTimeout(function() { document.ge
 
 function updateScrollProgress() { var h = document.documentElement.scrollHeight - window.innerHeight; document.getElementById('scrollProgress').style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%'; }
 
-// パーティクル
+// パーティクル（#12: マウス反応付き）
 (function() {
   var c = document.getElementById('hero-canvas'), ctx = c.getContext('2d'), ps = [], N = 40;
+  var mx = -1000, my = -1000;
   function resize() { var h = document.getElementById('hero'); c.width = h.offsetWidth; c.height = h.offsetHeight; }
   resize(); window.addEventListener('resize', resize);
+  c.addEventListener('mousemove', function(e) { var rect = c.getBoundingClientRect(); mx = e.clientX - rect.left; my = e.clientY - rect.top; });
+  c.addEventListener('mouseleave', function() { mx = -1000; my = -1000; });
   for (var i = 0; i < N; i++) { var t = Math.random(); ps.push({ x: Math.random()*c.width, y: Math.random()*c.height, r: t<0.3 ? Math.random()*25+12 : Math.random()*5+2, dx: (Math.random()-0.5)*0.12, dy: -(Math.random()*0.08+0.02), o: t<0.3 ? Math.random()*0.05+0.02 : Math.random()*0.12+0.05, ph: Math.random()*Math.PI*2, co: t<0.3 ? '125,211,168' : (t<0.55 ? '94,196,146' : (t<0.75 ? '201,169,110' : '240,200,80')) }); }
-  function draw() { ctx.clearRect(0,0,c.width,c.height); var t=Date.now()*0.001; for(var i=0;i<N;i++){var p=ps[i];p.x+=p.dx+Math.sin(t*0.4+p.ph)*0.08;p.y+=p.dy;if(p.y<-30){p.y=c.height+30;p.x=Math.random()*c.width;}if(p.x<-30||p.x>c.width+30)p.x=Math.random()*c.width;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba('+p.co+','+(p.o*(0.5+0.5*Math.sin(t+p.ph)))+')';ctx.fill();} requestAnimationFrame(draw); }
+  function draw() { ctx.clearRect(0,0,c.width,c.height); var t=Date.now()*0.001; for(var i=0;i<N;i++){var p=ps[i]; var ddx=0,ddy=0; var dist=Math.sqrt((p.x-mx)*(p.x-mx)+(p.y-my)*(p.y-my)); if(dist<120&&dist>0){var force=(120-dist)/120*1.8;ddx=(p.x-mx)/dist*force;ddy=(p.y-my)/dist*force;} p.x+=p.dx+Math.sin(t*0.4+p.ph)*0.08+ddx;p.y+=p.dy+ddy;if(p.y<-30){p.y=c.height+30;p.x=Math.random()*c.width;}if(p.x<-30||p.x>c.width+30)p.x=Math.random()*c.width;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba('+p.co+','+(p.o*(0.5+0.5*Math.sin(t+p.ph)))+')';ctx.fill();} requestAnimationFrame(draw); }
   draw();
 })();
 
@@ -1175,6 +1274,111 @@ sections.forEach(function(sec) { activeObs.observe(sec); });
 var counted=false;
 var tObs=new IntersectionObserver(function(e){if(e[0].isIntersecting&&!counted){counted=true;var el=document.querySelector('.tb-num[data-target]');if(el){var tgt=parseInt(el.getAttribute('data-target')),cur=0;(function step(){cur++;el.innerHTML=cur+'<small>年以上</small>';if(cur<tgt)setTimeout(step,120);})();}}},{threshold:0.5});
 tObs.observe(document.getElementById('trust-bar'));
+
+// ── 躍動感アニメーション JS ──
+
+// #7: タイプライター（コンセプトフッター文）
+(function() {
+  var el = document.querySelector('.concept-footer');
+  if (!el) return;
+  var text = el.textContent.trim();
+  el.textContent = '';
+  var twTyped = false;
+  var twObs = new IntersectionObserver(function(entries) {
+    if (entries[0].isIntersecting && !twTyped) {
+      twTyped = true;
+      el.innerHTML = '<span class="tw-text"></span><span class="typewriter-cursor"></span>';
+      var tw = el.querySelector('.tw-text');
+      var i = 0;
+      setTimeout(function typeChar() {
+        if (i < text.length) { tw.textContent += text[i]; i++; setTimeout(typeChar, 80); }
+        else { setTimeout(function() { var cur = el.querySelector('.typewriter-cursor'); if (cur) cur.style.opacity = '0'; }, 2000); }
+      }, 400);
+    }
+  }, { threshold: 0.5 });
+  twObs.observe(el);
+})();
+
+// #8: ボタンリップル
+document.addEventListener('click', function(e) {
+  var btn = e.target.closest('.btn-p, .btn-outline, .btn-white, .c-submit');
+  if (!btn) return;
+  var rect = btn.getBoundingClientRect();
+  var ripple = document.createElement('span');
+  ripple.className = 'ripple-effect';
+  var size = Math.max(rect.width, rect.height);
+  ripple.style.width = ripple.style.height = size + 'px';
+  ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
+  ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
+  btn.style.position = 'relative';
+  btn.style.overflow = 'hidden';
+  btn.appendChild(ripple);
+  setTimeout(function() { ripple.remove(); }, 600);
+});
+
+// #9-12: デスクトップのみインタラクティブ
+if (window.matchMedia('(hover: hover)').matches) {
+  // #9: マグネットボタン
+  document.querySelectorAll('.btn-p, .btn-outline, .btn-white').forEach(function(btn) {
+    btn.addEventListener('mousemove', function(e) {
+      var rect = btn.getBoundingClientRect();
+      var x = e.clientX - rect.left - rect.width/2;
+      var y = e.clientY - rect.top - rect.height/2;
+      btn.style.transform = 'translate(' + (x*0.12) + 'px,' + (y*0.12) + 'px)';
+    });
+    btn.addEventListener('mouseleave', function() { btn.style.transform = ''; });
+  });
+
+  // #10: カード3Dチルト
+  document.querySelectorAll('.srv-card, .pain-card').forEach(function(card) {
+    card.addEventListener('mousemove', function(e) {
+      var rect = card.getBoundingClientRect();
+      var x = (e.clientX - rect.left) / rect.width - 0.5;
+      var y = (e.clientY - rect.top) / rect.height - 0.5;
+      card.style.transform = 'perspective(600px) rotateY(' + (x*8) + 'deg) rotateX(' + (-y*8) + 'deg) translateY(-6px)';
+    });
+    card.addEventListener('mouseleave', function() { card.style.transform = ''; });
+  });
+
+  // #11: ヒーローマウスパララックス
+  var hSec = document.getElementById('hero');
+  var hBadge = hSec.querySelector('.hero-badge');
+  var hCatch = hSec.querySelector('.hero-catch');
+  var hDesc = hSec.querySelector('.hero-desc');
+  hSec.addEventListener('mousemove', function(e) {
+    var rect = hSec.getBoundingClientRect();
+    var x = (e.clientX - rect.left) / rect.width - 0.5;
+    var y = (e.clientY - rect.top) / rect.height - 0.5;
+    if (hBadge) hBadge.style.transform = 'translate(' + (x*15) + 'px,' + (y*10) + 'px)';
+    if (hCatch) hCatch.style.transform = 'translate(' + (x*8) + 'px,' + (y*6) + 'px)';
+    if (hDesc) hDesc.style.transform = 'translate(' + (x*5) + 'px,' + (y*4) + 'px)';
+  });
+  hSec.addEventListener('mouseleave', function() {
+    [hBadge, hCatch, hDesc].forEach(function(el) { if (el) el.style.transform = ''; });
+  });
+}
+
+// #13: カードスタガー（グリッド内を120ms間隔で順番登場）
+var gridStaggerObs = new IntersectionObserver(function(entries) {
+  entries.forEach(function(en) {
+    if (en.isIntersecting) {
+      var children = en.target.querySelectorAll('.rv, .rv-rotate, .rv-l, .rv-r, .rv-s');
+      children.forEach(function(child, i) { child.style.transitionDelay = (i * 0.12) + 's'; });
+      gridStaggerObs.unobserve(en.target);
+    }
+  });
+}, { threshold: 0.05 });
+document.querySelectorAll('.srv-grid, .pain-grid, .target-grid, .flow-steps').forEach(function(grid) { gridStaggerObs.observe(grid); });
+
+// #14: 画像クリップパス（写真がスライドして現れる）
+document.querySelectorAll('.reason-photo').forEach(function(photo) {
+  photo.classList.remove('rv-l', 'rv-r');
+  photo.classList.add('clip-reveal');
+});
+var clipObs = new IntersectionObserver(function(entries) {
+  entries.forEach(function(en) { if (en.isIntersecting) en.target.classList.add('v'); });
+}, { threshold: 0.15 });
+document.querySelectorAll('.clip-reveal').forEach(function(el) { clipObs.observe(el); });
 </script>
 </body>
 </html>
