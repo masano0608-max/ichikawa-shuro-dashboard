@@ -139,6 +139,8 @@
   .hero-scroll-line::after { content: ''; position: absolute; top: -100%; left: 0; width: 100%; height: 50%; background: linear-gradient(to bottom, transparent, var(--gold)); animation: scrollLine 2s ease-in-out infinite; }
   @keyframes scrollLine { 0% { top: -50%; } 100% { top: 100%; } }
   @media (max-width: 768px) { #hero { min-height: 92vh; } .hero-content { padding: 100px 24px 60px; } .hero-catch { font-size: 1.8rem; line-height: 1.9; } }
+  /* モバイルで不要なbrを非表示 */
+  @media (max-width: 768px) { .br-pc { display: none; } }
 
   /* ── 信頼バー ── */
   #trust-bar { background: white; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 0; }
@@ -556,7 +558,7 @@
   <div class="hero-content">
     <div class="hero-badge">千葉市中央区 2026年11月 開設予定</div>
     <h1 class="hero-catch serif">しんどい日も、<br><em>ひとりじゃない。</em></h1>
-    <p class="hero-desc">「誰にも言えない」「どこに相談すればいいかわからない」<br>そんなあなたの暮らしに、看護師が会いに行きます。<br>大学病院精神科出身のチームが、あなたのペースで寄り添います。<br><span style="font-size:0.82rem;color:var(--gold-d);">中国語での対応も可能です（可以用中文沟通）</span></p>
+    <p class="hero-desc">「誰にも言えない」「どこに相談すればいいかわからない」<br class="br-pc">そんなあなたの暮らしに、看護師が会いに行きます。<br class="br-pc">大学病院精神科出身のチームが、あなたのペースで寄り添います。<br><span style="font-size:0.82rem;color:var(--gold-d);">中国語での対応も可能です（可以用中文沟通）</span></p>
     <div class="hero-btns">
       <a href="#contact" class="btn-p">まずは相談してみる →</a>
       <a href="#reasons" class="btn-outline">いっぽが選ばれる理由</a>
@@ -588,14 +590,13 @@
     <div class="concept-name-en rv">IPPO — ONE STEP</div>
     <div class="concept-line rv"></div>
     <div class="concept-text rv" style="transition-delay:0.1s">
-      回復は、いきなり大きく変わるものではありません。<br>
-      昨日より少しだけ長く眠れた。<br>
-      今日は一回だけ外に出てみた。<br>
-      そんな<em>小さな「いっぽ」</em>の積み重ねが、<br>
-      あなたの暮らしを少しずつ変えていきます。<br><br>
-      一人でも、誰かと一緒でも。<br>
-      <em>つながり合い、支え合いながら歩んでいく。</em><br>
-      その最初の一歩を、私たちと一緒に踏み出しませんか。
+      回復は、いきなり大きく変わるものではありません。<br class="br-pc">
+      昨日より少しだけ長く眠れた。<br class="br-pc">
+      今日は一回だけ外に出てみた。<br class="br-pc">
+      そんな<em>小さな「いっぽ」</em>の積み重ねが、あなたの暮らしを少しずつ変えていきます。
+      <span style="display:block;margin-top:1em;">一人でも、誰かと一緒でも。<br class="br-pc">
+      <em>つながり合い、支え合いながら歩んでいく。</em><br class="br-pc">
+      その最初の一歩を、私たちと一緒に踏み出しませんか。</span>
     </div>
     <div class="concept-footer rv" style="transition-delay:0.2s">
       あなたの一歩に、寄り添う看護を。
@@ -671,8 +672,8 @@
         そこからの暮らしを、一緒に支えたい。
       </div>
       <div class="msg-body-text rv" style="transition-delay:0.2s">
-        大学病院の精神科で看護師として働く中で、退院した患者さんが<strong>「誰にも相談できない」</strong>と孤立し、再入院を繰り返す姿を何度も見てきました。<br><br>
-        精神疾患は目に見えにくいからこそ、<strong>定期的に会いに行く訪問看護が大きな力になれる</strong>と信じています。あなたの「しんどい」を、ちゃんと聴ける場所でありたい。
+        大学病院の精神科で看護師として働く中で、退院した患者さんが<strong>「誰にも相談できない」</strong>と孤立し、再入院を繰り返す姿を何度も見てきました。
+        <span style="display:block;margin-top:0.8em;">精神疾患は目に見えにくいからこそ、<strong>定期的に会いに行く訪問看護が大きな力になれる</strong>と信じています。あなたの「しんどい」を、ちゃんと聴ける場所でありたい。</span>
       </div>
       <div class="msg-sig rv" style="transition-delay:0.3s">
         <div class="msg-sig-dot"></div>
@@ -724,8 +725,8 @@
       </div>
     </div>
     <div class="pain-answer rv-s">
-      <div class="pa-title serif">その気持ち、<br>「いっぽ」に話してみませんか。</div>
-      <p>看護師があなたのお家に訪問して、<br>体調のこと、気持ちのこと、生活のこと、<br>なんでも一緒に考えます。</p>
+      <div class="pa-title serif">その気持ち、<br class="br-pc">「いっぽ」に話してみませんか。</div>
+      <p>看護師があなたのお家に訪問して、体調のこと、気持ちのこと、生活のこと、なんでも一緒に考えます。</p>
     </div>
   </div>
 </section>
@@ -739,36 +740,36 @@
     <div class="reason-item">
       <div class="reason-photo rv-l shimmer-on-reveal">
         <div class="rp-fallback rp-1"></div>
-        <img src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=800&q=80" alt="聴診器のクローズアップ" onerror="this.style.display='none'">
+        <img src="/static/images/nurse.png" alt="看護師" onerror="this.style.display='none'">
       </div>
       <div class="rv-r">
         <div class="reason-num">REASON 01</div>
-        <div class="reason-title serif">大学病院精神科出身の<br>看護師チーム</div>
-        <div class="reason-desc">管理者は<strong>慶應義塾大学病院の精神科で7年以上</strong>勤務した看護師。急性期から回復期まで、あらゆるフェーズの患者さんと向き合ってきた経験があります。<br><br>「精神科の訪問看護が初めて」という方でも、安心してお任せください。</div>
+        <div class="reason-title serif">大学病院精神科出身の<br class="br-pc">看護師チーム</div>
+        <div class="reason-desc">管理者は<strong>慶應義塾大学病院の精神科で7年以上</strong>勤務した看護師。急性期から回復期まで、あらゆるフェーズの患者さんと向き合ってきた経験があります。<span style="display:block;margin-top:0.8em;">「精神科の訪問看護が初めて」という方でも、安心してお任せください。</span></div>
         <div class="reason-tags"><span>精神科経験7年+</span><span>大学病院出身</span><span>専門看護師</span></div>
       </div>
     </div>
     <div class="reason-item">
       <div class="reason-photo rv-r shimmer-on-reveal">
         <div class="rp-fallback rp-2"></div>
-        <img src="https://images.unsplash.com/photo-1610986719243-7cdf28a29772?auto=format&fit=crop&w=800&q=80" alt="手を取り合うケア" onerror="this.style.display='none'">
+        <img src="/static/images/nurse.jpg" alt="訪問看護のケア" onerror="this.style.display='none'">
       </div>
       <div class="rv-l">
         <div class="reason-num">REASON 02</div>
-        <div class="reason-title serif">こころもからだも、<br>まるごと看る</div>
-        <div class="reason-desc">精神科のケアだけではありません。血圧測定、服薬管理、生活リズムの相談、社会復帰の支援まで——<strong>あなたの暮らしをまるごとサポート</strong>します。<br><br>「こころ」と「からだ」を分けず、人として向き合うことが、いっぽの看護です。</div>
+        <div class="reason-title serif">こころもからだも、<br class="br-pc">まるごと看る</div>
+        <div class="reason-desc">精神科のケアだけではありません。血圧測定、服薬管理、生活リズムの相談、社会復帰の支援まで——<strong>あなたの暮らしをまるごとサポート</strong>します。<span style="display:block;margin-top:0.8em;">「こころ」と「からだ」を分けず、人として向き合うことが、いっぽの看護です。</span></div>
         <div class="reason-tags"><span>身体ケアも対応</span><span>服薬管理</span><span>生活支援</span></div>
       </div>
     </div>
     <div class="reason-item">
       <div class="reason-photo rv-l shimmer-on-reveal">
         <div class="rp-fallback rp-3"></div>
-        <img src="https://images.unsplash.com/photo-1768489529761-a96e8634c105?auto=format&fit=crop&w=800&q=80" alt="一歩を踏み出す足元" onerror="this.style.display='none'">
+        <img src="https://images.unsplash.com/photo-1626794174544-c3200f10e32b?auto=format&fit=crop&w=800&q=80" alt="やさしい光" onerror="this.style.display='none'">
       </div>
       <div class="rv-r">
         <div class="reason-num">REASON 03</div>
-        <div class="reason-title serif">あなたのペースで、<br>無理のない一歩から</div>
-        <div class="reason-desc">週1回、30分の訪問からスタートできます。「今日は話すだけ」でも大丈夫。調子が良くなってきたら回数を減らすことも。<br><br><strong>あなたが決めるペース</strong>を大切にします。小さな一歩を、一緒に積み重ねていきましょう。</div>
+        <div class="reason-title serif">あなたのペースで、<br class="br-pc">無理のない一歩から</div>
+        <div class="reason-desc">週1回、30分の訪問からスタートできます。「今日は話すだけ」でも大丈夫。調子が良くなってきたら回数を減らすことも。<span style="display:block;margin-top:0.8em;"><strong>あなたが決めるペース</strong>を大切にします。小さな一歩を、一緒に積み重ねていきましょう。</span></div>
         <div class="reason-tags"><span>週1回〜OK</span><span>30分から</span><span>柔軟な対応</span></div>
       </div>
     </div>
@@ -780,7 +781,7 @@
   <div class="mid-cta-bg parallax-bg"></div>
   <div class="mid-cta-overlay"></div>
   <div class="mc-inner">
-    <div class="mc-text serif rv-blur">「こんな悩みでも相談していいの？」<br>はい、大丈夫です。まずは気軽にご連絡ください。</div>
+    <div class="mc-text serif rv-blur">「こんな悩みでも相談していいの？」<br class="br-pc">はい、大丈夫です。まずは気軽にご連絡ください。</div>
     <a href="#contact" class="btn-white rv" style="transition-delay:0.2s">無料で相談する →</a>
   </div>
 </div>
@@ -938,8 +939,8 @@
     <!-- 自費パネル -->
     <div class="cost-panel" id="costPanel1">
       <div class="jihi-intro rv-s">
-        <h3 serif>保険を使わない、もうひとつの選択肢</h3>
-        <p>「保険の枠にとらわれず、もっと柔軟にサポートしてほしい」<br>そんなご要望にお応えする自費サービスをご用意しています。<br>時間・内容・曜日をオーダーメイドでお選びいただけます。</p>
+        <h3 class="serif">保険を使わない、もうひとつの選択肢</h3>
+        <p>「保険の枠にとらわれず、もっと柔軟にサポートしてほしい」——そんなご要望にお応えする自費サービスをご用意しています。時間・内容・曜日をオーダーメイドでお選びいただけます。</p>
       </div>
       <div class="jihi-grid">
         <div class="jihi-card rv" style="transition-delay:0.05s">
@@ -1012,7 +1013,7 @@
       <tr><th>所在地</th><td>千葉市中央区（詳細は開設時に確定）</td></tr>
       <tr><th>開設予定</th><td>2026年11月</td></tr>
       <tr><th>サービス種別</th><td>訪問看護（医療保険・自立支援医療対応）／自費看護サービス</td></tr>
-      <tr><th>得意分野</th><td>精神科看護（うつ病・統合失調症・双極性障害・不安障害・発達障害 等）<br>※ 精神科以外の疾患・お悩みにも幅広く対応いたします</td></tr>
+      <tr><th>得意分野</th><td>精神科看護（うつ病・統合失調症・双極性障害・不安障害・発達障害 等）<br class="br-pc">※ 精神科以外の疾患・お悩みにも幅広く対応いたします</td></tr>
       <tr><th>対応言語</th><td>日本語 ／ 中国語（可以用中文沟通）</td></tr>
       <tr><th>訪問エリア</th><td>千葉市 中央区を中心に、周辺地域にも対応</td></tr>
       <tr><th>営業日</th><td>月曜〜金曜（土曜応相談・自費サービスは土日祝対応可）</td></tr>
@@ -1027,7 +1028,7 @@
   <div class="wrap">
     <div class="section-label rv">CONTACT</div>
     <div class="section-ttl rv-blur serif">お問い合わせ</div>
-    <div class="section-sub rv">ご相談・ご質問など、お気軽にどうぞ。ご本人でもご家族でも大歓迎です。<br><span style="font-size:0.85rem;">メールでのお問い合わせ：<a href="mailto:ayumi.godo@gmail.com" style="color:var(--pri);font-weight:700;">ayumi.godo@gmail.com</a></span></div>
+    <div class="section-sub rv">ご相談・ご質問など、お気軽にどうぞ。ご本人でもご家族でも大歓迎です。<br class="br-pc"><span style="font-size:0.85rem;">メールでのお問い合わせ：<a href="mailto:ayumi.godo@gmail.com" style="color:var(--pri);font-weight:700;">ayumi.godo@gmail.com</a></span></div>
     <div class="contact-inner rv">
       <div class="c-row"><label>お名前 *</label><input id="cf-name" type="text" placeholder="例：田中 花子"></div>
       <div class="c-row"><label>電話番号またはメールアドレス *</label><input id="cf-contact" type="text" placeholder="090-0000-0000 または example@mail.com"></div>
