@@ -39,8 +39,7 @@
   #loader { position: fixed; inset: 0; z-index: 10000; background: #f6fdf9; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.6s ease; }
   #loader.hide { opacity: 0; visibility: hidden; pointer-events: none; }
   .loader-img { width: 120px; height: 120px; animation: loaderPulse 1.5s ease-in-out infinite; }
-  .loader-sub { font-size: 0.68rem; color: var(--gold); margin-top: 14px; letter-spacing: 0.25em; font-weight: 600; }
-  .loader-bar { width: 100px; height: 2px; background: rgba(58,157,110,0.12); border-radius: 2px; margin-top: 16px; overflow: hidden; }
+  .loader-bar { width: 100px; height: 2px; background: rgba(58,157,110,0.12); border-radius: 2px; margin-top: 20px; overflow: hidden; }
   .loader-bar::after { content: ''; display: block; width: 40%; height: 100%; background: var(--pri); border-radius: 2px; animation: loaderSlide 1s ease-in-out infinite; }
   @keyframes loaderSlide { 0% { transform: translateX(-100%); } 100% { transform: translateX(350%); } }
   @keyframes loaderPulse { 0%,100% { transform: scale(1); opacity: 0.9; } 50% { transform: scale(1.05); opacity: 1; } }
@@ -513,9 +512,7 @@
   .ripple-effect { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.35); transform: scale(0); animation: rippleAnim 0.6s ease-out; pointer-events: none; }
   @keyframes rippleAnim { to { transform: scale(4); opacity: 0; } }
 
-  /* #14: 画像クリップパス */
-  .clip-reveal { clip-path: inset(0 100% 0 0); transition: clip-path 1.2s cubic-bezier(0.16,1,0.3,1); }
-  .clip-reveal.v { clip-path: inset(0 0 0 0); }
+  /* #14: 画像クリップパス（無効化 — 表示不具合のため通常フェードに統一） */
 
   /* #15: ウェーブ区切り */
   .wave-divider { position: relative; height: 50px; overflow: hidden; margin-top: -1px; z-index: 3; }
@@ -537,7 +534,6 @@
 
 <div id="loader">
   <img src="/static/images/logo-ippo.png" alt="いっぽ" class="loader-img">
-  <div class="loader-sub">VISITING NURSING STATION IPPO</div>
   <div class="loader-bar"></div>
 </div>
 
@@ -1393,15 +1389,7 @@ var gridStaggerObs = new IntersectionObserver(function(entries) {
 }, { threshold: 0.05 });
 document.querySelectorAll('.srv-grid, .pain-grid, .target-grid, .flow-steps').forEach(function(grid) { gridStaggerObs.observe(grid); });
 
-// #14: 画像クリップパス（写真がスライドして現れる）
-document.querySelectorAll('.reason-photo').forEach(function(photo) {
-  photo.classList.remove('rv-l', 'rv-r');
-  photo.classList.add('clip-reveal');
-});
-var clipObs = new IntersectionObserver(function(entries) {
-  entries.forEach(function(en) { if (en.isIntersecting) en.target.classList.add('v'); });
-}, { threshold: 0.15 });
-document.querySelectorAll('.clip-reveal').forEach(function(el) { clipObs.observe(el); });
+// #14: 画像はrv-l/rv-rの通常フェードインで表示
 </script>
 </body>
 </html>
