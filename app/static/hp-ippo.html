@@ -36,13 +36,13 @@
   #scrollProgress { position: fixed; top: 0; left: 0; height: 3px; z-index: 9999; background: linear-gradient(90deg, var(--pri-m), var(--gold), var(--pri)); width: 0; transition: width 0.05s linear; }
 
   /* ── ローダー ── */
-  #loader { position: fixed; inset: 0; z-index: 10000; background: linear-gradient(135deg, #f0fdf4, #fef9ec, #f0fdf4); display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.8s, visibility 0.8s; }
+  #loader { position: fixed; inset: 0; z-index: 10000; background: #f6fdf9; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.6s ease; }
   #loader.hide { opacity: 0; visibility: hidden; pointer-events: none; }
-  .loader-ring { width: 56px; height: 56px; border-radius: 50%; border: 3px solid rgba(58,157,110,0.12); border-top-color: var(--pri); animation: spin 0.9s linear infinite; margin-bottom: 28px; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .loader-logo { font-family: 'Noto Serif JP', serif; font-size: 1.8rem; color: var(--pri-d); font-weight: 700; letter-spacing: 0.15em; opacity: 0; animation: fadeUp 0.6s 0.3s forwards; }
-  .loader-sub { font-size: 0.72rem; color: var(--gold); margin-top: 8px; letter-spacing: 0.25em; font-weight: 600; opacity: 0; animation: fadeUp 0.6s 0.5s forwards; }
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .loader-logo { font-family: 'Noto Serif JP', serif; font-size: 1.6rem; color: var(--pri-d); font-weight: 700; letter-spacing: 0.15em; }
+  .loader-sub { font-size: 0.68rem; color: var(--gold); margin-top: 6px; letter-spacing: 0.25em; font-weight: 600; }
+  .loader-bar { width: 120px; height: 2px; background: rgba(58,157,110,0.12); border-radius: 2px; margin-top: 20px; overflow: hidden; }
+  .loader-bar::after { content: ''; display: block; width: 40%; height: 100%; background: var(--pri); border-radius: 2px; animation: loaderSlide 1s ease-in-out infinite; }
+  @keyframes loaderSlide { 0% { transform: translateX(-100%); } 100% { transform: translateX(350%); } }
 
   /* ── アニメ共通 ── */
   .rv { opacity: 0; transform: translateY(50px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
@@ -103,7 +103,15 @@
   .nav-drawer.open { display: flex; transform: translateY(0); opacity: 1; }
   .nav-drawer a { color: var(--text); text-decoration: none; padding: 18px 28px; font-size: 0.95rem; font-weight: 700; border-bottom: 1px solid var(--border); transition: all 0.2s; }
   .nav-drawer a:hover { background: var(--pri-l); padding-left: 36px; color: var(--pri); }
-  @media (max-width: 768px) { .nav-links { display: none; } .nav-burger { display: flex; } }
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .nav-burger { display: flex; }
+    nav { padding: 0 16px; }
+    .nav-logo { font-size: 0.85rem; gap: 8px; }
+    .nav-logo .logo-mark { width: 34px; height: 34px; }
+    .nav-logo div > div:first-child { font-size: 0.88rem !important; white-space: nowrap; }
+    .nav-logo div > div:last-child { font-size: 0.48rem !important; }
+  }
 
   /* ── 共通 ── */
   section { padding: 100px 20px; position: relative; }
@@ -111,6 +119,7 @@
   .section-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.25em; color: var(--gold); text-transform: uppercase; margin-bottom: 10px; }
   .section-ttl { font-family: 'Noto Serif JP', serif; font-size: 1.8rem; font-weight: 700; margin-bottom: 12px; color: var(--pri-d); line-height: 1.6; }
   .section-sub { color: var(--muted); font-size: 0.88rem; margin-bottom: 48px; line-height: 1.9; }
+  @media (max-width: 768px) { .section-ttl { font-size: 1.4rem; } .section-sub { font-size: 0.82rem; margin-bottom: 32px; } section { padding: 64px 16px; } }
 
   /* ── ヒーロー ── */
   #hero { position: relative; overflow: hidden; min-height: 100vh; display: flex; align-items: center; }
@@ -138,14 +147,21 @@
   .hero-scroll-line { width: 1px; height: 40px; margin: 0 auto; background: rgba(201,169,110,0.2); position: relative; overflow: hidden; }
   .hero-scroll-line::after { content: ''; position: absolute; top: -100%; left: 0; width: 100%; height: 50%; background: linear-gradient(to bottom, transparent, var(--gold)); animation: scrollLine 2s ease-in-out infinite; }
   @keyframes scrollLine { 0% { top: -50%; } 100% { top: 100%; } }
-  @media (max-width: 768px) { #hero { min-height: 92vh; } .hero-content { padding: 100px 24px 60px; } .hero-catch { font-size: 1.8rem; line-height: 1.9; } }
+  @media (max-width: 768px) {
+    #hero { min-height: 92vh; }
+    .hero-content { padding: 100px 20px 60px; }
+    .hero-catch { font-size: 1.7rem; line-height: 1.9; }
+    .hero-desc { font-size: 0.88rem; text-align: left; line-height: 2.2; max-width: 100%; }
+    .hero-btns { flex-direction: column; align-items: stretch; gap: 10px; }
+    .hero-btns a { justify-content: center; }
+  }
   /* モバイルで不要なbrを非表示 */
   @media (max-width: 768px) { .br-pc { display: none; } }
 
   /* ── 信頼バー ── */
   #trust-bar { background: white; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 0; }
   .trust-bar-inner { max-width: 920px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); }
-  @media (max-width: 768px) { .trust-bar-inner { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 768px) { .trust-bar-inner { grid-template-columns: repeat(2, 1fr); } .tb-item { padding: 20px 12px; } .tb-num { font-size: 1.4rem; } }
   .tb-item { padding: 32px 20px; text-align: center; border-right: 1px solid var(--border); transition: all 0.3s; position: relative; overflow: hidden; }
   .tb-item::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, var(--pri-l), transparent); opacity: 0; transition: opacity 0.3s; }
   .tb-item:hover::before { opacity: 1; }
@@ -160,7 +176,8 @@
   .concept-name { font-family: 'Noto Serif JP', serif; font-size: 2.6rem; font-weight: 900; color: var(--pri-d); letter-spacing: 0.15em; margin-bottom: 8px; }
   .concept-name-en { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.3em; color: var(--gold); margin-bottom: 32px; }
   .concept-line { width: 40px; height: 2px; background: linear-gradient(90deg, var(--pri-m), var(--gold)); margin: 0 auto 32px; border-radius: 2px; }
-  .concept-text { font-size: 0.95rem; color: var(--text); line-height: 2.6; }
+  .concept-text { font-size: 0.95rem; color: var(--text); line-height: 2.6; text-align: center; }
+  @media (max-width: 768px) { .concept-text { text-align: left; font-size: 0.9rem; line-height: 2.2; } .concept-name { font-size: 2.2rem; } }
   .concept-text em { font-style: normal; color: var(--pri-d); font-weight: 700; }
   .concept-footer { margin-top: 28px; font-family: 'Noto Serif JP', serif; font-size: 1.1rem; font-weight: 700; color: var(--pri-d); line-height: 2; }
 
@@ -186,6 +203,7 @@
   .pain-answer::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--pri), var(--gold), var(--pri-m)); }
   .pain-answer .pa-title { font-family: 'Noto Serif JP', serif; font-size: 1.3rem; font-weight: 700; color: var(--pri-d); margin-bottom: 14px; line-height: 1.8; }
   .pain-answer p { font-size: 0.88rem; color: var(--muted); line-height: 2.2; }
+  @media (max-width: 768px) { .pain-answer { padding: 28px 20px; } .pain-answer .pa-title { font-size: 1.1rem; } }
 
   /* ── 選ばれる理由 ── */
   #reasons { background: white; padding: 100px 20px; }
@@ -205,6 +223,7 @@
   .reason-title { font-family: 'Noto Serif JP', serif; font-size: 1.35rem; font-weight: 700; color: var(--pri-d); margin-bottom: 16px; line-height: 1.8; }
   .reason-desc { font-size: 0.88rem; color: var(--muted); line-height: 2.2; }
   .reason-desc strong { color: var(--text); }
+  @media (max-width: 768px) { .reason-title { font-size: 1.15rem; } .reason-desc { font-size: 0.84rem; } .reason-photo { aspect-ratio: 16/9; } }
   .reason-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
   .reason-tags span { font-size: 0.72rem; font-weight: 700; padding: 4px 14px; border-radius: 20px; background: var(--pri-l); color: var(--pri-d); }
 
@@ -283,7 +302,7 @@
   /* ── ご利用の流れ ── */
   #flow { background: white; padding: 100px 20px; }
   .flow-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-  @media (max-width: 768px) { .flow-steps { grid-template-columns: 1fr 1fr; gap: 16px; } }
+  @media (max-width: 768px) { .flow-steps { grid-template-columns: 1fr 1fr; gap: 16px; } .flow-step:not(:last-child)::after { display: none; } }
   .flow-step { text-align: center; position: relative; }
   .flow-step:not(:last-child)::after { content: ''; position: absolute; top: 30px; right: -14px; width: 16px; height: 2px; background: var(--pri-m); border-radius: 2px; }
   @media (max-width: 768px) { .flow-step:nth-child(2)::after { display: none; } }
@@ -307,7 +326,7 @@
   .cost-highlight .ch-price { font-family: 'Noto Serif JP', serif; font-size: 2.2rem; font-weight: 900; color: var(--pri-d); }
   .cost-highlight .ch-price small { font-size: 0.7rem; font-weight: 600; }
   .cost-highlight .ch-sub { font-size: 0.78rem; color: var(--gold-d); margin-top: 6px; font-weight: 600; }
-  .cost-row { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; transition: all 0.2s; }
+  .cost-row { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; transition: all 0.2s; gap: 12px; flex-wrap: wrap; }
   .cost-row:hover { padding-left: 8px; }
   .cost-row:last-of-type { border-bottom: none; }
   .cost-row .cr-label { font-weight: 600; }
@@ -330,12 +349,14 @@
   .jihi-table th { background: var(--gold-l); text-align: left; padding: 14px 18px; font-weight: 700; border-bottom: 1px solid var(--border); }
   .jihi-table td { padding: 14px 18px; border-bottom: 1px solid var(--border); background: white; }
   .jihi-table tr:last-child td { border-bottom: none; }
+  @media (max-width: 768px) { .jihi-table { font-size: 0.78rem; } .jihi-table th, .jihi-table td { padding: 10px 12px; } }
 
   /* ── FAQ ── */
   #faq { background: white; padding: 100px 20px; }
   .faq-list { max-width: 700px; margin: 0 auto; }
   .faq-item { border-bottom: 1px solid var(--border); }
-  .faq-q { width: 100%; background: none; border: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; padding: 22px 0; font-size: 0.92rem; font-weight: 700; color: var(--text); text-align: left; font-family: inherit; transition: color 0.2s; gap: 16px; }
+  .faq-q { width: 100%; background: none; border: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; padding: 22px 0; font-size: 0.92rem; font-weight: 700; color: var(--text); text-align: left; font-family: inherit; transition: color 0.2s; gap: 12px; }
+  @media (max-width: 768px) { .faq-q { font-size: 0.85rem; padding: 18px 0; } }
   .faq-q:hover { color: var(--pri); }
   .faq-q .faq-icon { width: 32px; height: 32px; border-radius: 50%; background: var(--pri-l); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.4s; font-size: 1.1rem; color: var(--pri); font-weight: 400; }
   .faq-q.open .faq-icon { background: var(--pri); color: white; transform: rotate(135deg); }
@@ -373,7 +394,7 @@
   .info-table tr:hover th { background: #d8f3dc; }
   .info-table tr:hover td { background: #f0fdf4; }
   .info-table tr:last-child th, .info-table tr:last-child td { border-bottom: none; }
-  @media (max-width: 768px) { .info-table th { width: 110px; font-size: 0.82rem; } }
+  @media (max-width: 768px) { .info-table th { width: 90px; font-size: 0.78rem; padding: 12px 10px; } .info-table td { font-size: 0.82rem; padding: 12px 10px; } }
 
   /* ── お問い合わせ ── */
   #contact { background: var(--bg); padding: 100px 20px; }
@@ -514,9 +535,9 @@
 <div id="scrollProgress"></div>
 
 <div id="loader">
-  <div style="width:260px;height:260px;border-radius:50%;background:white;display:flex;align-items:center;justify-content:center;margin-bottom:20px;opacity:0;animation:fadeUp 0.6s 0.2s forwards;box-shadow:0 4px 20px rgba(0,0,0,0.06);overflow:hidden;">
-    <img src="/static/images/logo-ippo.png" alt="いっぽ" style="width:180px;height:180px;">
-  </div>
+  <div class="loader-logo">いっぽ</div>
+  <div class="loader-sub">VISITING NURSING STATION</div>
+  <div class="loader-bar"></div>
 </div>
 
 <!-- ナビ -->
@@ -740,7 +761,7 @@
     <div class="reason-item">
       <div class="reason-photo rv-l shimmer-on-reveal">
         <div class="rp-fallback rp-1"></div>
-        <img src="/static/images/nurse.png" alt="看護師" onerror="this.style.display='none'">
+        <img src="/static/images/nurse.png?v=2" alt="看護師" onerror="this.style.display='none'">
       </div>
       <div class="rv-r">
         <div class="reason-num">REASON 01</div>
@@ -752,7 +773,7 @@
     <div class="reason-item">
       <div class="reason-photo rv-r shimmer-on-reveal">
         <div class="rp-fallback rp-2"></div>
-        <img src="/static/images/nurse.jpg" alt="訪問看護のケア" onerror="this.style.display='none'">
+        <img src="/static/images/nurse.jpg?v=2" alt="訪問看護のケア" onerror="this.style.display='none'">
       </div>
       <div class="rv-l">
         <div class="reason-num">REASON 02</div>
@@ -763,8 +784,9 @@
     </div>
     <div class="reason-item">
       <div class="reason-photo rv-l shimmer-on-reveal">
-        <div class="rp-fallback rp-3"></div>
-        <img src="https://images.unsplash.com/photo-1626794174544-c3200f10e32b?auto=format&fit=crop&w=800&q=80" alt="やさしい光" onerror="this.style.display='none'">
+        <div class="rp-fallback rp-3" style="display:flex;align-items:center;justify-content:center;">
+          <svg viewBox="0 0 120 120" fill="none" style="width:80px;height:80px;opacity:0.5;"><circle cx="60" cy="60" r="50" fill="rgba(58,157,110,0.08)"/><path d="M45 75c0-8 6-15 15-15s15 7 15 15" stroke="#3a9d6e" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="50" cy="52" r="6" fill="rgba(58,157,110,0.15)"/><circle cx="70" cy="48" r="5" fill="rgba(58,157,110,0.12)"/><circle cx="58" cy="38" r="4" fill="rgba(58,157,110,0.1)"/><text x="60" y="95" text-anchor="middle" font-size="9" fill="#3a9d6e" font-weight="600">one step</text></svg>
+        </div>
       </div>
       <div class="rv-r">
         <div class="reason-num">REASON 03</div>
@@ -1126,7 +1148,7 @@
 <button id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
 <script>
-window.addEventListener('load', function() { setTimeout(function() { document.getElementById('loader').classList.add('hide'); }, 1200); });
+window.addEventListener('load', function() { setTimeout(function() { document.getElementById('loader').classList.add('hide'); }, 600); });
 
 function updateScrollProgress() { var h = document.documentElement.scrollHeight - window.innerHeight; document.getElementById('scrollProgress').style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%'; }
 
