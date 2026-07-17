@@ -223,7 +223,7 @@
   .reason-title { font-family: 'Noto Serif JP', serif; font-size: 1.35rem; font-weight: 700; color: var(--pri-d); margin-bottom: 16px; line-height: 1.8; }
   .reason-desc { font-size: 0.88rem; color: var(--muted); line-height: 2.2; }
   .reason-desc strong { color: var(--text); }
-  @media (max-width: 768px) { .reason-title { font-size: 1.15rem; } .reason-desc { font-size: 0.84rem; } .reason-photo { aspect-ratio: 16/9; } }
+  @media (max-width: 768px) { .reason-title { font-size: 1.15rem; } .reason-desc { font-size: 0.84rem; } }
   .reason-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
   .reason-tags span { font-size: 0.72rem; font-weight: 700; padding: 4px 14px; border-radius: 20px; background: var(--pri-l); color: var(--pri-d); }
 
@@ -497,11 +497,11 @@
   .fd-3 { animation: floatDeco3 6s ease-in-out 1s infinite; }
   @media (max-width: 768px) { .floating-deco { display: none; } }
 
-  /* #6: マーキー */
-  .marquee-strip { overflow: hidden; white-space: nowrap; padding: 18px 0; background: var(--pri-l); border-top: 1px solid rgba(58,157,110,0.08); border-bottom: 1px solid rgba(58,157,110,0.08); }
-  .marquee-inner { display: inline-flex; animation: marqueeScroll 20s linear infinite; }
-  .marquee-inner span { display: inline-block; padding: 0 28px; font-size: 0.85rem; font-weight: 700; color: var(--pri-d); letter-spacing: 0.08em; }
-  .marquee-inner span::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--gold); margin-right: 10px; vertical-align: middle; }
+  /* #6: マーキー（ピルカード風） */
+  .marquee-strip { overflow: hidden; white-space: nowrap; padding: 20px 0; background: linear-gradient(135deg, #f0fdf4 0%, #fefce8 50%, #f0fdf4 100%); border-top: 1px solid rgba(58,157,110,0.06); border-bottom: 1px solid rgba(58,157,110,0.06); }
+  .marquee-inner { display: inline-flex; gap: 12px; animation: marqueeScroll 24s linear infinite; }
+  .marquee-inner span { display: inline-flex; align-items: center; gap: 8px; padding: 8px 20px; font-size: 0.78rem; font-weight: 700; color: var(--pri-d); letter-spacing: 0.04em; background: rgba(255,255,255,0.85); border-radius: 50px; border: 1px solid rgba(58,157,110,0.1); backdrop-filter: blur(4px); box-shadow: 0 1px 4px rgba(0,0,0,0.03); }
+  .marquee-inner span::before { content: attr(data-icon); font-size: 0.9rem; flex-shrink: 0; }
   @keyframes marqueeScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
   /* #7: タイプライター */
@@ -628,8 +628,8 @@
 <!-- #6: マーキー（流れるテキスト） -->
 <div class="marquee-strip">
   <div class="marquee-inner">
-    <span>こころに寄り添う</span><span>精神科訪問看護</span><span>大学病院出身チーム</span><span>週1回からOK</span><span>あなたのペースで</span><span>自立支援医療対応</span><span>ご家族もサポート</span><span>千葉市中央区</span>
-    <span>こころに寄り添う</span><span>精神科訪問看護</span><span>大学病院出身チーム</span><span>週1回からOK</span><span>あなたのペースで</span><span>自立支援医療対応</span><span>ご家族もサポート</span><span>千葉市中央区</span>
+    <span data-icon="💚">こころに寄り添う</span><span data-icon="🏥">精神科訪問看護</span><span data-icon="🎓">大学病院出身チーム</span><span data-icon="📅">週1回からOK</span><span data-icon="🌱">あなたのペースで</span><span data-icon="🛡️">自立支援医療対応</span><span data-icon="👨‍👩‍👧">ご家族もサポート</span><span data-icon="📍">千葉市中央区</span>
+    <span data-icon="💚">こころに寄り添う</span><span data-icon="🏥">精神科訪問看護</span><span data-icon="🎓">大学病院出身チーム</span><span data-icon="📅">週1回からOK</span><span data-icon="🌱">あなたのペースで</span><span data-icon="🛡️">自立支援医療対応</span><span data-icon="👨‍👩‍👧">ご家族もサポート</span><span data-icon="📍">千葉市中央区</span>
   </div>
 </div>
 
@@ -761,7 +761,7 @@
     <div class="reason-item">
       <div class="reason-photo rv-l shimmer-on-reveal">
         <div class="rp-fallback rp-1"></div>
-        <img src="/static/images/nurse.png?v=2" alt="看護師" onerror="this.style.display='none'">
+        <img src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=800&q=80" alt="聴診器のクローズアップ" onerror="this.style.display='none'">
       </div>
       <div class="rv-r">
         <div class="reason-num">REASON 01</div>
@@ -773,7 +773,7 @@
     <div class="reason-item">
       <div class="reason-photo rv-r shimmer-on-reveal">
         <div class="rp-fallback rp-2"></div>
-        <img src="/static/images/nurse.jpg?v=2" alt="訪問看護のケア" onerror="this.style.display='none'">
+        <img src="https://images.unsplash.com/photo-1610986719243-7cdf28a29772?auto=format&fit=crop&w=800&q=80" alt="手を取り合うケア" onerror="this.style.display='none'">
       </div>
       <div class="rv-l">
         <div class="reason-num">REASON 02</div>
@@ -784,9 +784,8 @@
     </div>
     <div class="reason-item">
       <div class="reason-photo rv-l shimmer-on-reveal">
-        <div class="rp-fallback rp-3" style="display:flex;align-items:center;justify-content:center;">
-          <svg viewBox="0 0 120 120" fill="none" style="width:80px;height:80px;opacity:0.5;"><circle cx="60" cy="60" r="50" fill="rgba(58,157,110,0.08)"/><path d="M45 75c0-8 6-15 15-15s15 7 15 15" stroke="#3a9d6e" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="50" cy="52" r="6" fill="rgba(58,157,110,0.15)"/><circle cx="70" cy="48" r="5" fill="rgba(58,157,110,0.12)"/><circle cx="58" cy="38" r="4" fill="rgba(58,157,110,0.1)"/><text x="60" y="95" text-anchor="middle" font-size="9" fill="#3a9d6e" font-weight="600">one step</text></svg>
-        </div>
+        <div class="rp-fallback rp-3"></div>
+        <img src="https://images.unsplash.com/photo-1768489529761-a96e8634c105?auto=format&fit=crop&w=800&q=80" alt="一歩を踏み出す足元" onerror="this.style.display='none'">
       </div>
       <div class="rv-r">
         <div class="reason-num">REASON 03</div>
