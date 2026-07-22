@@ -211,20 +211,50 @@ def _is_local(request: Request) -> bool:
     return host in ("127.0.0.1", "::1", "localhost")
 
 
+MAINTENANCE_HTML = """<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>訪問看護ステーション いっぽ</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%233a9d6e'/><text x='50' y='62' text-anchor='middle' font-size='40' fill='white' font-family='serif'>歩</text></svg>">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#e8f5e9,#f1f8e9);font-family:'Helvetica Neue',Arial,'Hiragino Kaku Gothic ProN',sans-serif;color:#2d5a3d}
+.wrap{text-align:center;padding:2rem}
+.logo{font-size:3rem;font-weight:700;color:#3a9d6e;margin-bottom:.5rem;letter-spacing:.1em}
+.sub{font-size:1.1rem;color:#5a8a6a;margin-bottom:2.5rem}
+.msg{font-size:1.4rem;font-weight:600;margin-bottom:1rem}
+.detail{font-size:.95rem;color:#6a9a7a;line-height:1.8}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="logo">いっぽ</div>
+<div class="sub">訪問看護ステーション</div>
+<div class="msg">ホームページ準備中です</div>
+<div class="detail">現在、サイトをリニューアル中です。<br>もうしばらくお待ちください。</div>
+</div>
+</body>
+</html>"""
+
+
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request):
     host = request.headers.get("host", "")
     if "ippo-kango.jp" in host:
-        with open("app/static/hp-ippo.html", encoding="utf-8") as f:
-            return f.read()
+        return HTMLResponse(MAINTENANCE_HTML)
     with open("app/static/strategy.html", encoding="utf-8") as f:
         return f.read()
 
 
 @app.get("/hp-ippo", response_class=HTMLResponse)
-async def hp_ippo():
-    with open("app/static/hp-ippo.html", encoding="utf-8") as f:
-        return f.read()
+async def hp_ippo(request: Request):
+    # ローカルではHP確認可能、本番では準備中ページ
+    if _is_local(request):
+        with open("app/static/hp-ippo.html", encoding="utf-8") as f:
+            return f.read()
+    return HTMLResponse(MAINTENANCE_HTML)
 
 
 @app.get("/houmon-simulator", response_class=HTMLResponse)
