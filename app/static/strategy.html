@@ -285,11 +285,25 @@ select.form-input{text-align:left}
 <div id="h-market" class="sub-content active">
 <div style="max-width:900px;margin:0 auto">
   <div class="strat-header">
-    <h2>訪問看護ステーション 千葉市（千葉駅）市場調査</h2>
-    <div class="sub">厚生労働省 介護サービス情報公表オープンデータに基づくリアルタイム分析</div>
+    <h2>訪問看護ステーション 候補エリア市場調査</h2>
+    <div class="sub">厚生労働省 介護サービス情報公表オープンデータに基づくリアルタイム分析｜候補：市川市・江戸川区・柏市</div>
   </div>
+  <!-- 3候補エリア比較 -->
   <div class="section">
-    <h3>千葉市 訪問看護ステーション</h3>
+    <h3>候補エリア比較（TOP3）</h3>
+    <table class="strat-table" style="margin-bottom:16px">
+      <thead><tr><th>順位</th><th>エリア</th><th>人口</th><th>ST数</th><th>人口/ST比</th><th>精神科病院</th><th>強み</th></tr></thead>
+      <tbody>
+        <tr style="background:#f0fdf4;font-weight:700"><td>🥇 第1</td><td>市川市</td><td>50.1万<br><small style="font-size:.7rem;color:var(--muted)">+浦安17万=67万商圏</small></td><td id="hm_ichikawa_st">—</td><td id="hm_ichikawa_ratio">—</td><td>7件</td><td>葛西24分・67万商圏・紹介元最多</td></tr>
+        <tr><td>🥈 第2</td><td>江戸川区</td><td>69.8万</td><td id="hm_edogawa_st">—</td><td id="hm_edogawa_ratio">—</td><td>7件</td><td>人口最大・葛西乗換なし</td></tr>
+        <tr><td>🥉 第3</td><td>柏市</td><td>43.9万</td><td id="hm_kashiwa_st">—</td><td id="hm_kashiwa_ratio">—</td><td>4件</td><td>ST最少・家賃最安・競合少</td></tr>
+      </tbody>
+    </table>
+    <div class="hint-box" style="font-size:.78rem">※人口/ST比が高いほど1STあたりの潜在利用者が多い（参入機会大）。江戸川区は東京都のため事前研修（4ヶ月前受講）が必要。</div>
+  </div>
+  <!-- 市川市（第1候補）詳細 -->
+  <div class="section">
+    <h3>市川市 訪問看護ステーション（第1候補）</h3>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px">
       <div class="card" style="text-align:center"><h4>総数</h4><div style="font-size:2rem;font-weight:900;color:var(--h-primary)" id="hm_total">—</div></div>
       <div class="card" style="text-align:center"><h4>精神科特化</h4><div style="font-size:2rem;font-weight:900;color:#ef4444" id="hm_psych">—</div><div style="font-size:.8rem;color:var(--muted)" id="hm_psych_pct">—</div></div>
@@ -305,7 +319,7 @@ select.form-input{text-align:left}
     <div class="hint-box" id="hm_updated" style="font-size:.75rem">データ取得日: —</div>
   </div>
   <div class="section">
-    <h3>近隣市比較</h3>
+    <h3>候補エリア＋近隣市 比較</h3>
     <div style="position:relative;height:320px"><canvas id="hCityChart"></canvas></div>
     <table class="strat-table" id="hCityTable" style="margin-top:16px">
       <thead><tr><th>市区</th><th style="text-align:right">ST総数</th><th style="text-align:right">精神科特化</th><th style="text-align:right">精神科特化率</th></tr></thead>
@@ -313,31 +327,32 @@ select.form-input{text-align:left}
     </table>
   </div>
   <div class="section">
-    <h3>精神科訪問看護 需要推計（2026年調査）</h3>
+    <h3>訪問看護 需要推計（2026年調査）</h3>
     <div class="mkt-demand-grid">
-      <div class="mkt-demand-item"><div class="dl">千葉市人口</div><div class="dv">980,000<small style="font-size:.7rem;color:var(--muted)">人</small></div><div class="ds">2026年推計</div></div>
-      <div class="mkt-demand-item"><div class="dl">精神疾患通院患者</div><div class="dv">約49,000<small style="font-size:.7rem;color:var(--muted)">人</small></div><div class="ds">人口の約5%（厚労省患者調査）</div></div>
-      <div class="mkt-demand-item" style="background:#faf5ff;border-left:3px solid #9333ea"><div class="dl" style="color:#7e22ce">精神科訪問看護 利用者推計</div><div class="dv" style="color:#9333ea">約4,900<small style="font-size:.7rem;color:var(--muted)">人</small></div><div class="ds">通院患者の約10%</div></div>
-      <div class="mkt-demand-item" style="background:#fef2f2;border-left:3px solid #dc2626"><div class="dl" style="color:#991b1b">1STあたり利用者</div><div class="dv" style="color:#dc2626" id="hm_demand_per_st">—<small style="font-size:.7rem;color:var(--muted)">人</small></div><div class="ds">推計利用者/精神科特化ST数</div></div>
-      <div class="mkt-demand-item" style="border-left:3px solid #dc2626"><div class="dl">精神科特化ST</div><div class="dv" style="color:#dc2626" id="hm_demand_psych">—<small style="font-size:.7rem;color:var(--muted)">件</small></div><div class="ds">千葉市内</div></div>
-      <div class="mkt-demand-item warn"><div class="dl" style="color:#92400e">充足率推計</div><div class="dv" style="color:#d97706" id="hm_demand_rate">—<small style="font-size:.7rem;color:var(--muted)">%</small></div><div class="ds">適正ST数(50人/ST)に対する充足率</div></div>
+      <div class="mkt-demand-item" style="background:#f0fdf4;border-left:3px solid #16a34a"><div class="dl" style="color:#166534">市川市 商圏人口</div><div class="dv" style="color:#16a34a">670,000<small style="font-size:.7rem;color:var(--muted)">人</small></div><div class="ds">市川市50.1万+浦安市17万</div></div>
+      <div class="mkt-demand-item"><div class="dl">江戸川区 人口</div><div class="dv">698,000<small style="font-size:.7rem;color:var(--muted)">人</small></div><div class="ds">2026年推計</div></div>
+      <div class="mkt-demand-item"><div class="dl">柏市 人口</div><div class="dv">439,000<small style="font-size:.7rem;color:var(--muted)">人</small></div><div class="ds">2026年推計</div></div>
+      <div class="mkt-demand-item" style="background:#faf5ff;border-left:3px solid #9333ea"><div class="dl" style="color:#7e22ce">在宅医療対象者推計</div><div class="dv" style="color:#9333ea">人口の約2%<small style="font-size:.7rem;color:var(--muted)"></small></div><div class="ds">高齢化率・退院患者数から</div></div>
+      <div class="mkt-demand-item" style="background:#fef2f2;border-left:3px solid #dc2626"><div class="dl" style="color:#991b1b">市川市 1STあたり人口</div><div class="dv" style="color:#dc2626" id="hm_demand_per_st">—<small style="font-size:.7rem;color:var(--muted)">人</small></div><div class="ds">人口/ST数（高いほど参入機会大）</div></div>
+      <div class="mkt-demand-item" style="border-left:3px solid var(--h-primary)"><div class="dl">市川市 ST数</div><div class="dv" style="color:var(--h-primary)" id="hm_demand_psych">—<small style="font-size:.7rem;color:var(--muted)">件</small></div><div class="ds">市川市内</div></div>
     </div>
-    <div class="mkt-demand-note">※推計値は厚生労働省患者調査の全国平均から算出した参考値です。精神疾患患者数は年々増加傾向にあり、実際の需要はさらに高い可能性があります。</div>
+    <div class="mkt-demand-note">※在宅医療の需要は高齢化に伴い全国的に増加傾向。訪問看護利用者は5年で約1.5倍に増加しており、参入のタイミングとしては最適です。</div>
   </div>
   <div class="section">
     <h3>市場分析サマリー</h3>
     <div class="highlight">
-      千葉市は人口98万人の政令指定都市。精神科クリニック・病院が集積し、単身世帯率も高い。<br>
-      全国的に精神科訪問看護の利用者は5年で2.7倍に急増しており、参入のタイミングとしては最適。<br>
-      千葉駅周辺は精神科特化STが少なく、障害者を強みとする総合型STの需要あり。
+      <strong>第1候補：市川市</strong> — 浦安市と合わせた67万人商圏。葛西から24分でアクセス良好。紹介元となる精神科病院7件が最多。<br>
+      <strong>第2候補：江戸川区</strong> — 人口69.8万で最大規模。葛西から乗換なし。ただし東京都は事前研修（4ヶ月前）が必要。<br>
+      <strong>第3候補：柏市</strong> — ST数23件で最少。家賃も安く競合少ない。ただし葛西から56分とやや遠い。
     </div>
     <table class="strat-table">
-      <tr><th>指標</th><th>数値</th></tr>
-      <tr><td>千葉市人口</td><td>約980,000人</td></tr>
-      <tr><td>精神疾患患者推計</td><td>約49,000人（人口の5%）</td></tr>
-      <tr><td>精神科訪問看護 潜在利用者</td><td>約4,900人</td></tr>
-      <tr><td>千葉市内 精神科クリニック</td><td>多数（千葉駅周辺に集積）</td></tr>
-      <tr><td>1STあたり人口</td><td id="hm_pop_per_st">—</td></tr>
+      <tr><th>指標</th><th>市川市</th><th>江戸川区</th><th>柏市</th></tr>
+      <tr><td>人口</td><td>50.1万（商圏67万）</td><td>69.8万</td><td>43.9万</td></tr>
+      <tr><td>ST数</td><td id="hm_pop_ichikawa">—</td><td id="hm_pop_edogawa">—</td><td id="hm_pop_kashiwa">—</td></tr>
+      <tr><td>人口/ST比</td><td id="hm_pop_per_st">—</td><td id="hm_pop_per_st_e">—</td><td id="hm_pop_per_st_k">—</td></tr>
+      <tr><td>精神科病院</td><td>7件</td><td>7件</td><td>4件</td></tr>
+      <tr><td>葛西からの通勤</td><td>24分</td><td>乗換なし</td><td>56分</td></tr>
+      <tr><td>指定権者</td><td>千葉県</td><td>東京都</td><td>千葉県</td></tr>
     </table>
   </div>
 </div>
@@ -380,8 +395,8 @@ select.form-input{text-align:left}
 <div id="h-strategy" class="sub-content">
 <div style="max-width:900px;margin:0 auto">
   <div class="strat-header">
-    <h2>障害者特化型訪問看護ステーション 開業戦略</h2>
-    <div class="sub">開業エリア：千葉駅（千葉市中央区）｜2026年7月更新</div>
+    <h2>訪問看護ステーション 開業戦略</h2>
+    <div class="sub">候補エリア：市川市・江戸川区・柏市｜2026年7月更新</div>
   </div>
 
   <div class="strategy-card">
@@ -403,7 +418,7 @@ select.form-input{text-align:left}
         <tr><th>理由</th><th>詳細</th><th>対策</th></tr>
         <tr><td>制度上不要</td><td>一般STでも精神科訪問看護を算定可能</td><td>「特化」を打ち出すことで紹介元の認知度UP</td></tr>
         <tr><td>間口が狭まるリスク</td><td>精神科だけだと利用者獲得の幅が狭い</td><td><strong>障害者全般（精神+身体+知的）を対象</strong>にしてリスク分散</td></tr>
-        <tr><td>紹介元への依存</td><td>近隣の精神科医療機関に依存</td><td>千葉駅周辺に精神科クリニック多数で分散可</td></tr>
+        <tr><td>紹介元への依存</td><td>近隣の精神科医療機関に依存</td><td>複数の病院・クリニックに分散して紹介元を確保</td></tr>
         <tr><td>スタッフのバーンアウト</td><td>暴力・暴言リスク、対応の難しさ</td><td>複数名訪問体制・研修・メンタルケア体制の構築</td></tr>
       </table>
       <h3>2026年の規制強化 = 真面目にやる事業者に追い風</h3>
@@ -418,156 +433,87 @@ select.form-input{text-align:left}
   </div>
 
   <div class="strategy-card">
-    <div class="strategy-header">推奨：「障害者を強みとする総合型ST」</div>
+    <div class="strategy-header">方針：医療保険メインの一般訪問看護ST</div>
     <div class="strategy-body">
       <div class="highlight">
-        <strong>完全特化ではなく「障害者・精神科を強みとする総合型」が最も堅い。</strong><br>
-        精神科＋身体障害＋高齢者も受けることでリスク分散しつつ、精神科の専門性で差別化して紹介を集める。
+        <strong>精神科特化はやめ、医療保険メインの一般訪問看護として幅広い疾患に対応。</strong><br>
+        開業初期は退院後フォロー・精神疾患・医療処置を中心に、徐々に対象を拡大。
       </div>
       <table>
         <tr><th>対象</th><th>保険種別</th><th>単価目安</th><th>メリット</th></tr>
-        <tr><td>精神障害者</td><td>医療保険（精神科訪問看護基本療養費）</td><td>5,550〜5,800円/回</td><td>長期利用72.8%、安定収入</td></tr>
-        <tr><td>身体障害者</td><td>医療保険 or 介護保険</td><td>4,700〜11,200円/回</td><td>利用者の間口を広げる</td></tr>
+        <tr><td>退院後の療養</td><td>医療保険</td><td>5,550〜8,500円/回</td><td>病院からの紹介で安定獲得</td></tr>
+        <tr><td>精神疾患</td><td>医療保険（精神科訪問看護基本療養費）</td><td>5,550〜5,800円/回</td><td>長期利用72.8%、安定収入</td></tr>
+        <tr><td>医療処置が必要な方</td><td>医療保険</td><td>5,550〜12,850円/回</td><td>特別管理加算で高単価</td></tr>
+        <tr><td>がん・難病</td><td>医療保険</td><td>高単価</td><td>複数回訪問可、加算多い</td></tr>
         <tr><td>高齢者</td><td>介護保険</td><td>4,700〜11,200円/回</td><td>安定需要・ケアマネからの紹介</td></tr>
-        <tr><td>重症心身障害児</td><td>医療保険</td><td>高単価</td><td>競合少ない・専門性で差別化</td></tr>
       </table>
-      <p style="font-size:.82rem;color:var(--muted)">※精神科を「看板」にしつつ、身体・高齢者も対応 = リスク分散 + 安定経営</p>
+      <p style="font-size:.82rem;color:var(--muted)">※精神科の経験も活かしつつ、幅広い疾患に対応 = リスク分散 + 安定経営</p>
     </div>
   </div>
 
   <div class="strategy-card">
-    <div class="strategy-header">開業地：千葉駅（千葉市中央区）</div>
-    <div class="strategy-body">
-      <h3>千葉駅を選ぶ理由</h3>
-      <table>
-        <tr><th>項目</th><th>内容</th></tr>
-        <tr><td>オーナーのアクセス</td><td>新浦安から35〜40分（乗換あり）</td></tr>
-        <tr><td>背景人口</td><td><strong>千葉市98万人</strong>（中央区21万人）</td></tr>
-        <tr><td>精神科特化ST</td><td>中央区に2〜3件（デューン千葉・新千葉ST等） — 98万人に対して少ない</td></tr>
-        <tr><td>精神科医療機関</td><td style="color:#16a34a"><strong>千葉駅周辺に精神科クリニック27件（紹介元が豊富）</strong></td></tr>
-        <tr><td>病院</td><td>千葉大病院・千葉メディカルセンター（退院患者需要）</td></tr>
-        <tr><td>精神病床</td><td><strong>684床</strong>（中央区）— 退院後の在宅ケア受け皿需要</td></tr>
-        <tr><td>テナント</td><td style="color:#16a34a"><strong>185件+、非常に豊富</strong></td></tr>
-        <tr><td>採用力</td><td style="color:#16a34a"><strong>3社8路線ターミナル — 千葉大・千葉メディカルからの退職看護師</strong></td></tr>
-        <tr><td>訪問カバー力</td><td style="color:#16a34a"><strong>市内中心、全区バランス良くカバー</strong></td></tr>
-        <tr><td>単身世帯率</td><td>高い → 障害者の一人暮らしが多い → 訪問看護ニーズ大</td></tr>
-        <tr><td>行政</td><td>千葉市が在宅医療推進を施策として推進中</td></tr>
-        <tr><td>指定権者</td><td>千葉市（政令指定都市のため市が指定権者）</td></tr>
-      </table>
-      <h3>五井との比較</h3>
-      <table>
-        <tr><th>比較項目</th><th>千葉駅</th><th>五井（市原市）</th></tr>
-        <tr><td>新浦安からのアクセス</td><td>35〜40分（乗換あり）</td><td>50分（乗換1回）</td></tr>
-        <tr><td>背景人口</td><td style="color:#16a34a"><strong>98万人</strong></td><td>26.5万人</td></tr>
-        <tr><td>訪問看護ST総数</td><td>125件</td><td>31件</td></tr>
-        <tr><td>障害者/精神科特化ST</td><td>2〜3件（デューン千葉・新千葉ST等）</td><td>0件</td></tr>
-        <tr><td>家賃（坪単価）</td><td>1.0〜1.2万円</td><td style="color:#16a34a">0.5〜0.7万円</td></tr>
-        <tr><td>精神科病床</td><td style="color:#16a34a"><strong>684床</strong></td><td>369床（集中）</td></tr>
-        <tr><td>成長余地</td><td style="color:#16a34a"><strong>大きい（98万人商圏）</strong></td><td>限定的</td></tr>
-      </table>
-      <h3>市場データ</h3>
-      <table>
-        <tr><th>指標</th><th>数値</th><th>出典</th></tr>
-        <tr><td>千葉市人口</td><td>約980,000人</td><td>千葉市公式</td></tr>
-        <tr><td>精神疾患患者推計</td><td>約49,000人</td><td>人口×5%</td></tr>
-        <tr><td>障害者手帳所持推計</td><td>約47,000人</td><td>人口×4.8%</td></tr>
-        <tr><td>精神科訪問看護 潜在利用者</td><td>約4,900人</td><td>患者の10%</td></tr>
-        <tr><td>訪問看護ST総数</td><td>125件</td><td>厚労省オープンデータ</td></tr>
-        <tr><td>うち精神科/障害特化</td><td>N・フィールド4拠点+新千葉ST等（中央区2〜3件）</td><td>同上</td></tr>
-        <tr><td>65歳以上人口推計(2040年)</td><td>31万人（現在26万人）</td><td>千葉市推計</td></tr>
-      </table>
-      <p style="font-size:.82rem;color:var(--muted)">※千葉県は人口あたりの訪問看護ST数が全国ワースト級（47都道府県中40位台）。精神科特化はさらに少なく、供給不足が深刻。</p>
-    </div>
-  </div>
-
-  <div class="strategy-card">
-    <div class="strategy-header">候補地3エリア比較（2026年7月調査）</div>
+    <div class="strategy-header">候補エリア比較（2026年7月21日 再調査）</div>
     <div class="strategy-body">
       <div class="highlight">
-        千葉みなとでテナントが見つからず、千葉駅・稲毛駅を含む3エリアを比較調査した結果、<strong>千葉駅に決定。</strong><br>
-        紹介元27件・テナント豊富・全区カバーの総合力が決め手。
+        金井さん辞退・精神科特化をやめたことに伴い、エリアを再検討。<br>
+        <strong>葛西から60分圏内</strong>で訪問看護の参入機会があるエリアを比較調査。
       </div>
-      <h3>基本データ比較</h3>
+      <h3>候補エリア TOP3</h3>
       <table>
-        <tr><th>項目</th><th>千葉駅（中央区）</th><th>千葉みなと（中央区）</th><th>稲毛駅（稲毛区）</th></tr>
-        <tr><td>訪看ST総数（区内）</td><td colspan="2" style="text-align:center">35件（同じ中央区）</td><td>22件</td></tr>
-        <tr><td>精神科特化ST</td><td colspan="2" style="text-align:center">2〜3件（デューン千葉・新千葉ST等）</td><td>1件（デューン稲毛 / 2024年6月開設）</td></tr>
-        <tr><td>精神科クリニック数</td><td colspan="2" style="text-align:center"><strong>27件</strong></td><td>10件</td></tr>
-        <tr><td>精神病床</td><td colspan="2" style="text-align:center"><strong>684床</strong></td><td style="color:#dc2626"><strong>0床</strong></td></tr>
-        <tr><td>テナント探しやすさ</td><td style="color:#16a34a"><strong>185件+、非常に豊富</strong></td><td style="color:#dc2626">少ない（難航中）</td><td>駅前にビル集中、見つかる</td></tr>
-        <tr><td>家賃（15坪目安）</td><td>15〜18万円</td><td>12〜15万円</td><td style="color:#16a34a">12〜15万円</td></tr>
-        <tr><td>広辺の通勤</td><td>35〜40分（乗換あり）</td><td style="color:#16a34a"><strong>25分（京葉線直通）</strong></td><td>38分（乗換1回）</td></tr>
-        <tr><td>スタッフ通勤</td><td style="color:#16a34a"><strong>3社8路線、最強</strong></td><td>京葉線+モノレール</td><td>JR総武線（快速停車）</td></tr>
-        <tr><td>訪問カバー力</td><td style="color:#16a34a"><strong>市内中心、全区バランス良い</strong></td><td>やや南西に偏る</td><td>稲毛区+花見川区中心</td></tr>
-        <tr><td>連携先アクセス</td><td style="color:#16a34a"><strong>徒歩圏内に多数</strong></td><td>移動が必要</td><td>駅周辺に集中</td></tr>
+        <tr><th>項目</th><th style="background:#dcfce7">🥇 市川市</th><th>🥈 江戸川区</th><th>🥉 柏市</th></tr>
+        <tr><td>人口</td><td style="background:#dcfce7"><strong>50.1万（+浦安17万=67万商圏）</strong></td><td>69.8万</td><td>43.9万</td></tr>
+        <tr><td>訪看ST数</td><td style="background:#dcfce7" id="hs_ichikawa_st">—</td><td id="hs_edogawa_st">—</td><td id="hs_kashiwa_st">—</td></tr>
+        <tr><td>人口/ST比</td><td style="background:#dcfce7" id="hs_ichikawa_ratio">—</td><td id="hs_edogawa_ratio">—</td><td id="hs_kashiwa_ratio">—</td></tr>
+        <tr><td>精神科病院</td><td style="background:#dcfce7"><strong>7件（最多）</strong></td><td>7件</td><td>4件</td></tr>
+        <tr><td>葛西からの通勤</td><td style="background:#dcfce7"><strong>24分</strong></td><td>乗換なし</td><td>56分</td></tr>
+        <tr><td>家賃（15坪目安）</td><td style="background:#dcfce7">12〜16万円</td><td>15〜20万円</td><td style="color:#16a34a"><strong>8〜12万円</strong></td></tr>
+        <tr><td>指定権者</td><td style="background:#dcfce7">千葉県</td><td>東京都</td><td>千葉県</td></tr>
+        <tr><td>注意点</td><td style="background:#dcfce7">—</td><td style="color:#dc2626">事前研修（4ヶ月前受講）必要</td><td>葛西から遠い</td></tr>
+      </table>
+      <h3>第1候補：市川市の強み</h3>
+      <table>
+        <tr><th>項目</th><th>内容</th></tr>
+        <tr><td>商圏</td><td><strong>浦安市17万人と合わせて67万人</strong>の広域商圏</td></tr>
+        <tr><td>アクセス</td><td>葛西から24分。東西線・京葉線・総武線で複数ルート</td></tr>
+        <tr><td>紹介元</td><td>精神科病院7件（3候補で最多）＋総合病院・クリニック多数</td></tr>
+        <tr><td>採用力</td><td>都心通勤圏で看護師の居住者多い</td></tr>
+        <tr><td>行政手続き</td><td>千葉県が指定権者（東京都の事前研修不要）</td></tr>
       </table>
 
-      <h3>千葉市6区の需要指標（JMAP日本医師会データ）</h3>
-      <table>
-        <tr><th>区</th><th>人口</th><th>高齢化率</th><th>精神科診療所</th><th>精神病床</th><th>訪看ST数</th><th>N・フィールド</th></tr>
-        <tr style="background:#dcfce7"><td><strong>中央区</strong></td><td>222,392</td><td>23.9%</td><td style="color:#dc2626"><strong>27</strong></td><td><strong>684</strong></td><td>35</td><td>デューン千葉</td></tr>
-        <tr><td>花見川区</td><td>177,595</td><td>28.8%</td><td>13</td><td>0</td><td>22</td><td>デューン幕張</td></tr>
-        <tr style="background:#eff6ff"><td><strong>稲毛区</strong></td><td>160,575</td><td>28.5%</td><td>10</td><td style="color:#dc2626">0</td><td>22</td><td>デューン稲毛(2024.6)</td></tr>
-        <tr><td>若葉区</td><td>144,057</td><td style="color:#dc2626"><strong>31.8%</strong></td><td>8</td><td>128</td><td>17</td><td>デューン若葉</td></tr>
-        <tr><td>緑区</td><td>127,964</td><td>23.4%</td><td>8</td><td><strong>435</strong></td><td>21</td><td>—</td></tr>
-        <tr><td>美浜区</td><td>156,149</td><td>26.7%</td><td>7</td><td>50</td><td>8</td><td>—</td></tr>
-      </table>
-      <p style="font-size:.82rem;color:var(--muted)">※ N・フィールドが千葉市に4拠点展開 = 大手が需要ありと判断した証拠。稲毛区のデューン稲毛は2024年6月新規出店。</p>
-
-      <h3>「競合が少ない＝穴場」とは限らない分析</h3>
+      <h3>参入機会の判断基準</h3>
       <table>
         <tr><th>判断指標</th><th>「ニーズない」パターン</th><th>「参入チャンス」パターン</th></tr>
-        <tr><td>精神科クリニック数</td><td>少ない（患者がいない）</td><td style="color:#16a34a"><strong>多い（通院中だが訪看不足）</strong></td></tr>
-        <tr><td>大手の参入</td><td>大手も入っていない</td><td style="color:#16a34a"><strong>大手が最近参入（需要確認済み）</strong></td></tr>
-        <tr><td>精神病床</td><td>なし＋診療所も少ない</td><td style="color:#16a34a"><strong>病床あり（退院後の受け皿不足）</strong></td></tr>
+        <tr><td>病院・クリニック数</td><td>少ない（患者がいない）</td><td style="color:#16a34a"><strong>多い（通院中だが訪看不足）</strong></td></tr>
+        <tr><td>大手の参入</td><td>大手も入っていない</td><td style="color:#16a34a"><strong>大手が参入済み（需要確認済み）</strong></td></tr>
+        <tr><td>病床数</td><td>なし＋診療所も少ない</td><td style="color:#16a34a"><strong>病床あり（退院後の受け皿不足）</strong></td></tr>
         <tr><td>人口動態</td><td>若年ファミリー中心</td><td style="color:#16a34a"><strong>高齢化進行中、単身世帯増</strong></td></tr>
       </table>
-      <div class="highlight" style="border-left:3px solid #0ea5e9;background:#f0f9ff">
-        <strong>稲毛区の判定：「参入チャンス」</strong><br>
-        ・N・フィールドが2024年6月にデューン稲毛を新規出店 → 大手が需要ありと判断した証拠<br>
-        ・精神科クリニック10件あり通院患者は存在する<br>
-        ・精神病床0 → 他区で入院した稲毛区住民が退院後に戻る → 在宅ケアの受け皿需要
-      </div>
-
-      <h3>紹介獲得リスク分析</h3>
-      <table>
-        <tr><th>観点</th><th>千葉駅（中央区）</th><th>稲毛駅</th></tr>
-        <tr><td>クリニック数</td><td>27件（回るのに時間かかる）</td><td style="color:#16a34a">10件（集中営業しやすい）</td></tr>
-        <tr><td>既存の紹介ルート</td><td style="color:#dc2626">出来上がっている</td><td style="color:#16a34a"><strong>まだ流動的</strong></td></tr>
-        <tr><td>差別化の必要性</td><td>高い（デューン千葉+新千葉STと比較される）</td><td style="color:#16a34a">低め（デューン稲毛の1件のみ）</td></tr>
-        <tr><td>紹介までの期間</td><td>やや長い（信頼構築に時間）</td><td style="color:#16a34a"><strong>早い可能性</strong></td></tr>
-        <tr><td>ポテンシャル上限</td><td style="color:#16a34a"><strong>大きい</strong></td><td>中程度</td></tr>
-      </table>
-      <p style="font-size:.82rem;color:var(--muted)">
-        ※精神科訪看は全国的に供給不足（利用者5年で2.7倍増）。精神科を「ちゃんと」診れるSTが少ないため、クリニック側も「紹介したいが受けてくれるSTがない」状態。<br>
-        ※金井さんの「慶應精神科7年」の経歴は営業時の最大の武器。一般STとの差別化が明確。
-      </p>
 
       <h3>総合判定</h3>
       <table>
         <tr><th>エリア</th><th>総合評価</th><th>判断理由</th></tr>
-        <tr style="background:#dcfce7"><td><strong>千葉駅</strong></td><td style="color:#16a34a"><strong>◎ 決定</strong></td><td>紹介元27件・テナント豊富・全区カバー。成長の上限が高い</td></tr>
-        <tr><td><strong>稲毛駅</strong></td><td>○</td><td>デューン稲毛しか競合がなく立ち上がりが早い可能性。ただし紹介元10件で成長上限は中程度</td></tr>
-        <tr><td>千葉みなと</td><td>× テナントなし</td><td>京葉線直通の通勤メリットは大きいが、テナントが見つからず断念</td></tr>
+        <tr style="background:#dcfce7"><td><strong>市川市</strong></td><td style="color:#16a34a"><strong>◎ 第1候補</strong></td><td>67万商圏・葛西24分・紹介元最多。バランス最強</td></tr>
+        <tr><td><strong>江戸川区</strong></td><td>○ 第2候補</td><td>人口最大69.8万。葛西乗換なし。ただし東京都の事前研修が必要</td></tr>
+        <tr><td><strong>柏市</strong></td><td>○ 第3候補</td><td>競合少・家賃安。ただし葛西から56分でやや遠い</td></tr>
       </table>
       <div class="highlight" style="border-left:3px solid #f59e0b;background:#fffbeb">
-        <strong>重要な判断軸：</strong>立ち上がり（=紹介獲得）の早さは事業成功の鍵。ポテンシャルの大きさと立ち上がりスピードのバランスで最終判断。
+        <strong>重要な判断軸：</strong>管理者の採用状況・テナント確保の状況によって最終決定。エリア確定後に指定権者への事前相談を開始。
       </div>
     </div>
   </div>
 
   <div class="strategy-card">
-    <div class="strategy-header">物件選びの規定・ルール（千葉市）</div>
+    <div class="strategy-header">物件選びの規定・ルール</div>
     <div class="strategy-body">
       <div class="highlight" style="border-left:3px solid #dc2626;background:#fef2f2">
-        <strong>最重要：物件候補が出たら千葉市介護保険事業課（043-245-5062）に事前相談の予約。図面持参で設備基準の適合を確認。</strong>
+        <strong>最重要：物件候補が出たら指定権者（千葉県 or 東京都）に事前相談の予約。図面持参で設備基準の適合を確認。</strong>
       </div>
       <h3>設備基準（絶対要件）</h3>
       <table>
         <tr><th>要件</th><th>内容</th><th>根拠</th></tr>
         <tr><td><strong>事務室</strong></td><td>常勤人数分の机・椅子が置ける「専用」の広さ（具体的な平米数規定なし）</td><td>厚生省令第37号 第62条</td></tr>
-        <tr style="background:#fef2f2"><td><strong>相談室</strong></td><td>プライバシー確保できる空間（パーテーション可だが千葉市に要確認）</td><td><strong>千葉市条例 第66条（国基準より厳しい）</strong></td></tr>
-        <tr><td><strong>手洗い設備</strong></td><td>手指洗浄・消毒のための設備（共用洗面＋事務所内消毒液で可の場合あり。千葉市に要確認）</td><td>感染予防基準</td></tr>
+        <tr style="background:#fef2f2"><td><strong>相談室</strong></td><td>プライバシー確保できる空間（パーテーション可だが指定権者に要確認）</td><td><strong>自治体条例（国基準より厳しい場合あり）</strong></td></tr>
+        <tr><td><strong>手洗い設備</strong></td><td>手指洗浄・消毒のための設備（共用洗面＋事務所内消毒液で可の場合あり。指定権者に要確認）</td><td>感染予防基準</td></tr>
         <tr><td><strong>鍵付き書庫</strong></td><td>個人情報保管用のキャビネット</td><td>運営基準</td></tr>
         <tr><td><strong>固定電話・FAX</strong></td><td>他事業所と共用不可</td><td>運営基準</td></tr>
       </table>
@@ -576,7 +522,7 @@ select.form-input{text-align:left}
         <tr><th>用途地域</th><th>開設可否</th><th>条件</th></tr>
         <tr><td>第1種・第2種低層住居専用地域</td><td>○</td><td>延床面積600㎡以下</td></tr>
         <tr><td>中高層住居・住居・準住居地域</td><td>○</td><td>制限なし</td></tr>
-        <tr><td>商業・近隣商業・準工業地域</td><td style="color:#16a34a"><strong>○</strong></td><td>制限なし（千葉駅・稲毛駅はこれ）</td></tr>
+        <tr><td>商業・近隣商業・準工業地域</td><td style="color:#16a34a"><strong>○</strong></td><td>制限なし（駅前エリアはこれが多い）</td></tr>
         <tr><td style="color:#dc2626">工業専用地域</td><td style="color:#dc2626"><strong>×</strong></td><td>開設不可</td></tr>
       </table>
       <p style="font-size:.82rem;color:var(--muted)">根拠：国交省 国住街第107号（2015年）により、訪看STは住居専用地域でも開設可能に</p>
@@ -589,17 +535,20 @@ select.form-input{text-align:left}
         <tr><td>看板設置</td><td>マンションは禁止の場合多い → 事前確認必須</td></tr>
         <tr><td>消費税</td><td>事業用賃貸は課税対象（居住用は非課税）</td></tr>
       </table>
-      <h3>千葉市の指定申請スケジュール</h3>
+      <h3>指定申請スケジュール（エリア確定後）</h3>
       <table>
         <tr><th>時期</th><th>内容</th></tr>
-        <tr><td>物件決定後すぐ</td><td><strong>千葉市介護保険事業課（043-245-5062）に事前相談予約</strong></td></tr>
+        <tr><td>物件決定後すぐ</td><td><strong>指定権者に事前相談予約（図面持参）</strong></td></tr>
         <tr><td>指定月の前月1〜10日</td><td>介護保険の指定申請（対面・予約必須・来庁2〜3回）</td></tr>
         <tr><td>15日まで</td><td>書類不備の訂正完了（間に合わないと翌月に延期）</td></tr>
         <tr><td>翌月1日</td><td>指定日（開業）</td></tr>
       </table>
+      <table style="margin-top:12px">
+        <tr><th>エリア</th><th>指定権者</th><th>注意事項</th></tr>
+        <tr><td>市川市・柏市</td><td>千葉県</td><td>医療保険 → 関東信越厚生局 千葉事務所</td></tr>
+        <tr><td>江戸川区</td><td>東京都</td><td style="color:#dc2626"><strong>事前研修の受講が必要（開業4ヶ月前）</strong></td></tr>
+      </table>
       <p style="font-size:.82rem;color:var(--muted)">
-        ※ 11月1日開業の場合：10月1〜10日に千葉市へ申請、10月15日までに書類完了<br>
-        ※ 介護保険の指定 → 千葉市 / 医療保険の指定 → 関東信越厚生局 千葉事務所（043-382-8101）<br>
         ※ 介護保険指定を受ければ医療保険は「みなし指定」される場合あり<br>
         ※ 消防・バリアフリー・駐車場の法的義務はなし（ただし実務上、訪問用の自転車・バイク分の駐輪場は必要）
       </p>
@@ -643,27 +592,27 @@ select.form-input{text-align:left}
         <tr><td>他法人退職 + ST管理者</td><td><strong>○</strong></td><td>最も確実</td></tr>
         <tr><td>管理者を別に立て、本人は非常勤スタッフ</td><td><strong>○</strong></td><td>他法人との兼務も可</td></tr>
       </table>
-      <h3>確定: 人員体制</h3>
+      <h3>人員体制（7/21更新）</h3>
       <table>
         <tr><th>メンバー</th><th>役割</th><th>雇用形態</th><th>常勤換算</th></tr>
         <tr style="background:#dcfce7"><td><strong>広辺</strong></td><td>代表取締役（オーナー）</td><td>—</td><td>—</td></tr>
-        <tr style="background:#dcfce7"><td><strong>金井さん</strong></td><td>管理者</td><td>8-9月: 業務委託 → 10月〜: 正社員</td><td>1.0</td></tr>
+        <tr style="background:#fef2f2"><td><strong>管理者（未採用）</strong></td><td>管理者</td><td>正社員</td><td>1.0</td></tr>
         <tr><td><strong>滝田さん</strong></td><td>看護師（大学院生）</td><td>非常勤パート（11月〜）</td><td>0.5</td></tr>
         <tr><td><strong>外部パート2名</strong></td><td>看護師</td><td>パート（11月〜）</td><td>各0.5</td></tr>
         <tr><td><strong>リュウナさん</strong></td><td>看護師</td><td>正社員（2027年4月〜）</td><td>1.0</td></tr>
         <tr style="background:#dcfce7"><td colspan="3" style="text-align:right;font-weight:700">開業時 常勤換算合計</td><td style="font-weight:700;font-size:15px">2.5</td></tr>
       </table>
-      <div class="highlight">
-        <strong>管理者（金井さん）:</strong> 慶應大学精神科看護師（7月末退職）→ 10月から正社員（管理者就任）<br>
-        → 精神科臨床経験あり。訪問看護経験は不要。管理者研修の事前受講を推奨。<br>
-        → 8-9月は業務委託でマニュアル・運営規程・BCP等の開業準備を担当。
+      <div class="highlight" style="border-left:3px solid #dc2626;background:#fef2f2">
+        <strong>最優先タスク：管理者の採用</strong><br>
+        → 金井さんは辞退（サブメンバーとしてマニュアルサポートのみ）<br>
+        → 管理者候補の求人票を作成済み。Indeed等で募集中。<br>
+        → 看護師資格＋臨床経験3年以上。訪問看護経験があれば尚可。
       </div>
       <h3>メンバー立地条件</h3>
       <table>
-        <tr><th>メンバー</th><th>居住地</th><th>千葉駅へのアクセス</th></tr>
-        <tr><td>広辺（オーナー）</td><td>新浦安</td><td>35〜40分（乗換あり）</td></tr>
-        <tr><td>金井さん（管理者）</td><td>小岩</td><td>総武線 約40分</td></tr>
-        <tr><td>滝田さん（非常勤）</td><td>小岩</td><td>総武線 約40分</td></tr>
+        <tr><th>メンバー</th><th>居住地</th><th>通勤条件</th></tr>
+        <tr><td>広辺（オーナー）</td><td>新浦安</td><td>新浦安50分 / 葛西60分圏内</td></tr>
+        <tr><td>滝田さん（非常勤）</td><td>小岩</td><td>葛西から近い</td></tr>
       </table>
       <h3>最短開業 ガントチャート（2026年8月〜11月）</h3>
       <div style="overflow-x:auto">
@@ -684,7 +633,7 @@ select.form-input{text-align:left}
         <tbody>
           <!-- 社長（広辺） -->
           <tr style="background:#eff6ff"><td rowspan="7" style="font-weight:700;color:#1e40af;border:1px solid #e5e7eb;vertical-align:top;padding:6px 4px">社長<br>（広辺）</td>
-            <td style="border:1px solid #e5e7eb;padding:4px">法人設立（株式会社）</td>
+            <td style="border:1px solid #e5e7eb;padding:4px">法人設立（合同会社）</td>
             <td colspan="2" style="background:#3b82f6;border:1px solid #2563eb" title="8月前半"></td>
             <td colspan="2" style="border:1px solid #e5e7eb"></td><td colspan="2" style="border:1px solid #e5e7eb"></td><td colspan="2" style="border:1px solid #e5e7eb"></td><td colspan="2" style="border:1px solid #e5e7eb"></td><td colspan="2" style="border:1px solid #e5e7eb"></td><td style="border:1px solid #e5e7eb"></td></tr>
           <tr style="background:#eff6ff"><td style="border:1px solid #e5e7eb;padding:4px">物件探し・内見・契約</td>
@@ -707,18 +656,18 @@ select.form-input{text-align:left}
             <td colspan="2" style="background:#3b82f6;border:1px solid #2563eb"></td>
             <td colspan="2" style="background:#93c5fd;border:1px solid #60a5fa"></td>
             <td colspan="2" style="border:1px solid #e5e7eb"></td><td style="border:1px solid #e5e7eb"></td></tr>
-          <tr style="background:#eff6ff"><td style="border:1px solid #e5e7eb;padding:4px">金井さん雇用契約締結</td>
+          <tr style="background:#eff6ff"><td style="border:1px solid #e5e7eb;padding:4px">管理者 正社員契約締結</td>
             <td colspan="2" style="border:1px solid #e5e7eb"></td><td colspan="2" style="border:1px solid #e5e7eb"></td><td colspan="2" style="border:1px solid #e5e7eb"></td><td colspan="2" style="border:1px solid #e5e7eb"></td>
             <td colspan="2" style="background:#3b82f6;border:1px solid #2563eb" title="10月1日"></td>
             <td colspan="2" style="border:1px solid #e5e7eb"></td><td style="border:1px solid #e5e7eb"></td></tr>
-          <tr style="background:#eff6ff"><td style="border:1px solid #e5e7eb;padding:4px">千葉市に指定申請提出</td>
+          <tr style="background:#eff6ff"><td style="border:1px solid #e5e7eb;padding:4px">指定権者に指定申請提出</td>
             <td colspan="2" style="border:1px solid #e5e7eb"></td><td colspan="2" style="border:1px solid #e5e7eb"></td><td colspan="2" style="border:1px solid #e5e7eb"></td><td colspan="2" style="border:1px solid #e5e7eb"></td>
             <td colspan="2" style="background:#1d4ed8;border:1px solid #1e40af;color:white;font-weight:700;text-align:center;font-size:10px">10/1〜10</td>
             <td colspan="2" style="border:1px solid #e5e7eb"></td><td style="border:1px solid #e5e7eb"></td></tr>
 
-          <!-- 金井さん -->
-          <tr style="background:#f0fdf4"><td rowspan="9" style="font-weight:700;color:#15803d;border:1px solid #e5e7eb;vertical-align:top;padding:6px 4px">金井さん<br>（管理者）</td>
-            <td style="border:1px solid #e5e7eb;padding:4px">業務委託契約・キックオフ</td>
+          <!-- 管理者 -->
+          <tr style="background:#f0fdf4"><td rowspan="9" style="font-weight:700;color:#15803d;border:1px solid #e5e7eb;vertical-align:top;padding:6px 4px">管理者<br>（採用後）</td>
+            <td style="border:1px solid #e5e7eb;padding:4px">管理者採用・キックオフ</td>
             <td colspan="2" style="background:#22c55e;border:1px solid #16a34a"></td>
             <td colspan="2" style="border:1px solid #e5e7eb"></td><td colspan="2" style="border:1px solid #e5e7eb"></td><td colspan="2" style="border:1px solid #e5e7eb"></td><td colspan="2" style="border:1px solid #e5e7eb"></td><td colspan="2" style="border:1px solid #e5e7eb"></td><td style="border:1px solid #e5e7eb"></td></tr>
           <tr style="background:#f0fdf4"><td style="border:1px solid #e5e7eb;padding:4px">運営規程・重説・契約書作成</td>
@@ -770,7 +719,7 @@ select.form-input{text-align:left}
             <td colspan="2" style="background:#fcd34d;border:1px solid #f59e0b"></td>
             <td colspan="2" style="background:#fcd34d;border:1px solid #f59e0b"></td>
             <td colspan="2" style="border:1px solid #e5e7eb"></td><td colspan="2" style="border:1px solid #e5e7eb"></td><td style="border:1px solid #e5e7eb"></td></tr>
-          <tr style="background:#fef3c7"><td style="border:1px solid #e5e7eb;padding:4px">精神科看護の研修計画策定</td>
+          <tr style="background:#fef3c7"><td style="border:1px solid #e5e7eb;padding:4px">看護研修計画の策定</td>
             <td colspan="2" style="border:1px solid #e5e7eb"></td><td colspan="2" style="border:1px solid #e5e7eb"></td><td colspan="2" style="border:1px solid #e5e7eb"></td>
             <td colspan="2" style="background:#fcd34d;border:1px solid #f59e0b"></td>
             <td colspan="2" style="background:#fbbf24;border:1px solid #f59e0b"></td>
@@ -790,7 +739,7 @@ select.form-input{text-align:left}
       </div>
       <div style="margin-top:8px;font-size:11px;color:#666;display:flex;gap:16px;flex-wrap:wrap">
         <span><span style="display:inline-block;width:12px;height:12px;background:#3b82f6;border-radius:2px;vertical-align:middle"></span> 社長</span>
-        <span><span style="display:inline-block;width:12px;height:12px;background:#22c55e;border-radius:2px;vertical-align:middle"></span> 金井さん</span>
+        <span><span style="display:inline-block;width:12px;height:12px;background:#22c55e;border-radius:2px;vertical-align:middle"></span> 管理者</span>
         <span><span style="display:inline-block;width:12px;height:12px;background:#fcd34d;border-radius:2px;vertical-align:middle"></span> 滝田さん</span>
       </div>
     </div>
@@ -799,14 +748,14 @@ select.form-input{text-align:left}
   <div class="strategy-card">
     <div class="strategy-header">開業戦略 5つの柱</div>
     <div class="strategy-body">
-      <h3>1. 立地 — 千葉駅（3社8路線ターミナル・98万人商圏）</h3>
-      <ul><li>千葉駅は3社8路線のターミナル — スタッフの採用力が最強</li><li>中央区に精神科特化STは2〜3件のみ — 98万人に対して圧倒的に少ない</li><li>千葉駅周辺に精神科クリニック27件集中 → 紹介元が豊富</li><li>千葉大病院・千葉メディカルセンターからの退院患者需要</li><li>テナント185件+と豊富、全区をバランス良くカバー</li></ul>
-      <h3>2. 「障害者を強みとする総合型」で差別化</h3>
-      <div class="highlight"><strong>精神科＋身体障害＋高齢者の総合型。</strong>精神科の専門性を看板に掲げつつ、身体・高齢者も対応してリスク分散。完全特化しないことで利用者獲得の間口を広げる。</div>
-      <h3>3. 精神科クリニック・病院との連携</h3>
-      <ul><li>千葉駅周辺の精神科・心療内科クリニックへの挨拶回り（開業前から）</li><li>千葉大病院・千葉メディカルの退院支援チームとの関係構築</li><li>主治医からの「精神科訪問看護指示書」が算定の必須条件</li><li>紹介ルートの構築が利用者獲得の最重要施策</li></ul>
-      <h3>4. 人材確保（千葉駅ターミナルの採用力）</h3>
-      <ul><li>管理者（金井さん）は慶應精神科から7月末退職 → 10月に正社員就任</li><li>滝田さんは大学院在学中のため非常勤パート（0.5 FTE）で参画</li><li>外部パート2名を9月に採用（千葉大・千葉メディカルからの退職看護師がターゲット）</li><li>柔軟な勤務体制（時短・週3勤務可）で差別化</li><li>常勤換算2.5人以上が開業要件（常勤1名+非常勤3名で達成）</li></ul>
+      <h3>1. 立地 — 葛西60分圏内・高需要エリア</h3>
+      <ul><li>第1候補：市川市（葛西24分・67万商圏・紹介元最多）</li><li>第2候補：江戸川区（人口69.8万最大・葛西乗換なし）</li><li>第3候補：柏市（ST最少・家賃最安・競合少ない）</li><li>管理者の採用状況・テナント確保の状況で最終決定</li></ul>
+      <h3>2. 医療保険メインの一般訪問看護で幅広く対応</h3>
+      <div class="highlight"><strong>精神科特化はやめ、退院後フォロー・精神疾患・医療処置・がん/難病まで幅広く。</strong>特定疾患に依存せず利用者獲得の間口を広げつつ、精神科の経験も活かす。</div>
+      <h3>3. 病院・クリニックとの連携</h3>
+      <ul><li>エリア内の病院・クリニックへの挨拶回り（開業前から）</li><li>退院支援チームとの関係構築が利用者獲得の最重要施策</li><li>主治医からの「訪問看護指示書」が算定の必須条件</li><li>精神科に限らず、内科・外科・整形外科など幅広い紹介元を開拓</li></ul>
+      <h3>4. 人材確保</h3>
+      <ul><li><strong>最優先：管理者の採用</strong>（求人票作成済み・Indeed等で募集中）</li><li>滝田さんは大学院在学中のため非常勤パート（0.5 FTE）で参画</li><li>外部パート2名を採用予定</li><li>柔軟な勤務体制（時短・週3勤務可）で差別化</li><li>常勤換算2.5人以上が開業要件（常勤1名+非常勤3名で達成）</li></ul>
       <h3>5. 段階的な成長計画</h3>
       <table>
         <tr><th>時期</th><th>利用者数</th><th>体制</th><th>目標</th></tr>
@@ -823,11 +772,11 @@ select.form-input{text-align:left}
     <div class="strategy-body">
       <table>
         <tr><th>リスク</th><th>対策</th></tr>
-        <tr><td>精神科経験看護師の採用難</td><td>千葉大・千葉メディカルへの直接営業。柔軟な勤務形態。千葉駅の採用力を活かす</td></tr>
-        <tr><td>利用者獲得の初動が遅い</td><td>開業3ヶ月前からクリニック挨拶回り。退院支援チームとの関係構築</td></tr>
+        <tr><td>管理者の採用</td><td>Indeed・看護師転職サイトで募集中。条件を柔軟に（訪問看護未経験でも可）</td></tr>
+        <tr><td>利用者獲得の初動が遅い</td><td>開業3ヶ月前からクリニック・病院への挨拶回り。退院支援チームとの関係構築</td></tr>
         <tr><td>開業後2ヶ月の無収入期間</td><td>報酬入金が2ヶ月遅れのため、十分な運転資金の確保が必須</td></tr>
-        <tr><td>一般STとの競合</td><td>「障害者に強い」ブランドで紹介元からの指名を獲得。総合型だが専門性で差別化</td></tr>
-        <tr><td>家賃コスト</td><td>千葉駅周辺で坪1.0〜1.2万円。東千葉・本千葉方面ならやや安い</td></tr>
+        <tr><td>一般STとの競合</td><td>幅広い疾患対応＋丁寧なケアで紹介元からの信頼を獲得</td></tr>
+        <tr><td>家賃コスト</td><td>エリアにより8〜20万円。市川市なら12〜16万、柏市なら8〜12万</td></tr>
         <tr><td>診療報酬改定リスク</td><td>令和6年・8年改定で基本療養費引上げ・新加算創設と拡充傾向。2026年規制強化は真面目な事業者に追い風</td></tr>
       </table>
       <div class="note" style="margin-top:12px">
@@ -839,7 +788,7 @@ select.form-input{text-align:left}
   </div>
 
   <div class="strategy-card">
-    <div class="strategy-header">初期費用の目安（千葉駅エリア）</div>
+    <div class="strategy-header">初期費用の目安</div>
     <div class="strategy-body">
       <table>
         <tr><th>項目</th><th>備考</th></tr>
@@ -1048,7 +997,7 @@ select.form-input{text-align:left}
       </style>
       <div class="sal-grid">
         <div class="sal-box" style="border-left:3px solid #22c55e">
-          <h4 style="color:#15803d">金井さん（管理者）</h4>
+          <h4 style="color:#15803d">管理者（採用後）</h4>
           <div class="sal-row"><label>委託時給</label><input type="number" id="s_kRate" value="1800" step="100" oninput="salCalc()"><span class="unit">円</span></div>
           <div class="sal-row"><label>委託 月h</label><input type="number" id="s_kHours" value="80" step="5" oninput="salCalc()"><span class="unit">h</span></div>
           <div class="sal-row"><label>正社員 額面</label><input type="number" id="s_kSalary" value="350000" step="10000" oninput="salCalc()"><span class="unit">円</span></div>
@@ -1086,7 +1035,7 @@ select.form-input{text-align:left}
     <div class="strategy-body">
       <div style="overflow-x:auto">
       <table style="font-size:13px">
-        <tr><th>期間</th><th>金井さん</th><th>滝田さん</th><th>外部パート</th><th>リュウナ</th><th style="background:#f0fdfa">月合計</th></tr>
+        <tr><th>期間</th><th>管理者</th><th>滝田さん</th><th>外部パート</th><th>リュウナ</th><th style="background:#f0fdfa">月合計</th></tr>
         <tr>
           <td><strong>8月</strong><br><span style="font-size:11px;color:#666">業務委託+レビュー</span></td>
           <td id="s_tl_k89">—</td><td id="s_tl_t89">—</td><td>—</td><td>—</td>
@@ -1302,7 +1251,7 @@ select.form-input{text-align:left}
             <td style="border:1px solid #e5e7eb;padding:3px">定款作成・公証人認証・登記申請</td>
             <td colspan="2" style="background:#3b82f6;border:1px solid #2563eb"></td>
             <td colspan="12" style="border:1px solid #e5e7eb"></td></tr>
-          <tr style="background:#eff6ff"><td style="border:1px solid #e5e7eb;padding:3px">金井さんと業務委託契約締結</td>
+          <tr style="background:#eff6ff"><td style="border:1px solid #e5e7eb;padding:3px">管理者採用活動</td>
             <td colspan="2" style="background:#60a5fa;border:1px solid #3b82f6"></td>
             <td colspan="12" style="border:1px solid #e5e7eb"></td></tr>
           <tr style="background:#eff6ff"><td style="border:1px solid #e5e7eb;padding:3px">物件探し・内見・比較</td>
@@ -1328,18 +1277,18 @@ select.form-input{text-align:left}
             <td colspan="2" style="background:#3b82f6;border:1px solid #2563eb"></td>
             <td colspan="2" style="background:#93c5fd;border:1px solid #60a5fa"></td>
             <td colspan="4" style="border:1px solid #e5e7eb"></td></tr>
-          <tr style="background:#eff6ff"><td style="border:1px solid #e5e7eb;padding:3px">金井さん正社員雇用契約</td>
+          <tr style="background:#eff6ff"><td style="border:1px solid #e5e7eb;padding:3px">管理者 正社員雇用契約</td>
             <td colspan="8" style="border:1px solid #e5e7eb"></td>
             <td colspan="2" style="background:#1d4ed8;border:1px solid #1e40af;color:white;text-align:center;font-weight:700;font-size:9px">10/1</td>
             <td colspan="4" style="border:1px solid #e5e7eb"></td></tr>
-          <tr style="background:#eff6ff"><td style="border:1px solid #e5e7eb;padding:3px">千葉市に指定申請（金井と共同）</td>
+          <tr style="background:#eff6ff"><td style="border:1px solid #e5e7eb;padding:3px">指定権者に指定申請</td>
             <td colspan="8" style="border:1px solid #e5e7eb"></td>
             <td colspan="2" style="background:#1d4ed8;border:1px solid #1e40af;color:white;text-align:center;font-weight:700;font-size:9px">申請!</td>
             <td colspan="4" style="border:1px solid #e5e7eb"></td></tr>
 
-          <!-- 金井さん -->
-          <tr style="background:#f0fdf4"><td rowspan="12" style="font-weight:700;color:#15803d;border:1px solid #e5e7eb;vertical-align:top;padding:4px 3px;font-size:11px">金井さん<br>（管理者）</td>
-            <td style="border:1px solid #e5e7eb;padding:3px">業務委託キックオフ・業務整理</td>
+          <!-- 管理者 -->
+          <tr style="background:#f0fdf4"><td rowspan="12" style="font-weight:700;color:#15803d;border:1px solid #e5e7eb;vertical-align:top;padding:4px 3px;font-size:11px">管理者<br>（採用後）</td>
+            <td style="border:1px solid #e5e7eb;padding:3px">管理者キックオフ・業務整理</td>
             <td colspan="2" style="background:#22c55e;border:1px solid #16a34a"></td>
             <td colspan="12" style="border:1px solid #e5e7eb"></td></tr>
           <tr style="background:#f0fdf4"><td style="border:1px solid #e5e7eb;padding:3px">運営規程作成</td>
@@ -1427,7 +1376,7 @@ select.form-input{text-align:left}
       </div>
       <div style="margin-top:6px;font-size:11px;color:#666;display:flex;gap:16px;flex-wrap:wrap">
         <span><span style="display:inline-block;width:12px;height:12px;background:#3b82f6;border-radius:2px;vertical-align:middle"></span> 社長（広辺）</span>
-        <span><span style="display:inline-block;width:12px;height:12px;background:#22c55e;border-radius:2px;vertical-align:middle"></span> 金井さん</span>
+        <span><span style="display:inline-block;width:12px;height:12px;background:#22c55e;border-radius:2px;vertical-align:middle"></span> 管理者</span>
         <span><span style="display:inline-block;width:12px;height:12px;background:#fcd34d;border-radius:2px;vertical-align:middle"></span> 滝田さん</span>
       </div>
     </div>
@@ -1454,9 +1403,9 @@ select.form-input{text-align:left}
     </div>
     <div class="strategy-body" style="padding:20px">
       <div style="display:flex;gap:24px;flex-wrap:wrap;margin-bottom:20px">
-        <div><strong>事業名:</strong> <span contenteditable="true" style="border-bottom:1px solid #999;padding:0 8px;min-width:200px;display:inline-block">精神科訪問看護ステーション</span></div>
-        <div><strong>開業予定:</strong> 2026年11月1日</div>
-        <div><strong>所在地:</strong> <span contenteditable="true" style="border-bottom:1px solid #999;padding:0 8px;min-width:160px;display:inline-block">千葉市中央区</span></div>
+        <div><strong>事業名:</strong> <span contenteditable="true" style="border-bottom:1px solid #999;padding:0 8px;min-width:200px;display:inline-block">訪問看護ステーション いっぽ</span></div>
+        <div><strong>開業予定:</strong> 2026年内</div>
+        <div><strong>所在地:</strong> <span contenteditable="true" style="border-bottom:1px solid #999;padding:0 8px;min-width:160px;display:inline-block">候補地選定中</span></div>
       </div>
 
       <h4 style="font-size:14px;color:#1e3a8a;margin:16px 0 8px;border-bottom:2px solid #1e3a8a;padding-bottom:4px">1. 売上計画</h4>
@@ -1567,8 +1516,8 @@ select.form-input{text-align:left}
 
       <h4 style="font-size:14px;color:#1e3a8a;margin:20px 0 8px;border-bottom:2px solid #1e3a8a;padding-bottom:4px">6. 事業の強み・市場性</h4>
       <div style="font-size:13px;line-height:2" contenteditable="true">
-        <p><strong>(1) 市場の成長性:</strong> 精神疾患の患者数は全国約615万人（令和2年）で増加傾向。訪問看護の需要は拡大を続けており、2025年の全国ステーション数は18,753ヶ所（過去最多）。千葉市の訪問看護ステーションは約125ヶ所だが、精神科に専門特化した事業所はごく少数であり、参入余地が大きい。</p>
-        <p><strong>(2) 差別化要因:</strong> 管理者が慶應義塾大学病院精神科での臨床経験を有し、精神科看護の高い専門性を持つ。一般的な訪問看護では対応が難しい精神疾患の利用者に特化したサービスを提供できる。</p>
+        <p><strong>(1) 市場の成長性:</strong> 在宅医療の需要は高齢化に伴い全国的に増加。訪問看護利用者は5年で約1.5倍に拡大しており、2025年の全国ステーション数は18,753ヶ所（過去最多）。候補エリア（市川市・江戸川区・柏市）はいずれも人口/ST比が高く、参入余地が大きい。</p>
+        <p><strong>(2) 差別化要因:</strong> 退院後フォロー・精神疾患・医療処置・がん/難病まで幅広い疾患に対応する一般訪問看護ステーション。大学病院出身の看護師が在籍し、質の高い看護を提供。</p>
         <p><strong>(3) 安定した収益基盤:</strong> 訪問看護の報酬は医療保険・介護保険による公定価格であり、景気変動の影響を受けにくい。利用者は継続的なケアが必要であるため、一度契約すると長期の安定収入が見込める。</p>
         <p><strong>(4) 制度の追い風:</strong> 2026年6月より訪問看護にも処遇改善加算（1.8%）が初適用され、看護師の採用競争力が向上。地域包括ケアシステムの推進により、訪問看護の役割は一層重要視されている。</p>
       </div>
@@ -1605,15 +1554,15 @@ select.form-input{text-align:left}
         <button onclick="ganttSetFilter('saiyou',this)" class="gantt-filter" style="padding:4px 12px;font-size:11px;font-weight:700;border-radius:6px;cursor:pointer;border:1px solid #d1d5db;background:#f8fafc;color:#334155">採用</button>
         <button onclick="ganttSetFilter('gyosei',this)" class="gantt-filter" style="padding:4px 12px;font-size:11px;font-weight:700;border-radius:6px;cursor:pointer;border:1px solid #d1d5db;background:#f8fafc;color:#334155">行政</button>
         <button onclick="ganttSetFilter('boss',this)" class="gantt-filter" style="padding:4px 12px;font-size:11px;font-weight:700;border-radius:6px;cursor:pointer;border:1px solid #d1d5db;background:#f8fafc;color:#3b82f6">社長</button>
-        <button onclick="ganttSetFilter('kanai',this)" class="gantt-filter" style="padding:4px 12px;font-size:11px;font-weight:700;border-radius:6px;cursor:pointer;border:1px solid #d1d5db;background:#f8fafc;color:#22c55e">金井</button>
+        <button onclick="ganttSetFilter('kanai',this)" class="gantt-filter" style="padding:4px 12px;font-size:11px;font-weight:700;border-radius:6px;cursor:pointer;border:1px solid #d1d5db;background:#f8fafc;color:#22c55e">管理者</button>
         <button onclick="ganttSetFilter('takita',this)" class="gantt-filter" style="padding:4px 12px;font-size:11px;font-weight:700;border-radius:6px;cursor:pointer;border:1px solid #d1d5db;background:#f8fafc;color:#f59e0b">滝田</button>
       </div>
       <div style="overflow-x:auto" id="gantt_chart_wrap"></div>
       <div style="margin-top:6px;font-size:11px;color:#666;display:flex;gap:16px;flex-wrap:wrap">
         <span><span style="display:inline-block;width:12px;height:12px;background:#3b82f6;border-radius:2px;vertical-align:middle"></span> 社長（広辺）</span>
-        <span><span style="display:inline-block;width:12px;height:12px;background:#22c55e;border-radius:2px;vertical-align:middle"></span> 金井さん</span>
+        <span><span style="display:inline-block;width:12px;height:12px;background:#22c55e;border-radius:2px;vertical-align:middle"></span> 管理者</span>
         <span><span style="display:inline-block;width:12px;height:12px;background:#f59e0b;border-radius:2px;vertical-align:middle"></span> 滝田さん</span>
-        <span style="border-left:1px solid #d1d5db;padding-left:12px"><span style="display:inline-block;width:12px;height:12px;background:#dc2626;border-radius:2px;vertical-align:middle;background-image:repeating-linear-gradient(45deg,transparent,transparent 2px,rgba(255,255,255,.3) 2px,rgba(255,255,255,.3) 4px)"></span> 千葉市（行政処理）</span>
+        <span style="border-left:1px solid #d1d5db;padding-left:12px"><span style="display:inline-block;width:12px;height:12px;background:#dc2626;border-radius:2px;vertical-align:middle;background-image:repeating-linear-gradient(45deg,transparent,transparent 2px,rgba(255,255,255,.3) 2px,rgba(255,255,255,.3) 4px)"></span> 指定権者（行政処理）</span>
         <span><span style="display:inline-block;width:12px;height:12px;background:#ea580c;border-radius:2px;vertical-align:middle;background-image:repeating-linear-gradient(45deg,transparent,transparent 2px,rgba(255,255,255,.3) 2px,rgba(255,255,255,.3) 4px)"></span> 厚生局等（行政処理）</span>
       </div>
     </div>
@@ -1766,19 +1715,17 @@ function hRenderCFChart(mExp,maxC,vpc,longR,d4R,mt,initCost){
 var hCatChartObj=null,hCityChartObj=null;
 
 function loadHMarket(){
+  var CANDIDATE_CITIES=['市川市','江戸川区','柏市'];
+  var CANDIDATE_POP={'市川市':501000,'江戸川区':698000,'柏市':439000};
   fetch('/api/houmon/stats').then(r=>r.json()).then(function(d){
     document.getElementById('hm_total').textContent=d.total+'件';
     document.getElementById('hm_psych').textContent=d.psych_count+'件';
     document.getElementById('hm_psych_pct').textContent='全体の'+(d.total>0?(d.psych_count/d.total*100).toFixed(1):0)+'%';
     document.getElementById('hm_general').textContent=d.general_count+'件';
-    document.getElementById('hm_pop_per_st').textContent=fmtPlain(Math.round(980000/d.total))+'人/1ST';
     document.getElementById('hm_updated').textContent='データ取得日: '+d.last_run;
-    var psDem=4900,optPer=50,psCt=d.psych_count||0;
-    var perSt=psCt>0?Math.round(psDem/psCt):0;
-    document.getElementById('hm_demand_per_st').innerHTML=perSt+'<small style="font-size:.7rem;color:var(--muted)">人</small>';
-    document.getElementById('hm_demand_psych').innerHTML=psCt+'<small style="font-size:.7rem;color:var(--muted)">件</small>';
-    var optN=Math.ceil(psDem/optPer),fR=optN>0?Math.round(psCt/optN*100):0;
-    document.getElementById('hm_demand_rate').innerHTML=fR+'<small style="font-size:.7rem;color:var(--muted)">%</small>';
+    var perSt=d.total>0?Math.round(501000/d.total):0;
+    document.getElementById('hm_demand_per_st').innerHTML=fmtPlain(perSt)+'<small style="font-size:.7rem;color:var(--muted)">人</small>';
+    document.getElementById('hm_demand_psych').innerHTML=d.total+'<small style="font-size:.7rem;color:var(--muted)">件</small>';
 
     // カテゴリチャート
     if(d.categories&&d.categories.length){
@@ -1796,16 +1743,33 @@ function loadHMarket(){
     var labels=cities.map(function(c){return c.city});
     var totalData=cities.map(function(c){return c.total});
     var psychData=cities.map(function(c){return c.psych_count});
-    var bgTotal=cities.map(function(c){return c.city==='千葉市'?'#9333ea':'#c4b5fd'});
+    var bgTotal=cities.map(function(c){return CANDIDATE_CITIES.indexOf(c.city)>=0?'#9333ea':'#c4b5fd'});
 
     if(hCityChartObj)hCityChartObj.destroy();
     hCityChartObj=new Chart(document.getElementById('hCityChart'),{type:'bar',data:{labels:labels,datasets:[{label:'ST総数',data:totalData,backgroundColor:bgTotal,borderRadius:4},{label:'精神科特化',data:psychData,backgroundColor:'#ef4444',borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{y:{beginAtZero:true}}}});
 
     document.getElementById('hCityBody').innerHTML=cities.map(function(c){
-      var hl=c.city==='千葉市'?' style="background:#faf5ff;font-weight:700"':'';
+      var hl=CANDIDATE_CITIES.indexOf(c.city)>=0?' style="background:#faf5ff;font-weight:700"':'';
       var pct=c.total>0?(c.psych_count/c.total*100).toFixed(1)+'%':'0%';
       return '<tr'+hl+'><td>'+c.city+'</td><td style="text-align:right">'+c.total+'</td><td style="text-align:right">'+c.psych_count+'</td><td style="text-align:right">'+pct+'</td></tr>';
     }).join('');
+    // 候補エリア比較テーブルの動的更新
+    cities.forEach(function(c){
+      var pop=CANDIDATE_POP[c.city];
+      if(!pop)return;
+      var ratio=c.total>0?Math.round(pop/c.total).toLocaleString():'—';
+      // 市場調査タブ + 開業戦略タブの両方を更新
+      var ids={
+        '市川市':['hm_ichikawa_st','hm_ichikawa_ratio','hm_pop_ichikawa','hm_pop_per_st','hs_ichikawa_st','hs_ichikawa_ratio'],
+        '江戸川区':['hm_edogawa_st','hm_edogawa_ratio','hm_pop_edogawa','hm_pop_per_st_e','hs_edogawa_st','hs_edogawa_ratio'],
+        '柏市':['hm_kashiwa_st','hm_kashiwa_ratio','hm_pop_kashiwa','hm_pop_per_st_k','hs_kashiwa_st','hs_kashiwa_ratio']
+      };
+      var arr=ids[c.city];
+      if(arr){
+        [arr[0],arr[2],arr[4]].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent=c.total+'件';});
+        [arr[1],arr[3],arr[5]].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent=ratio;});
+      }
+    });
   });
   hLoadOffices2('all');hLoadLog2();
 }
@@ -1839,7 +1803,7 @@ function hRenderOfc(){
   hOfcPage=Math.min(hOfcPage,tp);var s=(hOfcPage-1)*H_PG,sl=hFiltOfc.slice(s,s+H_PG);
   if(!sl.length){tb.innerHTML='<tr><td colspan="8"><div class="mkt-empty">該当する事業所がありません</div></td></tr>';document.getElementById('hPageInfo2').textContent='0件';document.getElementById('hPrevPage2').disabled=true;document.getElementById('hNextPage2').disabled=true;return;}
   tb.innerHTML=sl.map(function(o){
-    var f=o.is_favorite==1,addr=(o.address||'').replace(/^千葉県市川市/,'市川市');
+    var f=o.is_favorite==1,addr=(o.address||'').replace(/^(千葉県|東京都)/,'');
     return '<tr><td style="text-align:center"><button class="mkt-fav '+(f?'on':'off')+'" onclick="hTogFav2('+o.id+',this)">'+(f?'★':'☆')+'</button></td><td>'+hCatBdg(o.category||'一般')+'</td><td>'+_esc(o.office_name||'')+(o.url&&o.url!=='nan'?'<br><a href="'+_esc(o.url)+'" target="_blank" style="font-size:.72rem;color:var(--h-primary)">HP</a>':'')+'</td><td style="font-size:.78rem">'+_esc(o.corp_name||'')+'</td><td style="font-size:.78rem">'+_esc(addr)+'</td><td style="font-size:.78rem">'+_esc(o.phone||'')+'</td><td style="font-size:.75rem;color:var(--muted)">'+_esc(o.available_days||'')+'</td><td><textarea class="mkt-memo" rows="2" placeholder="メモ" oninput="hSchM2('+o.id+',this)" onblur="hDoM2('+o.id+',this)">'+_esc(o.memo||'')+'</textarea></td></tr>';
   }).join('');
   document.getElementById('hPageInfo2').textContent=(s+1)+'〜'+Math.min(s+H_PG,tot)+' / '+tot+'件';
@@ -2296,16 +2260,16 @@ function bankCalc(){
 var GANTT_PERIODS=['8月前半','8月後半','9月前半','9月後半','10月前半','10月後半','11/1'];
 var GANTT_OWNERS=[
   {id:'boss',label:'社長（広辺）',color:'#3b82f6',bg:'#eff6ff'},
-  {id:'kanai',label:'金井さん',color:'#22c55e',bg:'#f0fdf4'},
+  {id:'kanai',label:'管理者',color:'#22c55e',bg:'#f0fdf4'},
   {id:'takita',label:'滝田さん',color:'#f59e0b',bg:'#fef3c7'},
-  {id:'chiba',label:'千葉市',color:'#dc2626',bg:'#fef2f2'},
+  {id:'chiba',label:'指定権者',color:'#dc2626',bg:'#fef2f2'},
   {id:'kouseikyoku',label:'厚生局等',color:'#ea580c',bg:'#fff7ed'}
 ];
 var GANTT_DEFAULT=[
   // 社長（広辺）
   {owner:'boss',task:'定款作成・公証人認証',start:0,end:0},
   {owner:'boss',task:'法人登記申請（法務局）',start:0,end:0},
-  {owner:'boss',task:'金井さんと業務委託契約締結',start:0,end:0},
+  {owner:'boss',task:'管理者採用活動開始',start:0,end:0},
   {owner:'boss',task:'物件探し・内見・比較',start:0,end:1},
   {owner:'boss',task:'物件契約・敷金等支払い（8月末）',start:1,end:1},
   {owner:'boss',task:'法人口座開設（登記完了後）',start:1,end:1},
@@ -2315,16 +2279,16 @@ var GANTT_DEFAULT=[
   {owner:'boss',task:'【採用】応募受付・書類選考',start:2,end:3},
   {owner:'boss',task:'【採用】面接日程調整・面接実施（2名採用目標）',start:3,end:4},
   {owner:'boss',task:'【採用】内定通知・条件交渉・入職意思確認',start:4,end:4},
-  {owner:'boss',task:'【採用】金井さん正社員 雇用契約（10/1〜）',start:4,end:4},
+  {owner:'boss',task:'【採用】管理者 正社員雇用契約',start:4,end:4},
   {owner:'boss',task:'【採用】外部パート 雇用契約締結',start:4,end:5},
   {owner:'boss',task:'【採用】社保手続き（かめい社労士へ依頼）',start:4,end:5},
   {owner:'boss',task:'【採用】制服・名刺・社用携帯・備品準備',start:5,end:5},
-  {owner:'boss',task:'【行政】千葉市 事前相談の予約電話',start:1,end:1},
+  {owner:'boss',task:'【行政】指定権者 事前相談の予約電話',start:1,end:1},
   {owner:'boss',task:'損害賠償保険加入手続き',start:4,end:4},
   {owner:'boss',task:'【加算MTG】退院時共同指導の連携先リスト作成',start:4,end:5},
   {owner:'boss',task:'【加算MTG】24h対応体制の運用ルール協議',start:5,end:5},
-  // 金井さん
-  {owner:'kanai',task:'業務委託キックオフ・業務整理',start:0,end:0},
+  // 管理者
+  {owner:'kanai',task:'管理者キックオフ・業務整理',start:0,end:0},
   {owner:'kanai',task:'運営規程作成（指定申請必須書類）',start:0,end:1},
   {owner:'kanai',task:'重要事項説明書・利用契約書作成',start:1,end:1},
   {owner:'kanai',task:'BCP（業務継続計画）作成',start:1,end:2},
@@ -2332,42 +2296,41 @@ var GANTT_DEFAULT=[
   {owner:'kanai',task:'感染対策・個人情報保護マニュアル',start:3,end:4},
   {owner:'kanai',task:'電子カルテ選定・導入・初期設定',start:2,end:4},
   {owner:'kanai',task:'記録フォーマット・シフト設計',start:3,end:3},
-  {owner:'kanai',task:'【行政】千葉市 事前相談（金井+滝田で来庁）',start:2,end:2},
-  {owner:'kanai',task:'【行政】指定申請書類作成（金井が主担当）',start:3,end:4},
+  {owner:'kanai',task:'【行政】指定権者 事前相談（管理者+滝田で来庁）',start:2,end:2},
+  {owner:'kanai',task:'【行政】指定申請書類作成（管理者が主担当）',start:3,end:4},
   {owner:'kanai',task:'【行政】申請書類の社長との最終確認',start:4,end:4},
-  {owner:'kanai',task:'【行政】千葉市 指定申請書類提出（10月上旬）',start:4,end:4},
-  {owner:'kanai',task:'【行政】千葉市 現地確認・審査対応',start:4,end:5},
+  {owner:'kanai',task:'【行政】指定権者 指定申請書類提出',start:4,end:4},
+  {owner:'kanai',task:'【行政】指定権者 現地確認・審査対応',start:4,end:5},
   {owner:'kanai',task:'【行政】関東信越厚生局 保険届出',start:5,end:5},
-  {owner:'kanai',task:'【行政】生活保護法指定申請（千葉市福祉）',start:5,end:5},
+  {owner:'kanai',task:'【行政】生活保護法指定申請',start:5,end:5},
   {owner:'kanai',task:'【行政】消防署届出・保健所届出',start:5,end:5},
   {owner:'kanai',task:'【採用】面接同席・看護スキル評価',start:3,end:4},
   {owner:'kanai',task:'【採用】外部パート オリエンテーション・研修',start:5,end:5},
-  {owner:'kanai',task:'精神科クリニック・病院への営業',start:4,end:5},
+  {owner:'kanai',task:'病院・クリニックへの営業・挨拶回り',start:4,end:5},
   {owner:'kanai',task:'退院支援チームへの挨拶・連携構築',start:4,end:5},
   {owner:'kanai',task:'関東信越厚生局 届出書類準備',start:5,end:5},
   {owner:'kanai',task:'【加算】処遇改善加算 届出書類作成・提出',start:4,end:5},
   {owner:'kanai',task:'【加算】24h対応体制 整備計画策定（2年目届出）',start:5,end:5},
   // 滝田さん
-  {owner:'takita',task:'精神科訪問看護の方針・対象者像の協議',start:0,end:1},
-  {owner:'takita',task:'BCP・マニュアル レビュー（精神科視点）',start:2,end:3},
-  {owner:'takita',task:'精神科看護 研修プログラム策定',start:3,end:4},
-  {owner:'takita',task:'【採用】面接協力（精神科適性の評価）',start:3,end:4},
-  {owner:'takita',task:'【行政】千葉市 事前相談に同行',start:2,end:2},
-  {owner:'takita',task:'【行政】千葉市 指定申請提出に同行',start:4,end:4},
-  {owner:'takita',task:'【加算MTG】精神科緊急対応マニュアル作成',start:4,end:5},
+  {owner:'takita',task:'訪問看護の方針・対象者像の協議',start:0,end:1},
+  {owner:'takita',task:'BCP・マニュアル レビュー',start:2,end:3},
+  {owner:'takita',task:'看護研修プログラム策定',start:3,end:4},
+  {owner:'takita',task:'【採用】面接協力（看護スキルの評価）',start:3,end:4},
+  {owner:'takita',task:'【行政】指定権者 事前相談に同行',start:2,end:2},
+  {owner:'takita',task:'【行政】指定権者 指定申請提出に同行',start:4,end:4},
+  {owner:'takita',task:'【加算MTG】緊急対応マニュアル作成',start:4,end:5},
   {owner:'takita',task:'非常勤パートとして勤務開始',start:6,end:6},
-  // 千葉市（行政処理）— こちらの作業ではなく行政側の処理
+  // 指定権者（行政処理）— こちらの作業ではなく行政側の処理
   {owner:'chiba',task:'事前相談 受付・日程調整（予約から1〜2週間待ち）',start:1,end:2},
   {owner:'chiba',task:'事前相談 実施（図面・人員確認→フィードバック）',start:2,end:3},
   {owner:'chiba',task:'指摘事項があれば修正期間',start:3,end:3},
-  {owner:'chiba',task:'指定申請 受理期間（10/1〜10日のみ）',start:4,end:4},
-  {owner:'chiba',task:'書類審査（不備→補正指示 10/15期限）',start:4,end:5},
-  {owner:'chiba',task:'現地確認（市職員が事務所に来訪）',start:5,end:5},
-  {owner:'chiba',task:'★ 指定決定通知（11/1付）',start:5,end:5},
+  {owner:'chiba',task:'指定申請 受理・審査',start:4,end:5},
+  {owner:'chiba',task:'現地確認（職員が事務所に来訪）',start:5,end:5},
+  {owner:'chiba',task:'★ 指定決定通知',start:5,end:5},
   // 厚生局等（行政処理）
   {owner:'kouseikyoku',task:'関東信越厚生局 医療保険届出 受理・審査',start:5,end:6},
   {owner:'kouseikyoku',task:'保険医療機関コード発行',start:5,end:6},
-  {owner:'kouseikyoku',task:'生活保護法 指定処理（千葉市福祉事務所）',start:5,end:6},
+  {owner:'kouseikyoku',task:'生活保護法 指定処理（福祉事務所）',start:5,end:6},
   // 将来TODO
   {owner:'boss',task:'【将来】独自ドメインメール導入（Google Workspace月680円〜 info@ippo-kango.jp）',start:6,end:6}
 ];

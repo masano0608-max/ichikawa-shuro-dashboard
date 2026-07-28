@@ -15,10 +15,10 @@ from app.classify_houmon import classify_houmon
 logger = logging.getLogger(__name__)
 
 HOUMON_CSV_URL = "https://www.mhlw.go.jp/content/12300000/jigyosho_130.csv"
-TARGET_CITY = "千葉市"
+TARGET_CITY = "市川市"
 TARGET_PREF = "千葉県"
 
-COMPARISON_CITIES = ["千葉市", "市原市", "船橋市", "習志野市", "市川市", "四街道市", "佐倉市"]
+COMPARISON_CITIES = ["市川市", "江戸川区", "柏市", "船橋市", "松戸市", "浦安市", "葛飾区", "流山市"]
 
 # 政令指定都市（区レベルでデータが登録されるため contains でマッチ）
 DESIGNATED_CITIES = ["千葉市", "横浜市", "川崎市", "さいたま市", "相模原市"]

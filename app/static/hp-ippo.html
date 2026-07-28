@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>訪問看護ステーション いっぽ | 千葉市中央区 こころとからだのケア</title>
+<title>訪問看護ステーション いっぽ | あなたの暮らしに寄り添うケア</title>
 <link rel="icon" href="/static/images/favicon-ippo.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700;800;900&family=Noto+Serif+JP:wght@400;600;700;900&display=swap" rel="stylesheet">
@@ -38,11 +38,10 @@
   /* ── ローダー ── */
   #loader { position: fixed; inset: 0; z-index: 10000; background: #f6fdf9; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.6s ease; }
   #loader.hide { opacity: 0; visibility: hidden; pointer-events: none; }
-  .loader-img { width: 120px; height: 120px; animation: loaderPulse 1.5s ease-in-out infinite; }
-  .loader-bar { width: 100px; height: 2px; background: rgba(58,157,110,0.12); border-radius: 2px; margin-top: 20px; overflow: hidden; }
-  .loader-bar::after { content: ''; display: block; width: 40%; height: 100%; background: var(--pri); border-radius: 2px; animation: loaderSlide 1s ease-in-out infinite; }
-  @keyframes loaderSlide { 0% { transform: translateX(-100%); } 100% { transform: translateX(350%); } }
-  @keyframes loaderPulse { 0%,100% { transform: scale(1); opacity: 0.9; } 50% { transform: scale(1.05); opacity: 1; } }
+  .loader-logo-wrap { position: relative; width: 120px; height: 120px; }
+  .loader-img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2; }
+  .loader-spinner { width: 120px; height: 120px; border-radius: 50%; border: 3px solid rgba(58,157,110,0.15); border-top-color: var(--pri); animation: loaderSpin 0.8s linear infinite; position: absolute; top: 0; left: 0; z-index: 1; box-sizing: border-box; }
+  @keyframes loaderSpin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
   /* ── アニメ共通 ── */
   .rv { opacity: 0; transform: translateY(50px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
@@ -500,8 +499,7 @@
   /* #6: マーキー（ピルカード風） */
   .marquee-strip { overflow: hidden; white-space: nowrap; padding: 20px 0; background: linear-gradient(135deg, #f0fdf4 0%, #fefce8 50%, #f0fdf4 100%); border-top: 1px solid rgba(58,157,110,0.06); border-bottom: 1px solid rgba(58,157,110,0.06); }
   .marquee-inner { display: inline-flex; gap: 12px; animation: marqueeScroll 24s linear infinite; }
-  .marquee-inner span { display: inline-flex; align-items: center; gap: 8px; padding: 8px 20px; font-size: 0.78rem; font-weight: 700; color: var(--pri-d); letter-spacing: 0.04em; background: rgba(255,255,255,0.85); border-radius: 50px; border: 1px solid rgba(58,157,110,0.1); backdrop-filter: blur(4px); box-shadow: 0 1px 4px rgba(0,0,0,0.03); }
-  .marquee-inner span::before { content: attr(data-icon); font-size: 0.9rem; flex-shrink: 0; }
+  .marquee-inner span { display: inline-flex; align-items: center; justify-content: center; font-size: 1.6rem; line-height: 1; }
   @keyframes marqueeScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
   /* #7: タイプライター */
@@ -533,8 +531,10 @@
 <div id="scrollProgress"></div>
 
 <div id="loader">
-  <img src="/static/images/logo-ippo.png" alt="いっぽ" class="loader-img">
-  <div class="loader-bar"></div>
+  <div class="loader-logo-wrap">
+    <div class="loader-spinner"></div>
+    <img src="/static/images/logo-ippo.png" alt="いっぽ" class="loader-img">
+  </div>
 </div>
 
 <!-- ナビ -->
@@ -574,9 +574,9 @@
   </div>
   <canvas id="hero-canvas"></canvas>
   <div class="hero-content">
-    <div class="hero-badge">千葉市中央区 2026年11月 開設予定</div>
+    <div class="hero-badge">2026年内 開設予定</div>
     <h1 class="hero-catch serif">しんどい日も、<br><em>ひとりじゃない。</em></h1>
-    <p class="hero-desc">「誰にも言えない」「どこに相談すればいいかわからない」<br class="br-pc">そんなあなたの暮らしに、看護師が会いに行きます。<br class="br-pc">大学病院精神科出身のチームが、あなたのペースで寄り添います。<br><span style="font-size:0.82rem;color:var(--gold-d);">中国語での対応も可能です（可以用中文沟通）</span></p>
+    <p class="hero-desc">「退院したけど不安」「通院だけでは心配」「家での療養を支えてほしい」<br class="br-pc">そんなあなたの暮らしに、看護師が会いに行きます。<br class="br-pc">大学病院出身のチームが、あなたのペースで寄り添います。<br><span style="font-size:0.82rem;color:var(--gold-d);">中国語での対応も可能です（可以用中文沟通）</span></p>
     <div class="hero-btns">
       <a href="#contact" class="btn-p">まずは相談してみる →</a>
       <a href="#reasons" class="btn-outline">いっぽが選ばれる理由</a>
@@ -588,9 +588,9 @@
 <!-- 信頼バー -->
 <section id="trust-bar" style="padding:0;">
   <div class="trust-bar-inner">
-    <div class="tb-item rv" style="transition-delay:0s"><div class="tb-num" data-count="7" data-suffix="年以上">0<small>年以上</small></div><div class="tb-label">精神科看護の経験</div></div>
+    <div class="tb-item rv" style="transition-delay:0s"><div class="tb-num">医療保険<small>対応</small></div><div class="tb-label">負担を抑えた在宅ケア</div></div>
     <div class="tb-item rv" style="transition-delay:0.1s"><div class="tb-num">大学病院<small>出身</small></div><div class="tb-label">確かな臨床経験</div></div>
-    <div class="tb-item rv" style="transition-delay:0.2s"><div class="tb-num" data-count="1" data-suffix="割負担">1<small>割負担</small></div><div class="tb-label">自立支援医療で</div></div>
+    <div class="tb-item rv" style="transition-delay:0.2s"><div class="tb-num">365日<small>対応</small></div><div class="tb-label">土日祝も相談可</div></div>
     <div class="tb-item rv" style="transition-delay:0.3s"><div class="tb-num">中国語<small>OK</small></div><div class="tb-label">可以用中文沟通</div></div>
   </div>
 </section>
@@ -625,8 +625,8 @@
 <!-- #6: マーキー（流れるテキスト） -->
 <div class="marquee-strip">
   <div class="marquee-inner">
-    <span data-icon="💚">こころに寄り添う</span><span data-icon="🏥">精神科訪問看護</span><span data-icon="🎓">大学病院出身チーム</span><span data-icon="📅">週1回からOK</span><span data-icon="🌱">あなたのペースで</span><span data-icon="🛡️">自立支援医療対応</span><span data-icon="👨‍👩‍👧">ご家族もサポート</span><span data-icon="📍">千葉市中央区</span>
-    <span data-icon="💚">こころに寄り添う</span><span data-icon="🏥">精神科訪問看護</span><span data-icon="🎓">大学病院出身チーム</span><span data-icon="📅">週1回からOK</span><span data-icon="🌱">あなたのペースで</span><span data-icon="🛡️">自立支援医療対応</span><span data-icon="👨‍👩‍👧">ご家族もサポート</span><span data-icon="📍">千葉市中央区</span>
+    <span>💚</span><span>🏥</span><span>🎓</span><span>📅</span><span>🌱</span><span>🛡️</span><span>👨‍👩‍👧</span><span>📍</span><span>🩺</span><span>🤝</span><span>🏠</span><span>☀️</span>
+    <span>💚</span><span>🏥</span><span>🎓</span><span>📅</span><span>🌱</span><span>🛡️</span><span>👨‍👩‍👧</span><span>📍</span><span>🩺</span><span>🤝</span><span>🏠</span><span>☀️</span>
   </div>
 </div>
 
@@ -690,14 +690,14 @@
         そこからの暮らしを、一緒に支えたい。
       </div>
       <div class="msg-body-text rv" style="transition-delay:0.2s">
-        大学病院の精神科で看護師として働く中で、退院した患者さんが<strong>「誰にも相談できない」</strong>と孤立し、再入院を繰り返す姿を何度も見てきました。
-        <span style="display:block;margin-top:0.8em;">精神疾患は目に見えにくいからこそ、<strong>定期的に会いに行く訪問看護が大きな力になれる</strong>と信じています。あなたの「しんどい」を、ちゃんと聴ける場所でありたい。</span>
+        大学病院で看護師として働く中で、退院した患者さんが<strong>「誰にも相談できない」</strong>と孤立し、再入院を繰り返す姿を何度も見てきました。
+        <span style="display:block;margin-top:0.8em;">病気や障がいがあっても住み慣れた家で暮らしたい——その想いに応えるために、<strong>定期的に会いに行く訪問看護が大きな力になれる</strong>と信じています。あなたの「しんどい」を、ちゃんと聴ける場所でありたい。</span>
       </div>
       <div class="msg-sig rv" style="transition-delay:0.3s">
         <div class="msg-sig-dot"></div>
         <div>
           <div class="ms-name">いっぽ チーム一同</div>
-          <div class="ms-role">精神科訪問看護ステーション いっぽ</div>
+          <div class="ms-role">訪問看護ステーション いっぽ</div>
         </div>
       </div>
     </div>
@@ -762,9 +762,9 @@
       </div>
       <div class="rv-r">
         <div class="reason-num">REASON 01</div>
-        <div class="reason-title serif">大学病院精神科出身の<br class="br-pc">看護師チーム</div>
-        <div class="reason-desc">管理者は<strong>慶應義塾大学病院の精神科で7年以上</strong>勤務した看護師。急性期から回復期まで、あらゆるフェーズの患者さんと向き合ってきた経験があります。<span style="display:block;margin-top:0.8em;">「精神科の訪問看護が初めて」という方でも、安心してお任せください。</span></div>
-        <div class="reason-tags"><span>精神科経験7年+</span><span>大学病院出身</span><span>専門看護師</span></div>
+        <div class="reason-title serif">大学病院出身の<br class="br-pc">看護師チーム</div>
+        <div class="reason-desc">大学病院で培った<strong>確かな臨床経験</strong>を持つ看護師が在籍。急性期から回復期まで、あらゆるフェーズの患者さんと向き合ってきた経験があります。<span style="display:block;margin-top:0.8em;">「訪問看護が初めて」という方でも、安心してお任せください。</span></div>
+        <div class="reason-tags"><span>大学病院出身</span><span>幅広い疾患に対応</span><span>経験豊富なチーム</span></div>
       </div>
     </div>
     <div class="reason-item">
@@ -775,7 +775,7 @@
       <div class="rv-l">
         <div class="reason-num">REASON 02</div>
         <div class="reason-title serif">こころもからだも、<br class="br-pc">まるごと看る</div>
-        <div class="reason-desc">精神科のケアだけではありません。血圧測定、服薬管理、生活リズムの相談、社会復帰の支援まで——<strong>あなたの暮らしをまるごとサポート</strong>します。<span style="display:block;margin-top:0.8em;">「こころ」と「からだ」を分けず、人として向き合うことが、いっぽの看護です。</span></div>
+        <div class="reason-desc">血圧測定、服薬管理、医療処置、生活リズムの相談、社会復帰の支援まで——<strong>あなたの暮らしをまるごとサポート</strong>します。<span style="display:block;margin-top:0.8em;">「こころ」と「からだ」を分けず、一人ひとりに向き合うことが、いっぽの看護です。</span></div>
         <div class="reason-tags"><span>身体ケアも対応</span><span>服薬管理</span><span>生活支援</span></div>
       </div>
     </div>
@@ -814,12 +814,12 @@
   <div class="wrap">
     <div class="section-label rv">SERVICES</div>
     <div class="section-ttl rv-blur serif">サービス内容</div>
-    <div class="section-sub rv">こころとからだ、両方を看れる看護師がご自宅に訪問してサポートします</div>
+    <div class="section-sub rv">看護師がご自宅に訪問して、療養生活をトータルでサポートします</div>
     <div class="srv-grid">
       <div class="srv-card rv-rotate shimmer-on-reveal" style="transition-delay:0.05s">
         <div class="srv-icon-wrap si-1"><svg viewBox="0 0 24 24" fill="none" stroke="#2d7a56" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
-        <h3>こころのケア・相談</h3>
-        <p>不安や悩みをじっくり聴きます。認知行動療法などの専門的なアプローチも活用します。</p>
+        <h3>療養上のお世話・相談</h3>
+        <p>体調や生活のお悩みをじっくり聴き、一人ひとりに合ったケアプランを一緒に考えます。</p>
         <div class="srv-merit">→ 話すだけで気持ちが楽になる方も</div>
       </div>
       <div class="srv-card rv-rotate shimmer-on-reveal" style="transition-delay:0.12s">
@@ -897,14 +897,14 @@
     <div class="section-ttl rv-blur serif">こんな方をサポートしています</div>
     <div class="section-sub rv">主治医の指示書があれば、幅広い疾患・お悩みに対応できます</div>
     <div class="target-grid">
-      <div class="target-card rv" style="transition-delay:0.05s"><div class="tc-icon">🧠</div><div><h4>統合失調症</h4><p>幻聴・妄想への対処法、服薬管理、生活リズムの安定を支援します。</p></div></div>
-      <div class="target-card rv" style="transition-delay:0.1s"><div class="tc-icon">🌧️</div><div><h4>うつ病・双極性障害</h4><p>気分の波に合わせたケア。「動けない日」があっても大丈夫です。</p></div></div>
-      <div class="target-card rv" style="transition-delay:0.15s"><div class="tc-icon">💭</div><div><h4>不安障害・パニック障害</h4><p>不安への向き合い方を一緒に練習。段階的に「できること」を広げます。</p></div></div>
-      <div class="target-card rv" style="transition-delay:0.2s"><div class="tc-icon">🔄</div><div><h4>発達障害</h4><p>生活上の困りごと、感覚過敏への対処、ストレス管理をサポートします。</p></div></div>
-      <div class="target-card rv" style="transition-delay:0.25s"><div class="tc-icon">🏥</div><div><h4>退院後の療養</h4><p>精神科・内科問わず、退院から地域生活への移行をサポートします。</p></div></div>
+      <div class="target-card rv" style="transition-delay:0.05s"><div class="tc-icon">🏥</div><div><h4>退院後の療養</h4><p>退院後の体調管理や生活復帰をサポート。再入院の予防にも取り組みます。</p></div></div>
+      <div class="target-card rv" style="transition-delay:0.1s"><div class="tc-icon">🧠</div><div><h4>精神疾患をお持ちの方</h4><p>うつ病・統合失調症・不安障害など、こころの不調に寄り添います。</p></div></div>
+      <div class="target-card rv" style="transition-delay:0.15s"><div class="tc-icon">💊</div><div><h4>医療処置が必要な方</h4><p>服薬管理、注射、点滴、褥瘡ケアなどの医療処置を在宅で行います。</p></div></div>
+      <div class="target-card rv" style="transition-delay:0.2s"><div class="tc-icon">🎗️</div><div><h4>がん・難病の方</h4><p>痛みの緩和や療養生活の支援。ご自宅で安心して過ごせるようサポートします。</p></div></div>
+      <div class="target-card rv" style="transition-delay:0.25s"><div class="tc-icon">👶</div><div><h4>小児の在宅ケア</h4><p>お子さまの在宅療養を、ご家族と一緒に支えます。</p></div></div>
       <div class="target-card rv" style="transition-delay:0.3s"><div class="tc-icon">🏡</div><div><h4>在宅療養中の方</h4><p>一人暮らしや高齢の方も。定期的な訪問が安心の「つながり」になります。</p></div></div>
     </div>
-    <div class="target-note rv">訪問看護は<strong>医療保険</strong>が使えます。精神科通院中の方は自立支援医療を利用すれば<strong>自己負担は1割</strong>に。詳しくはお気軽にお問い合わせください。</div>
+    <div class="target-note rv">訪問看護は<strong>医療保険</strong>が使えます。自己負担は原則<strong>1〜3割</strong>。精神科通院中の方は自立支援医療で1割負担に。詳しくはお気軽にお問い合わせください。</div>
   </div>
 </section>
 
@@ -1008,8 +1008,8 @@
     <div style="height:28px;"></div>
     <div class="faq-list">
       <div class="faq-item rv" style="transition-delay:0.05s"><button class="faq-q" onclick="toggleFaq(this)">訪問看護って何をしてくれるの？<span class="faq-icon">+</span></button><div class="faq-a">看護師がご自宅に訪問して、体調チェック、服薬管理、生活の相談、こころのケアなどを行います。病院に行くのが難しい方や、退院後の生活に不安がある方をサポートするサービスです。</div></div>
-      <div class="faq-item rv" style="transition-delay:0.1s"><button class="faq-q" onclick="toggleFaq(this)">いっぽはどんな訪問看護ステーション？<span class="faq-icon">+</span></button><div class="faq-a">大学病院の精神科出身の看護師が在籍しており、こころのケアを特に得意としています。もちろん、身体の健康管理や日常生活のサポートなど、幅広いお悩みに対応しています。「精神科じゃないけど大丈夫？」という方もお気軽にご相談ください。</div></div>
-      <div class="faq-item rv" style="transition-delay:0.15s"><button class="faq-q" onclick="toggleFaq(this)">精神科に通っていなくても利用できる？<span class="faq-icon">+</span></button><div class="faq-a">はい、精神科以外のかかりつけ医からの指示書でもご利用いただけます。内科や整形外科の方でも大丈夫です。「こころが疲れているけど精神科に行くほどじゃない」という方も、まずはご相談ください。</div></div>
+      <div class="faq-item rv" style="transition-delay:0.1s"><button class="faq-q" onclick="toggleFaq(this)">いっぽはどんな訪問看護ステーション？<span class="faq-icon">+</span></button><div class="faq-a">大学病院出身の看護師が在籍しており、身体のケアからこころのケアまで幅広く対応しています。退院後のフォロー、医療処置、精神疾患、がん・難病など、お気軽にご相談ください。</div></div>
+      <div class="faq-item rv" style="transition-delay:0.15s"><button class="faq-q" onclick="toggleFaq(this)">どんな病気でも利用できる？<span class="faq-icon">+</span></button><div class="faq-a">はい、主治医からの指示書があれば、内科・外科・精神科・整形外科など幅広い疾患に対応できます。「こんな症状でも大丈夫？」という方も、まずはお気軽にご相談ください。</div></div>
       <div class="faq-item rv" style="transition-delay:0.2s"><button class="faq-q" onclick="toggleFaq(this)">自費サービスと保険の違いは？<span class="faq-icon">+</span></button><div class="faq-a">保険適用の訪問看護は、主治医の指示書に基づいて提供されるサービスです。自費サービスは、保険の制約を受けずに、時間・内容・曜日を自由にカスタマイズできます。「週末に来てほしい」「長時間じっくり話を聴いてほしい」といったご要望に柔軟に対応できます。</div></div>
       <div class="faq-item rv" style="transition-delay:0.25s"><button class="faq-q" onclick="toggleFaq(this)">家族だけで相談してもいいの？<span class="faq-icon">+</span></button><div class="faq-a">はい、ご家族だけのご相談も歓迎です。「本人が嫌がっている」「どう接したらいいかわからない」といったご相談もお受けしています。まずはお電話やフォームでご連絡ください。</div></div>
       <div class="faq-item rv" style="transition-delay:0.3s"><button class="faq-q" onclick="toggleFaq(this)">利用を始めるには何が必要？<span class="faq-icon">+</span></button><div class="faq-a">保険適用の場合は主治医からの「訪問看護指示書」が必要です。自費サービスの場合は指示書不要で、どなたでもご利用いただけます。まずはお気軽にご相談ください。</div></div>
@@ -1028,12 +1028,12 @@
     <table class="info-table rv">
       <tr><th>事業所名</th><td>訪問看護ステーション いっぽ</td></tr>
       <tr><th>運営法人</th><td>合同会社あゆみ</td></tr>
-      <tr><th>所在地</th><td>千葉市中央区（詳細は開設時に確定）</td></tr>
-      <tr><th>開設予定</th><td>2026年11月</td></tr>
-      <tr><th>サービス種別</th><td>訪問看護（医療保険・自立支援医療対応）／自費看護サービス</td></tr>
-      <tr><th>得意分野</th><td>精神科看護（うつ病・統合失調症・双極性障害・不安障害・発達障害 等）<br class="br-pc">※ 精神科以外の疾患・お悩みにも幅広く対応いたします</td></tr>
+      <tr><th>所在地</th><td>千葉県・東京都東部エリア（候補地選定中）</td></tr>
+      <tr><th>開設予定</th><td>2026年内</td></tr>
+      <tr><th>サービス種別</th><td>訪問看護（医療保険対応）／自費看護サービス</td></tr>
+      <tr><th>対応疾患</th><td>退院後フォロー・精神疾患・医療処置・がん/難病・小児・在宅療養 等<br class="br-pc">幅広い疾患・お悩みに対応いたします</td></tr>
       <tr><th>対応言語</th><td>日本語 ／ 中国語（可以用中文沟通）</td></tr>
-      <tr><th>訪問エリア</th><td>千葉市 中央区を中心に、周辺地域にも対応</td></tr>
+      <tr><th>訪問エリア</th><td>開設地域を中心に、周辺地域にも対応（詳細は開設時に確定）</td></tr>
       <tr><th>営業日</th><td>月曜〜金曜（土曜応相談・自費サービスは土日祝対応可）</td></tr>
       <tr><th>営業時間</th><td>9:00〜17:00</td></tr>
       <tr><th>お問い合わせ</th><td><a href="mailto:ayumi.godo@gmail.com" style="color:var(--pri);font-weight:600;">ayumi.godo@gmail.com</a><br>または下記フォームよりご連絡ください</td></tr>
