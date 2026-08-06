@@ -497,10 +497,6 @@
   @media (max-width: 768px) { .floating-deco { display: none; } }
 
   /* #6: マーキー（ピルカード風） */
-  .marquee-strip { overflow: hidden; white-space: nowrap; padding: 20px 0; background: linear-gradient(135deg, #f0fdf4 0%, #fefce8 50%, #f0fdf4 100%); border-top: 1px solid rgba(58,157,110,0.06); border-bottom: 1px solid rgba(58,157,110,0.06); }
-  .marquee-inner { display: inline-flex; gap: 12px; animation: marqueeScroll 24s linear infinite; }
-  .marquee-inner span { display: inline-flex; align-items: center; justify-content: center; font-size: 1.6rem; line-height: 1; }
-  @keyframes marqueeScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
   /* #7: タイプライター */
   .typewriter-cursor { display: inline-block; width: 2px; height: 1.1em; background: var(--pri-d); margin-left: 2px; vertical-align: text-bottom; animation: twBlink 0.8s step-end infinite; }
@@ -520,7 +516,6 @@
   /* アクセシビリティ: モーション軽減 */
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
-    .marquee-inner { animation: none; }
     .floating-deco { display: none; }
     .section-ttl { animation: none; -webkit-text-fill-color: var(--pri-d); }
   }
@@ -591,7 +586,7 @@
   <div class="trust-bar-inner">
     <div class="tb-item rv" style="transition-delay:0s"><div class="tb-num">医療保険<small>対応</small></div><div class="tb-label">負担を抑えた在宅ケア</div></div>
     <div class="tb-item rv" style="transition-delay:0.1s"><div class="tb-num">大学病院<small>出身</small></div><div class="tb-label">確かな臨床経験</div></div>
-    <div class="tb-item rv" style="transition-delay:0.2s"><div class="tb-num">365日<small>対応</small></div><div class="tb-label">土日祝も相談可</div></div>
+    <div class="tb-item rv" style="transition-delay:0.2s"><div class="tb-num">24時間<small>対応</small></div><div class="tb-label">オンコール体制完備</div></div>
     <div class="tb-item rv" style="transition-delay:0.3s"><div class="tb-num">中国語<small>OK</small></div><div class="tb-label">可以用中文沟通</div></div>
   </div>
 </section>
@@ -624,18 +619,8 @@
 </section>
 
 <!-- #6: マーキー（流れるテキスト） -->
-<div class="marquee-strip">
-  <div class="marquee-inner">
-    <span>💚</span><span>🏥</span><span>🎓</span><span>📅</span><span>🌱</span><span>🛡️</span><span>👨‍👩‍👧</span><span>📍</span><span>🩺</span><span>🤝</span><span>🏠</span><span>☀️</span>
-    <span>💚</span><span>🏥</span><span>🎓</span><span>📅</span><span>🌱</span><span>🛡️</span><span>👨‍👩‍👧</span><span>📍</span><span>🩺</span><span>🤝</span><span>🏠</span><span>☀️</span>
-  </div>
-</div>
-
 <!-- スタッフメッセージ -->
 <section id="message">
-  <div style="text-align:center;margin-bottom:20px">
-    <img src="/static/images/logo-ippo-icon.png" alt="いっぽ ロゴ" style="width:90px;height:90px;border-radius:50%;background:white;padding:8px;box-shadow:0 2px 12px rgba(0,0,0,0.08);">
-  </div>
   <div class="msg-card rv-s">
     <div class="msg-illust-col">
       <!-- 訪問看護チームイラスト（2人のナース＋ハート） -->
@@ -1039,6 +1024,7 @@
       <tr><th>訪問エリア</th><td>市川市を中心に、浦安市・船橋市など周辺地域にも対応</td></tr>
       <tr><th>営業日</th><td>月曜〜金曜（土日祝は応相談）</td></tr>
       <tr><th>営業時間</th><td>9:00〜17:00</td></tr>
+      <tr><th>緊急時対応</th><td>24時間オンコール体制（営業時間外も電話対応可）</td></tr>
       <tr><th>お問い合わせ</th><td><a href="mailto:ayumi.godo@gmail.com" style="color:var(--pri);font-weight:600;">ayumi.godo@gmail.com</a><br>または下記フォームよりご連絡ください</td></tr>
     </table>
   </div>
