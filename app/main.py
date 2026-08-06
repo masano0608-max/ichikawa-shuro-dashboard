@@ -8,10 +8,12 @@ import logging
 import os
 import threading
 import urllib.request
+import uuid
 from contextlib import asynccontextmanager
+from pathlib import Path
 from typing import Optional
 
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
@@ -27,6 +29,8 @@ from app.database import (
     kv_set,
     save_contact,
     get_contacts,
+    save_recruit,
+    get_recruits,
 )
 from app.scheduler import run_houmon_update, start_scheduler, stop_scheduler
 from app.fetcher_houmon import fetch_houmon_comparison
@@ -182,6 +186,106 @@ def api_contacts(request: Request):
     return get_contacts()
 
 
+# ── 採用応募 API ─────────────────────────────────────
+
+UPLOAD_DIR = Path(__file__).parent.parent / "data" / "uploads"
+ALLOWED_EXTENSIONS = {".pdf", ".doc", ".docx"}
+MAX_FILE_SIZE = 10 * 1024 * 1024  # 10MB
+
+
+def _send_recruit_email(name: str, contact: str, qualification: str,
+                        experience: str, employment_type: str, message: str,
+                        file_name: str):
+    """採用応募内容を Resend API 経由で通知"""
+    api_key = os.environ.get("RESEND_API_KEY", "")
+    if not api_key:
+        logger.warning("RESEND_API_KEY が未設定のためメール通知をスキップ")
+        return "no_key"
+    to_email = os.environ.get("GMAIL_USER", "ayumi.godo@gmail.com")
+    payload = _json.dumps({
+        "from": "いっぽHP <noreply@ippo-kango.jp>",
+        "to": [to_email],
+        "subject": f"【いっぽ採用】応募 - {name}様",
+        "text": (
+            f"【いっぽ 採用応募】\n\n"
+            f"お名前: {name}\n"
+            f"連絡先: {contact}\n"
+            f"保有資格: {qualification or '（未選択）'}\n"
+            f"臨床経験: {experience or '（未選択）'}\n"
+            f"希望雇用形態: {employment_type or '（未選択）'}\n"
+            f"履歴書: {file_name or '（なし）'}\n\n"
+            f"メッセージ:\n{message or '（なし）'}\n"
+        ),
+    }).encode("utf-8")
+    req = urllib.request.Request(
+        "https://api.resend.com/emails",
+        data=payload,
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+            "User-Agent": "ippo-kango/1.0",
+        },
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            resp.read()
+        logger.info(f"採用応募通知メール送信完了: {name}")
+        return "sent"
+    except Exception as e:
+        logger.error(f"採用メール送信失敗: {e}")
+        return str(e)
+
+
+@app.post("/api/recruit")
+async def api_recruit(
+    name: str = Form(...),
+    contact: str = Form(...),
+    qualification: str = Form(""),
+    experience: str = Form(""),
+    employment_type: str = Form(""),
+    message: str = Form(""),
+    file: Optional[UploadFile] = File(None),
+):
+    file_path_str = None
+    file_original_name = None
+
+    if file and file.filename:
+        ext = os.path.splitext(file.filename)[1].lower()
+        if ext not in ALLOWED_EXTENSIONS:
+            raise HTTPException(status_code=400, detail="PDF・Word形式のファイルのみアップロード可能です")
+
+        contents = await file.read()
+        if len(contents) > MAX_FILE_SIZE:
+            raise HTTPException(status_code=400, detail="ファイルサイズは10MB以下にしてください")
+
+        UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+        safe_name = f"{uuid.uuid4().hex}{ext}"
+        save_path = UPLOAD_DIR / safe_name
+        save_path.write_bytes(contents)
+
+        file_path_str = str(save_path)
+        file_original_name = file.filename
+
+    save_recruit(name, contact, qualification, experience, employment_type,
+                 message, file_path_str, file_original_name)
+
+    threading.Thread(
+        target=_send_recruit_email,
+        args=(name, contact, qualification, experience, employment_type,
+              message, file_original_name or ""),
+        daemon=True,
+    ).start()
+
+    return {"ok": True}
+
+
+@app.get("/api/recruits")
+def api_recruits(request: Request):
+    if not _is_local(request):
+        raise HTTPException(status_code=403, detail="ローカル環境からのみアクセスできます")
+    return get_recruits()
+
+
 # ── ガントチャート同期 API ─────────────────────────────────
 
 
@@ -243,18 +347,22 @@ body{min-height:100vh;display:flex;align-items:center;justify-content:center;bac
 async def index(request: Request):
     host = request.headers.get("host", "")
     if "ippo-kango.jp" in host:
-        return HTMLResponse(MAINTENANCE_HTML)
+        with open("app/static/hp-ippo.html", encoding="utf-8") as f:
+            return f.read()
     with open("app/static/strategy.html", encoding="utf-8") as f:
         return f.read()
 
 
+@app.get("/recruit", response_class=HTMLResponse)
+async def recruit():
+    with open("app/static/recruit.html", encoding="utf-8") as f:
+        return f.read()
+
+
 @app.get("/hp-ippo", response_class=HTMLResponse)
-async def hp_ippo(request: Request):
-    # ローカルではHP確認可能、本番では準備中ページ
-    if _is_local(request):
-        with open("app/static/hp-ippo.html", encoding="utf-8") as f:
-            return f.read()
-    return HTMLResponse(MAINTENANCE_HTML)
+async def hp_ippo():
+    with open("app/static/hp-ippo.html", encoding="utf-8") as f:
+        return f.read()
 
 
 @app.get("/houmon-simulator", response_class=HTMLResponse)

@@ -69,6 +69,19 @@ def init_db():
             message TEXT,
             created_at TEXT DEFAULT (datetime('now','localtime'))
         );
+
+        CREATE TABLE IF NOT EXISTS recruit_submissions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            contact TEXT NOT NULL,
+            qualification TEXT,
+            experience TEXT,
+            employment_type TEXT,
+            message TEXT,
+            file_path TEXT,
+            file_original_name TEXT,
+            created_at TEXT DEFAULT (datetime('now','localtime'))
+        );
         """)
 
 
@@ -255,5 +268,26 @@ def get_contacts():
     with get_conn() as conn:
         rows = conn.execute(
             "SELECT * FROM contact_submissions ORDER BY created_at DESC"
+        ).fetchall()
+        return [dict(r) for r in rows]
+
+
+# ── 採用応募 ─────────────────────────────────────
+
+
+def save_recruit(name: str, contact: str, qualification: str, experience: str,
+                 employment_type: str, message: str,
+                 file_path: Optional[str] = None, file_original_name: Optional[str] = None):
+    with get_conn() as conn:
+        conn.execute(
+            "INSERT INTO recruit_submissions (name, contact, qualification, experience, employment_type, message, file_path, file_original_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            (name, contact, qualification, experience, employment_type, message, file_path, file_original_name)
+        )
+
+
+def get_recruits():
+    with get_conn() as conn:
+        rows = conn.execute(
+            "SELECT * FROM recruit_submissions ORDER BY created_at DESC"
         ).fetchall()
         return [dict(r) for r in rows]
