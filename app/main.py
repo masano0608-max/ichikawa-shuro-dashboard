@@ -195,14 +195,14 @@ MAX_FILE_SIZE = 10 * 1024 * 1024  # 10MB
 
 def _send_recruit_email(name: str, contact: str, qualification: str,
                         experience: str, employment_type: str, message: str,
-                        file_name: str):
+                        file_name: str, file_path: str):
     """採用応募内容を Resend API 経由で通知"""
     api_key = os.environ.get("RESEND_API_KEY", "")
     if not api_key:
         logger.warning("RESEND_API_KEY が未設定のためメール通知をスキップ")
         return "no_key"
     to_email = os.environ.get("GMAIL_USER", "ayumi.godo@gmail.com")
-    payload = _json.dumps({
+    email_data = {
         "from": "いっぽHP <noreply@ippo-kango.jp>",
         "to": [to_email],
         "subject": f"【いっぽ採用】応募 - {name}様",
@@ -216,7 +216,16 @@ def _send_recruit_email(name: str, contact: str, qualification: str,
             f"履歴書: {file_name or '（なし）'}\n\n"
             f"メッセージ:\n{message or '（なし）'}\n"
         ),
-    }).encode("utf-8")
+    }
+    if file_path and file_name:
+        try:
+            import base64
+            with open(file_path, "rb") as f:
+                file_content = base64.b64encode(f.read()).decode("utf-8")
+            email_data["attachments"] = [{"filename": file_name, "content": file_content}]
+        except Exception as e:
+            logger.error(f"添付ファイル読み込み失敗: {e}")
+    payload = _json.dumps(email_data).encode("utf-8")
     req = urllib.request.Request(
         "https://api.resend.com/emails",
         data=payload,
@@ -272,7 +281,7 @@ async def api_recruit(
     threading.Thread(
         target=_send_recruit_email,
         args=(name, contact, qualification, experience, employment_type,
-              message, file_original_name or ""),
+              message, file_original_name or "", file_path_str or ""),
         daemon=True,
     ).start()
 
