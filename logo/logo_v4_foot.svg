@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <!-- 透過背景 -->
+
+  <g transform="translate(200,110)">
+
+    <!-- 足跡1（左足・小さい・薄い＝過去） -->
+    <g transform="translate(-30,55) rotate(-10) scale(0.6)" opacity="0.25">
+      <!-- 人の足型（細長い） -->
+      <path d="M-5,20 C-10,10 -12,-5 -10,-15 C-8,-22 -3,-25 2,-25 C7,-25 12,-20 13,-12 C15,-2 12,12 8,20 C5,25 -2,26 -5,20Z" fill="#2D6A4F"/>
+      <!-- 5本の指（横並び・人間的に） -->
+      <ellipse cx="-9" cy="-27" rx="3.5" ry="5" fill="#2D6A4F"/>
+      <ellipse cx="-2" cy="-30" rx="3" ry="5" fill="#2D6A4F"/>
+      <ellipse cx="4" cy="-30" rx="2.8" ry="4.5" fill="#2D6A4F"/>
+      <ellipse cx="9.5" cy="-28" rx="2.5" ry="4" fill="#2D6A4F"/>
+      <ellipse cx="14" cy="-24" rx="2.2" ry="3.5" fill="#2D6A4F"/>
+    </g>
+
+    <!-- 足跡2（右足・中くらい） -->
+    <g transform="translate(15,20) rotate(8) scale(0.8)" opacity="0.5">
+      <path d="M5,20 C10,10 12,-5 10,-15 C8,-22 3,-25 -2,-25 C-7,-25 -12,-20 -13,-12 C-15,-2 -12,12 -8,20 C-5,25 2,26 5,20Z" fill="#2D6A4F"/>
+      <ellipse cx="9" cy="-27" rx="3.5" ry="5" fill="#2D6A4F"/>
+      <ellipse cx="2" cy="-30" rx="3" ry="5" fill="#2D6A4F"/>
+      <ellipse cx="-4" cy="-30" rx="2.8" ry="4.5" fill="#2D6A4F"/>
+      <ellipse cx="-9.5" cy="-28" rx="2.5" ry="4" fill="#2D6A4F"/>
+      <ellipse cx="-14" cy="-24" rx="2.2" ry="3.5" fill="#2D6A4F"/>
+    </g>
+
+    <!-- 足跡3（左足・大きい・濃い＝今の一歩） -->
+    <g transform="translate(-18,-25) rotate(-8)" opacity="0.9">
+      <path d="M-5,22 C-12,10 -14,-5 -12,-18 C-10,-26 -4,-30 2,-30 C8,-30 14,-24 15,-15 C17,-3 14,14 9,22 C5,28 -1,28 -5,22Z" fill="#2D6A4F"/>
+      <ellipse cx="-10" cy="-32" rx="4" ry="6" fill="#2D6A4F"/>
+      <ellipse cx="-2.5" cy="-36" rx="3.5" ry="5.5" fill="#2D6A4F"/>
+      <ellipse cx="5" cy="-36" rx="3.2" ry="5" fill="#2D6A4F"/>
+      <ellipse cx="11" cy="-33" rx="3" ry="4.5" fill="#2D6A4F"/>
+      <ellipse cx="16" cy="-28" rx="2.5" ry="4" fill="#2D6A4F"/>
+      <!-- 土踏まずのハイライト -->
+      <path d="M-6,5 C-4,-5 2,-8 6,-2 C8,3 5,12 0,14 C-4,15 -7,12 -6,5Z" fill="#9DB4A0" opacity="0.25"/>
+    </g>
+
+    <!-- 次の一歩（消えていくドット） -->
+    <circle cx="20" cy="-60" r="2.5" fill="#9DB4A0" opacity="0.25"/>
+    <circle cx="22" cy="-70" r="1.5" fill="#9DB4A0" opacity="0.12"/>
+  </g>
+
+  <!-- いっぽ -->
+  <text x="200" y="280" text-anchor="middle" font-family="'Hiragino Maru Gothic Pro', sans-serif" font-weight="700" font-size="50" fill="#2D6A4F" letter-spacing="8">いっぽ</text>
+
+  <text x="200" y="318" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-weight="300" font-size="13" fill="#6B9080" letter-spacing="6">訪問看護ステーション</text>
+</svg>

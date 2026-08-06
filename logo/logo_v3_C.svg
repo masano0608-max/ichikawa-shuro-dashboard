@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <!-- 透過背景 -->
+
+  <g transform="translate(200,130)">
+    <!-- 円の中に2人 -->
+    <circle cx="0" cy="0" r="60" fill="#2D6A4F"/>
+
+    <!-- 左の人（超シンプル） -->
+    <circle cx="-15" cy="-15" r="9" fill="white"/>
+    <rect x="-21" y="-4" width="12" height="22" rx="6" fill="white" opacity="0.8"/>
+
+    <!-- 右の人 -->
+    <circle cx="15" cy="-15" r="9" fill="white"/>
+    <rect x="9" y="-4" width="12" height="22" rx="6" fill="white" opacity="0.6"/>
+
+    <!-- ハート -->
+    <path d="M0,22 C-1.5,18 -7,16 -7,19 C-7,21.5 0,27 0,27 S7,21.5 7,19 C7,16 1.5,18 0,22Z" fill="#9DB4A0"/>
+  </g>
+
+  <!-- いっぽ -->
+  <text x="200" y="280" text-anchor="middle" font-family="'Hiragino Maru Gothic Pro', sans-serif" font-weight="700" font-size="50" fill="#2D6A4F" letter-spacing="8">いっぽ</text>
+
+  <text x="200" y="318" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-weight="300" font-size="13" fill="#6B9080" letter-spacing="6">訪問看護ステーション</text>
+</svg>

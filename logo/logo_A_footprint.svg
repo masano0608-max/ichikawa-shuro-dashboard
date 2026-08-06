@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700&amp;display=swap');
+    </style>
+  </defs>
+  <!-- Background -->
+  <rect width="400" height="400" fill="white"/>
+
+  <!-- Footprint icon -->
+  <g transform="translate(200,130)" fill="#2D6A4F">
+    <!-- Big toe -->
+    <ellipse cx="-8" cy="-55" rx="12" ry="15" transform="rotate(-10)"/>
+    <!-- Second toe -->
+    <ellipse cx="14" cy="-60" rx="9" ry="12" transform="rotate(5)"/>
+    <!-- Third toe -->
+    <ellipse cx="30" cy="-55" rx="8" ry="11" transform="rotate(10)"/>
+    <!-- Fourth toe -->
+    <ellipse cx="42" cy="-46" rx="7" ry="10" transform="rotate(18)"/>
+    <!-- Fifth toe -->
+    <ellipse cx="50" cy="-34" rx="6" ry="9" transform="rotate(25)"/>
+    <!-- Sole -->
+    <path d="M-20,0 C-25,-20 -22,-45 -10,-45 C5,-40 15,-35 35,-25 C50,-18 55,-8 52,5 C48,25 40,40 25,48 C10,52 -5,48 -12,38 C-18,28 -18,15 -20,0Z" fill="#9DB4A0"/>
+    <!-- Arch highlight -->
+    <path d="M-10,5 C-8,-10 0,-20 15,-15 C25,-10 30,0 28,15 C25,25 15,32 5,30 C-5,28 -12,18 -10,5Z" fill="#2D6A4F" opacity="0.3"/>
+  </g>
+
+  <!-- Text: いっぽ -->
+  <text x="200" y="250" text-anchor="middle" font-family="'Zen Maru Gothic', 'Hiragino Maru Gothic Pro', sans-serif" font-weight="700" font-size="64" fill="#2D6A4F">いっぽ</text>
+
+  <!-- Subtext -->
+  <text x="200" y="295" text-anchor="middle" font-family="'Zen Maru Gothic', 'Hiragino Maru Gothic Pro', sans-serif" font-weight="400" font-size="18" fill="#9DB4A0" letter-spacing="4">訪問看護ステーション</text>
+</svg>

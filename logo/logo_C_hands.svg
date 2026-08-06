@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700&amp;display=swap');
+    </style>
+  </defs>
+  <!-- Background -->
+  <rect width="400" height="400" fill="white"/>
+
+  <!-- Two hands forming a heart/support shape -->
+  <g transform="translate(200,125)">
+    <!-- Left hand (open, supporting) -->
+    <path d="M-45,20 C-55,10 -58,-5 -50,-18 C-42,-30 -30,-32 -22,-25 C-18,-22 -15,-15 -15,-8 L-15,5 C-15,10 -20,18 -25,22 C-30,26 -38,25 -45,20Z" fill="#9DB4A0"/>
+    <!-- Left fingers -->
+    <path d="M-50,-18 C-52,-30 -48,-42 -40,-44 C-34,-45 -30,-38 -30,-30" stroke="#9DB4A0" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <path d="M-38,-30 C-38,-45 -32,-52 -25,-50 C-20,-48 -18,-40 -20,-32" stroke="#9DB4A0" stroke-width="7" fill="none" stroke-linecap="round"/>
+
+    <!-- Right hand (open, supporting) -->
+    <path d="M45,20 C55,10 58,-5 50,-18 C42,-30 30,-32 22,-25 C18,-22 15,-15 15,-8 L15,5 C15,10 20,18 25,22 C30,26 38,25 45,20Z" fill="#2D6A4F"/>
+    <!-- Right fingers -->
+    <path d="M50,-18 C52,-30 48,-42 40,-44 C34,-45 30,-38 30,-30" stroke="#2D6A4F" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <path d="M38,-30 C38,-45 32,-52 25,-50 C20,-48 18,-40 20,-32" stroke="#2D6A4F" stroke-width="7" fill="none" stroke-linecap="round"/>
+
+    <!-- Small heart between hands -->
+    <path d="M0,-15 C-5,-22 -12,-22 -12,-15 C-12,-8 0,2 0,2 C0,2 12,-8 12,-15 C12,-22 5,-22 0,-15Z" fill="#E8B4B8" opacity="0.6"/>
+  </g>
+
+  <!-- Text: いっぽ -->
+  <text x="200" y="255" text-anchor="middle" font-family="'Zen Maru Gothic', 'Hiragino Maru Gothic Pro', sans-serif" font-weight="700" font-size="64" fill="#2D6A4F">いっぽ</text>
+
+  <!-- Subtext -->
+  <text x="200" y="300" text-anchor="middle" font-family="'Zen Maru Gothic', 'Hiragino Maru Gothic Pro', sans-serif" font-weight="400" font-size="18" fill="#9DB4A0" letter-spacing="4">訪問看護ステーション</text>
+</svg>

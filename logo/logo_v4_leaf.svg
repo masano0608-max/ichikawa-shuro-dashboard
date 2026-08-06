@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <!-- 透過背景 -->
+
+  <g transform="translate(200,125)">
+    <!-- 左の葉（セージグリーン） -->
+    <path d="M-3,-10 C-15,-25 -38,-50 -30,-70 C-22,-88 -5,-78 -3,-60 Z" fill="#9DB4A0"/>
+
+    <!-- 右の葉（ダークグリーン、少し大きい） -->
+    <path d="M3,-10 C18,-28 42,-48 36,-70 C30,-90 10,-78 3,-58 Z" fill="#2D6A4F"/>
+
+    <!-- 茎（すっと立つ） -->
+    <line x1="0" y1="-10" x2="0" y2="35" stroke="#2D6A4F" stroke-width="3.5" stroke-linecap="round"/>
+
+    <!-- 根元の小さな丸（種・原点） -->
+    <circle cx="0" cy="38" r="5" fill="#2D6A4F" opacity="0.4"/>
+  </g>
+
+  <!-- いっぽ -->
+  <text x="200" y="275" text-anchor="middle" font-family="'Hiragino Maru Gothic Pro', sans-serif" font-weight="700" font-size="50" fill="#2D6A4F" letter-spacing="8">いっぽ</text>
+
+  <!-- 細い線 -->
+  <line x1="160" y1="290" x2="240" y2="290" stroke="#9DB4A0" stroke-width="1" opacity="0.5"/>
+
+  <text x="200" y="315" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-weight="300" font-size="13" fill="#6B9080" letter-spacing="6">訪問看護ステーション</text>
+</svg>

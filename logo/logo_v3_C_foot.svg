@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <!-- 透過背景 -->
+
+  <g transform="translate(200,115)">
+    <!-- 足跡3つ（小→大、前に進む表現） -->
+
+    <!-- 足跡1（左足・小さい・薄い＝過去） -->
+    <g transform="translate(-35,50) rotate(-15)" opacity="0.25">
+      <ellipse cx="0" cy="0" rx="8" ry="13" fill="#2D6A4F"/>
+      <circle cx="-6" cy="-14" r="3" fill="#2D6A4F"/>
+      <circle cx="-1" cy="-16" r="2.8" fill="#2D6A4F"/>
+      <circle cx="4" cy="-15" r="2.5" fill="#2D6A4F"/>
+      <circle cx="8" cy="-12" r="2.2" fill="#2D6A4F"/>
+    </g>
+
+    <!-- 足跡2（右足・中くらい） -->
+    <g transform="translate(5,15) rotate(10)" opacity="0.5">
+      <ellipse cx="0" cy="0" rx="10" ry="15" fill="#2D6A4F"/>
+      <circle cx="-7" cy="-16" r="3.5" fill="#2D6A4F"/>
+      <circle cx="-1.5" cy="-18.5" r="3.2" fill="#2D6A4F"/>
+      <circle cx="4.5" cy="-17.5" r="2.8" fill="#2D6A4F"/>
+      <circle cx="9" cy="-14" r="2.5" fill="#2D6A4F"/>
+    </g>
+
+    <!-- 足跡3（左足・大きい・濃い＝今の一歩） -->
+    <g transform="translate(-20,-30) rotate(-12)" opacity="0.9">
+      <ellipse cx="0" cy="0" rx="12" ry="18" fill="#2D6A4F"/>
+      <circle cx="-8" cy="-19" r="4" fill="#2D6A4F"/>
+      <circle cx="-2" cy="-22" r="3.8" fill="#2D6A4F"/>
+      <circle cx="5" cy="-21" r="3.3" fill="#2D6A4F"/>
+      <circle cx="10" cy="-17" r="3" fill="#2D6A4F"/>
+      <!-- ハイライト（立体感） -->
+      <ellipse cx="-2" cy="3" rx="5" ry="8" fill="#9DB4A0" opacity="0.3"/>
+    </g>
+
+    <!-- 次の一歩の予感（ドット） -->
+    <circle cx="15" cy="-65" r="3" fill="#9DB4A0" opacity="0.3"/>
+    <circle cx="18" cy="-75" r="2" fill="#9DB4A0" opacity="0.15"/>
+  </g>
+
+  <!-- いっぽ -->
+  <text x="200" y="280" text-anchor="middle" font-family="'Hiragino Maru Gothic Pro', sans-serif" font-weight="700" font-size="50" fill="#2D6A4F" letter-spacing="8">いっぽ</text>
+
+  <!-- サブテキスト -->
+  <text x="200" y="318" text-anchor="middle" font-family="'Hiragino Sans', sans-serif" font-weight="300" font-size="13" fill="#6B9080" letter-spacing="6">訪問看護ステーション</text>
+</svg>

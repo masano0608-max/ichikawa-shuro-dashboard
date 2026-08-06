@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700&amp;display=swap');
+    </style>
+  </defs>
+  <!-- Background -->
+  <rect width="400" height="400" fill="white"/>
+
+  <!-- Double leaf / sprout -->
+  <g transform="translate(200,140)">
+    <!-- Stem -->
+    <path d="M0,30 C0,15 -2,0 0,-5" stroke="#2D6A4F" stroke-width="4" fill="none" stroke-linecap="round"/>
+
+    <!-- Left leaf -->
+    <path d="M-2,-5 C-35,-25 -50,-60 -30,-75 C-10,-85 10,-55 -2,-5Z" fill="#9DB4A0"/>
+    <!-- Left leaf vein -->
+    <path d="M-2,-5 C-15,-30 -25,-50 -28,-65" stroke="#2D6A4F" stroke-width="1.5" fill="none" opacity="0.4"/>
+
+    <!-- Right leaf -->
+    <path d="M2,-8 C40,-20 60,-50 45,-68 C28,-80 5,-50 2,-8Z" fill="#2D6A4F"/>
+    <!-- Right leaf vein -->
+    <path d="M2,-8 C18,-28 30,-45 40,-58" stroke="#9DB4A0" stroke-width="1.5" fill="none" opacity="0.5"/>
+
+    <!-- Small sprout bud -->
+    <ellipse cx="0" cy="-8" rx="3" ry="4" fill="#2D6A4F"/>
+
+    <!-- Ground line -->
+    <path d="M-25,32 C-15,28 15,28 25,32" stroke="#9DB4A0" stroke-width="3" fill="none" stroke-linecap="round"/>
+  </g>
+
+  <!-- Circle frame (optional, adds unity) -->
+  <circle cx="200" cy="130" r="75" stroke="#9DB4A0" stroke-width="2" fill="none" opacity="0.3"/>
+
+  <!-- Text: いっぽ -->
+  <text x="200" y="260" text-anchor="middle" font-family="'Zen Maru Gothic', 'Hiragino Maru Gothic Pro', sans-serif" font-weight="700" font-size="64" fill="#2D6A4F">いっぽ</text>
+
+  <!-- Subtext -->
+  <text x="200" y="305" text-anchor="middle" font-family="'Zen Maru Gothic', 'Hiragino Maru Gothic Pro', sans-serif" font-weight="400" font-size="18" fill="#9DB4A0" letter-spacing="4">訪問看護ステーション</text>
+</svg>

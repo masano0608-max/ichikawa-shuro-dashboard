@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2D6A4F"/>
+      <stop offset="50%" stop-color="#40916C"/>
+      <stop offset="100%" stop-color="#52B788"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" fill="white"/>
+
+  <g transform="translate(200,145)">
+    <!-- Rounded square background -->
+    <rect x="-80" y="-80" width="160" height="160" rx="35" fill="url(#bgGrad)"/>
+
+    <!-- Abstract path/road going forward -->
+    <path d="M-15,70 C-10,30 -8,-10 0,-40 C8,-10 10,30 15,70Z" fill="white" opacity="0.25"/>
+    <path d="M-8,70 C-5,35 -3,-5 0,-30 C3,-5 5,35 8,70Z" fill="white" opacity="0.2"/>
+
+    <!-- Horizon glow -->
+    <circle cx="0" cy="-40" r="15" fill="white" opacity="0.15"/>
+    <circle cx="0" cy="-40" r="8" fill="white" opacity="0.2"/>
+
+    <!-- Two figures walking (minimal, side by side) -->
+    <!-- Figure left -->
+    <circle cx="-12" cy="-5" r="5" fill="white" opacity="0.9"/>
+    <path d="M-12,0 L-12,22 M-12,10 L-18,18 M-12,10 L-6,18 M-12,22 L-17,35 M-12,22 L-7,35" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.9"/>
+    <!-- Figure right -->
+    <circle cx="12" cy="-5" r="5" fill="white" opacity="0.9"/>
+    <path d="M12,0 L12,22 M12,10 L6,18 M12,10 L18,18 M12,22 L7,35 M12,22 L17,35" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.9"/>
+  </g>
+
+  <!-- Text -->
+  <text x="200" y="295" text-anchor="middle" font-family="'Hiragino Maru Gothic Pro', 'M PLUS Rounded 1c', sans-serif" font-weight="700" font-size="50" fill="#2D6A4F" letter-spacing="8">いっぽ</text>
+
+  <!-- Subtext -->
+  <text x="200" y="335" text-anchor="middle" font-family="'Hiragino Sans', 'Noto Sans JP', sans-serif" font-weight="300" font-size="13" fill="#6B9080" letter-spacing="8">訪問看護ステーション</text>
+</svg>

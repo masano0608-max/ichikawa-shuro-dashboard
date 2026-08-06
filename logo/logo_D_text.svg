@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@900&amp;display=swap');
+    </style>
+  </defs>
+  <!-- Background -->
+  <rect width="400" height="400" fill="white"/>
+
+  <!-- Circle background -->
+  <circle cx="200" cy="170" r="95" fill="#2D6A4F"/>
+
+  <!-- Inner circle -->
+  <circle cx="200" cy="170" r="85" fill="none" stroke="#9DB4A0" stroke-width="2" opacity="0.5"/>
+
+  <!-- Main text: いっぽ (white on green circle) -->
+  <text x="200" y="195" text-anchor="middle" font-family="'Zen Maru Gothic', 'Hiragino Maru Gothic Pro', sans-serif" font-weight="900" font-size="62" fill="white">いっぽ</text>
+
+  <!-- Small dot accent (representing a step) -->
+  <circle cx="200" cy="120" r="5" fill="#9DB4A0"/>
+
+  <!-- Subtext below circle -->
+  <text x="200" y="310" text-anchor="middle" font-family="'Zen Maru Gothic', 'Hiragino Maru Gothic Pro', sans-serif" font-weight="400" font-size="18" fill="#2D6A4F" letter-spacing="6">訪問看護ステーション</text>
+
+  <!-- Decorative line -->
+  <line x1="120" y1="325" x2="280" y2="325" stroke="#9DB4A0" stroke-width="1.5" opacity="0.5"/>
+</svg>
