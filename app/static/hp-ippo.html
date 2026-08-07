@@ -159,8 +159,8 @@
 
   /* ── 信頼バー ── */
   #trust-bar { background: white; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 0; }
-  .trust-bar-inner { max-width: 920px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); }
-  @media (max-width: 768px) { .trust-bar-inner { grid-template-columns: repeat(2, 1fr); } .tb-item { padding: 20px 12px; } .tb-num { font-size: 1.4rem; } }
+  .trust-bar-inner { max-width: 1060px; margin: 0 auto; display: grid; grid-template-columns: repeat(5, 1fr); }
+  @media (max-width: 768px) { .trust-bar-inner { grid-template-columns: repeat(2, 1fr); } .tb-item { padding: 20px 12px; } .tb-num { font-size: 1.4rem; } .tb-item:last-child { grid-column: 1 / -1; } }
   .tb-item { padding: 32px 20px; text-align: center; border-right: 1px solid var(--border); transition: all 0.3s; position: relative; overflow: hidden; }
   .tb-item::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, var(--pri-l), transparent); opacity: 0; transition: opacity 0.3s; }
   .tb-item:hover::before { opacity: 1; }
@@ -312,6 +312,21 @@
 
   /* ── 費用（タブ切り替え） ── */
   #cost { background: var(--bg); padding: 100px 20px; }
+  /* ── 汎用タブ（flow / cost 共通） ── */
+  .flow-tabs { display: flex; justify-content: center; gap: 4px; margin-bottom: 36px; background: var(--border); border-radius: 12px; padding: 4px; max-width: 520px; margin-left: auto; margin-right: auto; }
+  .flow-tab { flex: 1; padding: 12px 16px; border-radius: 10px; border: none; background: none; font-family: inherit; font-size: 0.82rem; font-weight: 700; color: var(--muted); cursor: pointer; transition: all 0.3s; line-height: 1.4; }
+  .flow-tab.active { background: white; color: var(--pri-d); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  .flow-panel { display: none; }
+  .flow-panel.active { display: block; }
+  .flow-tab-hint { text-align: center; font-size: 0.75rem; color: var(--muted); margin-top: -20px; margin-bottom: 28px; line-height: 1.7; }
+  .flow-detail { font-size: 0.72rem; color: var(--muted); line-height: 1.7; margin-top: 4px; }
+  .flow-note-box { margin-top: 36px; background: var(--pri-l); border-radius: 14px; padding: 28px 28px 24px; border: 1px solid rgba(58,157,110,0.1); }
+  .flow-note-box h4 { font-size: 0.88rem; font-weight: 800; color: var(--pri-d); margin-bottom: 14px; }
+  .flow-note-box ul { list-style: none; padding: 0; }
+  .flow-note-box li { font-size: 0.8rem; color: var(--text); line-height: 1.8; padding-left: 1.2em; position: relative; }
+  .flow-note-box li::before { content: ''; position: absolute; left: 0; top: 0.7em; width: 6px; height: 6px; border-radius: 50%; background: var(--pri-m); }
+  @media (max-width: 768px) { .flow-note-box { padding: 20px 18px 16px; } }
+
   .cost-tabs { display: flex; justify-content: center; gap: 4px; margin-bottom: 36px; background: var(--border); border-radius: 12px; padding: 4px; max-width: 480px; margin-left: auto; margin-right: auto; }
   .cost-tab { flex: 1; padding: 12px 20px; border-radius: 10px; border: none; background: none; font-family: inherit; font-size: 0.85rem; font-weight: 700; color: var(--muted); cursor: pointer; transition: all 0.3s; }
   .cost-tab.active { background: white; color: var(--pri-d); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
@@ -571,8 +586,8 @@
   <canvas id="hero-canvas"></canvas>
   <div class="hero-content">
     <div class="hero-badge">2026年12月 オープン予定</div>
-    <h1 class="hero-catch serif">しんどい日も、<br><em>ひとりじゃない。</em></h1>
-    <p class="hero-desc">「退院したけど不安」「通院だけでは心配」「家での療養を支えてほしい」<br class="br-pc">そんなあなたの暮らしに、看護師が会いに行きます。<br class="br-pc">あなたのペースに寄り添い、安心できるケアをお届けします。<br><span style="font-size:0.82rem;color:var(--gold-d);">中国語での対応も可能です（可以用中文沟通）</span></p>
+    <h1 class="hero-catch serif">住み慣れた家で、<br><em>安心して暮らす。</em></h1>
+    <p class="hero-desc">「退院後の生活が不安」「自宅で医療処置を受けたい」「介護と医療、どこに相談すれば…」<br class="br-pc">小さなお子さまからご高齢の方まで、看護師がご自宅に伺い、<br class="br-pc">体調管理・医療処置・リハビリ・こころのケアをまるごとサポートします。<br><span style="font-size:0.82rem;color:var(--gold-d);">中国語での対応も可能です（可以用中文沟通）</span></p>
     <div class="hero-btns">
       <a href="#contact" class="btn-p">まずは相談してみる →</a>
       <a href="#reasons" class="btn-outline">いっぽが選ばれる理由</a>
@@ -584,10 +599,11 @@
 <!-- 信頼バー -->
 <section id="trust-bar" style="padding:0;">
   <div class="trust-bar-inner">
-    <div class="tb-item rv" style="transition-delay:0s"><div class="tb-num">医療保険<small>対応</small></div><div class="tb-label">負担を抑えた在宅ケア</div></div>
+    <div class="tb-item rv" style="transition-delay:0s"><div class="tb-num">各種保険<small>対応</small></div><div class="tb-label">医療保険・介護保険</div></div>
     <div class="tb-item rv" style="transition-delay:0.1s"><div class="tb-num">大学病院<small>経験</small></div><div class="tb-label">スタッフ教育も充実</div></div>
     <div class="tb-item rv" style="transition-delay:0.2s"><div class="tb-num">24時間<small>対応</small></div><div class="tb-label">オンコール体制完備</div></div>
-    <div class="tb-item rv" style="transition-delay:0.3s"><div class="tb-num">中国語<small>OK</small></div><div class="tb-label">可以用中文沟通</div></div>
+    <div class="tb-item rv" style="transition-delay:0.3s"><div class="tb-num">小児にも<small>対応</small></div><div class="tb-label">お子さまの在宅ケア</div></div>
+    <div class="tb-item rv" style="transition-delay:0.4s"><div class="tb-num">中国語<small>OK</small></div><div class="tb-label">可以用中文沟通</div></div>
   </div>
 </section>
 
@@ -672,14 +688,13 @@
     <div class="msg-text-col">
       <div class="msg-label rv">MESSAGE FROM STAFF</div>
       <div class="msg-quote rv" style="transition-delay:0.1s">
-        <span class="mq-hl">退院は、新しい暮らしの始まりです</span>
+        <span class="mq-hl">「自分らしく暮らしたい」を、一緒に</span>
       </div>
       <div class="msg-body-text rv" style="transition-delay:0.2s">
-        病気や障がいがあっても、<br>自分らしい暮らしや、自分らしい人生を大切にしたい。<br>おひとりおひとりの思いがあります。
-        <span style="display:block;margin-top:0.8em;">私たちは、その人らしい暮らしをともに考え、そしてともに悩み、ともに喜ぶ<br>そのような<strong>そっと寄り添う存在</strong>でありたいと思っています。</span>
-        <span style="display:block;margin-top:0.8em;">うれしかったことも、不安なことも、<br>話したい日も、話したくない日もある。</span>
-        <span style="display:block;margin-top:0.8em;">そんな日々に合わせながら、<br>安心して暮らしたい場所で、暮らし続けられるよう、お手伝いします。</span>
-        <span style="display:block;margin-top:0.8em;"><strong>一緒に、自分らしい「いっぽ」をつくっていきましょう</strong></span>
+        病気やケガ、加齢による不安があっても、<br>住み慣れた家で、自分らしく暮らし続けたい。<br>おひとりおひとりに、そんな思いがあります。
+        <span style="display:block;margin-top:0.8em;">私たちは、体調管理や医療処置だけでなく、<br>その方の暮らし全体をともに考え、ともに支える<br><strong>「もうひとりの家族」</strong>のような存在でありたいと思っています。</span>
+        <span style="display:block;margin-top:0.8em;">退院後のフォロー、慢性疾患の管理、リハビリ、こころのケア、<br>医療機器が必要な方やお子さまの在宅ケア、ご家族の介護相談——<br>どんなことでも、まずはお気軽にご相談ください。</span>
+        <span style="display:block;margin-top:0.8em;"><strong>一緒に、安心の「いっぽ」を踏み出しましょう</strong></span>
       </div>
       <div class="msg-sig rv" style="transition-delay:0.3s">
         <div class="msg-sig-dot"></div>
@@ -706,33 +721,33 @@
     </div>
     <div class="pain-grid">
       <div class="pain-card rv" style="transition-delay:0.05s">
-        <div class="pain-icon pi-1"><svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M8 15s1.5-2 4-2 4 2 4 2M9 9h.01M15 9h.01"/></svg></div>
-        <div><h4>病院に行くのがつらい</h4><p>外出するだけで精一杯。通院が負担になっている。</p></div>
+        <div class="pain-icon pi-1"><svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div>
+        <div><h4>退院したけど、自宅での生活が不安</h4><p>病院では安心だったけど、家に戻ったら体調管理が心配。</p></div>
       </div>
       <div class="pain-card rv" style="transition-delay:0.1s">
-        <div class="pain-icon pi-2"><svg viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg></div>
-        <div><h4>薬を飲み忘れてしまう</h4><p>自分で管理するのが難しい。体調が安定しない。</p></div>
+        <div class="pain-icon pi-2"><svg viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+        <div><h4>通院が体力的につらい</h4><p>病院まで行くだけで大変。自宅で診てもらえたら助かるのに。</p></div>
       </div>
       <div class="pain-card rv" style="transition-delay:0.15s">
-        <div class="pain-icon pi-3"><svg viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
-        <div><h4>家から出られない日がある</h4><p>生活リズムが崩れて、片付けや食事もままならない。</p></div>
+        <div class="pain-icon pi-3"><svg viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 8v8M8 12h8"/></svg></div>
+        <div><h4>自宅での医療処置が必要</h4><p>点滴・注射・傷の処置など、専門的なケアを家で受けたい。</p></div>
       </div>
       <div class="pain-card rv" style="transition-delay:0.2s">
-        <div class="pain-icon pi-4"><svg viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/><line x1="9" y1="10" x2="9" y2="10"/><line x1="15" y1="10" x2="15" y2="10"/></svg></div>
-        <div><h4>誰にも相談できない</h4><p>家族にも言えない。一人で抱えるのが限界になってきた。</p></div>
+        <div class="pain-icon pi-4"><svg viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg></div>
+        <div><h4>薬の管理がうまくいかない</h4><p>飲み忘れや飲み間違いが心配。体調が安定しない。</p></div>
       </div>
       <div class="pain-card rv" style="transition-delay:0.25s">
-        <div class="pain-icon pi-5"><svg viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div>
-        <div><h4>退院したけど不安</h4><p>入院中は安心だったけど、家に戻ったら心細い。</p></div>
+        <div class="pain-icon pi-5"><svg viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M8 15s1.5-2 4-2 4 2 4 2M9 9h.01M15 9h.01"/></svg></div>
+        <div><h4>一人暮らしの親が心配</h4><p>離れて暮らす家族の体調や生活が気になる。</p></div>
       </div>
       <div class="pain-card rv" style="transition-delay:0.3s">
         <div class="pain-icon pi-6"><svg viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="2" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
-        <div><h4>家族として限界を感じる</h4><p>支えたい気持ちはあるけど、自分も疲れてしまった。</p></div>
+        <div><h4>介護する家族の負担が大きい</h4><p>支えたい気持ちはあるけど、自分も疲れてきた。</p></div>
       </div>
     </div>
     <div class="pain-answer rv-s">
-      <div class="pa-title serif">その気持ち、<br class="br-pc">「いっぽ」に話してみませんか。</div>
-      <p>看護師があなたのお家に訪問して、体調のこと、気持ちのこと、生活のこと、なんでも一緒に考えます。</p>
+      <div class="pa-title serif">そのお悩み、<br class="br-pc">「いっぽ」にご相談ください。</div>
+      <p>看護師がご自宅に伺い、体調管理・医療処置・リハビリ・生活の相談まで、まるごとサポートします。</p>
     </div>
   </div>
 </section>
@@ -751,8 +766,8 @@
       <div class="rv-r">
         <div class="reason-num">REASON 01</div>
         <div class="reason-title serif">大学病院レベルの<br class="br-pc">教育体制</div>
-        <div class="reason-desc">大学病院で培った<strong>知識・技術・倫理観</strong>をもとに、教育体制を構築。経験豊富な看護師がスタッフを育成し、どの看護師が訪問しても安心していただける質の高いケアを目指しています。</div>
-        <div class="reason-tags"><span>大学病院レベルの教育</span><span>幅広い疾患に対応</span><span>均質なケア品質</span></div>
+        <div class="reason-desc">大学病院で培った<strong>知識・技術・倫理観</strong>をもとに、教育体制を構築。経験豊富な看護師がスタッフを育成し、どの看護師が訪問しても安心していただける質の高いケアを目指しています。<span style="display:block;margin-top:0.8em;">管理者は<strong>小児科や高度な医療ケアの経験</strong>も持ち、お子さまから医療依存度の高い方まで確かな技術でお応えします。</span></div>
+        <div class="reason-tags"><span>大学病院レベルの教育</span><span>小児にも対応</span><span>高度な医療処置</span></div>
       </div>
     </div>
     <div class="reason-item">
@@ -762,9 +777,9 @@
       </div>
       <div class="rv-l">
         <div class="reason-num">REASON 02</div>
-        <div class="reason-title serif">こころもからだも、<br class="br-pc">まるごと看る</div>
-        <div class="reason-desc">血圧測定、服薬管理、医療処置、生活リズムの相談、社会復帰の支援まで——<strong>あなたの暮らしをまるごとサポート</strong>します。<span style="display:block;margin-top:0.8em;">「こころ」と「からだ」を分けず、一人ひとりに向き合うことが、いっぽの看護です。</span></div>
-        <div class="reason-tags"><span>身体ケアも対応</span><span>服薬管理</span><span>生活支援</span></div>
+        <div class="reason-title serif">医療処置から生活支援まで、<br class="br-pc">まるごと対応</div>
+        <div class="reason-desc">血圧測定、点滴・注射、傷の処置、服薬管理、リハビリ、生活の相談まで——<strong>あなたの暮らしをまるごとサポート</strong>します。<span style="display:block;margin-top:0.8em;">身体のケアもこころのケアも、一人ひとりに向き合うことが、いっぽの看護です。</span></div>
+        <div class="reason-tags"><span>医療処置</span><span>服薬管理</span><span>リハビリ</span></div>
       </div>
     </div>
     <div class="reason-item">
@@ -787,7 +802,7 @@
   <div class="mid-cta-bg parallax-bg"></div>
   <div class="mid-cta-overlay"></div>
   <div class="mc-inner">
-    <div class="mc-text serif rv-blur">「こんな悩みでも相談していいの？」<br class="br-pc">はい、大丈夫です。まずは気軽にご連絡ください。</div>
+    <div class="mc-text serif rv-blur">「こんなことでも頼んでいいの？」<br class="br-pc">はい、大丈夫です。まずは気軽にご連絡ください。</div>
     <a href="#contact" class="btn-white rv" style="transition-delay:0.2s">無料で相談する →</a>
   </div>
 </div>
@@ -805,39 +820,39 @@
     <div class="section-sub rv">看護師がご自宅に訪問して、療養生活をトータルでサポートします</div>
     <div class="srv-grid">
       <div class="srv-card rv-rotate shimmer-on-reveal" style="transition-delay:0.05s">
-        <div class="srv-icon-wrap si-1"><svg viewBox="0 0 24 24" fill="none" stroke="#2d7a56" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
-        <h3>療養相談・精神的ケア</h3>
-        <p>症状や生活上の困りごとを丁寧に伺い、精神状態や生活背景を踏まえて、一人ひとりに合った支援方法を一緒に考えます。不安やストレスへの対処方法を整理し、安心して地域で生活を続けられるよう支援します。</p>
-        <div class="srv-merit">→ 精神的負担の軽減と自己対処力の向上を支援</div>
+        <div class="srv-icon-wrap si-1"><svg viewBox="0 0 24 24" fill="none" stroke="#2d7a56" stroke-width="2" stroke-linecap="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+        <h3>体調管理・健康チェック</h3>
+        <p>血圧・体温・脈拍の測定、全身の状態観察を行い、体調の変化を早期に発見します。慢性疾患の管理や再発予防のための健康管理を継続的にサポートします。</p>
+        <div class="srv-merit">→ 定期的な観察で安心の在宅生活を</div>
       </div>
       <div class="srv-card rv-rotate shimmer-on-reveal" style="transition-delay:0.12s">
-        <div class="srv-icon-wrap si-2"><svg viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
-        <h3>心身の状態観察・再発予防支援</h3>
-        <p>精神症状・身体症状・生活状況を継続的に評価し、小さな変化も見逃さないよう観察します。必要に応じて主治医や関係機関と連携し、早期対応につなげることで再発・再入院の予防を目指します。</p>
-        <div class="srv-merit">→ 継続的なモニタリングで安心した地域生活へ</div>
+        <div class="srv-icon-wrap si-2"><svg viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 8v8M8 12h8"/></svg></div>
+        <h3>医療処置・在宅ケア</h3>
+        <p>点滴・注射、傷や褥瘡の処置、カテーテル管理、吸引、在宅酸素、人工呼吸器の管理など、医師の指示に基づいた医療処置をご自宅で実施。医療依存度の高い方も安心して在宅生活を続けられるよう支えます。</p>
+        <div class="srv-merit">→ 高度な医療処置もご自宅で安心</div>
       </div>
       <div class="srv-card rv-rotate shimmer-on-reveal" style="transition-delay:0.19s">
-        <div class="srv-icon-wrap si-3"><svg viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 8v8M8 12h8"/></svg></div>
-        <h3>服薬支援・副作用モニタリング</h3>
-        <p>服薬状況や副作用を確認し、薬への不安や疑問にも丁寧に対応します。服薬を続けやすい方法を一緒に考え、必要時は主治医・薬剤師と連携しながら適切な服薬管理を支援します。</p>
+        <div class="srv-icon-wrap si-3"><svg viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 6v6l4 2"/></svg></div>
+        <h3>服薬管理・療養相談</h3>
+        <p>服薬状況の確認や飲み忘れ防止のサポート、副作用の観察を行います。日々の療養生活の困りごとにも丁寧に耳を傾け、主治医・薬剤師と連携して対応します。</p>
         <div class="srv-merit">→ 安心して治療を継続できる環境づくり</div>
       </div>
       <div class="srv-card rv-rotate shimmer-on-reveal" style="transition-delay:0.26s">
-        <div class="srv-icon-wrap si-4"><svg viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
-        <h3>生活リズム・セルフケア支援</h3>
-        <p>食事・睡眠・清潔保持・金銭管理・家事など、日常生活を安定して送るための支援を行います。一人ひとりの生活スタイルを尊重し、無理のない目標設定を大切にしています。</p>
-        <div class="srv-merit">→ 生活の安定が回復への第一歩</div>
+        <div class="srv-icon-wrap si-4"><svg viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="2" stroke-linecap="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div>
+        <h3>リハビリ・機能回復支援</h3>
+        <p>日常動作（歩行・入浴・食事など）の維持・回復を目指した運動や生活指導を行います。体力の低下を防ぎ、できることを少しずつ増やしていくお手伝いをします。</p>
+        <div class="srv-merit">→ 「自分でできる」を一緒に増やす</div>
       </div>
       <div class="srv-card rv-rotate shimmer-on-reveal" style="transition-delay:0.33s">
-        <div class="srv-icon-wrap si-5"><svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></svg></div>
-        <h3>社会参加・復帰の支援</h3>
-        <p>外出訓練、対人関係の練習、就労準備など、ご本人のペースでリカバリーを支援。地域の社会資源やサービスとの橋渡しも行います。</p>
-        <div class="srv-merit">→ 一人では難しい一歩を一緒に</div>
+        <div class="srv-icon-wrap si-5"><svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+        <h3>こころのケア</h3>
+        <p>不安やストレスを抱える方、精神疾患をお持ちの方に寄り添い、生活リズムの安定や気持ちの整理をサポートします。こころとからだの両面から、その方らしい暮らしを支えます。</p>
+        <div class="srv-merit">→ 話を聴くことから始まるケア</div>
       </div>
       <div class="srv-card rv-rotate shimmer-on-reveal" style="transition-delay:0.4s">
         <div class="srv-icon-wrap si-6"><svg viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
         <h3>ご家族へのサポート</h3>
-        <p>ご家族の心身の負担を軽減し、介護疲れや対応の悩みに寄り添います。関係機関との多職種連携で、家族全体を支える体制を構築します。</p>
+        <p>介護の方法や負担軽減のアドバイス、介護疲れへのケアを行います。ケアマネジャーや主治医との連携で、ご家族全体を支える体制を構築します。</p>
         <div class="srv-merit">→ 家族が元気だと本人も安心</div>
       </div>
     </div>
@@ -857,11 +872,11 @@
       </div>
       <div class="vf-item rv-l" style="transition-delay:0.2s">
         <div class="vf-dot"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
-        <div class="vf-content"><div class="vf-time">最初の15分</div><h4>体調チェック・お話を聴く</h4><p>血圧・脈拍の測定、睡眠や食事の状況、気分の変化などを確認します。</p></div>
+        <div class="vf-content"><div class="vf-time">最初の15分</div><h4>体調チェック・お話を聴く</h4><p>血圧・体温・脈拍の測定、前回からの体調変化や生活の様子を確認します。</p></div>
       </div>
       <div class="vf-item rv-l" style="transition-delay:0.3s">
         <div class="vf-dot"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 6v6l4 2"/></svg></div>
-        <div class="vf-content"><div class="vf-time">メインの時間</div><h4>その日に必要なケア</h4><p>服薬確認、生活の困りごとの相談、リラクセーション、外出の練習など、あなたに合った内容で。</p></div>
+        <div class="vf-content"><div class="vf-time">メインの時間</div><h4>その日に必要なケア</h4><p>医療処置、服薬確認、リハビリ、療養相談など、あなたの状態に合った内容で。</p></div>
       </div>
       <div class="vf-item rv-l" style="transition-delay:0.4s">
         <div class="vf-dot"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
@@ -888,11 +903,11 @@
       <div class="target-card rv" style="transition-delay:0.05s"><div class="tc-icon">🏥</div><div><h4>退院後の療養</h4><p>退院後の体調管理や生活復帰をサポート。再入院の予防にも取り組みます。</p></div></div>
       <div class="target-card rv" style="transition-delay:0.1s"><div class="tc-icon">🧠</div><div><h4>精神疾患をお持ちの方</h4><p>うつ病・統合失調症・不安障害など、こころの不調に寄り添います。</p></div></div>
       <div class="target-card rv" style="transition-delay:0.15s"><div class="tc-icon">💊</div><div><h4>医療処置が必要な方</h4><p>服薬管理、注射、点滴、褥瘡ケアなどの医療処置を在宅で行います。</p></div></div>
-      <div class="target-card rv" style="transition-delay:0.2s"><div class="tc-icon">🎗️</div><div><h4>がん・難病の方</h4><p>痛みの緩和や療養生活の支援。ご自宅で安心して過ごせるようサポートします。</p></div></div>
-      <div class="target-card rv" style="transition-delay:0.25s"><div class="tc-icon">👶</div><div><h4>小児の在宅ケア</h4><p>お子さまの在宅療養を、ご家族と一緒に支えます。</p></div></div>
+      <div class="target-card rv" style="transition-delay:0.2s"><div class="tc-icon">🎗️</div><div><h4>がん・難病・終末期の方</h4><p>痛みの緩和、在宅酸素や人工呼吸器の管理など、住み慣れたご自宅で安心して過ごせるようサポートします。</p></div></div>
+      <div class="target-card rv" style="transition-delay:0.25s"><div class="tc-icon">👶</div><div><h4>お子さまの在宅ケア</h4><p>医療的ケアが必要なお子さまの療養を、ご家族と一緒に支えます。成長・発達に寄り添ったケアを大切にしています。</p></div></div>
       <div class="target-card rv" style="transition-delay:0.3s"><div class="tc-icon">🏡</div><div><h4>在宅療養中の方</h4><p>一人暮らしや高齢の方も。定期的な訪問が安心の「つながり」になります。</p></div></div>
     </div>
-    <div class="target-note rv">訪問看護は<strong>医療保険</strong>が使えます。自己負担は原則<strong>1〜3割</strong>。精神科通院中の方は自立支援医療で1割負担に。詳しくはお気軽にお問い合わせください。</div>
+    <div class="target-note rv">訪問看護は<strong>医療保険・介護保険どちらにも対応</strong>しています。自己負担は原則<strong>1〜3割</strong>。「自分はどの保険が使えるの？」という方も、お気軽にお問い合わせください。</div>
   </div>
 </section>
 
@@ -905,12 +920,91 @@
   <div class="wrap">
     <div class="section-label rv">HOW TO START</div>
     <div class="section-ttl rv-blur serif">ご利用の流れ</div>
-    <div class="section-sub rv">4つのステップで利用を開始できます</div>
-    <div class="flow-steps">
-      <div class="flow-step rv" style="transition-delay:0.05s"><div class="fs-num">1</div><h4>お問い合わせ</h4><p>電話・フォームでご連絡ください。ご本人でもご家族でも。</p></div>
-      <div class="flow-step rv" style="transition-delay:0.15s"><div class="fs-num">2</div><h4>主治医に相談</h4><p>かかりつけ医に訪問看護の指示書を依頼します。私たちからもお願いできます。</p></div>
-      <div class="flow-step rv" style="transition-delay:0.25s"><div class="fs-num">3</div><h4>初回訪問</h4><p>ご自宅にお伺いし、お話を聴いて訪問看護計画を一緒に考えます。</p></div>
-      <div class="flow-step rv" style="transition-delay:0.35s"><div class="fs-num">4</div><h4>訪問スタート</h4><p>週1〜3回、あなたのペースで開始。回数はいつでも相談できます。</p></div>
+    <div class="section-sub rv">ご利用方法は保険の種類によって少し異なります。<br>「どちらか分からない」という方も、まずはお気軽にお問い合わせください。</div>
+
+    <div class="flow-tabs rv">
+      <button class="flow-tab active" onclick="switchFlowTab(0)">医療保険で利用する</button>
+      <button class="flow-tab" onclick="switchFlowTab(1)">介護保険で利用する</button>
+    </div>
+
+    <!-- 医療保険パネル -->
+    <div class="flow-panel active" id="flowPanel0">
+      <div class="flow-tab-hint rv">年齢を問わず、主治医の指示があれば利用できます（要介護認定は不要）</div>
+      <div class="flow-steps">
+        <div class="flow-step rv" style="transition-delay:0.05s">
+          <div class="fs-num">1</div>
+          <h4>ご相談・お問い合わせ</h4>
+          <p>電話・フォームでご連絡ください。ご本人・ご家族はもちろん、退院前の病院（地域連携室）や主治医からのご相談も歓迎です。</p>
+          <div class="flow-detail">状態やご希望をお伺いし、訪問看護が利用できるかご案内します。</div>
+        </div>
+        <div class="flow-step rv" style="transition-delay:0.15s">
+          <div class="fs-num">2</div>
+          <h4>訪問看護指示書の発行</h4>
+          <p>主治医（かかりつけ医）に「訪問看護指示書」の作成を依頼します。</p>
+          <div class="flow-detail">指示書の依頼は私たちから主治医に直接お願いすることもできます。発行まで1週間程度かかることがあります。</div>
+        </div>
+        <div class="flow-step rv" style="transition-delay:0.25s">
+          <div class="fs-num">3</div>
+          <h4>契約・初回訪問</h4>
+          <p>サービス内容や費用についてご説明し、契約を結びます。その後ご自宅にお伺いして訪問看護計画を一緒に作成します。</p>
+        </div>
+        <div class="flow-step rv" style="transition-delay:0.35s">
+          <div class="fs-num">4</div>
+          <h4>訪問スタート</h4>
+          <p>計画に沿って定期訪問を開始。訪問頻度や内容はいつでも見直せます。</p>
+          <div class="flow-detail">主治医への報告書も定期的にお送りし、連携して対応します。</div>
+        </div>
+      </div>
+      <div class="flow-note-box rv" style="transition-delay:0.3s">
+        <h4>医療保険での訪問看護について</h4>
+        <ul>
+          <li>お子さまから高齢の方まで、年齢を問わずご利用いただけます</li>
+          <li>要介護認定がなくても、主治医の指示書があれば利用可能です</li>
+          <li>退院直後の方、難病・がんの方、医療機器を使用中の方なども対象です</li>
+          <li>精神科通院中の方は、自立支援医療制度（自己負担1割）を利用できる場合があります</li>
+          <li>入院中の方は、退院前から訪問看護師と顔合わせ・計画づくりができます</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 介護保険パネル -->
+    <div class="flow-panel" id="flowPanel1">
+      <div class="flow-tab-hint rv">65歳以上の方、または40〜64歳で特定疾病（がん末期・脳血管疾患等）をお持ちの方が対象です</div>
+      <div class="flow-steps">
+        <div class="flow-step rv" style="transition-delay:0.05s">
+          <div class="fs-num">1</div>
+          <h4>要介護認定の申請</h4>
+          <p>お住まいの市区町村の窓口で、要介護（要支援）認定を申請します。</p>
+          <div class="flow-detail">まだ申請がお済みでない方は、地域包括支援センターに相談すると手続きを案内してもらえます。</div>
+        </div>
+        <div class="flow-step rv" style="transition-delay:0.15s">
+          <div class="fs-num">2</div>
+          <h4>ケアマネジャーに相談</h4>
+          <p>担当のケアマネジャーに訪問看護の利用を相談し、ケアプランに組み込んでもらいます。</p>
+          <div class="flow-detail">ケアマネジャーがまだいない方は、地域包括支援センターで紹介を受けられます。</div>
+        </div>
+        <div class="flow-step rv" style="transition-delay:0.25s">
+          <div class="fs-num">3</div>
+          <h4>訪問看護指示書＋契約</h4>
+          <p>訪問看護には主治医の指示書も必要です。ケアマネジャーと私たちで連携して手配します。その後、契約・初回訪問を行います。</p>
+        </div>
+        <div class="flow-step rv" style="transition-delay:0.35s">
+          <div class="fs-num">4</div>
+          <h4>訪問スタート</h4>
+          <p>ケアプランに沿って訪問を開始。他の介護サービス（デイサービス、ヘルパー等）との併用も可能です。</p>
+          <div class="flow-detail">ケアマネジャー・主治医と定期的に情報共有し、チームで支えます。</div>
+        </div>
+      </div>
+      <div class="flow-note-box rv" style="transition-delay:0.3s">
+        <h4>介護保険での訪問看護について</h4>
+        <ul>
+          <li>要支援1〜2、要介護1〜5の認定を受けた方が対象です</li>
+          <li>ケアプランの範囲内で、訪問介護やデイサービスなど他のサービスと組み合わせて利用できます</li>
+          <li>ケアマネジャーが全体の調整役となり、サービス担当者会議で関係者と情報共有します</li>
+          <li>40〜64歳でも、がん末期や脳血管疾患など16の特定疾病に該当すれば利用可能です</li>
+          <li>状態によっては医療保険が優先される場合もあります（詳しくはお問い合わせください）</li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
@@ -931,14 +1025,15 @@
     <div class="cost-panel active" id="costPanel0">
       <div class="cost-box rv-s">
         <div class="cost-highlight">
-          <div class="ch-label">自立支援医療をご利用の方の月額上限</div>
-          <div class="ch-price serif">2,500<small>円〜</small></div>
-          <div class="ch-sub">多くの方が月額2,500〜5,000円でご利用いただけます</div>
+          <div class="ch-label">保険適用で自己負担は1〜3割</div>
+          <div class="ch-price serif">1<small>回あたり</small> 約800〜5,000<small>円</small></div>
+          <div class="ch-sub">ご加入の保険・負担割合により異なります</div>
         </div>
         <div class="cost-row"><span class="cr-label">医療保険（3割負担）の場合</span><span class="cr-val">1回 約2,500〜5,000円</span></div>
-        <div class="cost-row"><span class="cr-label">自立支援医療（1割負担）の場合</span><span class="cr-val">1回 約800〜1,700円</span></div>
+        <div class="cost-row"><span class="cr-label">医療保険（1割負担）の場合</span><span class="cr-val">1回 約800〜1,700円</span></div>
+        <div class="cost-row"><span class="cr-label">介護保険ご利用の場合</span><span class="cr-val">ケアプランに応じた自己負担</span></div>
         <div class="cost-row"><span class="cr-label">生活保護受給中の方</span><span class="cr-val">自己負担なし</span></div>
-        <div class="cost-note">※ 自立支援医療制度を利用すると、自己負担が1割になり、さらに所得に応じた月額上限が設定されます。<br>※ 交通費は無料です。追加料金はかかりません。<br>※ 詳しい料金はお気軽にお問い合わせください。</div>
+        <div class="cost-note">※ 医療保険・介護保険どちらも対応しています。どちらが適用されるかは疾患や状況により異なります。<br>※ 精神科通院中の方は自立支援医療制度（1割負担・月額上限あり）が利用できる場合があります。<br>※ 交通費は無料です。追加料金はかかりません。<br>※ 詳しい料金はお気軽にお問い合わせください。</div>
       </div>
     </div>
 
@@ -995,9 +1090,9 @@
     <div class="section-ttl rv-blur serif">よくある質問</div>
     <div style="height:28px;"></div>
     <div class="faq-list">
-      <div class="faq-item rv" style="transition-delay:0.05s"><button class="faq-q" onclick="toggleFaq(this)">訪問看護って何をしてくれるの？<span class="faq-icon">+</span></button><div class="faq-a">看護師がご自宅に訪問して、体調チェック、服薬管理、生活の相談、こころのケアなどを行います。病院に行くのが難しい方や、退院後の生活に不安がある方をサポートするサービスです。</div></div>
-      <div class="faq-item rv" style="transition-delay:0.1s"><button class="faq-q" onclick="toggleFaq(this)">いっぽはどんな訪問看護ステーション？<span class="faq-icon">+</span></button><div class="faq-a">大学病院レベルの教育体制で、身体のケアからこころのケアまで幅広く対応しています。退院後のフォロー、医療処置、精神疾患、がん・難病など、お気軽にご相談ください。</div></div>
-      <div class="faq-item rv" style="transition-delay:0.15s"><button class="faq-q" onclick="toggleFaq(this)">どんな病気でも利用できる？<span class="faq-icon">+</span></button><div class="faq-a">はい、主治医からの指示書があれば、内科・外科・精神科・整形外科など幅広い疾患に対応できます。「こんな症状でも大丈夫？」という方も、まずはお気軽にご相談ください。</div></div>
+      <div class="faq-item rv" style="transition-delay:0.05s"><button class="faq-q" onclick="toggleFaq(this)">訪問看護って何をしてくれるの？<span class="faq-icon">+</span></button><div class="faq-a">看護師がご自宅に訪問して、体調チェック、医療処置、服薬管理、リハビリ、療養生活の相談などを行います。病院に通うのが難しい方や、退院後の生活に不安がある方をサポートするサービスです。</div></div>
+      <div class="faq-item rv" style="transition-delay:0.1s"><button class="faq-q" onclick="toggleFaq(this)">いっぽはどんな訪問看護ステーション？<span class="faq-icon">+</span></button><div class="faq-a">大学病院レベルの教育体制で、医療処置からリハビリ、こころのケアまで幅広く対応しています。医療依存度の高い方やお子さまの在宅ケアにも力を入れています。退院後のフォロー、慢性疾患、がん・難病、精神疾患など、お気軽にご相談ください。</div></div>
+      <div class="faq-item rv" style="transition-delay:0.15s"><button class="faq-q" onclick="toggleFaq(this)">どんな病気でも利用できる？<span class="faq-icon">+</span></button><div class="faq-a">はい、主治医からの指示書があれば、内科・外科・精神科・整形外科など幅広い疾患に対応できます。医療保険・介護保険どちらでもご利用可能です。「こんな症状でも大丈夫？」という方も、まずはお気軽にご相談ください。</div></div>
       <div class="faq-item rv" style="transition-delay:0.2s"><button class="faq-q" onclick="toggleFaq(this)">自費サービスと保険の違いは？<span class="faq-icon">+</span></button><div class="faq-a">保険適用の訪問看護は、主治医の指示書に基づいて提供されるサービスです。自費サービスは、保険の制約を受けずに、時間・内容・曜日を自由にカスタマイズできます。「週末に来てほしい」「長時間じっくり話を聴いてほしい」といったご要望に柔軟に対応できます。</div></div>
       <div class="faq-item rv" style="transition-delay:0.25s"><button class="faq-q" onclick="toggleFaq(this)">家族だけで相談してもいいの？<span class="faq-icon">+</span></button><div class="faq-a">はい、ご家族だけのご相談も歓迎です。「本人が嫌がっている」「どう接したらいいかわからない」といったご相談もお受けしています。まずはお電話やフォームでご連絡ください。</div></div>
       <div class="faq-item rv" style="transition-delay:0.3s"><button class="faq-q" onclick="toggleFaq(this)">利用を始めるには何が必要？<span class="faq-icon">+</span></button><div class="faq-a">保険適用の場合は主治医からの「訪問看護指示書」が必要です。自費サービスの場合は指示書不要で、どなたでもご利用いただけます。まずはお気軽にご相談ください。</div></div>
@@ -1018,8 +1113,8 @@
       <tr><th>運営法人</th><td>合同会社あゆみ</td></tr>
       <tr><th>所在地</th><td>千葉県市川市（本八幡）</td></tr>
       <tr><th>開設予定</th><td>2026年12月 オープン予定</td></tr>
-      <tr><th>サービス種別</th><td>訪問看護（医療保険対応）／自費看護サービス</td></tr>
-      <tr><th>対応疾患</th><td>退院後フォロー・精神疾患・医療処置・がん/難病・小児・在宅療養 等<br class="br-pc">幅広い疾患・お悩みに対応いたします</td></tr>
+      <tr><th>サービス種別</th><td>訪問看護（医療保険・介護保険対応）／自費看護サービス</td></tr>
+      <tr><th>対応疾患</th><td>退院後フォロー・慢性疾患・医療処置・がん/難病/終末期・精神疾患・小児 等<br class="br-pc">お子さまから医療依存度の高い方まで、経験豊富なスタッフが幅広く対応いたします</td></tr>
       <tr><th>対応言語</th><td>日本語 ／ 中国語（可以用中文沟通）</td></tr>
       <tr><th>訪問エリア</th><td>市川市を中心に、浦安市・船橋市など周辺地域にも対応</td></tr>
       <tr><th>営業日</th><td>月曜〜金曜（土日祝は応相談）</td></tr>
@@ -1239,6 +1334,12 @@ function submitContact() {
     btn.disabled = false;
     btn.textContent = '送信する';
   });
+}
+
+// ご利用の流れタブ
+function switchFlowTab(idx) {
+  document.querySelectorAll('.flow-tab').forEach(function(t,i){t.classList.toggle('active',i===idx);});
+  document.querySelectorAll('.flow-panel').forEach(function(p,i){p.classList.toggle('active',i===idx);});
 }
 
 // 費用タブ
