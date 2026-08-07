@@ -1,0 +1,978 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>訪看ハンドブック</title>
+<style id="app-css">
+  :root{
+    --bg:#F5F7F6; --surface:#FFFFFF; --surface2:#EEF2F0;
+    --ink:#22302D; --muted:#5C6B67; --line:#DFE6E3;
+    --accent:#0E7A6E; --accent-ink:#0A5C53; --accent-soft:#E2F0ED;
+    --warn:#A16207; --warn-soft:#F8EFDC;
+    --info:#31547E; --info-soft:#E5ECF4;
+    --shadow:0 1px 2px rgba(34,48,45,.06), 0 4px 16px rgba(34,48,45,.06);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#131A18; --surface:#1B2422; --surface2:#222D2A;
+      --ink:#E6ECEA; --muted:#92A19C; --line:#2B3733;
+      --accent:#43B3A3; --accent-ink:#7ACDC1; --accent-soft:#173430;
+      --warn:#DCA84F; --warn-soft:#312610;
+      --info:#8FB0D8; --info-soft:#1D2A3A;
+      --shadow:0 1px 2px rgba(0,0,0,.3), 0 4px 16px rgba(0,0,0,.25);
+    }
+  }
+  :root[data-theme="light"]{
+    --bg:#F5F7F6; --surface:#FFFFFF; --surface2:#EEF2F0;
+    --ink:#22302D; --muted:#5C6B67; --line:#DFE6E3;
+    --accent:#0E7A6E; --accent-ink:#0A5C53; --accent-soft:#E2F0ED;
+    --warn:#A16207; --warn-soft:#F8EFDC;
+    --info:#31547E; --info-soft:#E5ECF4;
+    --shadow:0 1px 2px rgba(34,48,45,.06), 0 4px 16px rgba(34,48,45,.06);
+  }
+  :root[data-theme="dark"]{
+    --bg:#131A18; --surface:#1B2422; --surface2:#222D2A;
+    --ink:#E6ECEA; --muted:#92A19C; --line:#2B3733;
+    --accent:#43B3A3; --accent-ink:#7ACDC1; --accent-soft:#173430;
+    --warn:#DCA84F; --warn-soft:#312610;
+    --info:#8FB0D8; --info-soft:#1D2A3A;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 4px 16px rgba(0,0,0,.25);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic Medium","Yu Gothic","Noto Sans JP",Meiryo,sans-serif;
+    font-size:15px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  button{font-family:inherit}
+
+  /* ---------- header ---------- */
+  header.app{
+    position:sticky; top:0; z-index:20;
+    background:var(--surface); border-bottom:1px solid var(--line);
+    padding:0 20px;
+  }
+  .hd-inner{max-width:1080px; margin:0 auto; display:flex; align-items:center; gap:14px; height:58px;}
+  .brand{display:flex; align-items:center; gap:10px; cursor:pointer; user-select:none;}
+  .brand-mark{
+    width:30px;height:30px;border-radius:8px;background:var(--accent);
+    display:grid;place-items:center;color:#fff;font-weight:700;font-size:15px;flex:none;
+  }
+  .brand h1{font-size:16px; font-weight:700; margin:0; letter-spacing:.02em;}
+  .brand .sub{font-size:11px; color:var(--muted); letter-spacing:.08em; display:block; line-height:1.2;}
+  .hd-spacer{flex:1}
+  .btn{
+    border:1px solid var(--line); background:var(--surface); color:var(--ink);
+    border-radius:8px; padding:7px 14px; font-size:13.5px; cursor:pointer;
+  }
+  .btn:hover{background:var(--surface2)}
+  .btn.primary{background:var(--accent); border-color:var(--accent); color:#fff; font-weight:600;}
+  .btn.primary:hover{background:var(--accent-ink); border-color:var(--accent-ink);}
+  .btn:focus-visible, .card:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible{
+    outline:2px solid var(--accent); outline-offset:2px;
+  }
+
+  /* ---------- layout ---------- */
+  .wrap{max-width:1080px; margin:0 auto; padding:22px 20px 80px;}
+  .layout{display:grid; grid-template-columns:210px 1fr; gap:26px;}
+  @media (max-width:760px){ .layout{grid-template-columns:1fr; gap:14px;} }
+
+  /* ---------- sidebar ---------- */
+  nav.cats{display:flex; flex-direction:column; gap:4px; align-self:start; position:sticky; top:78px;}
+  @media (max-width:760px){
+    nav.cats{flex-direction:row; overflow-x:auto; position:static; padding-bottom:4px;}
+  }
+  .cat-btn{
+    display:flex; align-items:center; gap:8px; text-align:left;
+    border:none; background:none; color:var(--muted);
+    padding:9px 12px; border-radius:8px; font-size:14px; cursor:pointer; white-space:nowrap;
+  }
+  .cat-btn:hover{background:var(--surface2); color:var(--ink);}
+  .cat-btn.on{background:var(--accent-soft); color:var(--accent-ink); font-weight:700;}
+  .cat-btn .n{
+    margin-left:auto; font-size:11.5px; background:var(--surface2); color:var(--muted);
+    border-radius:99px; padding:1px 8px; font-variant-numeric:tabular-nums;
+  }
+  .cat-btn.on .n{background:var(--surface); color:var(--accent-ink);}
+
+  /* ---------- doc list ---------- */
+  .searchbar{margin-bottom:16px; display:flex; gap:10px;}
+  .searchbar input{
+    flex:1; border:1px solid var(--line); background:var(--surface); color:var(--ink);
+    border-radius:9px; padding:9px 14px; font-size:14.5px; font-family:inherit;
+  }
+  .searchbar input::placeholder{color:var(--muted)}
+  .group-label{
+    font-size:12px; letter-spacing:.14em; color:var(--muted); font-weight:700;
+    margin:26px 0 10px; text-transform:uppercase;
+  }
+  .group-label:first-of-type{margin-top:0}
+  .cards{display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:12px;}
+  .card{
+    background:var(--surface); border:1px solid var(--line); border-radius:12px;
+    padding:15px 16px 13px; cursor:pointer; text-align:left; color:var(--ink);
+    display:flex; flex-direction:column; gap:8px; box-shadow:var(--shadow);
+    transition:border-color .15s;
+  }
+  .card:hover{border-color:var(--accent)}
+  .card h3{margin:0; font-size:14.5px; font-weight:700; line-height:1.45;}
+  .card p{margin:0; font-size:12.5px; color:var(--muted); line-height:1.55;}
+  .tags{display:flex; flex-wrap:wrap; gap:5px; margin-top:auto;}
+  .pill{
+    font-size:10.5px; border-radius:99px; padding:2px 9px; font-weight:700; letter-spacing:.03em;
+    background:var(--surface2); color:var(--muted);
+  }
+  .pill.ready{background:var(--accent-soft); color:var(--accent-ink);}
+  .pill.planned{background:var(--warn-soft); color:var(--warn);}
+  .pill.hoken{background:var(--info-soft); color:var(--info);}
+  .pill.duty{background:var(--surface2); color:var(--muted);}
+  .pill.guide{background:var(--info-soft); color:var(--info);}
+
+  /* ---------- 手順フロー ---------- */
+  ol.flow{margin:0; padding:0; list-style:none; counter-reset:st;}
+  ol.flow li{
+    counter-increment:st; position:relative;
+    padding:9px 0 9px 38px; font-size:14px; border-bottom:1px dashed var(--line);
+  }
+  ol.flow li:last-child{border-bottom:none}
+  ol.flow li::before{
+    content:counter(st); position:absolute; left:0; top:10px;
+    width:24px; height:24px; border-radius:50%;
+    background:var(--accent); color:#fff;
+    display:grid; place-items:center; font-size:12.5px; font-weight:700;
+    font-variant-numeric:tabular-nums;
+  }
+
+  /* ---------- detail view ---------- */
+  .backbar{margin-bottom:16px;}
+  .btn.back{
+    display:inline-flex; align-items:center; gap:6px; font-weight:700;
+    color:var(--accent-ink); border-color:var(--line);
+  }
+  .detail-head{display:flex; align-items:flex-start; gap:12px; flex-wrap:wrap; margin-bottom:6px;}
+  .detail-head h2{margin:0; font-size:21px; font-weight:700; line-height:1.4; text-wrap:balance;}
+  .detail-desc{color:var(--muted); font-size:14px; max-width:640px; margin:6px 0 20px;}
+  .panel{
+    background:var(--surface); border:1px solid var(--line); border-radius:12px;
+    padding:18px 20px; margin-bottom:16px; box-shadow:var(--shadow);
+  }
+  .panel h4{
+    margin:0 0 10px; font-size:12px; letter-spacing:.14em; color:var(--muted); font-weight:700;
+  }
+  ul.items{margin:0; padding:0 0 0 2px; list-style:none;}
+  ul.items li{
+    padding:6px 0 6px 24px; position:relative; font-size:14px; border-bottom:1px dashed var(--line);
+  }
+  ul.items li:last-child{border-bottom:none}
+  ul.items li::before{
+    content:""; position:absolute; left:2px; top:13px;
+    width:7px; height:7px; border-radius:2px; background:var(--accent);
+  }
+  .note{
+    background:var(--warn-soft); border-radius:10px; padding:12px 15px;
+    font-size:13.5px; color:var(--ink); line-height:1.7;
+  }
+  .note b{color:var(--warn)}
+  .planned-box{
+    border:1.5px dashed var(--line); border-radius:12px; padding:20px;
+    text-align:center; color:var(--muted); font-size:13.5px;
+  }
+  .lockbox{
+    background:var(--surface); border:1.5px dashed var(--line); border-radius:12px;
+    padding:26px 20px; text-align:center;
+  }
+  .lockbox input{
+    border:1px solid var(--line); background:var(--bg); color:var(--ink);
+    border-radius:8px; padding:8px 12px; font-size:14px; font-family:inherit; width:180px;
+  }
+
+  /* ---------- form ---------- */
+  .form-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px 14px;}
+  @media (max-width:640px){ .form-grid{grid-template-columns:1fr;} }
+  .fld{display:flex; flex-direction:column; gap:4px;}
+  .fld.full{grid-column:1 / -1;}
+  .fld label{font-size:12.5px; font-weight:700; color:var(--muted);}
+  .fld input, .fld textarea, .fld select{
+    border:1px solid var(--line); background:var(--bg); color:var(--ink);
+    border-radius:8px; padding:8px 11px; font-size:14px; font-family:inherit; line-height:1.6;
+  }
+  .fld textarea{resize:vertical; min-height:64px;}
+  .preset-pick{
+    border:1px solid var(--accent) !important; background:var(--accent-soft) !important;
+    color:var(--accent-ink) !important; font-weight:600; cursor:pointer; margin-bottom:2px;
+  }
+  .form-actions{display:flex; gap:10px; margin-top:16px; flex-wrap:wrap; align-items:center;}
+  .saved-note{font-size:12.5px; color:var(--accent-ink);}
+
+  /* ---------- settings dialog ---------- */
+  dialog{
+    border:1px solid var(--line); border-radius:14px; background:var(--surface); color:var(--ink);
+    padding:24px; width:min(560px, 92vw); box-shadow:var(--shadow);
+  }
+  dialog::backdrop{background:rgba(15,25,22,.45)}
+  dialog h3{margin:0 0 4px; font-size:17px;}
+  dialog .dlg-sub{font-size:13px; color:var(--muted); margin:0 0 16px;}
+
+  /* ---------- print sheet ---------- */
+  #print-area{display:none;}
+  @media print{
+    body > *:not(#print-area){display:none !important;}
+    #print-area{display:block;}
+    body{background:#fff; color:#000;}
+  }
+  .sheet{
+    font-family:"Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif;
+    color:#000; background:#fff; font-size:10.5pt; line-height:1.8;
+    max-width:180mm; margin:0 auto; padding:10mm 0;
+  }
+  .sheet h1{font-size:15pt; text-align:center; letter-spacing:.3em; margin:0 0 8mm; font-weight:700;}
+  .sheet table{width:100%; border-collapse:collapse; margin:4mm 0;}
+  .sheet th,.sheet td{border:1px solid #000; padding:2mm 3mm; font-size:10pt; text-align:left; vertical-align:top;}
+  .sheet th{width:34mm; font-weight:600; background:#f2f2f2;}
+  .sheet .stamp{margin-top:10mm; display:flex; justify-content:flex-end; gap:12mm;}
+  .sheet .sig{min-width:60mm;}
+  .sheet .sig .line{border-bottom:1px solid #000; padding:1mm 2mm 1mm 0; margin-top:4mm;}
+  .sheet p{margin:0 0 3mm;}
+  .sheet ol{padding-left:6mm; margin:2mm 0;}
+  .sheet ol li{margin-bottom:1.5mm;}
+
+  @media (prefers-reduced-motion: reduce){ *{transition:none !important;} }
+</style>
+
+<header class="app">
+  <div class="hd-inner">
+    <div class="brand" onclick="go('home')" tabindex="0" role="button" aria-label="ホームへ">
+      <div class="brand-mark">看</div>
+      <div>
+        <h1>訪看ハンドブック</h1>
+        <span class="sub">訪問看護の手順と書類</span>
+      </div>
+    </div>
+    <div class="hd-spacer"></div>
+    <button class="btn" onclick="openSettings()">⚙ 事業所情報</button>
+  </div>
+</header>
+
+<div class="wrap" id="app"></div>
+
+<dialog id="dlg-settings">
+  <h3>事業所情報</h3>
+  <p class="dlg-sub">ここで登録した内容は、すべてのテンプレートに自動で差し込まれます（この端末に保存されます）。</p>
+  <div class="form-grid">
+    <div class="fld full"><label>事業所名</label><input id="st-name" placeholder="訪問看護ステーション○○"></div>
+    <div class="fld full"><label>所在地</label><input id="st-addr" placeholder="○○県○○市…"></div>
+    <div class="fld"><label>電話番号</label><input id="st-tel" placeholder="000-000-0000"></div>
+    <div class="fld"><label>FAX</label><input id="st-fax" placeholder="000-000-0000"></div>
+    <div class="fld"><label>管理者氏名</label><input id="st-kanri" placeholder="看護 花子"></div>
+    <div class="fld"><label>24時間連絡先（オンコール）</label><input id="st-oncall" placeholder="000-0000-0000"></div>
+  </div>
+  <div class="form-actions">
+    <button class="btn primary" onclick="saveSettings()">保存する</button>
+    <button class="btn" onclick="document.getElementById('dlg-settings').close()">閉じる</button>
+  </div>
+</dialog>
+
+<div id="print-area"></div>
+
+<script>
+/* ================= data ================= */
+const CATS = [
+  {id:'keiyaku', name:'契約するとき', icon:'✎'},
+  {id:'houmon',  name:'通常対応（訪問時）', icon:'☀'},
+  {id:'senmon',  name:'専門ケア別対応', icon:'✚'},
+  {id:'irreg',   name:'イレギュラー対応', icon:'⚠'},
+  {id:'seibi',   name:'規程・研修の整備', icon:'⚑'},
+  {id:'tsujo',   name:'人事・労務 🔒', icon:'👥', locked:true},
+];
+
+const DOCS = [
+  /* ---- 契約するとき ---- */
+  {id:'keiyaku-flow', cat:'keiyaku', name:'契約時の流れ（手順ガイド）', status:'guide',
+   tags:['マニュアル'],
+   desc:'新規の利用者さんと契約するときの一連の流れ。契約書・同意書などの帳票はカイポケのものを使用します。',
+   flow:['主治医へ訪問看護指示書を依頼し、受領する（指示書が届く前にサービスを開始しない）','重要事項説明書（カイポケの帳票）を使って、サービス内容・料金・緊急時対応を説明する','利用契約書を取り交わす（利用者または代理人が署名。代理人は続柄も記載）','個人情報使用同意書に署名をもらう','オンコール（24時間対応）を利用する場合は、緊急時訪問看護の同意を個別の書面でもらう（重要事項説明書に埋め込まず独立した1枚にするのが安全）','保険証・受給者証を確認し、カイポケに登録する','ケアマネジャー・主治医へ契約完了を連絡し、初回訪問の日程を決める'],
+   items:['訪問看護指示書（主治医発行）','契約書・重要事項説明書・各同意書（カイポケの帳票を使用）','保険証・受給者証（確認してカイポケへ登録）'],
+   note:'契約関係書類は利用終了後も保存義務がある（介護保険は完結の日から2年、自治体により5年の場合あり）。'},
+
+  /* ---- 通常対応（訪問時のふだんの対応） ---- */
+  {id:'ichinichi', cat:'houmon', name:'出勤から退勤まで（1日の流れ）', status:'guide',
+   tags:['マニュアル'],
+   desc:'1日の仕事の全体像。訪問1件ごとの動きは「訪問当日の流れ」を参照。',
+   flow:['出勤・体調チェック（発熱・症状があるときは出勤前に管理者へ連絡して指示を受ける）','朝礼・申し送りで当日の訪問予定と利用者さんの変化を共有する','訪問準備（バッグ点検・指示内容/計画の確認・移動ルート確認）','訪問へ（1件ごとの流れは「訪問当日の流れ」参照。件と件の間で手指衛生）','昼休憩はしっかり取る（移動しながらの「ながら休憩」にしない）','帰所後：記録・報告を済ませ、翌日の準備と物品補充をする','退勤前：管理者・オンコール当番への申し送りを済ませてから帰る'],
+   items:['訪問予定表','申し送りノート・事業所内チャット','携行品チェックリスト'],
+   note:'直行直帰する場合の連絡ルール（誰に・いつ・何を）は事業所の取り決めに従う。'},
+  {id:'houmon-flow', cat:'houmon', name:'訪問当日の流れ（基本の型）', status:'guide',
+   tags:['マニュアル'],
+   desc:'ふだんの訪問1件の流れ。出発前の準備から帰所後の記録までの基本の型。',
+   flow:['出発前：当日の訪問予定・前回の記録・計画の内容を確認し、必要物品を訪問バッグに準備する','時間どおりに訪問する（遅れそうな場合は5分でも必ず事前に電話連絡）','挨拶をして入室し、手指衛生を行う','バイタルサイン測定と全身状態の観察、前回からの変化・生活状況の聞き取りを行う','計画書に沿った看護・リハビリを実施する（状態に応じて内容を調整）','本人・家族に実施内容と次回予定を伝え、片付け・手指衛生をして退出する','帰所後：記録をその日のうちに記載し、気になる点は管理者へ報告する'],
+   items:['訪問予定表','訪問バッグ（携行品チェックリスト参照）','記録様式・電子カルテ端末','連絡先リスト'],
+   note:'「いつもと違う」と感じたら、小さなことでも記録に残して報告する。'},
+  {id:'manner', cat:'houmon', name:'訪問時の接遇・マナー', status:'guide',
+   tags:['マニュアル'],
+   desc:'他人の家に上がる仕事だからこそのマナー。技術と同じくらい信頼をつくる基本。',
+   flow:['身だしなみを整える（名札・清潔なユニフォーム・爪・髪・においに注意）','遅れそうなときは必ず事前に電話を入れる','玄関では明るく挨拶し、靴を揃える。荷物は指定の場所以外に置かない','居宅内の物に勝手に触れない。借りるとき・使うときは必ず一声かける','言葉づかいは丁寧に。子ども扱いする言葉（「〜でちゅね」等）は使わない','個人的な話題や他の利用者の話はしない（守秘義務）','帰り際に次回訪問日を伝え、玄関で挨拶して退出する'],
+   items:['名札・身分証','事業所の接遇ルール'],
+   note:'クレームの多くはケア内容ではなく接遇から生まれる。迷ったら「自分の家族の家」と同じ振る舞いを。'},
+  {id:'kansatsu', cat:'houmon', name:'状態観察と報告の基準', status:'guide',
+   tags:['マニュアル'], itemsTitle:'毎回の観察項目',
+   desc:'訪問ごとに確認する観察項目と、「報告するかどうか」の判断基準。',
+   flow:['利用者ごとの「いつもの状態（ベースライン）」を把握しておく','訪問ごとに観察項目を確認し、記録する','「いつもと違う」があれば、程度にかかわらず管理者に報告する','明らかな異常（呼吸苦・意識レベル低下・強い痛み・急な発熱など）は、その場で管理者または主治医へ連絡して指示を受ける','緊急性が高い場合は救急要請をためらわない（イレギュラー対応「緊急時フロー」参照）'],
+   items:['バイタルサイン（体温・脈拍・血圧・呼吸・SpO2）','意識状態・表情・会話の様子','皮膚の状態（褥瘡・浮腫・乾燥・傷）','食事・水分の摂取状況','排泄の状況（便秘・下痢・尿量）','睡眠・日中の活動の様子','内服状況（残薬の確認）','住環境・家族の介護状況の変化'],
+   note:'報告に「しすぎ」はない。迷ったら報告する。'},
+  {id:'hourensou', cat:'houmon', name:'報告・連絡・相談のルール', status:'guide',
+   tags:['マニュアル'],
+   desc:'誰に・いつ・何を伝えるかのルール。情報共有の遅れがいちばんのリスク。',
+   flow:['記録はその日のうちに書く（後回しにすると精度が落ちる）','状態変化・気づきは当日中に管理者へ報告する','主治医への報告・相談は管理者を通す（緊急時を除く）','ケアマネジャーへは、サービスに影響する変化（入院・状態悪化・家族状況の変化）を共有する','家族への説明は事実を分かりやすく伝える。診断や予後の説明は主治医の役割','ミーティングでチーム全体に共有する'],
+   items:['連絡先リスト（主治医・ケアマネジャー・家族）','申し送りノート・事業所内チャット'],
+   note:'「言ったつもり」を防ぐため、口頭で伝えた内容も記録に残す。'},
+  {id:'kansen-daily', cat:'houmon', name:'訪問時の感染対策（標準予防策）', status:'guide',
+   tags:['マニュアル'],
+   desc:'訪問先は病院と違って環境が整っていない前提。持参する物品で感染をコントロールする。',
+   flow:['手指衛生の5つのタイミング（利用者に触れる前後・清潔操作の前・体液に触れた後・周囲環境に触れた後）を守る','処置内容に応じてPPE（手袋・マスク・エプロン）を選択して着用する','使用済み物品・ゴミは持ち帰り用袋に分け、訪問バッグの中を清潔・不潔で分ける','感染症のある利用者は訪問順序を最後にするなど配慮する','自分が体調不良のときは出勤前に管理者へ連絡する（無理して訪問しない）'],
+   items:['手指消毒剤','PPE（手袋・マスク・エプロン）','持ち帰り用ビニール袋','感染対策指針（規程・研修の整備カテゴリ）'],
+   note:'季節性の流行期（インフルエンザ等）は委員会で対応レベルを確認する。'},
+  {id:'fuzai', cat:'houmon', name:'キャンセル・訪問先が不在のとき', status:'guide',
+   tags:['マニュアル'],
+   desc:'訪問先で応答がないときの安否確認の手順。「応答がない＝帰る」は絶対にしない。',
+   flow:['インターホン・ノックに応答がない場合、まず本人の電話へかける','つながらない場合、事業所へ報告し、緊急連絡先（家族）・ケアマネジャーへ連絡する','室内で倒れている可能性が否定できない場合は、家族の到着を待つか、状況により救急・警察へ連絡する','対応の経過を時刻とともに記録する','単なるキャンセル（外出など）だった場合は、振替訪問を調整しケアマネジャーへ共有する'],
+   items:['緊急連絡先リスト','鍵の預かりに関する契約内容の確認'],
+   note:'安否確認までがセット。判断に迷ったら必ず管理者に電話する。'},
+  {id:'kagi', cat:'houmon', name:'鍵・金銭・物品の取り扱いルール', status:'guide',
+   tags:['マニュアル'],
+   desc:'トラブルになりやすい鍵・お金・物品の扱い方の基本ルール。',
+   flow:['鍵を預かる場合は契約で取り決め、保管場所・持ち出し記録のルールを守る','金銭は原則預からない・立て替えない（必要な場合は事業所のルールに従う）','利用者宅の物品を破損した場合は、その場で謝罪し、すぐ管理者へ正直に報告する','贈り物は原則受け取らない（角が立たない断り方を事業所で統一しておく）','駐車位置は近隣に配慮し、苦情があれば管理者へ報告する'],
+   items:['鍵預かり証（契約書の取り決め）','事業所の車両・駐車ルール'],
+   note:'「正直に・すぐ報告」が原則。隠すことが一番のトラブルになる。'},
+  {id:'denwa', cat:'houmon', name:'電話対応の基本', status:'guide',
+   tags:['マニュアル'],
+   desc:'日中の電話の受け方。利用者さん・ケアマネジャー・医療機関、それぞれの引き継ぎ方。',
+   flow:['3コール以内に出る。「はい、（事業所名）でございます。○○が承ります」','相手の名前・用件・対象の利用者名をメモを取りながら聞く（不確かなら復唱して確認）','利用者・家族からの体調相談：症状を聞き取り看護師へ引き継ぐ。すぐ対応できない場合は折り返し時間を約束する','ケアマネジャー・医療機関から：担当者へつなぐか、伝言を正確に記録して確実に共有する','営業電話など：対応ルールを事業所で決めておき、迷ったら管理者へ','切ったあと：内容を記録し、必要な人へ必ず共有する（伝言メモを放置しない）'],
+   items:['電話メモ（用紙または事業所内チャット）','職員の担当利用者一覧','緊急連絡先リスト'],
+   note:'夜間・休日のオンコール電話は「イレギュラー対応 → 緊急時（オンコール）対応フロー」を参照。'},
+  {id:'kiroku-kata', cat:'houmon', name:'記録の書き方の基本', status:'guide',
+   tags:['マニュアル','実地指導頻出'],
+   desc:'記録は「書いた人を守る」もの。実地指導でも万一の訴訟でも、記録がすべての証拠になる。',
+   flow:['事実と判断を分けて書く（見たこと・測った値 → アセスメント → 実施した対応、の順）','主観的な決めつけ・感情的な表現は書かない（「わがまま」「非協力的」などはNG。行動の事実を書く）','誰が読んでも分かる言葉で書く（略語は事業所で決めたもの以外使わない）','実施したケアは具体的に書く（加算・報酬算定の根拠になる）','修正は事業所のルールに従う（電子記録は修正履歴を残す／紙は二重線＋訂正印。修正テープは使わない）','その日のうちに書く（あとから思い出して書くと精度も信頼性も落ちる）'],
+   items:['記録の記載例（事業所で用意）','カイポケの記録機能'],
+   note:'<b>実地指導の頻出指摘：</b>実施した加算の内容が記録から読み取れないと算定根拠なしとされる。「何をしたか」を必ず書く。'},
+  {id:'motimono', cat:'houmon', name:'訪問バッグ携行品チェックリスト', status:'ready',
+   tags:['共通'],
+   desc:'訪問バッグの中身の点検リスト。印刷してバッグに入れておき、定期的にチェックする。',
+   items:['バイタル測定用品（体温計・血圧計・パルスオキシメーター・聴診器）','手指衛生用品（消毒剤・石けん・ペーパータオル）','PPE（手袋・マスク・エプロン）','処置用品（事業所の規定による）','記録用品・端末','名札・身分証・連絡先リスト','持ち帰り用ビニール袋'],
+   note:'月1回など点検のタイミングを決めて、確認日を記録しておく。'},
+
+  /* ---- 人事・労務（パスワード保護） ---- */
+  {id:'kinmu', cat:'tsujo', name:'勤務形態一覧表（勤務表）', status:'planned',
+   tags:['人員基準','実地指導頻出'],
+   desc:'職員の勤務予定・実績を職種別に一覧化した表。人員基準（看護職員 常勤換算2.5人以上）の根拠書類。',
+   items:['職員氏名・職種・勤務形態（常勤/非常勤）','週あたり勤務時間','常勤換算の計算','月ごとの勤務予定と実績'],
+   note:'<b>実地指導の最重点項目。</b>タイムカード・出勤簿と食い違いがあると指摘対象になる。'},
+  {id:'koyou', cat:'tsujo', name:'雇用契約書・労働条件通知書', status:'planned',
+   tags:['労務'],
+   desc:'職員ごとの雇用契約関係書類。管理者の雇用形態が分かる書類も含む。',
+   items:['雇用期間・勤務時間・休日','賃金・手当','業務内容・勤務場所','署名・交付日'],
+   note:''},
+  {id:'shikaku', cat:'tsujo', name:'資格証の写し（免許証）', status:'planned',
+   tags:['人員基準'],
+   desc:'看護師・准看護師・PT/OT/ST等の免許証の写し。原本照合の記録も残す。',
+   items:['免許の種類・登録番号','氏名変更がある場合は変更後の書類','原本照合日・照合者'],
+   note:'採用時に原本を確認し「原本照合済」の記録を残すのが確実。'},
+  {id:'shukkin', cat:'tsujo', name:'出勤簿・タイムカード', status:'planned',
+   tags:['労務'],
+   desc:'職員の実際の勤務時間の記録。勤務形態一覧表との突合に使われる。',
+   items:['出退勤時刻','休憩時間','残業・オンコール当番の記録'],
+   note:''},
+  {id:'hishu', cat:'tsujo', name:'秘密保持誓約書（職員用）', status:'ready',
+   tags:['労務','個人情報'],
+   desc:'職員が利用者・家族の個人情報や業務上の秘密を守ることを誓約する書類。入職時に取り交わす。',
+   items:['誓約者氏名・職種','秘密保持の範囲（利用者情報・業務上の秘密）','SNS等への投稿禁止','退職後の秘密保持と資料返却','誓約日・署名'],
+   note:'入職時に全職員から取得しておく。実地指導でも確認されることがある。'},
+  {id:'kenshin', cat:'tsujo', name:'健康診断・衛生管理記録', status:'planned',
+   tags:['労務'],
+   desc:'職員の定期健康診断の実施記録。年1回の実施が事業者の義務。',
+   items:['健康診断の実施日・受診者','ワクチン接種歴（B型肝炎・インフルエンザ等）の把握','ストレスチェック（50人以上の場合）'],
+   note:''},
+  {id:'kaigi', cat:'seibi', name:'委員会・研修 記録', status:'ready',
+   tags:['義務','実地指導頻出'],
+   desc:'感染対策委員会（6か月に1回以上）・虐待防止委員会・各種研修・訓練の開催記録。開催の証拠として必須。',
+   items:['種別（委員会/研修/訓練）','開催日時・場所','参加者・欠席者','議題・内容','決定事項・共有事項','記録者'],
+   note:'<b>「開催した証拠」が残っていないと未実施扱いになる。</b>この記録テンプレで毎回残しておく。'},
+  {id:'kenshu-plan', cat:'seibi', name:'年間研修計画', status:'planned',
+   tags:['義務'],
+   desc:'法定研修（感染対策・虐待防止・BCP等）を年間でいつ実施するかの計画表。',
+   items:['感染対策研修・訓練（年2回目安）','虐待防止研修（年1回以上）','BCP研修・訓練','その他（接遇・ハラスメント・事故防止など）','対象者・実施方法'],
+   note:'計画→実施→記録のセットで整備する。実施記録は「委員会・研修 記録」を使用。'},
+  {id:'onboarding', cat:'seibi', name:'新人スタッフの立ち上がり（入職〜独り立ち）', status:'guide',
+   tags:['マニュアル','教育'],
+   desc:'入職した人が独り立ちするまでの標準の流れ。教える側・教わる側の共通認識に。',
+   flow:['入職時：秘密保持誓約書などの書類手続き、カイポケ・連絡ツールのアカウント設定、貸与品の受け取り。このハンドブックを一読する','1週目：事業所のルール・担当地域・主要な連携先（病院・ケアマネ事業所）を知る。同行訪問は見学中心','2〜4週目：同行訪問で一部のケアを実施（先輩が見守る）。記録も自分で書いて添削を受ける','独り立ち前：管理者が同行し、チェックリストで確認してから単独訪問を開始する','オンコール当番は単独訪問に十分慣れてから入る','独り立ち後も定期的に振り返り面談を行う。困りごとは1人で抱えずすぐ相談する'],
+   items:['入職時書類一式（秘密保持誓約書ほか）','同行訪問チェックリスト','この訪看ハンドブック'],
+   note:'「何を聞いてもいい」と新人に明確に伝える。質問しやすい空気が事故をいちばん防ぐ。'},
+
+  {id:'getsuji', cat:'tsujo', name:'月次業務カレンダー（管理者用）', status:'guide',
+   tags:['マニュアル','管理者'],
+   desc:'管理者が毎月まわす定例業務。レセプトから委員会まで、月のリズムをこの1枚で。',
+   flow:['月初（1〜10日）：前月分のレセプト請求（カイポケ）。返戻があれば内容を確認して再請求する','月初：訪問看護報告書・計画書（カイポケで作成）を主治医へ提出する','中旬：翌月分の勤務表を作成する。指示書の有効期限をチェックし、切れる分は主治医へ更新を依頼する','定例：委員会・ミーティングを開催し、「委員会・研修 記録」で記録を残す','月末：当月実績を確定し、加算算定の根拠（記録）が揃っているか確認する','随時：保険証・受給者証の更新確認、新規契約・退院カンファレンスへの対応'],
+   items:['カイポケ（レセプト・帳票）','勤務形態一覧表','委員会・研修 記録','指示書の期限一覧'],
+   note:'レセプトの提出期間は毎月1〜10日。返戻対応まで含めて月初のルーチンに組み込む。'},
+
+  /* ---- 専門ケア別対応 ---- */
+  {id:'seishin', cat:'senmon', name:'精神科訪問看護の対応', status:'guide',
+   tags:['マニュアル','精神科'],
+   desc:'精神疾患のある利用者さんへの関わり方の基本。「支援者として対等に、本人のペースで」が軸。',
+   flow:['訪問前に最近の状態・服薬状況・入院歴・クライシスプランを確認する','「支援者」として対等な姿勢で関わる（説教・否定・議論をしない）','本人のペースに合わせて話を聴き、生活リズム・睡眠・食事を確認する','服薬状況は残薬だけでなく「飲み心地・副作用のつらさ」を本人の言葉で聞く','幻覚・妄想の訴えには肯定も否定もせず、本人のつらさに焦点を当てる','病状悪化のサイン（不眠・服薬中断・連絡が取れない・波の変化）に気づいたら早めに主治医・管理者へ報告する','自傷他害の恐れを感じたら1人で抱えず、直ちに管理者・主治医へ連絡する'],
+   items:['精神科訪問看護指示書（一般の指示書と別様式）','GAF尺度による評価（カイポケで記録）','クライシスプラン（調子を崩したときの対応計画）','家族・相談支援事業所など関係機関の連絡先'],
+   note:'精神科訪問看護基本療養費の算定には、精神科の経験または研修修了などの従事者要件がある。誰が訪問できるか事業所で確認しておく。'},
+  {id:'jusho', cat:'senmon', name:'重症・医療機器のある利用者への対応', status:'guide',
+   tags:['マニュアル','特別管理'],
+   desc:'人工呼吸器・在宅酸素・気管切開・経管栄養など、医療依存度の高い利用者さんへの対応の基本。',
+   flow:['使用中の医療機器（人工呼吸器・在宅酸素・吸引器・輸液ポンプ等）の設定値と作動状況を毎回確認する','気管カニューレ・胃ろう・カテーテル類の固定状態と周囲の皮膚を観察する','予備物品（カニューレ・回路・バッテリー等）の在庫と保管場所を家族と共有しておく','停電・災害時の対応（バッテリー残量・手動代替手段・優先訪問リストへの登録）を平時に整えておく','「どうなったら連絡するか」の基準（SpO2・呼吸状態・発熱など）を主治医とあらかじめ決めておく','家族の介護負担を定期的に評価し、レスパイト入院などの利用をケアマネジャー・相談員と検討する'],
+   items:['医療機器の取扱説明書・メーカー緊急連絡先','特別管理加算の対象・要件の確認','災害時個別支援計画（優先訪問利用者リスト）','緊急時の連絡基準メモ（主治医と共有）'],
+   note:'特別訪問看護指示書（14日間・月1回原則）や特別管理加算の対象になることが多い。加算の要件と記録をセットで整える。'},
+  {id:'terminal', cat:'senmon', name:'ターミナルケア・看取りの対応', status:'guide',
+   tags:['マニュアル','終末期'],
+   desc:'人生の最終段階にある利用者さんと家族への支援。事前の意思確認と「慌てない準備」がすべての土台。',
+   flow:['本人・家族の意向（最期をどこで・どう過ごしたいか）を確認し、チーム全体で共有する（ACP：人生会議）','疼痛・苦痛症状の緩和を主治医と密に連携して行う（医療用麻薬の管理を含む）','今後予測される経過と身体の変化を、家族に事前に分かりやすく説明しておく','看取りが近いサイン（呼吸パターンの変化・意識レベル低下・尿量減少など）が現れたら訪問頻度を上げ、家族を支える','逝去時は慌てず主治医へ連絡し、指示に従う。死後のケア（エンゼルケア）を家族の意向を聞きながら行う','逝去後は家族への声かけ（グリーフケア）と、ケアマネジャー等関係機関への連絡を行う'],
+   items:['ACP・意思確認の記録','医療用麻薬の管理記録','ターミナルケア加算・ターミナルケア療養費の要件確認','逝去時の連絡フロー（家族にも渡しておく）'],
+   note:'<b>家族に必ず伝えておく：</b>亡くなったと思っても救急車ではなく、まず訪問看護または主治医へ電話。救急要請すると蘇生処置や警察対応になる場合がある。'},
+  {id:'shoni', cat:'senmon', name:'小児・医療的ケア児への対応', status:'guide',
+   tags:['マニュアル','小児'],
+   desc:'子どもの訪問看護は「成長発達」と「家族まるごと支援」の視点が加わる。医療的ケア児の在宅支援を含む。',
+   flow:['成長発達の段階に合わせて観察・ケアを行う（バイタルサインの正常値も年齢で異なる。小児用基準表を使う）','医療的ケア（吸引・経管栄養・人工呼吸器等）は体格・成長に合わせて指示が変わるため、最新の指示書・手順を毎回確認する','主な介護者（多くは母親）の睡眠・疲労と、きょうだい児への影響にも目を配る','保育園・学校・相談支援専門員・療育機関など、関わる機関と情報を共有する','就園・就学・進級など環境が変わる前後は、体調も家族の負担も崩れやすいため特に丁寧に支援する','急変時の対応（救急要請の基準・かかりつけ医・搬送先）を家族と共有し、見えるところに掲示してもらう'],
+   items:['小児用バイタルサイン基準表','個別の医療的ケア手順書','関係機関マップ（相談支援専門員・学校・療育など）','急変時対応カード（家族と共有）'],
+   note:'小児の訪問看護は医療保険。乳幼児加算や指示書の扱いなど、成人（介護保険）と請求まわりが異なる点に注意。'},
+  {id:'ninchi', cat:'senmon', name:'認知症の利用者への対応', status:'guide',
+   tags:['マニュアル','認知症'],
+   desc:'本人の見えている世界に合わせる関わり方と、生活・安全・家族を守る視点。',
+   flow:['本人の生活歴・できること・大切にしてきたことを把握する（その人らしさを中心に置く）','説得より納得。間違いを正面から否定せず、本人の世界に合わせて安心できる声かけをする','服薬・食事・水分・排泄など生活の基本を毎回確認する（本人の申告だけに頼らず、残薬や冷蔵庫の中など事実で確認）','急な症状の変化はせん妄や身体疾患（脱水・感染・便秘など）の可能性があるため、見逃さず報告する','外出して戻れない・火の始末などの安全リスクを評価し、家族・ケアマネジャーと環境調整を検討する','介護者の疲労・共倒れ・虐待リスクに気を配り、必要に応じて地域包括支援センターにつなぐ'],
+   items:['生活歴・本人情報シート','服薬カレンダー','家族・ケアマネジャーの連絡先','地域包括支援センターの連絡先'],
+   note:'「いつもと違う」に最初に気づけるのは訪問看護。小さな変化も記録して共有する。'},
+
+  /* ---- イレギュラー対応 ---- */
+  {id:'oncall-flow', cat:'irreg', name:'緊急時（オンコール）対応フロー', status:'guide',
+   tags:['マニュアル','24時間対応'],
+   desc:'夜間・休日にオンコール電話を受けたときの対応手順。',
+   flow:['電話を受け、利用者名・症状・バイタル・服薬状況・家族の状況を聞き取る','緊急度を判断する（生命に関わる状態なら、ためらわず119番通報を案内する）','電話対応で済む場合：具体的な対処方法を伝え、翌日のフォロー（訪問または電話）を約束する','緊急訪問が必要な場合：当番看護師が訪問し、必要に応じて主治医へ報告し指示を受ける','家族・ケアマネジャーへ状況を連絡する','対応内容を必ず記録する（緊急訪問は加算算定の根拠になる）'],
+   items:['オンコール当番表','緊急時連絡先リスト（主治医・家族・ケアマネジャー）','緊急対応の記録様式'],
+   note:'翌朝の申し送りで全スタッフに共有し、計画の見直しが必要か検討する。'},
+  {id:'jiko-flow', cat:'irreg', name:'事故・ヒヤリハット発生時フロー', status:'guide',
+   tags:['マニュアル'],
+   desc:'訪問中の事故（転倒・誤薬・針刺し等）やヒヤリハットが起きたときの手順。',
+   flow:['利用者の安全確保・応急処置を最優先する（必要時は救急要請）','管理者へ第一報を入れる','主治医・家族へ連絡する','事故報告書を作成する（ヒヤリハットはヒヤリハット報告書）','市町村等への報告が必要な事故は保険者へ報告する','委員会・ミーティングで原因分析と再発防止策を共有する'],
+   items:['事故報告書','ヒヤリハット報告書','緊急連絡先リスト'],
+   note:'隠さず・早く・記録に残すが原則。報告の遅れ自体が指摘対象になる。'},
+  {id:'jiko', cat:'irreg', name:'事故報告書', status:'planned',
+   tags:['共通'],
+   desc:'サービス提供中の事故発生時に記録し、市町村等へ報告するための書類。',
+   items:['発生日時・場所','事故の種類・状況','利用者の状態・受診の有無','応急対応の内容','家族・主治医・保険者への連絡記録','原因分析・再発防止策'],
+   note:''},
+  {id:'hiyari', cat:'irreg', name:'ヒヤリハット報告書', status:'planned',
+   tags:['共通'],
+   desc:'事故に至らなかったが危険を感じた事例の記録。再発防止のための共有に使う。',
+   items:['発生日時・場所・当事者','状況の詳細','なぜ起きたか（要因）','どうすれば防げるか','共有した会議・日付'],
+   note:''},
+  {id:'koutsujiko', cat:'irreg', name:'移動中の交通事故・車両トラブル', status:'guide',
+   tags:['マニュアル'],
+   desc:'訪問の移動中に事故を起こした・もらったときの手順。小さな接触でも必ずこの手順で。',
+   flow:['負傷者の確認と救護を最優先する（必要なら119番）','警察へ届け出る（110番。物損でも必ず。届け出がないと保険が使えない）','相手の氏名・連絡先・車両番号・保険会社を確認し、現場の写真を撮る','管理者へ報告し、このあとの訪問予定の調整を依頼する','保険会社への連絡は事業所のルールに従う。その場で示談は絶対にしない','後日、事故報告書を作成し、再発防止策をミーティングで共有する'],
+   items:['車両保険の連絡先（車内に掲示）','事故報告書','当日の訪問予定の代替調整'],
+   note:'「小さい接触だからその場で謝って解散」は絶対にしない。あとから重大トラブルになる典型例。'},
+  {id:'kujo-flow', cat:'irreg', name:'苦情を受けたときの初期対応', status:'guide',
+   tags:['マニュアル'],
+   desc:'利用者さん・家族から苦情やお叱りを受けたときの、その場での対応と引き継ぎ方。',
+   flow:['まず最後まで話を聴く（途中で遮らない・言い訳をしない）','不快な思いをさせたことについては率直にお詫びする（事実確認前に全面的に非を認める発言はしない）','内容・日時・相手を正確に記録する','自分だけで解決しようとせず、必ず管理者へ報告する','管理者から本人・家族へ、事実確認の結果と対応方針を連絡する（放置がいちばんこじれる）','苦情受付・対応記録に残し、再発防止をミーティングで共有する'],
+   items:['苦情受付・対応記録','苦情窓口の案内（事業所・市町村・国保連）'],
+   note:'苦情はサービス改善のヒント。報告した人が責められない文化をつくることが再発防止の第一歩。'},
+  {id:'kujo', cat:'irreg', name:'苦情受付・対応記録', status:'planned',
+   tags:['共通'],
+   desc:'利用者・家族からの苦情の受付から解決までを記録する書類。',
+   items:['受付日・受付者・受付方法','申出人と利用者の関係','苦情の内容','事実確認の結果','対応・改善の内容','申出人への報告日'],
+   note:''},
+  {id:'kansen-flow', cat:'irreg', name:'感染症発生時フロー', status:'guide',
+   tags:['マニュアル','BCP'],
+   desc:'利用者または職員に感染症（疑い含む）が発生したときの手順。感染症BCPに基づく初動対応。',
+   flow:['発生状況を確認し、管理者へ報告する（利用者/職員、症状、発症日）','感染症BCPを発動し、対応体制を決める','職員が感染した場合：出勤停止とし、勤務シフトを調整する','利用者が感染した場合：訪問時の防護具着用・訪問順序の調整（感染者を最後に）を徹底する','優先訪問利用者を選定し、訪問計画を組み直す','保健所・主治医・ケアマネジャー等の関係機関へ連絡する','経過と対応を記録し、収束後に委員会で振り返る'],
+   items:['BCP（感染症）','感染対策指針','個人防護具（PPE）の在庫リスト','関係機関の連絡先リスト'],
+   note:'日頃の委員会で発生時の連絡網と防護具在庫を確認しておくと初動が早い。'},
+  {id:'saigai-flow', cat:'irreg', name:'災害発生時フロー', status:'guide',
+   tags:['マニュアル','BCP'],
+   desc:'地震・風水害などの災害が起きたときの手順。自然災害BCPに基づく対応。',
+   flow:['職員自身と家族の安全を確保する','安否確認ルールに従い、職員の安否と参集可否を報告する','利用者の安否確認を行う（医療依存度の高い利用者から優先的に）','電源が必要な医療機器の利用者（人工呼吸器・在宅酸素等）の状況を最優先で確認する','訪問の可否を判断し、優先訪問利用者リストに沿って訪問を再開する','関係機関（ケアマネジャー・主治医・市町村）と情報共有する','対応記録を残し、収束後にBCPを見直す'],
+   items:['BCP（自然災害）','優先訪問利用者リスト','安否確認の連絡網','ハザードマップ'],
+   note:'優先訪問利用者リストは平時から作成し、定期的に更新しておくことが前提。'},
+
+  /* ---- 規程・研修の整備 ---- */
+  {id:'kitei', cat:'seibi', name:'運営規程', status:'planned',
+   tags:['指定基準'],
+   desc:'指定申請時に必須。事業の目的・運営方針から利用料金までを定める事業所の基本規程。',
+   items:['事業の目的・運営の方針','従業者の職種・員数・職務内容','営業日・営業時間','サービス内容・利用料','通常の事業の実施地域','緊急時の対応方法','虐待防止のための措置','その他運営に関する重要事項'],
+   note:'令和6年度改正で虐待防止・身体拘束等の適正化の記載が必須に。'},
+  {id:'kansen-shishin', cat:'seibi', name:'感染対策指針', status:'planned',
+   tags:['義務（R6.4〜）'],
+   desc:'感染症の予防およびまん延防止のための指針。委員会開催・研修・訓練とセットで義務化。',
+   items:['感染対策の基本方針','感染対策委員会の設置・開催頻度','平常時の対策（標準予防策・環境整備）','発生時の対応（報告経路・関係機関連絡）','職員研修・訓練の計画','指針の見直し規定'],
+   note:'厚労省のひな形（標準版・簡易版）をベースにカスタマイズするのが早い。'},
+  {id:'bcp-kansen', cat:'seibi', name:'BCP（感染症）', status:'planned',
+   tags:['義務（R6.4〜）'],
+   desc:'感染症発生時に訪問看護サービスを継続するための業務継続計画。',
+   items:['推進体制・意思決定者','感染疑い発生時の初動対応','職員が感染した場合の勤務シフト調整','優先訪問利用者の選定基準','関係機関・委託先の連絡先リスト','研修・訓練の実施計画'],
+   note:'全国訪問看護事業協会の雛形が訪問看護に特化していて使いやすい。'},
+  {id:'bcp-saigai', cat:'seibi', name:'BCP（自然災害）', status:'planned',
+   tags:['義務（R6.4〜）'],
+   desc:'地震・風水害などの災害時に業務を継続するための計画。',
+   items:['災害リスクの想定（ハザードマップ確認）','安否確認の方法（職員・利用者）','優先訪問利用者リスト（医療依存度順）','電源が必要な医療機器利用者の把握','代替手段（移動・通信）','復旧までの業務縮小基準'],
+   note:''},
+  {id:'gyakutai', cat:'seibi', name:'虐待防止のための指針', status:'planned',
+   tags:['義務（R6.4〜）'],
+   desc:'高齢者虐待の防止のための指針。委員会・研修・担当者の設置とセットで義務化。',
+   items:['虐待防止の基本方針','虐待防止委員会の設置・開催','虐待防止担当者の選任','職員研修の計画','身体拘束の禁止と例外三要件','相談・通報窓口'],
+   note:'未整備の場合は基本報酬の減算対象（高齢者虐待防止措置未実施減算）。'},
+  {id:'harassment', cat:'seibi', name:'ハラスメント対策規程', status:'planned',
+   tags:['義務'],
+   desc:'職場のハラスメント（パワハラ・セクハラ・カスタマーハラスメント）対策の方針と相談体制。',
+   items:['ハラスメントの定義と禁止','相談窓口の設置','利用者・家族からのハラスメント（カスハラ）への対応方針','相談後の対応手順・不利益取扱いの禁止'],
+   note:'訪問系サービスはカスハラ対策（複数名訪問の判断基準など）も定めておくとよい。'},
+  {id:'manual', cat:'seibi', name:'各種マニュアル（緊急時・苦情・事故対応）', status:'planned',
+   tags:['共通'],
+   desc:'緊急時対応・苦情対応・事故対応の手順を定めたマニュアル類。フローはイレギュラー対応カテゴリにガイドあり。',
+   items:['緊急時対応マニュアル','苦情対応マニュアル','事故対応マニュアル','関係機関連絡先リスト'],
+   note:'このアプリの「イレギュラー対応」の各フローを事業所の実情に合わせて文書化したものが実質のマニュアルになる。'},
+];
+
+/* ---- 定型文セット（複数の欄で共用） ---- */
+const PRESET_SETS = {
+  GIDAI: [
+    {label:'感染対策委員会（定例）', text:'・地域の感染症流行状況の共有\n・標準予防策（手指衛生・PPE）の遵守状況の確認\n・感染防護具の在庫確認\n・体調不良時の報告ルールの再確認'},
+    {label:'虐待防止委員会（定例）', text:'・虐待防止チェックリストの実施結果の共有\n・気になる事例の共有と対応の検討\n・相談窓口の周知状況の確認'},
+    {label:'感染対策研修', text:'・標準予防策の基礎（手指衛生・個人防護具の着脱）\n・訪問先での感染対策の実際\n・感染症発生時の連絡体制の確認'},
+    {label:'虐待防止研修', text:'・高齢者虐待の定義と種類\n・身体拘束の禁止と例外三要件\n・通報義務と相談窓口の確認'},
+    {label:'BCP訓練（机上訓練）', text:'・災害／感染症BCPに基づく机上訓練\n・安否確認と優先訪問利用者の確認\n・課題の洗い出しとBCPの見直し'},
+    {label:'事故防止・ヒヤリハット共有', text:'・今月のヒヤリハット事例の共有\n・要因分析と再発防止策の検討\n・事故対応フローの確認'},
+  ],
+};
+function fieldPresets(f){
+  if(!f.presets) return null;
+  return typeof f.presets === 'string' ? PRESET_SETS[f.presets] : f.presets;
+}
+
+/* ---- 動くテンプレの定義 ---- */
+const FORMS = {
+  motimono: {
+    noPatient: true,
+    fnameBase: v => (v.kakuninsha || '').trim().replace(/\s+/g,'') || '事業所',
+    fields: [
+      {k:'kakuninbi', l:'確認日', t:'date'},
+      {k:'kakuninsha', l:'確認者', t:'text'},
+      {k:'biko', l:'補充が必要なもの・メモ', t:'textarea', full:true},
+    ],
+    render: (v, st) => {
+      const groups = [
+        ['バイタル測定', ['体温計','血圧計','パルスオキシメーター','聴診器']],
+        ['手指衛生', ['手指消毒剤','石けん','ペーパータオル']],
+        ['感染防護（PPE）', ['使い捨て手袋','マスク（予備含む）','使い捨てエプロン']],
+        ['処置用品', ['ガーゼ・テープ類','ハサミ・ピンセット','絆創膏','（事業所の規定による追加品）']],
+        ['記録・連絡', ['記録用紙または端末','ペン','連絡先リスト','名札・身分証']],
+        ['その他', ['持ち帰り用ビニール袋','ウェットティッシュ','メジャー','予備のマスク・手袋']],
+      ];
+      return `
+      <div class="sheet">
+        <h1>訪問バッグ携行品チェックリスト</h1>
+        <table>
+          ${groups.map(([g, items]) => `
+            <tr><th>${g}</th><td>${items.map(i=>`□ ${i}`).join('　　')}</td></tr>`).join('')}
+        </table>
+        <table>
+          <tr><th>補充が必要なもの</th><td>${esc(v.biko || '').replace(/\n/g,'<br>') || '　'}</td></tr>
+        </table>
+        <table>
+          <tr><th>確認日</th><td>${jdate(v.kakuninbi)}</td><th>確認者</th><td>${esc(v.kakuninsha)}</td></tr>
+          <tr><th>事業所名</th><td colspan="3">${esc(st.name)}</td></tr>
+        </table>
+        <p style="font-size:9pt; margin-top:4mm">※ 印刷してバッグに入れておき、月1回など決めたタイミングで点検してください。</p>
+      </div>`;
+    }
+  },
+  hishu: {
+    noPatient: true,
+    fnameBase: v => (v.shimei || '').trim().replace(/\s+/g,'') || '無記名',
+    fields: [
+      {k:'shimei', l:'誓約者氏名', t:'text'},
+      {k:'yakushoku', l:'職種', t:'text', ph:'看護師 / 理学療法士 など'},
+      {k:'seiyakubi', l:'誓約日', t:'date'},
+    ],
+    render: (v, st) => `
+      <div class="sheet">
+        <h1>秘密保持誓約書</h1>
+        <p style="text-align:right">${esc(st.name || '事業所名')}<br>管理者　${esc(st.kanri)}　殿</p>
+        <p>私は、貴事業所の業務に従事するにあたり、次の事項を誓約いたします。</p>
+        <ol>
+          <li>業務上知り得た利用者およびそのご家族等の個人情報・プライバシーに関する情報を、在職中はもとより退職後においても、正当な理由なく第三者に漏らしません。</li>
+          <li>業務上知り得た貴事業所の経営・運営に関する秘密を、正当な理由なく第三者に漏らしません。</li>
+          <li>利用者・ご家族に関する情報や業務内容を、SNS等のインターネット上に投稿しません。</li>
+          <li>利用者情報を含む書類・データは業務目的以外で持ち出さず、退職時にはすべて返却または破棄します。</li>
+          <li>本誓約に違反し、貴事業所または利用者等に損害を与えた場合は、その責任を負います。</li>
+        </ol>
+        <div class="stamp">
+          <div class="sig">誓約日：${jdate(v.seiyakubi)}<div class="line">職種：${esc(v.yakushoku)}</div><div class="line">氏名：${esc(v.shimei)}　㊞</div></div>
+        </div>
+      </div>`
+  },
+  kaigi: {
+    noPatient: true,
+    fnameBase: v => (v.shubetsu || '委員会研修').replace(/[（(].*$/,''),
+    fields: [
+      {k:'shubetsu', l:'種別', t:'select', opts:['感染対策委員会','虐待防止委員会','安全管理・事故防止委員会','研修（内部）','研修（外部）','訓練・シミュレーション','その他会議']},
+      {k:'kaisaibi', l:'開催日', t:'date'},
+      {k:'jikan', l:'時間', t:'text', ph:'14:00〜14:30'},
+      {k:'basho', l:'場所', t:'text', ph:'事業所内 / オンライン など'},
+      {k:'sanka', l:'参加者', t:'textarea', full:true, ph:'氏名を列記'},
+      {k:'kesseki', l:'欠席者（後日共有の方法）', t:'text', full:true, ph:'例）田中（議事録回覧で共有）'},
+      {k:'gidai', l:'議題・内容', t:'textarea', full:true, presets:'GIDAI'},
+      {k:'kettei', l:'決定事項・共有事項', t:'textarea', full:true},
+      {k:'kirokusha', l:'記録者', t:'text'},
+    ],
+    render: (v, st) => `
+      <div class="sheet">
+        <h1>委員会・研修等 記録</h1>
+        <table>
+          <tr><th>種別</th><td>${esc(v.shubetsu)}</td><th>開催日</th><td>${jdate(v.kaisaibi)}　${esc(v.jikan||'')}</td></tr>
+          <tr><th>場所</th><td colspan="3">${esc(v.basho)}</td></tr>
+          <tr><th>参加者</th><td colspan="3">${esc(v.sanka).replace(/\n/g,'<br>')}</td></tr>
+          <tr><th>欠席者</th><td colspan="3">${esc(v.kesseki || 'なし')}</td></tr>
+        </table>
+        <table>
+          <tr><th>議題・内容</th><td>${esc(v.gidai).replace(/\n/g,'<br>')}</td></tr>
+          <tr><th>決定事項・共有事項</th><td>${esc(v.kettei).replace(/\n/g,'<br>')}</td></tr>
+        </table>
+        <table>
+          <tr><th>事業所名</th><td>${esc(st.name)}</td><th>記録者</th><td>${esc(v.kirokusha)}</td></tr>
+        </table>
+      </div>`
+  },
+};
+
+/* ---- 管理者用カテゴリのロック（PWはハッシュで保持） ---- */
+const LOCKS = {tsujo: '59f469ab24d0ed18279d36385fa3a6bce68b2950fd1c7b5c4e3bd9d79659c8e8'};
+const LOCK_FALLBACK = {tsujo: 'aXBwbw=='};
+function unlocked(catId){
+  const c = CATS.find(x=>x.id===catId);
+  if(!c || !c.locked) return true;
+  return sessionStorage.getItem('hk-unlock-'+catId) === '1';
+}
+async function tryUnlock(catId){
+  const el = document.getElementById('lock-pw-'+catId);
+  const pw = (el && el.value || '').trim();
+  let ok = false;
+  try{
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw));
+    ok = Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('') === LOCKS[catId];
+  }catch(e){ ok = btoa(pw) === LOCK_FALLBACK[catId]; }
+  if(ok){
+    sessionStorage.setItem('hk-unlock-'+catId, '1');
+    render();
+  } else {
+    const m = document.getElementById('lock-msg-'+catId);
+    if(m) m.textContent = 'パスワードが違います';
+    if(el) el.value = '';
+  }
+}
+
+/* ================= state & utils ================= */
+let view = {name:'home', cat:'keiyaku', q:''};
+const $ = id => document.getElementById(id);
+const esc = s => (s??'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;') || '　　　　　　';
+function jdate(iso){
+  if(!iso) return '　　年　　月　　日';
+  const d = new Date(iso + 'T00:00:00');
+  return `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
+}
+const escA = s => (s??'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+function getSt(){ try{ return JSON.parse(localStorage.getItem('hk-station')||'{}'); }catch(e){ return {}; } }
+
+
+/* ---- 下書き（この端末に自動保存） ---- */
+function draftKey(docId){ return 'hk-draft-' + docId + '::shared'; }
+function getDraft(docId){ try{ return JSON.parse(localStorage.getItem(draftKey(docId))||'{}'); }catch(e){ return {}; } }
+
+/* ---- ファイル名「記入者名_書類名_日付」 ---- */
+function docFileName(docId){
+  const v = collect();
+  const form = FORMS[docId] || {};
+  const pname = form.fnameBase ? form.fnameBase(v) : '無記名';
+  const d = DOCS.find(x=>x.id===docId);
+  const today = new Date().toISOString().slice(0,10);
+  return (pname.replace(/\s+/g,'') + '_' + d.name.replace(/（.*?）/g,'') + '_' + today)
+    .replace(/[\\\/:*?"<>|]/g, '');
+}
+
+/* ================= views ================= */
+function go(name, arg, fromHistory){
+  // ロック中カテゴリの書類はカテゴリ画面（パスワード入力）へ誘導
+  if(name==='doc'){
+    const dd = DOCS.find(x=>x.id===arg);
+    if(dd && !unlocked(dd.cat)){ name='cat'; arg=dd.cat; }
+  }
+  if(name==='home'){ view={...view, name:'home'}; }
+  if(name==='cat'){ view={...view, name:'home', cat:arg}; }
+  if(name==='doc'){ view={...view, name:'doc', doc:arg}; }
+  // 詳細へ進むときは履歴を積み、スマホ/ブラウザの「戻る」で一覧へ戻れるようにする
+  if(!fromHistory){
+    try{
+      if(name==='doc'){
+        // 書類→書類の移動は履歴を置き換え、常に「一覧→書類」の2階層に保つ
+        if(history.state && history.state.v==='doc'){ history.replaceState({v:'doc', doc:arg}, ''); }
+        else{ history.pushState({v:'doc', doc:arg}, ''); }
+      }
+      else if(history.state && history.state.v==='doc'){ history.back(); return; }
+    }catch(e){ /* 履歴APIが使えない環境ではアプリ内ボタンのみで遷移 */ }
+  }
+  render();
+  window.scrollTo({top:0});
+}
+function goBack(){
+  const d = DOCS.find(x=>x.id===view.doc);
+  go('cat', d ? d.cat : view.cat);
+}
+window.addEventListener('popstate', (e)=>{
+  // 履歴に残っている書類IDが存在しない場合（書類の入れ替え後など）は一覧へ
+  if(e.state && e.state.v==='doc' && DOCS.some(d=>d.id===e.state.doc)){ go('doc', e.state.doc, true); }
+  else { go('cat', view.cat, true); }
+});
+
+function render(){
+  const app = $('app');
+  if(view.name==='doc'){
+    const d = DOCS.find(x=>x.id===view.doc);
+    if(!d){ view = {...view, name:'home'}; }
+    else { app.innerHTML = renderDoc(d); bindForm(); return; }
+  }
+  app.innerHTML = renderHome();
+  const s = $('search'); if(s){ s.value = view.q; }
+}
+
+function renderHome(){
+  const q = view.q.trim();
+  let docs = DOCS;
+  if(q){ docs = DOCS.filter(d => (d.name + d.desc + d.tags.join('')).includes(q)); }
+  const cats = q ? CATS : CATS.filter(c=>c.id===view.cat);
+  const readyCount = DOCS.filter(d=>d.status==='ready').length;
+
+  return `
+  <div class="layout">
+    <nav class="cats" aria-label="カテゴリ">
+      ${CATS.map(c=>`
+        <button class="cat-btn ${(!q && view.cat===c.id)?'on':''}" onclick="view.q='';go('cat','${c.id}')">
+          <span>${c.icon}</span> ${c.name}
+          <span class="n">${DOCS.filter(d=>d.cat===c.id).length}</span>
+        </button>`).join('')}
+    </nav>
+    <main>
+      <div class="searchbar">
+        <input id="search" placeholder="検索（例：オンコール、精神科、研修、BCP）" oninput="view.q=this.value; renderList()">
+      </div>
+      <div id="list">${renderList(true)}</div>
+      <p style="font-size:12.5px; color:var(--muted); margin-top:28px;">
+        現在 <b style="color:var(--accent-ink)">${readyCount}件</b> のテンプレートが入力・印刷に対応しています。「準備中」の書類は順次テンプレートを追加していきます。
+      </p>
+    </main>
+  </div>`;
+}
+
+function renderList(ret){
+  const q = view.q.trim();
+  let html = '';
+  const cats = q ? CATS : CATS.filter(c=>c.id===view.cat);
+  for(const c of cats){
+    let docs = DOCS.filter(d=>d.cat===c.id);
+    if(q) docs = docs.filter(d => (d.name + d.desc + d.tags.join('')).includes(q));
+    if(!docs.length) continue;
+    if(c.locked && !unlocked(c.id)){
+      html += `<div class="group-label">${c.name}</div>
+        <div class="lockbox">
+          <div style="font-size:15px; font-weight:700">🔒 このカテゴリは管理者用です</div>
+          <div style="font-size:13px; color:var(--muted); margin:4px 0 12px">パスワードを入力してください</div>
+          <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap">
+            <input type="password" id="lock-pw-${c.id}" placeholder="パスワード" autocomplete="off"
+              onkeydown="if(event.key==='Enter')tryUnlock('${c.id}')">
+            <button class="btn primary" onclick="tryUnlock('${c.id}')">開く</button>
+          </div>
+          <div id="lock-msg-${c.id}" style="font-size:12.5px; color:var(--warn); margin-top:8px; min-height:1.2em"></div>
+        </div>`;
+      continue;
+    }
+    html += `<div class="group-label">${c.name}</div>
+      <div class="cards">
+        ${docs.map(d=>`
+          <button class="card" onclick="go('doc','${d.id}')">
+            <h3>${d.name}</h3>
+            <p>${d.desc}</p>
+            <div class="tags">
+              ${d.status==='ready' ? '<span class="pill ready">✓ 入力・印刷OK</span>' : d.status==='guide' ? '<span class="pill guide">📖 手順ガイド</span>' : '<span class="pill planned">準備中</span>'}
+              ${d.tags.map(t=>`<span class="pill ${/保険/.test(t)?'hoken':'duty'}">${t}</span>`).join('')}
+            </div>
+          </button>`).join('')}
+      </div>`;
+  }
+  if(!html) html = `<div class="planned-box">「${esc(q)}」に一致する書類はありません</div>`;
+  if(ret) return html;
+  const el = $('list');
+  if(el) el.innerHTML = html;
+}
+
+function renderDoc(d){
+  const cat = CATS.find(c=>c.id===d.cat);
+  const form = FORMS[d.id];
+  return `
+    <div class="backbar"><button class="btn back" onclick="goBack()">← ${cat.name}の一覧に戻る</button></div>
+    <div class="detail-head">
+      <h2>${d.name}</h2>
+      ${d.status==='ready' ? '<span class="pill ready" style="margin-top:6px">✓ 入力・印刷OK</span>' : d.status==='guide' ? '<span class="pill guide" style="margin-top:6px">📖 手順ガイド</span>' : '<span class="pill planned" style="margin-top:6px">テンプレ準備中</span>'}
+    </div>
+    <p class="detail-desc">${d.desc}</p>
+
+    ${d.flow ? `
+    <div class="panel">
+      <h4>対応の流れ</h4>
+      <ol class="flow">${d.flow.map(s=>`<li>${s}</li>`).join('')}</ol>
+    </div>` : ''}
+    <div class="panel">
+      <h4>${d.itemsTitle || (d.flow ? '使う書類・備えておくもの' : 'この書類に必要な項目')}</h4>
+      <ul class="items">${d.items.map(i=>`<li>${i}</li>`).join('')}</ul>
+    </div>
+    ${d.note ? `<div class="note" style="margin-bottom:16px">${d.note}</div>` : ''}
+
+    ${form ? `
+    <div class="panel">
+      <h4>テンプレートに入力する</h4>
+      <div class="form-grid" oninput="autoSave('${d.id}')">
+        ${form.fields.map(f=>{
+          const full = f.full || f.t==='textarea' ? 'full' : '';
+          if(f.t==='select') return `<div class="fld ${full}"><label>${f.l}</label><select data-k="${f.k}"><option value=""></option>${f.opts.map(o=>`<option>${o}</option>`).join('')}</select></div>`;
+          if(f.t==='textarea'){
+            const ps = fieldPresets(f);
+            const picker = ps ? `<select class="preset-pick" onchange="insertPreset(this,'${d.id}','${f.k}')">
+              <option value="">＋ 定型文から選んで挿入（選択後も編集できます）</option>
+              ${ps.map((p,i)=>`<option value="${i}">${p.label}</option>`).join('')}
+            </select>` : '';
+            return `<div class="fld full"><label>${f.l}</label>${picker}<textarea data-k="${f.k}" placeholder="${f.ph||''}"></textarea></div>`;
+          }
+          return `<div class="fld ${full}"><label>${f.l}</label><input type="${f.t}" data-k="${f.k}" placeholder="${f.ph||''}"></div>`;
+        }).join('')}
+      </div>
+      <div class="form-actions">
+        <button class="btn primary" onclick="printDoc('${d.id}')">🖨 印刷 / PDF保存</button>
+        <button class="btn" onclick="saveFile('${d.id}')">💾 ファイルに保存</button>
+        <button class="btn" onclick="clearDraft('${d.id}')">クリア</button>
+        <span class="saved-note" id="save-note"></span>
+      </div>
+    </div>
+    <p style="font-size:12px; color:var(--muted)">※ ファイル名は「記入者名_書類名_日付」で自動設定されます。PDF保存・ファイル保存のとき、保存先にGoogle Driveのフォルダを選べばそのままDriveに格納できます。入力内容はこの端末にのみ保存されます。</p>
+    ` : d.status==='guide' ? '' : `
+    <div class="planned-box">
+      この書類のテンプレートは準備中です。<br>上の「必要な項目」を参考に、既存の様式をご利用ください。順次このツールに追加していきます。
+    </div>`}
+  `;
+}
+
+/* ================= form logic ================= */
+function bindForm(){
+  const d = DOCS.find(x=>x.id===view.doc);
+  if(!FORMS[d.id]) return;
+  const draft = getDraft(d.id);
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    if(draft[el.dataset.k]) el.value = draft[el.dataset.k];
+  });
+}
+let autoSaveTimer = 0;
+function autoSave(docId){
+  clearTimeout(autoSaveTimer);
+  autoSaveTimer = setTimeout(()=>{
+    localStorage.setItem(draftKey(docId), JSON.stringify(collect()));
+    const n = $('save-note');
+    if(n){ n.textContent = '✓ 自動保存しました'; setTimeout(()=>{ if(n) n.textContent=''; }, 1500); }
+  }, 600);
+}
+function insertPreset(sel, docId, key){
+  const i = sel.value;
+  sel.value = '';
+  if(i === '') return;
+  const f = FORMS[docId].fields.find(x=>x.k===key);
+  const text = fieldPresets(f)[i].text;
+  const ta = document.querySelector(`textarea[data-k="${key}"]`);
+  // 既に入力があれば消さずに改行して追記する
+  ta.value = ta.value.trim() ? ta.value.replace(/\s+$/,'') + '\n\n' + text : text;
+  ta.focus();
+}
+function collect(){
+  const v = {};
+  document.querySelectorAll('[data-k]').forEach(el=>{ v[el.dataset.k] = el.value; });
+  return v;
+}
+function clearDraft(id){
+  localStorage.removeItem(draftKey(id));
+  document.querySelectorAll('[data-k]').forEach(el=>{ el.value=''; });
+}
+function printDoc(id){
+  const st = getSt();
+  $('print-area').innerHTML = FORMS[id].render(collect(), st);
+  // 「PDFとして保存」のファイル名は文書タイトルが使われるため、記入者名_書類名_日付をセットする
+  const orig = document.title;
+  document.title = docFileName(id);
+  window.print();
+  setTimeout(()=>{ document.title = orig; }, 1000);
+}
+function sheetFileHtml(id){
+  const st = getSt();
+  const css = document.getElementById('app-css').textContent;
+  return '<!doctype html><html><head><meta charset="utf-8"><title>' + escA(docFileName(id)) + '</title>'
+    + '<style>' + css + '<\/style></head><body style="background:#fff">'
+    + FORMS[id].render(collect(), st) + '</body></html>';
+}
+async function saveFile(id){
+  const fname = docFileName(id) + '.html';
+  const html = sheetFileHtml(id);
+  const n = $('save-note');
+  const dl = (window.claude || {}).downloads;
+  if(dl){
+    try{
+      await dl.save({filename: fname, data: html});
+      if(n) n.textContent = '✓ 保存しました';
+    }catch(err){
+      if(err && err.code === 'declined'){ return; }
+      if(err && err.code === 'rate_limited'){ if(n) n.textContent = '少し待ってからもう一度押してください'; return; }
+      // html形式が使えない環境ではtxtで保存する
+      try{
+        await dl.save({filename: docFileName(id) + '.txt', data: html});
+        if(n) n.textContent = '✓ 保存しました（.txt形式）';
+      }catch(e2){ if(n) n.textContent = '保存できませんでした。「🖨 印刷 / PDF保存」をお使いください'; }
+    }
+    if(n) setTimeout(()=>{ if(n) n.textContent=''; }, 3000);
+    return;
+  }
+  // ローカル利用時は通常のダウンロード
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([html], {type:'text/html'}));
+  a.download = fname;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+/* ================= settings ================= */
+const ST_KEYS = ['name','addr','tel','fax','kanri','oncall'];
+function openSettings(){
+  const st = getSt();
+  ST_KEYS.forEach(k=>{ $('st-'+k).value = st[k]||''; });
+  $('dlg-settings').showModal();
+}
+function saveSettings(){
+  const st = {};
+  ST_KEYS.forEach(k=>{ st[k] = $('st-'+k).value; });
+  localStorage.setItem('hk-station', JSON.stringify(st));
+  $('dlg-settings').close();
+}
+
+// 読み込み時は必ず「一覧」階層から始める（リロードで古い履歴状態が残っていても正常に戻れるように）
+try{ history.replaceState(null, ''); }catch(e){}
+render();
+</script>
