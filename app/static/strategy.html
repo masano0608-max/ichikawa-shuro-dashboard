@@ -1073,6 +1073,21 @@ select.form-input{text-align:left}
           <div class="sal-row"><label>月h</label><input type="number" id="s_kanaiHours" value="40" step="5" oninput="salCalc()"><span class="unit">h</span></div>
           <div class="sal-result">8月のみ: <strong id="s_kanaiTotal">—</strong></div>
         </div>
+        <div class="sal-box" style="border-left:3px solid #0ea5e9">
+          <h4 style="color:#0284c7">営業委託（三宅さん）</h4>
+          <div class="sal-row"><label>時給</label><input type="number" id="s_eigyoRate" value="1500" step="100" oninput="salCalc()"><span class="unit">円</span></div>
+          <div class="sal-row"><label>月h</label><input type="number" id="s_eigyoHours" value="20" step="5" oninput="salCalc()"><span class="unit">h</span></div>
+          <div class="sal-row"><label>レンタカー代（軽・スポット）</label><input type="number" id="s_eigyoCar" value="20000" step="5000" oninput="salCalc()"><span class="unit">円/月</span></div>
+          <div style="font-size:10px;color:#888;margin:-2px 0 2px 8px">※5,000円/回×月4回（週1）</div>
+          <div class="sal-row"><label>開始月</label><select id="s_eigyoStart" onchange="salCalc()" style="font-size:12px;padding:3px 6px;border:1px solid #d1d5db;border-radius:4px">
+            <option value="2">10月</option>
+            <option value="3" selected>11月</option>
+            <option value="4">12月</option>
+          </select></div>
+          <div class="sal-row"><label>契約期間</label><input type="number" id="s_eigyoDur" value="6" step="1" min="1" max="24" oninput="salCalc()" style="font-size:12px;width:50px;padding:3px 5px;border:1px solid #d1d5db;border-radius:4px;text-align:right"><span class="unit">ヶ月</span></div>
+          <div style="font-size:10px;color:#888;margin:4px 0">※移動時間の報酬なし。レンタカー代は会社負担。</div>
+          <div class="sal-result">月額: <strong id="s_eigyoTotal">—</strong>（委託費+レンタカー）</div>
+        </div>
       </div>
       <div style="margin-top:16px;padding:12px 14px;background:#fef2f2;border:1px solid #fca5a5;border-radius:8px">
         <div style="font-size:13px;font-weight:700;color:#dc2626;margin-bottom:8px">ボーナス（2年目〜）</div>
@@ -1209,7 +1224,7 @@ select.form-input{text-align:left}
     <div class="strategy-header">家賃</div>
     <div class="strategy-body">
       <div class="sal-row"><label>事務所家賃</label><input type="number" id="cf_rent" value="190000" step="10000" oninput="cfCalc()" class="cf-inp"><span class="unit">円/月</span></div>
-      <div style="font-size:11px;color:#888;margin-top:4px">※10月から家賃発生（8-9月は契約前のためなし）</div>
+      <div style="font-size:11px;color:#888;margin-top:4px">※10月から家賃発生（9月契約・10月入居開始）</div>
     </div>
   </div>
 
@@ -1238,20 +1253,38 @@ select.form-input{text-align:left}
   </div>
 
   <div class="strategy-card">
+    <div class="strategy-header">外部サービス（期間限定）</div>
+    <div class="strategy-body">
+      <div style="font-size:11px;color:#888;margin-bottom:8px">契約期間が限定されている外部サービス費用。CFに期間分のみ反映されます。</div>
+      <div style="font-size:11px;color:#1e40af;font-weight:600;margin:4px 0">カジケア 開業サポート</div>
+      <div class="sal-row"><label>初期費用（税込）</label><input type="number" id="cf_kajicare_init" value="132000" step="1000" oninput="cfSumInit(8);cfCalc()" class="cf-inp"><span class="unit">円</span></div>
+      <div class="sal-row"><label>月額（税込）</label><input type="number" id="cf_kajicare_m" value="99000" step="1000" oninput="cfCalc()" class="cf-inp"><span class="unit">円/月</span></div>
+      <div class="sal-row"><label>契約期間</label><input type="number" id="cf_kajicare_dur" value="3" step="1" min="1" max="24" oninput="cfCalc()" class="cf-inp"><span class="unit">ヶ月</span></div>
+      <div style="font-size:10px;color:#888;margin-top:2px">※初期費用は8月の初期費用に計上。月額は8月から契約期間分をCFに反映。</div>
+      <div style="margin-top:6px;padding:6px 10px;background:#fef3c7;border-radius:6px;font-size:11px;color:#854d0e">
+        <strong>カジケア合計: <span id="cf_kajicare_total">—</span></strong>（初期費+月額×期間）
+      </div>
+    </div>
+  </div>
+
+  <div class="strategy-card">
     <div class="strategy-header">初期費用 — 月別内訳</div>
     <div class="strategy-body">
       <div style="font-size:11px;color:#888;margin-bottom:12px">開業準備に必要な一回限りの費用（人件費は報酬設計タブで設定）</div>
 
-      <h4 style="font-size:13px;color:#1e40af;margin-bottom:6px;padding-bottom:4px;border-bottom:2px solid #3b82f6">8月 — 法人設立・物件確保</h4>
+      <h4 style="font-size:13px;color:#1e40af;margin-bottom:6px;padding-bottom:4px;border-bottom:2px solid #3b82f6">8月 — 法人設立</h4>
       <div class="sal-row"><label>合同会社設立（登録免許税・印鑑等）</label><input type="number" id="cf_i8_legal" value="100000" step="10000" oninput="cfSumInit(8)" class="cf-inp"><span class="unit">円</span></div>
-      <div class="sal-row"><label>物件 敷金・礼金（家賃19万×3ヶ月）</label><input type="number" id="cf_i8_deposit" value="570000" step="10000" oninput="cfSumInit(8)" class="cf-inp"><span class="unit">円</span></div>
-      <div class="sal-row"><label>物件 仲介手数料</label><input type="number" id="cf_i8_agent" value="230000" step="10000" oninput="cfSumInit(8)" class="cf-inp"><span class="unit">円</span></div>
-      <div class="sal-row"><label>内装・設備工事</label><input type="number" id="cf_i8_interior" value="300000" step="10000" oninput="cfSumInit(8)" class="cf-inp"><span class="unit">円</span></div>
+      <div class="sal-row"><label>カジケア 開業サポート初期費</label><input type="number" id="cf_i8_kajicare" value="132000" step="1000" oninput="cfSumInit(8)" class="cf-inp" readonly style="background:#faf5ff"><span class="unit">円</span></div>
+      <div style="font-size:10px;color:#888;margin:-2px 0 2px 8px">※外部サービスタブの初期費用と連動</div>
       <div style="border-top:2px solid #3b82f6;margin-top:6px;padding-top:6px">
-        <div class="sal-row"><label style="font-weight:700;color:#1e40af">8月 合計</label><input type="number" id="cf_init8" value="1320000" readonly style="font-weight:700;background:#eff6ff;border:1px solid #93c5fd;border-radius:4px;font-size:12px;width:80px;padding:3px 5px;text-align:right"><span class="unit">円</span></div>
+        <div class="sal-row"><label style="font-weight:700;color:#1e40af">8月 合計</label><input type="number" id="cf_init8" value="232000" readonly style="font-weight:700;background:#eff6ff;border:1px solid #93c5fd;border-radius:4px;font-size:12px;width:80px;padding:3px 5px;text-align:right"><span class="unit">円</span></div>
       </div>
 
-      <h4 style="font-size:13px;color:#1e40af;margin:16px 0 6px;padding-bottom:4px;border-bottom:2px solid #3b82f6">9月 — 車両・備品・採用</h4>
+      <h4 style="font-size:13px;color:#1e40af;margin:16px 0 6px;padding-bottom:4px;border-bottom:2px solid #3b82f6">9月 — 物件確保・車両・備品・採用</h4>
+      <div style="font-size:11px;color:#1e40af;font-weight:600;margin:8px 0 4px">物件</div>
+      <div class="sal-row"><label>物件 敷金・礼金（家賃19万×3ヶ月）</label><input type="number" id="cf_i9_deposit" value="570000" step="10000" oninput="cfSumInit(9)" class="cf-inp"><span class="unit">円</span></div>
+      <div class="sal-row"><label>物件 仲介手数料</label><input type="number" id="cf_i9_agent" value="230000" step="10000" oninput="cfSumInit(9)" class="cf-inp"><span class="unit">円</span></div>
+      <div class="sal-row"><label>内装・設備工事</label><input type="number" id="cf_i9_interior" value="300000" step="10000" oninput="cfSumInit(9)" class="cf-inp"><span class="unit">円</span></div>
       <div style="font-size:11px;color:#1e40af;font-weight:600;margin:8px 0 4px">車両</div>
       <div class="sal-row"><label>中古軽自動車（1台）</label><input type="number" id="cf_i9_car" value="500000" step="50000" oninput="cfSumInit(9)" class="cf-inp"><span class="unit">円</span></div>
       <div class="sal-row"><label>電動アシスト自転車（4台・一人一台）</label><input type="number" id="cf_i9_ebike" value="600000" step="10000" oninput="cfSumInit(9)" class="cf-inp"><span class="unit">円</span></div>
@@ -2064,6 +2097,11 @@ function salCalc(){
   // 金井さん表示
   document.getElementById('s_kanaiTotal').textContent=mf(kanaiTotal);
 
+  // 営業委託（三宅さん）
+  var eigyoRate=salV('s_eigyoRate'),eigyoH=salV('s_eigyoHours'),eigyoCar=salV('s_eigyoCar');
+  var eigyoTotal=eigyoRate*eigyoH+eigyoCar;
+  document.getElementById('s_eigyoTotal').textContent=mf(eigyoTotal);
+
   // ボーナス
   var bonusM=salV('s_bonusMonths');
   var kBase=salV('s_kBase');
@@ -2136,15 +2174,23 @@ function cfSumOpex(){
 }
 function cfSumInit(m){
   var map={
-    8:['cf_i8_legal','cf_i8_deposit','cf_i8_agent','cf_i8_interior'],
-    9:['cf_i9_car','cf_i9_ebike','cf_i9_parking','cf_i9_pc','cf_i9_printer','cf_i9_phone','cf_i9_uniform','cf_i9_bag','cf_i9_furniture','cf_i9_medical','cf_i9_supply','cf_i9_recruit'],
+    8:['cf_i8_legal','cf_i8_kajicare'],
+    9:['cf_i9_deposit','cf_i9_agent','cf_i9_interior','cf_i9_car','cf_i9_ebike','cf_i9_parking','cf_i9_pc','cf_i9_printer','cf_i9_phone','cf_i9_uniform','cf_i9_bag','cf_i9_furniture','cf_i9_medical','cf_i9_supply','cf_i9_recruit'],
     10:['cf_i10_karte','cf_i10_claimpc','cf_i10_print','cf_i10_sign','cf_i10_insurance','cf_i10_filing','cf_i10_reserve']
   };
+  // カジケア初期費用を外部サービスタブと同期
+  var kjInit=salV('cf_kajicare_init');
+  document.getElementById('cf_i8_kajicare').value=kjInit;
   var sum=0;map[m].forEach(function(id){sum+=salV(id)});
   document.getElementById('cf_init'+m).value=sum;
   var t=salV('cf_init8')+salV('cf_init9')+salV('cf_init10');
   var el=document.getElementById('cf_initTotal');
   if(el)el.textContent=(t/10000).toFixed(1)+'万';
+  // カジケア合計表示
+  var kjM=salV('cf_kajicare_m'),kjD=salV('cf_kajicare_dur');
+  var kjTotal=kjInit+kjM*kjD;
+  var kjEl=document.getElementById('cf_kajicare_total');
+  if(kjEl)kjEl.textContent=(kjTotal/10000).toFixed(1)+'万円';
   cfCalc();
 }
 
@@ -2179,9 +2225,15 @@ function cfCalc(){
   var tWorkPay=tRate*tH, tVisitPay=tVisitRate*tVisitCount;
   var kanaiPay=kanaiRate*kanaiH;
   var tPrePay=tPreRate*tPreH, ePay=eRate*eH*eN, rFull=rSal+rSal*rSR;
+  // 営業委託（三宅さん）
+  var eigyoRate=salV('s_eigyoRate'),eigyoH=salV('s_eigyoHours'),eigyoCar=salV('s_eigyoCar');
+  var eigyoPay=eigyoRate*eigyoH+eigyoCar;
+  var eigyoStart=parseInt(document.getElementById('s_eigyoStart').value)||3;
+  var eigyoDur=salV('s_eigyoDur')||6;
 
   var unitRev=salV('cf_unitRev'),rent=salV('cf_rent'),opex=salV('cf_opex'),opex10=salV('cf_opex10');
   var init8=salV('cf_init8'),init9=salV('cf_init9'),init10=salV('cf_init10');
+  var kajiM=salV('cf_kajicare_m'),kajiDur=salV('cf_kajicare_dur');
 
   // 24 months: 8,9,10,11,...,7 (yr1) then 8,9,...,7 (yr2)
   var users=[];for(var i=0;i<20;i++)users.push(salV('cf_u'+i));
@@ -2251,10 +2303,14 @@ function cfCalc(){
   // 運営費: 10月は準備期間（減額）、11月〜通常
   var ops=[];for(var i=0;i<N;i++){ops.push(i<2?0:(i<3?opex10:opex))}
   var inits=[init8,init9,init10];for(var i=3;i<N;i++)inits.push(0);
+  // カジケア月額（期間限定）
+  var kajis=[];for(var i=0;i<N;i++){kajis.push(i<kajiDur?kajiM:0)}
+  // 営業委託（開始月〜期間限定）
+  var eigyos=[];for(var i=0;i<N;i++){eigyos.push(i>=eigyoStart&&i<eigyoStart+eigyoDur?eigyoPay:0)}
 
   var spend=[],monthly=[],cumul=[],cum=0;
   for(var i=0;i<N;i++){
-    spend.push(staff[i]+rents[i]+ops[i]+inits[i]);
+    spend.push(staff[i]+rents[i]+ops[i]+inits[i]+kajis[i]+eigyos[i]);
     monthly.push(income[i]-spend[i]);
     cum+=monthly[i];
     cumul.push(cum);
@@ -2284,6 +2340,8 @@ function cfCalc(){
     r('人件費',staff,'',true);
     r('家賃',rents,'',true);
     r('運営費',ops,'',true);
+    if(kajiM>0)r('カジケア',kajis,'#faf5ff',true);
+    if(eigyoPay>0)r('営業委託',eigyos,'#f0f9ff',true);
     if(start===0)r('初期費用',inits,'',true);
     h+='<tr style="background:#fee2e2"><td style="padding:3px 4px;border:1px solid #e5e7eb;font-weight:700">支出計</td>';
     for(var i=start;i<end;i++)h+='<td style="padding:3px 2px;border:1px solid #e5e7eb;text-align:right;font-weight:700">'+(spend[i]/10000).toFixed(1)+'</td>';
@@ -2357,14 +2415,29 @@ function cfCalc(){
   a+='</table>';
 
   a+='<h3 style="margin:20px 0 8px;font-size:14px">必要資金まとめ</h3><table>';
-  a+='<tr><th>項目</th><th>金額</th></tr>';
+  a+='<tr><th>項目</th><th>金額</th><th style="font-size:11px">内訳</th></tr>';
   var prePay=cost8+cost910*2;
-  a+='<tr><td>初期費用</td><td><strong>'+mf(initTotal)+'</strong></td></tr>';
-  a+='<tr><td>開業前人件費（8〜10月）</td><td><strong>'+mf(prePay)+'</strong></td></tr>';
-  var runCost=Math.abs(maxOut)-initTotal-prePay;if(runCost<0)runCost=0;
-  a+='<tr><td>運転資金（入金遅れ+赤字補填）</td><td><strong>'+mf(runCost)+'</strong></td></tr>';
-  a+='<tr style="background:#fef2f2;font-weight:700"><td>必要資金 合計</td><td style="font-size:15px">約'+Math.round(Math.abs(maxOut)/10000)+'万円</td></tr>';
-  a+='<tr style="background:#fef3c7;font-weight:700"><td>推奨（余裕を持って）</td><td style="font-size:15px">'+Math.round(Math.abs(maxOut)/10000*1.1)+'〜'+Math.round(Math.abs(maxOut)/10000*1.35)+'万円</td></tr>';
+  // 開業前固定費（10月〜11月の家賃・運営費）= 8-11月分のrents+ops合計
+  var preFixed=0;for(var i=0;i<4;i++){preFixed+=rents[i]+ops[i]}
+  // カジケア合計
+  var kajiTotal=0;for(var i=0;i<N;i++){kajiTotal+=kajis[i]}
+  // 営業委託合計（開業前分）
+  var eigyoPreOp=0;for(var i=0;i<4;i++){eigyoPreOp+=eigyos[i]}
+  // 開業前コスト合計 = 初期費用 + 人件費 + 家賃運営費 + カジケア(開業前分) + 営業(開業前分)
+  var kajiPreOp=0;for(var i=0;i<4;i++){kajiPreOp+=kajis[i]}
+  var preOpTotal=initTotal+prePay+preFixed+kajiPreOp+eigyoPreOp;
+  // 運転資金 = 最大キャッシュアウト - 明示的に分類済みのコスト
+  var kajiPostOp=kajiTotal-kajiPreOp;
+  var eigyoTotalCf=0;for(var i=0;i<N;i++){eigyoTotalCf+=eigyos[i]}
+  var runCost=Math.abs(maxOut)-initTotal-prePay-preFixed-kajiTotal-eigyoTotalCf;if(runCost<0)runCost=0;
+  a+='<tr><td>初期費用（設備投資）</td><td><strong>'+mf(initTotal)+'</strong></td><td style="font-size:11px">物件・車両・IT・備品</td></tr>';
+  a+='<tr><td>開業前人件費（8〜10月）</td><td><strong>'+mf(prePay)+'</strong></td><td style="font-size:11px">滝田・金井</td></tr>';
+  a+='<tr><td>開業前固定費（家賃・運営費）</td><td><strong>'+mf(preFixed)+'</strong></td><td style="font-size:11px">10月〜家賃+運営費</td></tr>';
+  if(kajiTotal>0)a+='<tr><td>カジケア 開業サポート</td><td><strong>'+mf(kajiTotal)+'</strong></td><td style="font-size:11px">初期費は初期費用に含む / 月額×'+Math.round(kajiDur)+'ヶ月</td></tr>';
+  if(eigyoTotalCf>0)a+='<tr><td>営業委託（三宅さん）</td><td><strong>'+mf(eigyoTotalCf)+'</strong></td><td style="font-size:11px">時給'+eigyoRate+'円×'+eigyoH+'h+レンタカー'+mf(eigyoCar)+'</td></tr>';
+  a+='<tr><td>運転資金（入金遅れ+赤字補填）</td><td><strong>'+mf(runCost)+'</strong></td><td style="font-size:11px">12月〜の人件費・経費を入金まで補填</td></tr>';
+  a+='<tr style="background:#fef2f2;font-weight:700"><td>必要資金 合計</td><td style="font-size:15px" colspan="2">約'+Math.round(Math.abs(maxOut)/10000)+'万円</td></tr>';
+  a+='<tr style="background:#fef3c7;font-weight:700"><td>推奨（余裕を持って）</td><td style="font-size:15px" colspan="2">'+Math.round(Math.abs(maxOut)/10000*1.1)+'〜'+Math.round(Math.abs(maxOut)/10000*1.35)+'万円</td></tr>';
   a+='</table>';
 
   document.getElementById('cf_analysis').innerHTML=a;
@@ -2423,11 +2496,20 @@ function bankCalc(){
   var kItaku=kRate*kH,kFull=kSal+kSal*kSR;
   var tPay=tRate*tH,tPrePay=tPreRate*tPreH;
   var ePay=eRate*eH*eN,rFull=rSal+rSal*rSR;
+  // 営業委託
+  var eigyoRate_bk=salV('s_eigyoRate'),eigyoH_bk=salV('s_eigyoHours'),eigyoCar_bk=salV('s_eigyoCar');
+  var eigyoPay_bk=eigyoRate_bk*eigyoH_bk+eigyoCar_bk;
+  var eigyoStart_bk=parseInt(document.getElementById('s_eigyoStart').value)||3;
+  var eigyoDur_bk=salV('s_eigyoDur')||6;
+  // 1年目: 営業開始月〜期間内の月数（最大12ヶ月目まで）
+  var eigyoEnd_bk=eigyoStart_bk+eigyoDur_bk;
+  var eigyoMonthsY1=Math.max(0,Math.min(12,eigyoEnd_bk)-eigyoStart_bk);
 
   // 年間人件費
-  // 1年目: 8月(金井+滝田prep) + 9-10月(滝田prep)×2 + 11月(滝田work) + 12-3月×4(管理者+滝田+パート) + 4-7月×4(+正社員)
-  var staff1=(kItaku+tPrePay)+tPrePay*2+tPay+(kFull+tPay+ePay)*4+(kFull+tPay+ePay+rFull)*4;
-  var staff2=(kFull+tPay+ePay+rFull)*12;
+  // 1年目: 8月(金井+滝田prep) + 9-10月(滝田prep)×2 + 11月(滝田work) + 12-3月×4(管理者+滝田+パート) + 4-7月×4(+正社員) + 営業委託
+  var staff1=(kItaku+tPrePay)+tPrePay*2+tPay+(kFull+tPay+ePay)*4+(kFull+tPay+ePay+rFull)*4+eigyoPay_bk*eigyoMonthsY1;
+  var eigyoMonthsY2=Math.max(0,Math.min(24,eigyoEnd_bk)-12);
+  var staff2=(kFull+tPay+ePay+rFull)*12+eigyoPay_bk*eigyoMonthsY2;
   var staff3=staff2;
 
   // 家賃（1年目: 10月〜7月=10ヶ月）
@@ -2435,9 +2517,11 @@ function bankCalc(){
   var rent2=rent*12;
   var rent3=rent*12;
 
-  // 運営費（1年目: 10月は準備期間+11月〜7月=9ヶ月）
-  var opex1=opex10+opex*9;
-  var opex2=opex*12;
+  // 運営費（1年目: 10月は準備期間+11月〜7月=9ヶ月）+ カジケア月額
+  var kajiInY1=kajiM_bk*Math.min(kajiDur_bk,12); // 1年目のカジケア月額合計
+  var kajiInY2=kajiDur_bk>12?kajiM_bk*Math.min(kajiDur_bk-12,12):0;
+  var opex1=opex10+opex*9+kajiInY1;
+  var opex2=opex*12+kajiInY2;
   var opex3=opex*12;
 
   // 初期費用
@@ -2484,9 +2568,13 @@ function bankCalc(){
 
   pc(c1,'bk_cumul1');pc(c2,'bk_cumul2');pc(c3,'bk_cumul3');
 
-  // 資金計画
-  var monthlyFull=kFull+tPay+ePay+rent+opex;
-  var runningCost=monthlyFull*5; // 5ヶ月分
+  // 資金計画（カジケア含む・正社員含む）
+  var kajiM_bk=salV('cf_kajicare_m'),kajiDur_bk=salV('cf_kajicare_dur');
+  var kajiInit_bk=salV('cf_kajicare_init');
+  var monthlyFull=kFull+rFull+tPay+ePay+rent+opex;
+  var eigyoRunning=eigyoPay_bk*Math.min(eigyoDur_bk,5);
+  // 開業前(8-11月)4ヶ月 + 入金遅れ2ヶ月 = 計5ヶ月の運転資金 + カジケア月額
+  var runningCost=monthlyFull*5+kajiM_bk*Math.min(kajiDur_bk,6)+eigyoRunning;
   var totalFund=initTotal+runningCost;
   var loanNeed=Math.max(0,totalFund-selfFund);
 
@@ -2510,10 +2598,12 @@ function bankCalc(){
   var rentM=[];for(var i=0;i<12;i++){rentM.push(i<2?0:rent)}
   var opsM=[];for(var i=0;i<12;i++){opsM.push(i<2?0:(i<3?opex10:opex))}
   var initsM=[init8,init9,init10];for(var i=3;i<12;i++)initsM.push(0);
+  var kajiMArr=[];for(var i=0;i<12;i++){kajiMArr.push(i<kajiDur_bk?kajiM_bk:0)}
+  var eigyoMArr=[];for(var i=0;i<12;i++){eigyoMArr.push(i>=eigyoStart_bk&&i<eigyoEnd_bk?eigyoPay_bk:0)}
 
   var spendM=[],monthlyM=[],cumulM=[],cm=0;
   for(var i=0;i<12;i++){
-    spendM.push(staffM[i]+rentM[i]+opsM[i]+initsM[i]);
+    spendM.push(staffM[i]+rentM[i]+opsM[i]+initsM[i]+kajiMArr[i]+eigyoMArr[i]);
     monthlyM.push(incomeM[i]-spendM[i]);
     cm+=monthlyM[i];cumulM.push(cm);
   }
@@ -2538,6 +2628,8 @@ function bankCalc(){
   rw('人件費',staffM,'',true);
   rw('家賃',rentM,'',true);
   rw('運営費',opsM,'',true);
+  if(kajiM_bk>0)rw('カジケア',kajiMArr,'#faf5ff',true);
+  if(eigyoPay_bk>0)rw('営業委託',eigyoMArr,'#f0f9ff',true);
   rw('初期費用',initsM,'',true);
   h+='<tr style="background:#fee2e2"><td style="padding:3px 4px;border:1px solid #e5e7eb;font-weight:700">支出計</td>';
   for(var i=0;i<12;i++)h+='<td style="padding:3px 2px;border:1px solid #e5e7eb;text-align:right;font-weight:700">'+bm(spendM[i])+'</td>';
