@@ -160,7 +160,7 @@
   /* ── 信頼バー ── */
   #trust-bar { background: white; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 0; }
   .trust-bar-inner { max-width: 1060px; margin: 0 auto; display: grid; grid-template-columns: repeat(6, 1fr); }
-  @media (max-width: 768px) { .trust-bar-inner { grid-template-columns: repeat(2, 1fr); } .tb-item { padding: 20px 12px; } .tb-num { font-size: 1.4rem; } }
+  @media (max-width: 768px) { .trust-bar-inner { grid-template-columns: repeat(3, 1fr); } .tb-item { padding: 16px 8px; } .tb-num { font-size: 1.1rem; } .tb-label { font-size: 0.6rem; } }
   .tb-item { padding: 32px 20px; text-align: center; border-right: 1px solid var(--border); transition: all 0.3s; position: relative; overflow: hidden; }
   .tb-item::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, var(--pri-l), transparent); opacity: 0; transition: opacity 0.3s; }
   .tb-item:hover::before { opacity: 1; }
