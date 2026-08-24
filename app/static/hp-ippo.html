@@ -159,8 +159,8 @@
 
   /* ── 信頼バー ── */
   #trust-bar { background: white; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 0; }
-  .trust-bar-inner { max-width: 1060px; margin: 0 auto; display: grid; grid-template-columns: repeat(5, 1fr); }
-  @media (max-width: 768px) { .trust-bar-inner { grid-template-columns: repeat(2, 1fr); } .tb-item { padding: 20px 12px; } .tb-num { font-size: 1.4rem; } .tb-item:last-child { grid-column: 1 / -1; } }
+  .trust-bar-inner { max-width: 1060px; margin: 0 auto; display: grid; grid-template-columns: repeat(6, 1fr); }
+  @media (max-width: 768px) { .trust-bar-inner { grid-template-columns: repeat(2, 1fr); } .tb-item { padding: 20px 12px; } .tb-num { font-size: 1.4rem; } }
   .tb-item { padding: 32px 20px; text-align: center; border-right: 1px solid var(--border); transition: all 0.3s; position: relative; overflow: hidden; }
   .tb-item::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, var(--pri-l), transparent); opacity: 0; transition: opacity 0.3s; }
   .tb-item:hover::before { opacity: 1; }
@@ -602,8 +602,9 @@
     <div class="tb-item rv" style="transition-delay:0s"><div class="tb-num">各種保険<small>対応</small></div><div class="tb-label">医療保険・介護保険</div></div>
     <div class="tb-item rv" style="transition-delay:0.1s"><div class="tb-num">大学病院<small>経験</small></div><div class="tb-label">スタッフ教育も充実</div></div>
     <div class="tb-item rv" style="transition-delay:0.2s"><div class="tb-num">24時間<small>対応</small></div><div class="tb-label">オンコール体制完備</div></div>
-    <div class="tb-item rv" style="transition-delay:0.3s"><div class="tb-num">小児にも<small>対応</small></div><div class="tb-label">お子さまの在宅ケア</div></div>
-    <div class="tb-item rv" style="transition-delay:0.4s"><div class="tb-num">中国語<small>OK</small></div><div class="tb-label">可以用中文沟通</div></div>
+    <div class="tb-item rv" style="transition-delay:0.3s"><div class="tb-num">精神科<small>対応</small></div><div class="tb-label">心のケアもお任せ</div></div>
+    <div class="tb-item rv" style="transition-delay:0.4s"><div class="tb-num">小児にも<small>対応</small></div><div class="tb-label">お子さまの在宅ケア</div></div>
+    <div class="tb-item rv" style="transition-delay:0.5s"><div class="tb-num">中国語<small>OK</small></div><div class="tb-label">可以用中文沟通</div></div>
   </div>
 </section>
 
