@@ -396,6 +396,11 @@ async def sitemap_xml():
     return Response(content=xml, media_type="application/xml")
 
 
+@app.get("/googlefad0947a8a10a546.html", response_class=HTMLResponse)
+async def google_verify():
+    return "google-site-verification: googlefad0947a8a10a546.html"
+
+
 @app.get("/recruit", response_class=HTMLResponse)
 async def recruit():
     with open("app/static/recruit.html", encoding="utf-8") as f:
