@@ -14,7 +14,7 @@ from pathlib import Path
 from typing import Optional
 
 from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
@@ -360,6 +360,40 @@ async def index(request: Request):
             return f.read()
     with open("app/static/strategy.html", encoding="utf-8") as f:
         return f.read()
+
+
+@app.get("/robots.txt", response_class=PlainTextResponse)
+async def robots_txt():
+    return """User-agent: *
+Allow: /
+Disallow: /strategy
+Disallow: /houmon-simulator
+Disallow: /contract-kanai
+Disallow: /sougyou-plan
+Disallow: /tel-kouseikyoku
+Disallow: /itaku-tanka
+Disallow: /api/
+
+Sitemap: https://ippo-kango.jp/sitemap.xml
+"""
+
+
+@app.get("/sitemap.xml")
+async def sitemap_xml():
+    xml = """<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://ippo-kango.jp/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://ippo-kango.jp/recruit</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+</urlset>"""
+    return Response(content=xml, media_type="application/xml")
 
 
 @app.get("/recruit", response_class=HTMLResponse)
