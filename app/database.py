@@ -82,6 +82,19 @@ def init_db():
             file_original_name TEXT,
             created_at TEXT DEFAULT (datetime('now','localtime'))
         );
+
+        CREATE TABLE IF NOT EXISTS survey_submissions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            phone TEXT NOT NULL,
+            email TEXT NOT NULL,
+            desired_salary TEXT,
+            desired_type TEXT,
+            form_data TEXT,
+            file_path TEXT,
+            file_original_name TEXT,
+            created_at TEXT DEFAULT (datetime('now','localtime'))
+        );
         """)
 
 
@@ -289,5 +302,26 @@ def get_recruits():
     with get_conn() as conn:
         rows = conn.execute(
             "SELECT * FROM recruit_submissions ORDER BY created_at DESC"
+        ).fetchall()
+        return [dict(r) for r in rows]
+
+
+# ── 採用調査票 ─────────────────────────────────────
+
+
+def save_survey(name: str, phone: str, email: str, desired_salary: str,
+                desired_type: str, form_data: str,
+                file_path: Optional[str] = None, file_original_name: Optional[str] = None):
+    with get_conn() as conn:
+        conn.execute(
+            "INSERT INTO survey_submissions (name, phone, email, desired_salary, desired_type, form_data, file_path, file_original_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            (name, phone, email, desired_salary, desired_type, form_data, file_path, file_original_name)
+        )
+
+
+def get_surveys():
+    with get_conn() as conn:
+        rows = conn.execute(
+            "SELECT * FROM survey_submissions ORDER BY created_at DESC"
         ).fetchall()
         return [dict(r) for r in rows]

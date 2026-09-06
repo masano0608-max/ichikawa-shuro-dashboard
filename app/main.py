@@ -31,6 +31,8 @@ from app.database import (
     get_contacts,
     save_recruit,
     get_recruits,
+    save_survey,
+    get_surveys,
 )
 from app.scheduler import run_houmon_update, start_scheduler, stop_scheduler
 from app.fetcher_houmon import fetch_houmon_comparison
@@ -295,6 +297,164 @@ def api_recruits(request: Request):
     return get_recruits()
 
 
+# ── 採用調査票 API ─────────────────────────────────────
+
+
+def _send_survey_email(name: str, phone: str, email: str, form_data: dict,
+                       file_name: str, file_path: str):
+    """採用調査票の回答を Resend API 経由で通知"""
+    api_key = os.environ.get("RESEND_API_KEY", "")
+    if not api_key:
+        logger.warning("RESEND_API_KEY が未設定のためメール通知をスキップ")
+        return "no_key"
+    to_email = os.environ.get("GMAIL_USER", "ayumi.godo@gmail.com")
+
+    # 年収計算
+    base = int(form_data.get("current_base") or 0)
+    allow = int(form_data.get("current_allowance") or 0)
+    bonus = int(form_data.get("current_bonus") or 0)
+    annual = (base + allow) * 12 + bonus
+    annual_str = f"{annual:,}円" if annual > 0 else "（未入力）"
+
+    email_data = {
+        "from": "いっぽHP <noreply@ippo-kango.jp>",
+        "to": [to_email],
+        "subject": f"【いっぽ採用】調査票回答 - {name}様",
+        "text": (
+            f"【いっぽ 採用調査票】\n\n"
+            f"━━ 基本情報 ━━\n"
+            f"お名前: {name}\n"
+            f"ふりがな: {form_data.get('name_kana', '')}\n"
+            f"電話番号: {phone}\n"
+            f"メール: {email}\n\n"
+            f"━━ 現在のご状況 ━━\n"
+            f"就業状況: {form_data.get('work_status', '（未選択）')}\n"
+            f"勤務先: {form_data.get('current_workplace', '（未入力）')}\n"
+            f"保有資格: {form_data.get('qualification', '（未選択）')}\n"
+            f"臨床経験: {form_data.get('clinical_years', '（未選択）')}\n"
+            f"訪問看護経験: {form_data.get('houmon_exp', '（未選択）')}\n"
+            f"得意分野: {form_data.get('specialty', '（未選択）')}\n\n"
+            f"━━ 現在の年収 ━━\n"
+            f"月額基本給: {base:,}円\n"
+            f"月額手当: {allow:,}円\n"
+            f"賞与(年間): {bonus:,}円\n"
+            f"推定年収: {annual_str}\n\n"
+            f"━━ ご希望条件 ━━\n"
+            f"希望月給: {int(form_data.get('desired_salary') or 0):,}円\n"
+            f"希望雇用形態: {form_data.get('desired_type', '（未選択）')}\n"
+            f"入社可能時期: {form_data.get('start_date', '（未選択）')}\n"
+            f"オンコール: {form_data.get('oncall', '（未選択）')}\n"
+            f"通勤手段: {form_data.get('commute', '（未選択）')}\n"
+            f"通勤時間: {form_data.get('commute_time', '（未選択）')}\n\n"
+            f"━━ その他 ━━\n"
+            f"履歴書: {file_name or '（なし）'}\n"
+            f"メッセージ:\n{form_data.get('message', '（なし）')}\n"
+        ),
+    }
+    if file_path and file_name:
+        try:
+            import base64
+            with open(file_path, "rb") as f:
+                file_content = base64.b64encode(f.read()).decode("utf-8")
+            email_data["attachments"] = [{"filename": file_name, "content": file_content}]
+        except Exception as e:
+            logger.error(f"添付ファイル読み込み失敗: {e}")
+    payload = _json.dumps(email_data).encode("utf-8")
+    req = urllib.request.Request(
+        "https://api.resend.com/emails",
+        data=payload,
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+            "User-Agent": "ippo-kango/1.0",
+        },
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            resp.read()
+        logger.info(f"採用調査票通知メール送信完了: {name}")
+        return "sent"
+    except Exception as e:
+        logger.error(f"調査票メール送信失敗: {e}")
+        return str(e)
+
+
+@app.post("/api/survey")
+async def api_survey(
+    name: str = Form(...),
+    phone: str = Form(...),
+    email: str = Form(...),
+    name_kana: str = Form(""),
+    work_status: str = Form(""),
+    current_workplace: str = Form(""),
+    qualification: str = Form(""),
+    clinical_years: str = Form(""),
+    houmon_exp: str = Form(""),
+    specialty: str = Form(""),
+    current_base: str = Form(""),
+    current_allowance: str = Form(""),
+    current_bonus: str = Form(""),
+    desired_salary: str = Form(""),
+    desired_type: str = Form(""),
+    start_date: str = Form(""),
+    oncall: str = Form(""),
+    commute: str = Form(""),
+    commute_time: str = Form(""),
+    message: str = Form(""),
+    file: Optional[UploadFile] = File(None),
+):
+    file_path_str = None
+    file_original_name = None
+
+    if file and file.filename:
+        ext = os.path.splitext(file.filename)[1].lower()
+        if ext not in ALLOWED_EXTENSIONS:
+            raise HTTPException(status_code=400, detail="PDF・Word形式のファイルのみアップロード可能です")
+
+        contents = await file.read()
+        if len(contents) > MAX_FILE_SIZE:
+            raise HTTPException(status_code=400, detail="ファイルサイズは10MB以下にしてください")
+
+        UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+        safe_name = f"{uuid.uuid4().hex}{ext}"
+        save_path = UPLOAD_DIR / safe_name
+        save_path.write_bytes(contents)
+
+        file_path_str = str(save_path)
+        file_original_name = file.filename
+
+    form_data = {
+        "name_kana": name_kana, "work_status": work_status,
+        "current_workplace": current_workplace, "qualification": qualification,
+        "clinical_years": clinical_years, "houmon_exp": houmon_exp,
+        "specialty": specialty, "current_base": current_base,
+        "current_allowance": current_allowance, "current_bonus": current_bonus,
+        "desired_salary": desired_salary, "desired_type": desired_type,
+        "start_date": start_date, "oncall": oncall,
+        "commute": commute, "commute_time": commute_time, "message": message,
+    }
+
+    save_survey(name, phone, email, desired_salary, desired_type,
+                _json.dumps(form_data, ensure_ascii=False),
+                file_path_str, file_original_name)
+
+    threading.Thread(
+        target=_send_survey_email,
+        args=(name, phone, email, form_data,
+              file_original_name or "", file_path_str or ""),
+        daemon=True,
+    ).start()
+
+    return {"ok": True}
+
+
+@app.get("/api/surveys")
+def api_surveys(request: Request):
+    if not _is_local(request):
+        raise HTTPException(status_code=403, detail="ローカル環境からのみアクセスできます")
+    return get_surveys()
+
+
 # ── ガントチャート同期 API ─────────────────────────────────
 
 
@@ -372,6 +532,7 @@ Disallow: /contract-kanai
 Disallow: /sougyou-plan
 Disallow: /tel-kouseikyoku
 Disallow: /itaku-tanka
+Disallow: /survey
 Disallow: /api/
 
 Sitemap: https://ippo-kango.jp/sitemap.xml
@@ -404,6 +565,12 @@ async def google_verify():
 @app.get("/recruit", response_class=HTMLResponse)
 async def recruit():
     with open("app/static/recruit.html", encoding="utf-8") as f:
+        return f.read()
+
+
+@app.get("/survey", response_class=HTMLResponse)
+async def survey():
+    with open("app/static/survey.html", encoding="utf-8") as f:
         return f.read()
 
 

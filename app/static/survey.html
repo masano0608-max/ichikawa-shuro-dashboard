@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>採用調査票 | 訪問看護ステーション いっぽ</title>
+<link rel="icon" href="/static/images/favicon-ippo.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Noto+Serif+JP:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pri:    #3a9d6e;
+    --pri-l:  #e8f8ef;
+    --pri-d:  #358c64;
+    --text:   #2d3748;
+    --muted:  #718096;
+    --border: #e2e8f0;
+    --bg:     #f7faf8;
+    --white:  #ffffff;
+    --danger: #e53e3e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Noto Sans JP', sans-serif; color: var(--text); background: var(--bg); line-height: 1.8; font-size: 15px; }
+  .serif { font-family: 'Noto Serif JP', serif; }
+
+  /* ── ヘッダー ── */
+  .sv-header {
+    background: linear-gradient(135deg, #f0faf4 0%, #e8f5e9 50%, #f1f8e9 100%);
+    padding: 60px 20px 40px;
+    text-align: center;
+    border-bottom: 3px solid var(--pri);
+  }
+  .sv-header h1 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.6rem;
+    color: var(--pri-d);
+    margin-bottom: 8px;
+    letter-spacing: 0.08em;
+  }
+  .sv-header .sub {
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+  .sv-header .logo {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.1rem;
+    color: var(--pri);
+    font-weight: 700;
+    margin-bottom: 16px;
+    letter-spacing: 0.1em;
+  }
+
+  /* ── メインコンテナ ── */
+  .sv-wrap {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 32px 20px 80px;
+  }
+
+  /* ── 説明文 ── */
+  .sv-intro {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 32px;
+    font-size: 0.88rem;
+    line-height: 1.9;
+    color: #4a5568;
+  }
+  .sv-intro strong { color: var(--text); }
+
+  /* ── セクション ── */
+  .sv-section {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px 24px;
+    margin-bottom: 20px;
+  }
+  .sv-section-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--pri-d);
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--pri-l);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sv-section-title .num {
+    background: var(--pri);
+    color: #fff;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* ── フォーム要素 ── */
+  .sv-row {
+    margin-bottom: 20px;
+  }
+  .sv-row:last-child {
+    margin-bottom: 0;
+  }
+  .sv-row label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+  .sv-row .req {
+    color: var(--danger);
+    font-size: 0.7rem;
+    margin-left: 6px;
+    font-weight: 700;
+  }
+  .sv-row .hint {
+    display: block;
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-top: 2px;
+    margin-bottom: 4px;
+  }
+  .sv-row input[type="text"],
+  .sv-row input[type="email"],
+  .sv-row input[type="tel"],
+  .sv-row input[type="number"],
+  .sv-row input[type="date"],
+  .sv-row select,
+  .sv-row textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.92rem;
+    font-family: inherit;
+    color: var(--text);
+    background: var(--white);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    -webkit-appearance: none;
+  }
+  .sv-row input:focus,
+  .sv-row select:focus,
+  .sv-row textarea:focus {
+    outline: none;
+    border-color: var(--pri);
+    box-shadow: 0 0 0 3px rgba(58,157,110,0.12);
+  }
+  .sv-row textarea {
+    min-height: 90px;
+    resize: vertical;
+  }
+  .sv-row select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23718096' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+  }
+
+  /* ── 年収入力グリッド ── */
+  .salary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .salary-grid .full { grid-column: 1 / -1; }
+  @media (max-width: 500px) {
+    .salary-grid { grid-template-columns: 1fr; }
+  }
+  .salary-unit {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .salary-unit input { flex: 1; }
+  .salary-unit span {
+    font-size: 0.82rem;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .salary-total {
+    background: var(--pri-l);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--pri-d);
+    text-align: center;
+    margin-top: 8px;
+  }
+
+  /* ── ラジオ・チェックボックス ── */
+  .sv-radio-group,
+  .sv-check-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .sv-radio-group label,
+  .sv-check-group label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    font-weight: 400;
+    padding: 6px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--white);
+    margin-bottom: 0;
+  }
+  .sv-radio-group label:hover,
+  .sv-check-group label:hover {
+    border-color: var(--pri);
+    background: var(--pri-l);
+  }
+  .sv-radio-group input:checked + span,
+  .sv-check-group input:checked + span {
+    color: var(--pri-d);
+    font-weight: 600;
+  }
+  .sv-radio-group label:has(input:checked),
+  .sv-check-group label:has(input:checked) {
+    border-color: var(--pri);
+    background: var(--pri-l);
+  }
+
+  /* ── ファイルアップロード ── */
+  .file-drop {
+    border: 2px dashed var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+  }
+  .file-drop:hover {
+    border-color: var(--pri);
+    background: var(--pri-l);
+  }
+  .file-drop input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+  .file-drop-icon { font-size: 2rem; margin-bottom: 6px; }
+  .file-drop-text { font-size: 0.85rem; color: var(--text); font-weight: 500; }
+  .file-drop-hint { font-size: 0.72rem; color: var(--muted); margin-top: 4px; }
+  .file-selected {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: var(--pri-l);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    margin-top: 8px;
+  }
+  .file-selected.show { display: flex; }
+  .file-remove {
+    margin-left: auto;
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: var(--muted);
+    padding: 0 4px;
+  }
+
+  /* ── 送信ボタン ── */
+  .sv-submit {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    background: var(--pri);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.3s;
+    letter-spacing: 0.08em;
+    margin-top: 28px;
+  }
+  .sv-submit:hover {
+    background: var(--pri-d);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(58,157,110,0.3);
+  }
+  .sv-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+  .sv-note {
+    text-align: center;
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-top: 12px;
+    line-height: 1.7;
+  }
+
+  /* ── 完了画面 ── */
+  .sv-success {
+    display: none;
+    text-align: center;
+    padding: 80px 20px;
+  }
+  .sv-success.show { display: block; }
+  .sv-success-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--pri);
+    color: #fff;
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+  }
+  .sv-success h3 {
+    font-size: 1.3rem;
+    color: var(--pri-d);
+    margin-bottom: 12px;
+  }
+  .sv-success p {
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.9;
+  }
+
+  /* ── フッター ── */
+  .sv-footer {
+    text-align: center;
+    padding: 24px 20px;
+    font-size: 0.72rem;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    background: var(--white);
+  }
+</style>
+</head>
+<body>
+
+<!-- ── ヘッダー ── -->
+<div class="sv-header">
+  <div class="logo">いっぽ</div>
+  <h1 class="serif">採用調査票</h1>
+  <div class="sub">訪問看護ステーション いっぽ</div>
+</div>
+
+<div class="sv-wrap">
+
+  <!-- ── 説明文 ── -->
+  <div class="sv-intro">
+    このたびはご応募いただき、誠にありがとうございます。<br>
+    選考の参考とさせていただくため、以下のアンケートへのご回答をお願いいたします。<br>
+    <strong>ご記入いただいた情報は採用選考にのみ使用し、適切に管理いたします。</strong>
+  </div>
+
+  <form id="surveyForm">
+
+    <!-- ── 1. 基本情報 ── -->
+    <div class="sv-section">
+      <div class="sv-section-title"><span class="num">1</span>基本情報</div>
+
+      <div class="sv-row">
+        <label>お名前<span class="req">*必須</span></label>
+        <input type="text" name="name" required placeholder="山田 花子">
+      </div>
+
+      <div class="sv-row">
+        <label>ふりがな</label>
+        <input type="text" name="name_kana" placeholder="やまだ はなこ">
+      </div>
+
+      <div class="sv-row">
+        <label>電話番号<span class="req">*必須</span></label>
+        <input type="tel" name="phone" required placeholder="090-1234-5678">
+      </div>
+
+      <div class="sv-row">
+        <label>メールアドレス<span class="req">*必須</span></label>
+        <input type="email" name="email" required placeholder="example@email.com">
+      </div>
+    </div>
+
+    <!-- ── 2. 現在のご状況 ── -->
+    <div class="sv-section">
+      <div class="sv-section-title"><span class="num">2</span>現在のご状況</div>
+
+      <div class="sv-row">
+        <label>就業状況<span class="req">*必須</span></label>
+        <div class="sv-radio-group">
+          <label><input type="radio" name="work_status" value="在職中" required><span>在職中</span></label>
+          <label><input type="radio" name="work_status" value="離職中"><span>離職中</span></label>
+          <label><input type="radio" name="work_status" value="その他"><span>その他</span></label>
+        </div>
+      </div>
+
+      <div class="sv-row">
+        <label>現在（直近）の勤務先</label>
+        <span class="hint">病院名・施設名・ステーション名など</span>
+        <input type="text" name="current_workplace" placeholder="例：○○総合病院">
+      </div>
+
+      <div class="sv-row">
+        <label>保有資格<span class="req">*必須</span></label>
+        <div class="sv-check-group">
+          <label><input type="checkbox" name="qualification" value="看護師"><span>看護師</span></label>
+          <label><input type="checkbox" name="qualification" value="准看護師"><span>准看護師</span></label>
+          <label><input type="checkbox" name="qualification" value="保健師"><span>保健師</span></label>
+          <label><input type="checkbox" name="qualification" value="助産師"><span>助産師</span></label>
+          <label><input type="checkbox" name="qualification" value="その他"><span>その他</span></label>
+        </div>
+      </div>
+
+      <div class="sv-row">
+        <label>臨床経験年数</label>
+        <select name="clinical_years">
+          <option value="">選択してください</option>
+          <option value="1年未満">1年未満</option>
+          <option value="1〜3年">1〜3年</option>
+          <option value="3〜5年">3〜5年</option>
+          <option value="5〜10年">5〜10年</option>
+          <option value="10〜20年">10〜20年</option>
+          <option value="20年以上">20年以上</option>
+        </select>
+      </div>
+
+      <div class="sv-row">
+        <label>訪問看護の経験</label>
+        <div class="sv-radio-group">
+          <label><input type="radio" name="houmon_exp" value="あり"><span>あり</span></label>
+          <label><input type="radio" name="houmon_exp" value="なし"><span>なし</span></label>
+        </div>
+      </div>
+
+      <div class="sv-row">
+        <label>得意分野・対応経験のある領域（複数選択可）</label>
+        <div class="sv-check-group">
+          <label><input type="checkbox" name="specialty" value="精神科"><span>精神科</span></label>
+          <label><input type="checkbox" name="specialty" value="小児科"><span>小児科</span></label>
+          <label><input type="checkbox" name="specialty" value="がん・ターミナル"><span>がん・ターミナル</span></label>
+          <label><input type="checkbox" name="specialty" value="難病"><span>難病</span></label>
+          <label><input type="checkbox" name="specialty" value="認知症"><span>認知症</span></label>
+          <label><input type="checkbox" name="specialty" value="褥瘡・創傷管理"><span>褥瘡・創傷管理</span></label>
+          <label><input type="checkbox" name="specialty" value="リハビリ"><span>リハビリ</span></label>
+          <label><input type="checkbox" name="specialty" value="その他"><span>その他</span></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 3. 現在の年収 ── -->
+    <div class="sv-section">
+      <div class="sv-section-title"><span class="num">3</span>現在の年収</div>
+
+      <div class="sv-row">
+        <label>月額基本給（額面）</label>
+        <span class="hint">手取りではなく、税引前の総支給額でお答えください</span>
+        <div class="salary-unit">
+          <input type="number" name="current_base" placeholder="250000" min="0" step="1000" oninput="calcTotal()">
+          <span>円/月</span>
+        </div>
+      </div>
+
+      <div class="sv-row">
+        <label>月額手当合計</label>
+        <span class="hint">資格手当・夜勤手当・残業代・通勤手当など全て含む</span>
+        <div class="salary-unit">
+          <input type="number" name="current_allowance" placeholder="50000" min="0" step="1000" oninput="calcTotal()">
+          <span>円/月</span>
+        </div>
+      </div>
+
+      <div class="sv-row">
+        <label>賞与（年間合計）</label>
+        <span class="hint">直近1年間の合計。なしの場合は0</span>
+        <div class="salary-unit">
+          <input type="number" name="current_bonus" placeholder="600000" min="0" step="10000" oninput="calcTotal()">
+          <span>円/年</span>
+        </div>
+      </div>
+
+      <div class="salary-total" id="salaryTotal" style="display:none">
+        現在の推定年収: <span id="totalAmount">-</span>
+      </div>
+    </div>
+
+    <!-- ── 4. ご希望条件 ── -->
+    <div class="sv-section">
+      <div class="sv-section-title"><span class="num">4</span>ご希望条件</div>
+
+      <div class="sv-row">
+        <label>希望月給（額面）<span class="req">*必須</span></label>
+        <span class="hint">「最低このくらい」という目安で構いません</span>
+        <div class="salary-unit">
+          <input type="number" name="desired_salary" required placeholder="300000" min="0" step="5000">
+          <span>円/月</span>
+        </div>
+      </div>
+
+      <div class="sv-row">
+        <label>希望雇用形態<span class="req">*必須</span></label>
+        <div class="sv-check-group">
+          <label><input type="checkbox" name="desired_type" value="正社員"><span>正社員</span></label>
+          <label><input type="checkbox" name="desired_type" value="契約社員"><span>契約社員</span></label>
+          <label><input type="checkbox" name="desired_type" value="パート"><span>パート</span></label>
+        </div>
+      </div>
+
+      <div class="sv-row">
+        <label>入社可能時期<span class="req">*必須</span></label>
+        <select name="start_date" required>
+          <option value="">選択してください</option>
+          <option value="即日">即日可能</option>
+          <option value="2週間以内">2週間以内</option>
+          <option value="1ヶ月以内">1ヶ月以内</option>
+          <option value="2ヶ月以内">2ヶ月以内</option>
+          <option value="3ヶ月以内">3ヶ月以内</option>
+          <option value="2026年12月">2026年12月（開業時）</option>
+          <option value="応相談">応相談</option>
+        </select>
+      </div>
+
+      <div class="sv-row">
+        <label>オンコール対応</label>
+        <span class="hint">月数回の夜間待機。出動時は別途手当あり</span>
+        <div class="sv-radio-group">
+          <label><input type="radio" name="oncall" value="対応可能"><span>対応可能</span></label>
+          <label><input type="radio" name="oncall" value="条件付き可能"><span>条件付き可能</span></label>
+          <label><input type="radio" name="oncall" value="対応不可"><span>対応不可</span></label>
+        </div>
+      </div>
+
+      <div class="sv-row">
+        <label>通勤手段</label>
+        <div class="sv-check-group">
+          <label><input type="checkbox" name="commute" value="電車"><span>電車</span></label>
+          <label><input type="checkbox" name="commute" value="自転車"><span>自転車</span></label>
+          <label><input type="checkbox" name="commute" value="バイク"><span>バイク</span></label>
+          <label><input type="checkbox" name="commute" value="車"><span>車</span></label>
+          <label><input type="checkbox" name="commute" value="徒歩"><span>徒歩</span></label>
+        </div>
+      </div>
+
+      <div class="sv-row">
+        <label>通勤時間（片道の目安）</label>
+        <select name="commute_time">
+          <option value="">選択してください</option>
+          <option value="15分以内">15分以内</option>
+          <option value="30分以内">30分以内</option>
+          <option value="45分以内">45分以内</option>
+          <option value="1時間以内">1時間以内</option>
+          <option value="1時間以上">1時間以上</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- ── 5. 履歴書 ── -->
+    <div class="sv-section">
+      <div class="sv-section-title"><span class="num">5</span>履歴書</div>
+
+      <div class="sv-row">
+        <label>履歴書アップロード<span class="req">*必須</span></label>
+        <div class="file-drop" id="fileDrop">
+          <input type="file" name="file" id="fileInput" accept=".pdf,.doc,.docx" required>
+          <div class="file-drop-icon">&#128196;</div>
+          <div class="file-drop-text">クリックまたはドラッグ＆ドロップ</div>
+          <div class="file-drop-hint">PDF・Word形式（10MB以下）</div>
+        </div>
+        <div class="file-selected" id="fileSelected">
+          <span>&#128196;</span>
+          <span id="fileName"></span>
+          <button type="button" class="file-remove" onclick="removeFile()">&times;</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 6. その他 ── -->
+    <div class="sv-section">
+      <div class="sv-section-title"><span class="num">6</span>その他</div>
+
+      <div class="sv-row">
+        <label>ご質問・ご要望</label>
+        <span class="hint">勤務条件や仕事内容について気になること等、なんでもお書きください</span>
+        <textarea name="message" placeholder="例：週4日勤務は可能ですか？ / 小児の訪問看護に興味があります"></textarea>
+      </div>
+    </div>
+
+    <button type="submit" class="sv-submit" id="submitBtn">送信する</button>
+    <p class="sv-note">送信いただいた情報は採用選考にのみ使用し、第三者に提供することはありません。</p>
+
+  </form>
+
+  <!-- ── 完了画面 ── -->
+  <div class="sv-success" id="svSuccess">
+    <div class="sv-success-icon">&#10003;</div>
+    <h3 class="serif">ご回答ありがとうございます</h3>
+    <p>内容を確認の上、担当者よりご連絡いたします。<br>しばらくお待ちください。</p>
+  </div>
+
+</div>
+
+<div class="sv-footer">
+  &copy; 合同会社あゆみ｜訪問看護ステーション いっぽ
+</div>
+
+<script>
+/* ── 年収自動計算 ── */
+function calcTotal() {
+  var base = parseInt(document.querySelector('[name="current_base"]').value) || 0;
+  var allow = parseInt(document.querySelector('[name="current_allowance"]').value) || 0;
+  var bonus = parseInt(document.querySelector('[name="current_bonus"]').value) || 0;
+  var total = (base + allow) * 12 + bonus;
+  var el = document.getElementById('salaryTotal');
+  if (base > 0 || allow > 0 || bonus > 0) {
+    el.style.display = 'block';
+    document.getElementById('totalAmount').textContent = total.toLocaleString() + ' 円';
+  } else {
+    el.style.display = 'none';
+  }
+}
+
+/* ── ファイル選択 ── */
+var fileInput = document.getElementById('fileInput');
+fileInput.addEventListener('change', function() {
+  if (this.files.length > 0) {
+    document.getElementById('fileName').textContent = this.files[0].name;
+    document.getElementById('fileSelected').classList.add('show');
+    document.getElementById('fileDrop').style.display = 'none';
+  }
+});
+
+function removeFile() {
+  fileInput.value = '';
+  document.getElementById('fileSelected').classList.remove('show');
+  document.getElementById('fileDrop').style.display = '';
+}
+
+/* ── ドラッグ＆ドロップ ── */
+var drop = document.getElementById('fileDrop');
+drop.addEventListener('dragover', function(e) { e.preventDefault(); this.style.borderColor = 'var(--pri)'; this.style.background = 'var(--pri-l)'; });
+drop.addEventListener('dragleave', function() { this.style.borderColor = ''; this.style.background = ''; });
+drop.addEventListener('drop', function(e) {
+  e.preventDefault();
+  this.style.borderColor = '';
+  this.style.background = '';
+  if (e.dataTransfer.files.length > 0) {
+    fileInput.files = e.dataTransfer.files;
+    fileInput.dispatchEvent(new Event('change'));
+  }
+});
+
+/* ── チェックボックスの値を取得 ── */
+function getChecked(name) {
+  var vals = [];
+  document.querySelectorAll('input[name="' + name + '"]:checked').forEach(function(cb) {
+    vals.push(cb.value);
+  });
+  return vals.join(', ');
+}
+
+/* ── ラジオボタンの値を取得 ── */
+function getRadio(name) {
+  var el = document.querySelector('input[name="' + name + '"]:checked');
+  return el ? el.value : '';
+}
+
+/* ── フォーム送信 ── */
+document.getElementById('surveyForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  // バリデーション: 雇用形態チェック
+  if (!getChecked('desired_type')) {
+    alert('希望雇用形態を選択してください');
+    return;
+  }
+
+  var btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = '送信中...';
+
+  var form = e.target;
+  var fd = new FormData();
+
+  fd.append('name', form.name.value);
+  fd.append('name_kana', form.name_kana.value);
+  fd.append('phone', form.phone.value);
+  fd.append('email', form.email.value);
+  fd.append('work_status', getRadio('work_status'));
+  fd.append('current_workplace', form.current_workplace.value);
+  fd.append('qualification', getChecked('qualification'));
+  fd.append('clinical_years', form.clinical_years.value);
+  fd.append('houmon_exp', getRadio('houmon_exp'));
+  fd.append('specialty', getChecked('specialty'));
+  fd.append('current_base', form.current_base.value);
+  fd.append('current_allowance', form.current_allowance.value);
+  fd.append('current_bonus', form.current_bonus.value);
+  fd.append('desired_salary', form.desired_salary.value);
+  fd.append('desired_type', getChecked('desired_type'));
+  fd.append('start_date', form.start_date.value);
+  fd.append('oncall', getRadio('oncall'));
+  fd.append('commute', getChecked('commute'));
+  fd.append('commute_time', form.commute_time.value);
+  fd.append('message', form.message.value);
+
+  if (fileInput.files.length) {
+    fd.append('file', fileInput.files[0]);
+  }
+
+  fetch('/api/survey', { method: 'POST', body: fd })
+    .then(function(res) {
+      if (!res.ok) return res.json().then(function(d) { throw new Error(d.detail || '送信に失敗しました'); });
+      return res.json();
+    })
+    .then(function() {
+      form.style.display = 'none';
+      document.querySelectorAll('.sv-section, .sv-intro').forEach(function(el) { el.style.display = 'none'; });
+      document.getElementById('svSuccess').classList.add('show');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    })
+    .catch(function(err) {
+      alert(err.message);
+      btn.disabled = false;
+      btn.textContent = '送信する';
+    });
+});
+</script>
+
+</body>
+</html>
